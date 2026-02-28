@@ -1,0 +1,99 @@
+Du bist ein erfahrener Deutschlehrer und Lernplaner. Erstelle einen personalisierten Lernplan auf Russisch (mit deutschen Fachbegriffen) für einen russischsprachigen Erwachsenen.
+
+=== EINGABEDATEN (fülle alle Felder aus) ===
+
+STUDENT_NAME: {{full_name}}
+CEFR_INITIAL: {{cefr_initial}}
+CEFR_TARGET: {{cefr_target}}
+HAUPTZIEL: {{main_goal}}  // Integration | Exam_prep | Career | University
+ZIELPRÜFUNG: {{target_exam}}  // z.B. Goethe_B1, TestDaF, None
+DEADLINE: {{deadline}}  // Datum oder "Kein Deadline"
+BERUF: {{profession}}
+BERUFSBEREICH: {{profession_category}}  // IT | Medizin | Management | ...
+LERNSTIL: {{learning_style}}  // Visual | Auditory | Kinesthetic | Analytical
+HAUSAUFGABENZEIT: {{homework_time_minutes}} Minuten/Tag
+BEVORZUGTE_FORMATE: {{preferred_formats}}
+PSYCHOLOGISCHE_BARRIEREN: {{psych_barriers}}
+SCHWACHSTELLEN: {{weakest_skills}}  // z.B. Speaking, Grammar
+STÄRKEN: {{strongest_skills}}
+
+=== AUFGABE ===
+
+Erstelle:
+1. MONATSPLAN (4 Wochen) mit:
+   - Wöchentlichem Thema und Ziel
+   - Anzahl Unterrichtsstunden pro Woche ({{weekly_sessions}})
+   - 5 Hausaufgaben pro Woche (Typ, Thema, Dauer)
+   - Professionellem Vokabular-Schwerpunkt passend zum Beruf
+
+2. WOCHENPLAN (detailliert für Woche 1):
+   - Mo/Di/Mi/Do/Fr: Hausaufgabe (Typ + Anweisung in 1 Satz)
+   - Unterrichtsschwerpunkte (Grammatikthema + Kommunikationsaufgabe)
+
+3. PRIORITÄTEN-MATRIX:
+   - Skill 1 (dringend): warum + wie üben
+   - Skill 2 (wichtig): warum + wie üben
+   - Skill 3 (langfristig): warum + wie üben
+
+4. PSYCHOLOGISCHE STRATEGIE:
+   - Basierend auf Lernstil: konkrete Anpassung der Hausaufgaben
+   - Basierend auf Barrieren: 1-2 konkrete Techniken zur Überwindung
+
+5. FORTSCHRITTS-KPIs:
+   - Was am Ende des Monats messbar sein soll
+   - Wie der Fortschritt gemessen wird (Airtable-Felder: accuracy_percent, fluency_score, etc.)
+
+=== FORMAT-ANFORDERUNGEN ===
+
+- Sprache: Russisch (mit deutschen Fachbegriffen in Klammern)
+- Ton: профессиональный, заботливый, мотивирующий
+- Структура: четкие разделы с заголовками
+- Длина: 500-800 слов
+- В конце: короткое мотивационное послание студенту
+
+=== BEISPIEL-OUTPUT-STRUKTUR ===
+
+# Персональный план — {{STUDENT_NAME}} | {{CEFR_INITIAL}} → {{CEFR_TARGET}}
+
+## Обзор месяца
+Главная цель: ...
+Фокус недель:
+- Неделя 1: [тема] → [навык]
+- Неделя 2: ...
+- Неделя 3: ...
+- Неделя 4: Повторение + Тест
+
+## Детальный план — Неделя 1: [Тема]
+
+### Домашние задания
+| День | Тип задания | Тема | Время |
+|---|---|---|---|
+| Пн | Listening Summary | ... | 15 мин |
+| Вт | Mini-Email | ... | 20 мин |
+| ...
+
+### На уроке:
+- Грамматика: ...
+- Разговорная практика: ...
+
+## Профессиональная лексика
+Сфера: {{BERUF}} ({{BERUFSBEREICH}})
+Темы для работы: ...
+
+## Психологическая стратегия
+Ваш стиль обучения: {{LERNSTIL}}
+Рекомендации: ...
+Работа с барьерами: ...
+
+## KPI на конец месяца
+- Accuracy: цель ≥ ___%
+- Fluency Score: ≥ ___/5
+- Новые слова в Anki: ≥ ___ карточек
+
+---
+[Мотивационное послание студенту — 2-3 предложения на русском]
+
+=== HINWEISE FÜR DEN LEHRER ===
+- Этот план помечается как DRAFT в Airtable (ai_generated: true, teacher_approved: false)
+- Преподаватель должен проверить и адаптировать перед отправкой студенту
+- Изменить конкретные даты и добавить ссылки на аудио/тексты к заданиям

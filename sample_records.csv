@@ -1,0 +1,27 @@
+TABLE: Students
+student_id,full_name,email,city,country,profession,profession_category,main_goal,target_exam,cefr_initial,cefr_current,self_listening,self_reading,self_writing,self_speaking,self_grammar,accuracy_percent,fluency_score,pronunciation_score,learning_style,psych_barriers,homework_time_minutes,status,subscription_plan,start_date,gdpr_data_consent,gdpr_audio_consent,gdpr_ai_consent
+1,Анна Кравченко,anna.kravchenko@email.com,München,Deutschland,Softwareentwicklerin,IT/Tech,Career,Goethe_B2,B1,B1,3,4,3,2,3,67,3,2,Analytical,"Fear_of_mistakes,Slow_recall",20,Active,Strategic_track,2024-01-15,TRUE,TRUE,TRUE
+2,Дмитрий Волков,dmitry.volkov@email.com,Berlin,Deutschland,Arzt,Medizin/Pflege,Exam_prep,telc,A2,A2,2,3,2,1,2,45,2,2,Auditory,"Native_speaker_anxiety,Vocabulary_gap,Accent_shame",15,Active,Intensive_8h,2024-01-22,TRUE,TRUE,TRUE
+3,Елена Смирнова,elena.smirnova@email.com,Zürich,Schweiz,Projektmanagerin,Management,Integration,None,B2,B2,4,4,4,3,4,83,4,3,Visual,"No_practice_partner",20,Active,Premium_mentorship,2024-02-01,TRUE,TRUE,TRUE
+
+TABLE: Plans
+plan_id,plan_name,student_id,teacher_id,plan_type,start_date,end_date,cefr_target,focus_skills,weekly_sessions,homework_per_week,professional_lexis_topic,ai_generated,teacher_approved,status
+1,Анна — B1→B2 Sprints (4 недели),1,1,Monthly,2024-01-15,2024-02-12,B2,"Writing,Speaking,Grammar",2,5,IT-Fachvokabular (Scrum/DevOps),TRUE,TRUE,Active
+2,Дмитрий — A2→B1 Медицина,2,1,Monthly,2024-01-22,2024-02-19,B1,"Listening,Speaking,Vocabulary",2,4,Medizinische Fachsprache (Arztgespräch),TRUE,TRUE,Active
+3,Елена — B2 Maintenance + C1-prep,3,1,Monthly,2024-02-01,2024-02-29,C1,"Speaking,Grammar,Vocabulary",1,4,Projektmanagement / Meetings,FALSE,TRUE,Active
+
+TABLE: Assignments
+assignment_id,title,assignment_type,skill_focus,cefr_level,duration_minutes,plan_id,student_id,due_date,status,professional_context
+1,Listening: Bewerbungsgespräch IT,Listening_summary,Listening,B1,15,1,1,2024-01-22,Submitted,IT-Startup Bewerbung
+2,Mini-Email: Krankmeldung ans Team,Mini_email,"Writing,Vocabulary",A2,15,2,2,2024-01-29,Reviewed,Arztpraxis / Klinik
+3,Roleplay: Teambesprechung leiten,Roleplay,Speaking,B2,20,3,3,2024-02-08,Submitted,Projektmanagement-Meeting
+
+TABLE: Submissions
+submission_id,assignment_id,student_id,submitted_at,submission_type,text_content,audio_url,transcript,transcript_status,auto_tags,draft_comment,teacher_comment,teacher_score,review_status
+1,1,1,2024-01-21 18:42:00,Audio,,https://drive.google.com/file/d/ABC123/view,"Das Interview handelt von einer Bewerbung bei einem IT-Startup. Die Gesprächspartner diskutieren über Erfahrungen mit Scrum und Remote-Arbeit. Am Ende vereinbaren sie ein zweites Gespräch.",Done,"Wortschatz,Satzstruktur","DRAFT (nicht verifiziert): Gute Zusammenfassung! Fehler: 'diskutieren über' → 'diskutieren' (ohne Präp.). Wortfolge in Nebensatz überprüfen.","Sehr gute Leistung! Korrektur: 'Sie diskutieren Erfahrungen' oder 'sprechen über Erfahrungen'. Weiterarbeiten an Nebensatzstellung.",8,Sent_to_student
+2,2,2,2024-01-28 09:15:00,Text,"Sehr geehrte Damen und Herren, ich schreibe Ihnen, weil ich heute krank bin und nicht kommen kann. Ich entschuldige mich für die Unannehmlichkeiten. Bitte informieren Sie meine Kollegen.",,,Done (text only),"Grammatikfehler,Artikel","DRAFT (nicht verifiziert): Guter Versuch! Fehlende Spezifität (welcher Tag?), kein Betreff angegeben. 'entschuldige mich' - hier besser 'möchte mich entschuldigen'.","Solide Email-Struktur! Für Kontext ergänzen: Datum + Betreff 'Krankgemeldung am [Datum]'. Ansonsten sehr gut.",7,Sent_to_student
+
+TABLE: Progress
+progress_id,student_id,record_date,period_type,cefr_level,accuracy_percent,fluency_score,pronunciation_score,listening_score,reading_score,writing_score,speaking_score,assignments_completed,assignments_total,top_errors,focus_next_period
+1,1,2024-02-12,Monthly,B1,72,3,3,80,75,7,6,5,5,"Nebensatzstellung,Konjunktiv II,Präpositionalkasus","Konjunktiv II vertiefen; mehr Sprechpraxis; Konnektoren üben"
+2,2,2024-02-19,Monthly,A2,51,2,2,60,65,6,5,4,5,"Artikel (der/die/das),Verb-Konjugation,fehlender Wortschatz","Grundvokabular (1000 Wörter) sichern; Artikel-Drilling; einfache Dialoge"

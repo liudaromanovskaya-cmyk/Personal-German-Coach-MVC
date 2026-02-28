@@ -1,0 +1,372 @@
+{
+  "title": "Deutsch Integration Feed — 30 Tage",
+  "description": "30-дневный микро-контент для русскоговорящих студентов: культура, язык, практика",
+  "language": "ru_de",
+  "days": [
+    {
+      "day": 1,
+      "headline": "Добро пожаловать в Германию — первые шаги",
+      "cultural_fact": "В Германии принято здороваться с соседями в лифте и подъезде — это считается нормой вежливости. Молчание может быть воспринято как грубость.",
+      "word": {
+        "de": "der Nachbar / die Nachbarin",
+        "ru": "сосед / соседка",
+        "example": "Mein Nachbar grüßt mich jeden Morgen im Treppenhaus."
+      },
+      "micro_task": "Поздоровайтесь по-немецки с кем-то сегодня (сосед, продавец, коллега). Используйте 'Guten Morgen' или 'Guten Tag'. Запишите реакцию — было ли это неловко?",
+      "resource_url": "https://www.dw.com/de/deutschland/thema/s-1954"
+    },
+    {
+      "day": 2,
+      "headline": "Пунктуальность — немецкая религия",
+      "cultural_fact": "В Германии опоздать на 10 минут без предупреждения — серьёзное нарушение социального контракта. На работу, к врачу, на встречу приходят вовремя или сообщают заранее.",
+      "word": {
+        "de": "pünktlich",
+        "ru": "пунктуальный / вовремя",
+        "example": "Das Meeting beginnt pünktlich um 9 Uhr — bitte seien Sie rechtzeitig da."
+      },
+      "micro_task": "Напишите SMS/email по-немецки кому-нибудь: 'Ich komme um [Zeit] Uhr. Bis dann!' Используйте реальный контекст (встреча, урок, доставка).",
+      "resource_url": null
+    },
+    {
+      "day": 3,
+      "headline": "Behördendeutsch — язык госорганов",
+      "cultural_fact": "Немецкие официальные письма часто написаны сложным языком (Behördendeutsch). Даже носители языка иногда не понимают их с первого раза. Не стесняйтесь просить объяснение!",
+      "word": {
+        "de": "der Bescheid (-e)",
+        "ru": "уведомление / решение (официальное)",
+        "example": "Ich habe einen Bescheid von der Ausländerbehörde bekommen."
+      },
+      "micro_task": "Найдите любое официальное немецкое письмо или объявление (в Jobcenter, от Krankenkasse и т.д.) — прочитайте и выпишите 3 незнакомых слова. Найдите перевод.",
+      "resource_url": "https://www.anwalt.de/rechtstipps/behoerdendeutsch-einfach-erklaert"
+    },
+    {
+      "day": 4,
+      "headline": "Duzen или Siezen? Формальность в Германии",
+      "cultural_fact": "В Германии 'du' (ты) используется с друзьями, коллегами в стартапах и IT. 'Sie' (Вы) — с незнакомыми, в официальных ситуациях, у врача, в магазине. Молодые компании часто переходят на 'du' сразу.",
+      "word": {
+        "de": "Darf ich Sie duzen? / Wir können uns duzen.",
+        "ru": "Могу ли я обращаться к вам на 'ты'? / Мы можем говорить на 'ты'.",
+        "example": "Wir sind hier per du — ist das für Sie in Ordnung?"
+      },
+      "micro_task": "Вспомните 3 ситуации из вашей жизни в Германии. В каждой решите: du или Sie? Запишите ответ одним предложением каждый.",
+      "resource_url": null
+    },
+    {
+      "day": 5,
+      "headline": "Немецкая кухня: Frühstück, Mittagessen, Abendbrot",
+      "cultural_fact": "В Германии традиционно главный приём пищи — обед (Mittagessen). Ужин (Abendbrot) часто холодный: хлеб с сыром и колбасой. По воскресеньям семьи собираются на большой совместный завтрак.",
+      "word": {
+        "de": "das Abendbrot",
+        "ru": "ужин (буквально 'вечерний хлеб')",
+        "example": "In Deutschland essen viele Familien kaltes Abendbrot: Brot mit Käse und Wurst."
+      },
+      "micro_task": "Напишите по-немецки, что вы ели сегодня на завтрак/обед/ужин. Используйте конструкцию: 'Zum Frühstück habe ich... gegessen.' (3 предложения)",
+      "resource_url": null
+    },
+    {
+      "day": 6,
+      "headline": "Немецкий транспорт: S-Bahn, U-Bahn, Regionalzug",
+      "cultural_fact": "В Германии общественный транспорт очень развит. Важно: нужно **самостоятельно компостировать/валидировать** билет (entwerten). Контролёры проверяют без предупреждения. Штраф за безбилетный проезд — 60€.",
+      "word": {
+        "de": "entwerten / validieren",
+        "ru": "компостировать/погасить билет",
+        "example": "Vergessen Sie nicht, Ihren Fahrschein zu entwerten!"
+      },
+      "micro_task": "Запишите аудио (30–60 сек): Опишите маршрут от вашего дома до работы/центра города по-немецки. Используйте: 'Ich fahre mit der U-Bahn / dem Bus / dem Fahrrad...'",
+      "resource_url": "https://www.bahn.de"
+    },
+    {
+      "day": 7,
+      "headline": "Немецкий банк и финансы",
+      "cultural_fact": "В Германии до сих пор широко используют наличные (Bargeld). Многие маленькие магазины и рестораны не принимают карты. Иметь при себе 20–50€ наличными — хорошая привычка.",
+      "word": {
+        "de": "die Überweisung (-en)",
+        "ru": "банковский перевод",
+        "example": "Können Sie die Miete per Überweisung bezahlen?"
+      },
+      "micro_task": "Найдите онлайн: какие документы нужны для открытия счёта в немецком банке (Deutsche Bank, Sparkasse, N26). Выпишите список по-немецки (5 пунктов).",
+      "resource_url": "https://www.n26.com/de-de/blog/girokonto-eroeffnen"
+    },
+    {
+      "day": 8,
+      "headline": "Немецкая система здравоохранения",
+      "cultural_fact": "В Германии 2 типа страховки: gesetzlich (GKV — государственная, ≈ 14.6% зарплаты) и privat (PKV — частная). Большинство работников застрахованы в GKV. Зубной врач (Zahnarzt) — отдельная история, часть лечения не покрывается.",
+      "word": {
+        "de": "Krankenkasse vs. Krankenversicherung",
+        "ru": "Krankenkasse = страховая компания (GKV); Krankenversicherung = страховка (общий термин)",
+        "example": "Ich bin bei der AOK versichert — das ist meine Krankenkasse."
+      },
+      "micro_task": "Переведите на немецкий и запишите: 'У меня болит голова уже 3 дня. Мне нужен рецепт. Могу ли я записаться к врачу сегодня?' — используйте правильный форма обращения.",
+      "resource_url": "https://www.krankenkassen.de"
+    },
+    {
+      "day": 9,
+      "headline": "Немецкая вежливость: danke, bitte, Entschuldigung",
+      "cultural_fact": "Немцы говорят 'danke' и 'bitte' часто и повсюду. Bitte = пожалуйста (при просьбе) И = не за что (при ответе на благодарность). 'Entschuldigung' = извините (для привлечения внимания И как извинение).",
+      "word": {
+        "de": "Bitte (многозначное слово)",
+        "ru": "пожалуйста / не за что / прошу",
+        "example": "- Danke! - Bitte! / Bitte schön! || Einen Kaffee, bitte."
+      },
+      "micro_task": "Напишите 5 коротких диалогов (2 реплики каждый), где вы используете 'danke', 'bitte', 'entschuldigung'. Ситуации: магазин, ресторан, улица, офис, транспорт.",
+      "resource_url": null
+    },
+    {
+      "day": 10,
+      "headline": "Müll trennen — сортировка мусора",
+      "cultural_fact": "Германия — один из мировых лидеров переработки. Система Pfand: за стеклянные/пластиковые бутылки платишь залог 0.15–0.25€, который возвращают в магазине (Pfandautomat).",
+      "word": {
+        "de": "das Pfand",
+        "ru": "залог (за бутылку)",
+        "example": "Ich gebe die leeren Flaschen zurück und bekomme das Pfand zurück."
+      },
+      "micro_task": "Нарисуйте (или опишите текстом) схему мусорных баков у вас дома/в доме. Подпишите каждый по-немецки: Was gehört wohin? (Gelber Sack, Blaue Tonne...)",
+      "resource_url": "https://www.umweltbundesamt.de/themen/abfall-ressourcen"
+    },
+    {
+      "day": 11,
+      "headline": "Немецкое трудовое право: важные понятия",
+      "cultural_fact": "В Германии очень сильная защита работников. Испытательный срок (Probezeit) — обычно 6 месяцев. После него уволить сотрудника значительно сложнее. Betriebsrat (совет работников) есть во многих компаниях.",
+      "word": {
+        "de": "die Probezeit",
+        "ru": "испытательный срок",
+        "example": "Die Probezeit dauert in den meisten Unternehmen 6 Monate."
+      },
+      "micro_task": "Запишите аудио (45–60 сек): Расскажите по-немецки о вашем первом рабочем дне (реальном или воображаемом). Когда? С кем познакомились? Что удивило?",
+      "resource_url": null
+    },
+    {
+      "day": 12,
+      "headline": "Wohnungssuche — поиск квартиры",
+      "cultural_fact": "Аренда в Германии — сложный рынок. На просмотр квартиры (Besichtigung) нужно принести: Schufa-Auskunft (кредитная история), Einkommensnachweise (подтверждение дохода), Personalausweis. Конкуренция очень высокая.",
+      "word": {
+        "de": "die Schufa-Auskunft",
+        "ru": "справка о кредитной истории (немецкое кредитное бюро)",
+        "example": "Für die Wohnungsbewerbung brauche ich eine aktuelle Schufa-Auskunft."
+      },
+      "micro_task": "Напишите email-запрос (5–7 предложений) о просмотре квартиры. Представьтесь, укажите профессию, когда свободны для встречи. Используйте деловой стиль.",
+      "resource_url": "https://www.immobilienscout24.de"
+    },
+    {
+      "day": 13,
+      "headline": "Немецкие праздники и выходные",
+      "cultural_fact": "В Германии праздники различаются по землям (Bundesländer). Например, католические праздники (Fronleichnam, Mariä Himmelfahrt) выходные только в некоторых землях. Bundesweite Feiertage: Neujahr, Tag der Arbeit, Tag der Deutschen Einheit (3 Okt).",
+      "word": {
+        "de": "der Feiertag (-e)",
+        "ru": "государственный праздник",
+        "example": "Am 3. Oktober ist Tag der Deutschen Einheit — ein gesetzlicher Feiertag."
+      },
+      "micro_task": "Найдите список Feiertage для вашей федеральной земли на этот год. Напишите 3 предложения: какой праздник вас удивил и почему.",
+      "resource_url": "https://www.ferienwiki.de/feiertage/de"
+    },
+    {
+      "day": 14,
+      "headline": "Zwei Wochen geschafft! — промежуточная рефлексия",
+      "cultural_fact": "Кризис 'трёх месяцев' в новой стране — реальное явление. Сначала всё интересно (медовый месяц), потом приходят трудности и усталость. Это нормально. Ключ — искать Ankerpunkte (точки опоры): ритуалы, люди, места.",
+      "word": {
+        "de": "der Ankerpunkt (-e)",
+        "ru": "точка опоры / якорь",
+        "example": "Mein morgendlicher Kaffee ist mein Ankerpunkt — er gibt mir Stabilität."
+      },
+      "micro_task": "Запишите аудио (1–2 мин) по-немецки: Что вы узнали за 2 недели? Какие 3 слова или факта запомнились больше всего? Что было самым сложным?",
+      "resource_url": null
+    },
+    {
+      "day": 15,
+      "headline": "Немецкое образование: система и термины",
+      "cultural_fact": "Школьная система в Германии очень разнообразна: Grundschule (1–4 кл), затем Hauptschule, Realschule или Gymnasium. После Gymnasium — Abitur (аналог ЕГЭ), открывающий путь в университет.",
+      "word": {
+        "de": "das Abitur",
+        "ru": "аттестат зрелости (выпускной экзамен гимназии)",
+        "example": "Mit dem Abitur kann man an deutschen Universitäten studieren."
+      },
+      "micro_task": "Напишите 4–5 предложений по-немецки: Как выглядит ваше образование? Используйте: 'Ich habe... studiert / gelernt / abgeschlossen.'",
+      "resource_url": "https://www.make-it-in-germany.com/de/studium/system"
+    },
+    {
+      "day": 16,
+      "headline": "Bewerbungsunterlagen — документы для работы",
+      "cultural_fact": "Немецкое резюме (Lebenslauf) — хронологическое, с фото, без ошибок. Deckblatt (титульный лист) и Anschreiben (сопроводительное письмо) — часть стандартного пакета. Lücken im Lebenslauf (пробелы) нужно объяснять.",
+      "word": {
+        "de": "das Anschreiben",
+        "ru": "сопроводительное письмо",
+        "example": "Das Anschreiben sollte zeigen, warum ich für diese Stelle geeignet bin."
+      },
+      "micro_task": "Напишите первый абзац Anschreiben для вакансии по вашей профессии (3–4 предложения). Используйте формулу: Warum diese Firma + Was bringe ich mit.",
+      "resource_url": "https://www.karrierebibel.de/anschreiben"
+    },
+    {
+      "day": 17,
+      "headline": "Немецкий юмор и Ironie",
+      "cultural_fact": "Немецкий юмор — часто сухой и ироничный. То, что кажется серьёзным утверждением, может быть шуткой. Regionaler Humor: баварцы и берлинцы шутят очень по-разному. Обмен Witze (анекдотами) — отличный способ интеграции.",
+      "word": {
+        "de": "der Witz (-e)",
+        "ru": "анекдот / шутка",
+        "example": "Kennst du den Witz? — Nein, erzähl mir!"
+      },
+      "micro_task": "Найдите простой немецкий Witz на сайте witzseite.de или аналогичном. Перескажите его своими словами по-немецки (3–4 предложения). Объясните, почему это смешно.",
+      "resource_url": "https://www.witze.net"
+    },
+    {
+      "day": 18,
+      "headline": "Telekommunikation и цифровой быт",
+      "cultural_fact": "Германия известна своим относительно медленным интернетом и любовью к факсам в государственных структурах. Но ситуация меняется — Glasfaser (оптоволокно) активно расширяется. Мобильные операторы: Telekom, Vodafone, o2.",
+      "word": {
+        "de": "der Vertrag (-verträge)",
+        "ru": "договор / контракт",
+        "example": "Ich habe einen 2-Jahres-Vertrag mit dem Mobilfunkanbieter abgeschlossen."
+      },
+      "micro_task": "Запишите аудио: Позвоните 'по-настоящему' — позвоните другу или оставьте голосовое сообщение на немецком. Или смоделируйте звонок в службу поддержки (монолог).",
+      "resource_url": null
+    },
+    {
+      "day": 19,
+      "headline": "Немецкие ценности: Ordnung, Fleiß, Direktheit",
+      "cultural_fact": "'Ordnung muss sein' — порядок должен быть. Немецкое общество ценит Verlässlichkeit (надёжность), Ehrlichkeit (честность) и Direktheit (прямолинейность). Прямая критика — норма, не оскорбление.",
+      "word": {
+        "de": "die Verlässlichkeit",
+        "ru": "надёжность",
+        "example": "Verlässlichkeit ist in Deutschland ein wichtiger Wert im Berufsleben."
+      },
+      "micro_task": "Напишите по-немецки: Какие 3 ценности важны для вас в работе/жизни? Используйте: 'Mir ist ... wichtig, weil...' (3 полных предложения)",
+      "resource_url": null
+    },
+    {
+      "day": 20,
+      "headline": "Немецкий спорт и досуг: Verein — сердце общества",
+      "cultural_fact": "В Германии около 90,000 Sportvereine (спортивных клубов). Членство в Verein — очень распространённое хобби: футбол, гимнастика, теннис, хор, шахматы. Это ещё и отличный способ познакомиться с немцами.",
+      "word": {
+        "de": "der Verein (-e)",
+        "ru": "клуб / общество / ассоциация",
+        "example": "Ich bin Mitglied in einem Tennisverein — dort treffe ich viele Leute."
+      },
+      "micro_task": "Найдите Verein по вашему интересу в вашем городе (Google: '[Hobby] Verein [Stadtname]'). Прочитайте их сайт по-немецки. Запишите: как вступить, сколько стоит, когда тренировки.",
+      "resource_url": null
+    },
+    {
+      "day": 21,
+      "headline": "3 недели! — рефлексия и планирование",
+      "cultural_fact": "Исследования показывают: для формирования привычки нужно 21–66 дней последовательной практики (James Clear, Atomic Habits). Если вы дошли до дня 21 — у вас уже есть база!",
+      "word": {
+        "de": "die Gewohnheit (-en)",
+        "ru": "привычка",
+        "example": "Täglich Deutsch zu üben ist eine Gewohnheit, die ich aufbauen möchte."
+      },
+      "micro_task": "Напишите 'Brief an sich самому' по-немецки (5–6 предложений): Чего вы достигли за 3 недели? Что хотите улучшить? Что пообещаете себе на следующую неделю?",
+      "resource_url": null
+    },
+    {
+      "day": 22,
+      "headline": "Немецкий на кухне: Rezepte und Kochen",
+      "cultural_fact": "Typisch deutsch: Sauerbraten, Schnitzel, Kartoffelsalat, Zwiebelkuchen. Но современная Küche в Германии очень интернациональна — суши, пицца, Döner и Asian food очень популярны.",
+      "word": {
+        "de": "das Rezept (-e)",
+        "ru": "рецепт (кулинарный) / рецепт (медицинский)",
+        "example": "Das Rezept für Sauerbraten ist sehr aufwendig, aber lecker!"
+      },
+      "micro_task": "Найдите простой немецкий рецепт (chefkoch.de). Напишите шаги приготовления своими словами по-немецки (5–7 предложений). Используйте глаголы: schneiden, kochen, mischen, backen.",
+      "resource_url": "https://www.chefkoch.de"
+    },
+    {
+      "day": 23,
+      "headline": "Немецкая культура: Karneval, Oktoberfest, Weihnachtsmarkt",
+      "cultural_fact": "Karneval/Fasching (февраль) — карнавал, особенно популярен в Кёльне, Майнце, Дюссельдорфе. Oktoberfest в Мюнхене — крупнейший фестиваль пива в мире (сентябрь-октябрь). Weihnachtsmarkt — рождественские ярмарки с Glühwein и Lebkuchen.",
+      "word": {
+        "de": "der Glühwein",
+        "ru": "глинтвейн (горячее вино со специями)",
+        "example": "Auf dem Weihnachtsmarkt trinkt man traditionell Glühwein."
+      },
+      "micro_task": "Запишите аудио (1 мин): Расскажите по-немецки о любом празднике из вашей культуры. Что едят? Что делают? Когда? Сравните с немецкими традициями.",
+      "resource_url": null
+    },
+    {
+      "day": 24,
+      "headline": "Немецкий для работы: Meetings и Besprechungen",
+      "cultural_fact": "Немецкие совещания (Besprechungen) обычно имеют чёткую повестку (Tagesordnung) и протокол (Protokoll). Решения принимаются консенсусом, а не единолично. 'Ich schlage vor...' и 'Meiner Meinung nach...' — ключевые фразы.",
+      "word": {
+        "de": "die Tagesordnung",
+        "ru": "повестка дня",
+        "example": "Haben alle die Tagesordnung für das heutige Meeting bekommen?"
+      },
+      "micro_task": "Составьте повестку дня (Tagesordnung) для воображаемого рабочего meeting по-немецки. 5–6 пунктов с временными рамками. Формат: '09:00 – Begrüßung (5 Min)'",
+      "resource_url": null
+    },
+    {
+      "day": 25,
+      "headline": "Региональные различия: Bairisch, Hamburgisch, Berlinerisch",
+      "cultural_fact": "Немецкие диалекты очень разнообразны. Баварец скажет 'Grüß Gott!' вместо 'Hallo'. В Берлине говорят 'ick' вместо 'ich'. В Кёльне — 'Kölle alaaf!' (здравствует Кёльн!). Hochdeutsch (литературный немецкий) — стандарт общения.",
+      "word": {
+        "de": "der Dialekt (-e)",
+        "ru": "диалект",
+        "example": "Den bayerischen Dialekt verstehe ich kaum — das ist fast eine andere Sprache!"
+      },
+      "micro_task": "Послушайте 1–2 минуты любого регионального немецкого диалекта на YouTube (поищите 'Bayerisch lernen' или 'Berliner Dialekt'). Запишите: что поняли, что не поняли, что было смешно.",
+      "resource_url": "https://www.youtube.com/results?search_query=bayerischer+dialekt+lernen"
+    },
+    {
+      "day": 26,
+      "headline": "Nachrichten auf Deutsch — читаем немецкие новости",
+      "cultural_fact": "DW (Deutsche Welle) предлагает новости на 'лёгком немецком' (Leichte Sprache) — отличный источник для учащихся. NDR, ARD, Tagesschau — основные немецкие новостные платформы.",
+      "word": {
+        "de": "die Nachrichten (Pl.)",
+        "ru": "новости",
+        "example": "Jeden Abend schaue ich die Tagesschau — die Nachrichten im Ersten."
+      },
+      "micro_task": "Прочитайте одну новость на dw.com (раздел Langsam gesprochene Nachrichten). Напишите краткое резюме (4–5 предложений) по-немецки своими словами.",
+      "resource_url": "https://www.dw.com/de/deutsch-lernen/nachrichten/s-8030"
+    },
+    {
+      "day": 27,
+      "headline": "Deutsch am Telefon — звонки по-немецки",
+      "cultural_fact": "Телефонные звонки в Германии — часто формальные. Важно: назвать себя сразу: 'Mein Name ist X, ich rufe an wegen...'. Молчание в трубку воспринимается очень плохо.",
+      "word": {
+        "de": "zurückrufen (rief zurück, zurückgerufen)",
+        "ru": "перезвонить",
+        "example": "Könnten Sie mich bitte zurückrufen? Meine Nummer ist..."
+      },
+      "micro_task": "Напишите скрипт для телефонного звонка по вашей реальной ситуации (врач, Behörde, работодатель). 8–10 реплик. Проговорите вслух 2 раза.",
+      "resource_url": null
+    },
+    {
+      "day": 28,
+      "headline": "Немецкая экологическая культура",
+      "cultural_fact": "Германия — лидер зелёной политики (Energiewende — переход на возобновляемую энергетику). Fahrrad (велосипед) — популярный транспорт. Биопродукты (Bio-Lebensmittel) в каждом магазине. Экологичность — часть национальной идентичности.",
+      "word": {
+        "de": "nachhaltig",
+        "ru": "устойчивый / экологичный",
+        "example": "Wir versuchen, nachhaltiger zu leben: weniger Plastik, mehr Bio."
+      },
+      "micro_task": "Запишите аудио (1 мин): Расскажите по-немецки, что вы делаете (или планируете делать) для экологии. Используйте: 'Ich versuche... / Ich kaufe... / Ich benutze... weil...'",
+      "resource_url": null
+    },
+    {
+      "day": 29,
+      "headline": "Немецкий в цифровом мире: Apps und Online-Dienste",
+      "cultural_fact": "В Германии активно используют: Xing (немецкий LinkedIn), Elster (налоговая декларация онлайн), BundID (цифровой ID). Многие государственные сервисы оцифровываются, но процесс медленный.",
+      "word": {
+        "de": "die Steuererklärung",
+        "ru": "налоговая декларация",
+        "example": "Ich mache meine Steuererklärung mit der App ELSTER — es gibt oft Rückerstattungen!"
+      },
+      "micro_task": "Найдите 1 немецкое приложение или сайт, полезный для вашей ситуации (здоровье, работа, жильё, транспорт). Напишите 3 предложения: что это, для чего, почему полезно.",
+      "resource_url": "https://www.elster.de"
+    },
+    {
+      "day": 30,
+      "headline": "30 дней! — финальная рефлексия и следующий шаг",
+      "cultural_fact": "Herzlichen Glückwunsch! Вы прошли 30-дневный курс интеграции. Язык — это марафон, а не спринт. Каждое взаимодействие на немецком — победа. Помните: носители языка ценят попытку говорить на их языке, даже с ошибками.",
+      "word": {
+        "de": "die Ausdauer",
+        "ru": "настойчивость / выносливость",
+        "example": "Ausdauer ist der Schlüssel zum Erfolg beim Sprachenlernen."
+      },
+      "micro_task": "Запишите финальное аудио (2–3 мин): Расскажите по-немецки о своём пути за последние 30 дней. Что изменилось? Что стало проще? Какие у вас цели на следующий месяц?",
+      "resource_url": null
+    }
+  ],
+
+  "claude_prompt_for_more_days": {
+    "description": "Используйте этот prompt в Claude для генерации дополнительных дней",
+    "prompt": "Ты создаёшь контент для 30-дневного немецкого интеграционного фида для русскоговорящих взрослых в Германии. Сгенерируй ещё [N] записей в точно таком же JSON-формате:\n\n{\n  'day': [номер],\n  'headline': '[Заголовок на русском — тема дня]',\n  'cultural_fact': '[Культурный факт о Германии, 2–3 предложения на русском]',\n  'word': {\n    'de': '[Немецкое слово/фраза с артиклем]',\n    'ru': '[Перевод]',\n    'example': '[Пример предложения на немецком]'\n  },\n  'micro_task': '[Микро-задание 5–10 мин. Конкретное. Часто с аудио-записью или письмом]',\n  'resource_url': '[URL или null]'\n}\n\nТемы для генерации (выбери разные):\n- Профессиональная жизнь (IT, Medizin, Management)\n- Немецкие праздники и традиции\n- Бытовые ситуации (шоппинг, транспорт, рестораны)\n- Административные процедуры\n- Немецкая культура и ценности\n- Язык: грамматика в контексте, идиомы, поговорки\n- Психология адаптации\n\nТребования:\n- Каждый день — уникальная тема\n- Micro-task должен быть выполним за 5–10 мин\n- Чередуй: письмо / аудио / чтение / поиск информации\n- Язык: headline и cultural_fact на русском; word и example на немецком; micro_task на русском\n- Профессиональные темы: упоминай IT, медицину и бизнес контекст"
+  }
+}

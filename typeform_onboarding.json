@@ -1,0 +1,490 @@
+{
+  "title": "Personal German Coach — Онбординг и Диагностика",
+  "description": "Анкета для новых студентов. Заполнение: 30–45 минут. Данные используются для создания персонального плана обучения.",
+  "locale": "ru",
+  "fields": [
+    {
+      "id": "f01",
+      "type": "welcome_screen",
+      "title": "Добро пожаловать в Personal German Coach!",
+      "description": "Эта анкета займёт 30–45 минут. Ваши ответы помогут составить персональный план обучения немецкому языку. Все данные защищены согласно GDPR.",
+      "button_text": "Начать"
+    },
+
+    {
+      "id": "f02",
+      "type": "short_text",
+      "ref": "student_name",
+      "title": "Как вас зовут? (Имя и фамилия)",
+      "required": true,
+      "validations": { "max_length": 100 }
+    },
+    {
+      "id": "f03",
+      "type": "short_text",
+      "ref": "student_email",
+      "title": "Ваш email",
+      "required": true,
+      "validations": { "format": "email" }
+    },
+    {
+      "id": "f04",
+      "type": "dropdown",
+      "ref": "student_city",
+      "title": "В каком городе/стране вы живёте или планируете переехать?",
+      "required": true,
+      "choices": [
+        { "id": "c04_1", "label": "Берлин" },
+        { "id": "c04_2", "label": "Мюнхен" },
+        { "id": "c04_3", "label": "Гамбург" },
+        { "id": "c04_4", "label": "Кёльн/Дюссельдорф" },
+        { "id": "c04_5", "label": "Франкфурт" },
+        { "id": "c04_6", "label": "Штутгарт" },
+        { "id": "c04_7", "label": "Цюрих/Швейцария" },
+        { "id": "c04_8", "label": "Вена/Австрия" },
+        { "id": "c04_9", "label": "Другой город Германии" },
+        { "id": "c04_10", "label": "Ещё не переехал(а)" }
+      ]
+    },
+    {
+      "id": "f05",
+      "type": "short_text",
+      "ref": "student_profession",
+      "title": "Ваша профессия / сфера деятельности",
+      "description": "Например: инженер, врач, программист, менеджер, педагог, предприниматель...",
+      "required": true
+    },
+    {
+      "id": "f06",
+      "type": "multiple_choice",
+      "ref": "main_goal",
+      "title": "Какова ваша главная цель изучения немецкого?",
+      "required": true,
+      "allow_multiple_selection": false,
+      "choices": [
+        { "id": "c06_1", "label": "Интеграция — общение в быту и на работе" },
+        { "id": "c06_2", "label": "Сдать экзамен (Goethe, TestDaF, telc, ÖSD)" },
+        { "id": "c06_3", "label": "Карьера — работа на немецком языке" },
+        { "id": "c06_4", "label": "Учёба в немецком университете" },
+        { "id": "c06_5", "label": "Гражданство / Niederlassungserlaubnis" },
+        { "id": "c06_6", "label": "Личный интерес / путешествия" }
+      ]
+    },
+    {
+      "id": "f06b",
+      "type": "multiple_choice",
+      "ref": "target_exam",
+      "title": "Если вы готовитесь к экзамену — к какому?",
+      "required": false,
+      "allow_multiple_selection": false,
+      "choices": [
+        { "id": "c06b_1", "label": "Goethe-Zertifikat A1/A2" },
+        { "id": "c06b_2", "label": "Goethe-Zertifikat B1/B2" },
+        { "id": "c06b_3", "label": "Goethe-Zertifikat C1/C2" },
+        { "id": "c06b_4", "label": "TestDaF" },
+        { "id": "c06b_5", "label": "telc" },
+        { "id": "c06b_6", "label": "DSH" },
+        { "id": "c06b_7", "label": "Не готовлюсь к экзамену" }
+      ]
+    },
+    {
+      "id": "f07",
+      "type": "date",
+      "ref": "deadline",
+      "title": "Есть ли дедлайн? (дата экзамена, переезда, собеседования)",
+      "required": false,
+      "description": "Оставьте пустым, если дедлайна нет"
+    },
+    {
+      "id": "f08",
+      "type": "multiple_choice",
+      "ref": "homework_time",
+      "title": "Сколько времени в день вы готовы тратить на домашние задания?",
+      "required": true,
+      "choices": [
+        { "id": "c08_1", "label": "10–15 минут" },
+        { "id": "c08_2", "label": "15–20 минут" },
+        { "id": "c08_3", "label": "20–30 минут" },
+        { "id": "c08_4", "label": "30–45 минут" },
+        { "id": "c08_5", "label": "Больше часа" }
+      ]
+    },
+    {
+      "id": "f09",
+      "type": "multiple_choice",
+      "ref": "preferred_formats",
+      "title": "Какие форматы домашних заданий вам больше подходят?",
+      "allow_multiple_selection": true,
+      "required": true,
+      "choices": [
+        { "id": "c09_1", "label": "Слушать аудио и отвечать на вопросы" },
+        { "id": "c09_2", "label": "Читать тексты и отвечать письменно" },
+        { "id": "c09_3", "label": "Записывать аудио/видео ответы" },
+        { "id": "c09_4", "label": "Заполнять пропуски / тесты" },
+        { "id": "c09_5", "label": "Писать мини-тексты/письма" },
+        { "id": "c09_6", "label": "Работа со словарём / карточки" },
+        { "id": "c09_7", "label": "Ролевые диалоги" }
+      ]
+    },
+
+    {
+      "id": "f10",
+      "type": "statement",
+      "title": "Раздел 2: Самооценка навыков",
+      "description": "Оцените свой текущий уровень по каждому навыку от 1 (очень слабый) до 5 (отличный)."
+    },
+    {
+      "id": "f11",
+      "type": "rating",
+      "ref": "self_listening",
+      "title": "Аудирование (понимание на слух)",
+      "required": true,
+      "properties": { "steps": 5, "shape": "star", "labels": { "left": "Очень слабый", "right": "Отличный" } }
+    },
+    {
+      "id": "f12",
+      "type": "rating",
+      "ref": "self_reading",
+      "title": "Чтение (понимание текста)",
+      "required": true,
+      "properties": { "steps": 5, "shape": "star" }
+    },
+    {
+      "id": "f13",
+      "type": "rating",
+      "ref": "self_writing",
+      "title": "Письмо (грамматика, словарный запас)",
+      "required": true,
+      "properties": { "steps": 5, "shape": "star" }
+    },
+    {
+      "id": "f14",
+      "type": "rating",
+      "ref": "self_speaking",
+      "title": "Говорение (беглость, произношение)",
+      "required": true,
+      "properties": { "steps": 5, "shape": "star" }
+    },
+    {
+      "id": "f15",
+      "type": "rating",
+      "ref": "self_grammar",
+      "title": "Грамматика (знание правил)",
+      "required": true,
+      "properties": { "steps": 5, "shape": "star" }
+    },
+
+    {
+      "id": "f16",
+      "type": "statement",
+      "title": "Раздел 3: Мини-тест — Аудирование",
+      "description": "Прослушайте аудио (1,5–2 мин) и ответьте на 3 вопроса. [PLACEHOLDER: вставить mp3-файл уровня B1 — диалог на бытовую или рабочую тему]"
+    },
+    {
+      "id": "f17",
+      "type": "file_upload",
+      "ref": "audio_placeholder_note",
+      "title": "🎧 Прослушайте аудио по ссылке: [ВСТАВИТЬ ССЫЛКУ НА MP3]",
+      "description": "После прослушивания ответьте на вопросы ниже.",
+      "required": false
+    },
+    {
+      "id": "f18",
+      "type": "multiple_choice",
+      "ref": "listening_q1",
+      "title": "Аудирование — Вопрос 1: О чём говорят собеседники в диалоге?",
+      "required": true,
+      "choices": [
+        { "id": "c18_1", "label": "О записи к врачу" },
+        { "id": "c18_2", "label": "О поиске квартиры" },
+        { "id": "c18_3", "label": "О рабочем собрании" },
+        { "id": "c18_4", "label": "О покупке билетов" }
+      ]
+    },
+    {
+      "id": "f19",
+      "type": "multiple_choice",
+      "ref": "listening_q2",
+      "title": "Аудирование — Вопрос 2: Что решили собеседники в итоге?",
+      "required": true,
+      "choices": [
+        { "id": "c19_1", "label": "Перенести встречу на следующую неделю" },
+        { "id": "c19_2", "label": "Написать email коллеге" },
+        { "id": "c19_3", "label": "Позвонить в офис" },
+        { "id": "c19_4", "label": "Зайти лично" }
+      ]
+    },
+    {
+      "id": "f20",
+      "type": "multiple_choice",
+      "ref": "listening_q3",
+      "title": "Аудирование — Вопрос 3: Какой день недели упоминается?",
+      "required": true,
+      "choices": [
+        { "id": "c20_1", "label": "Понедельник" },
+        { "id": "c20_2", "label": "Среда" },
+        { "id": "c20_3", "label": "Пятница" },
+        { "id": "c20_4", "label": "Воскресенье" }
+      ]
+    },
+
+    {
+      "id": "f21",
+      "type": "statement",
+      "title": "Раздел 4: Мини-тест — Чтение",
+      "description": "Прочитайте текст (120–150 слов) и ответьте на 3 вопроса.\n\n---\n**Text (B1-Niveau):**\n\nDie Anmeldung beim Einwohnermeldeamt ist in Deutschland Pflicht. Innerhalb von zwei Wochen nach dem Einzug muss man sich persönlich anmelden. Dafür braucht man den Personalausweis oder Reisepass sowie eine Wohnungsgeberbestätigung vom Vermieter. Das Formular kann man oft online herunterladen und vorab ausfüllen. Nach der Anmeldung bekommt man eine Meldebescheinigung, die für viele Behördengänge benötigt wird — zum Beispiel für die Eröffnung eines Bankkontos oder die Beantragung von Leistungen. In manchen Städten ist eine Online-Terminbuchung möglich, in anderen muss man direkt zum Amt gehen. Die Wartezeiten können je nach Stadt und Jahreszeit variieren. Es empfiehlt sich, alle Dokumente vollständig mitzubringen, um einen zweiten Besuch zu vermeiden.\n---"
+    },
+    {
+      "id": "f22",
+      "type": "multiple_choice",
+      "ref": "reading_q1",
+      "title": "Чтение — Вопрос 1: В течение какого времени нужно зарегистрироваться после переезда?",
+      "required": true,
+      "choices": [
+        { "id": "c22_1", "label": "В течение одной недели" },
+        { "id": "c22_2", "label": "В течение двух недель" },
+        { "id": "c22_3", "label": "В течение одного месяца" },
+        { "id": "c22_4", "label": "Срок не указан" }
+      ]
+    },
+    {
+      "id": "f23",
+      "type": "multiple_choice",
+      "ref": "reading_q2",
+      "title": "Чтение — Вопрос 2: Какой документ даёт арендодатель?",
+      "required": true,
+      "choices": [
+        { "id": "c23_1", "label": "Meldebescheinigung" },
+        { "id": "c23_2", "label": "Wohnungsgeberbestätigung" },
+        { "id": "c23_3", "label": "Aufenthaltstitel" },
+        { "id": "c23_4", "label": "Personalausweis" }
+      ]
+    },
+    {
+      "id": "f24",
+      "type": "multiple_choice",
+      "ref": "reading_q3",
+      "title": "Чтение — Вопрос 3: Зачем нужна Meldebescheinigung?",
+      "required": true,
+      "choices": [
+        { "id": "c24_1", "label": "Только для открытия счёта в банке" },
+        { "id": "c24_2", "label": "Только для Ausländerbehörde" },
+        { "id": "c24_3", "label": "Для различных официальных процедур" },
+        { "id": "c24_4", "label": "Для получения немецкого паспорта" }
+      ]
+    },
+
+    {
+      "id": "f25",
+      "type": "statement",
+      "title": "Раздел 5: Мини-тест — Письмо",
+      "description": "Напишите 6–8 предложений на немецком на одну из тем ниже. Используйте знакомую вам лексику. Не пользуйтесь переводчиком."
+    },
+    {
+      "id": "f26",
+      "type": "multiple_choice",
+      "ref": "writing_topic_choice",
+      "title": "Выберите тему для письменного задания:",
+      "required": true,
+      "choices": [
+        { "id": "c26_1", "label": "Опишите ваш обычный рабочий день" },
+        { "id": "c26_2", "label": "Напишите о вашем районе или городе" },
+        { "id": "c26_3", "label": "Расскажите, почему вы изучаете немецкий" }
+      ]
+    },
+    {
+      "id": "f27",
+      "type": "long_text",
+      "ref": "writing_sample",
+      "title": "Ваш текст (6–8 предложений на немецком)",
+      "required": true,
+      "validations": { "min_length": 50, "max_length": 800 },
+      "properties": { "description": "Пишите свободно — ошибки допустимы, это часть диагностики." }
+    },
+
+    {
+      "id": "f28",
+      "type": "statement",
+      "title": "Раздел 6: Мини-тест — Говорение",
+      "description": "Запишите аудио (60–90 секунд) на немецком языке. Расскажите о себе: кто вы, где работаете, почему учите немецкий, что для вас сложнее всего."
+    },
+    {
+      "id": "f29",
+      "type": "file_upload",
+      "ref": "speaking_audio",
+      "title": "Загрузите аудиозапись (MP3, M4A или WAV, макс. 10 МБ)",
+      "required": true,
+      "properties": {
+        "description": "Говорите свободно. Запись используется только для диагностики преподавателем.",
+        "allowed_file_types": [".mp3", ".m4a", ".wav", ".ogg"],
+        "max_file_size_mb": 10
+      }
+    },
+
+    {
+      "id": "f30",
+      "type": "statement",
+      "title": "Раздел 7: Психологические барьеры и опыт",
+      "description": "Эти вопросы помогут преподавателю учесть ваши индивидуальные особенности."
+    },
+    {
+      "id": "f31",
+      "type": "multiple_choice",
+      "ref": "psych_barriers",
+      "title": "Что мешает вам говорить на немецком? (можно выбрать несколько)",
+      "allow_multiple_selection": true,
+      "required": false,
+      "choices": [
+        { "id": "c31_1", "label": "Боюсь сделать ошибку и выглядеть глупо" },
+        { "id": "c31_2", "label": "Не могу быстро подобрать слова" },
+        { "id": "c31_3", "label": "Нервничаю при разговоре с носителями" },
+        { "id": "c31_4", "label": "Стесняюсь своего акцента" },
+        { "id": "c31_5", "label": "Не хватает словарного запаса" },
+        { "id": "c31_6", "label": "Теряюсь в сложных грамматических конструкциях" },
+        { "id": "c31_7", "label": "Нет регулярной практики / некому говорить" },
+        { "id": "c31_8", "label": "Не уверен(а) в своём уровне" }
+      ]
+    },
+    {
+      "id": "f32",
+      "type": "long_text",
+      "ref": "psych_experience",
+      "title": "Расскажите о вашем прошлом опыте изучения немецкого: что помогало, что мешало?",
+      "required": false,
+      "validations": { "max_length": 1000 }
+    },
+    {
+      "id": "f33",
+      "type": "multiple_choice",
+      "ref": "learning_style",
+      "title": "Как вы лучше всего усваиваете новую информацию?",
+      "required": true,
+      "choices": [
+        { "id": "c33_1", "label": "Визуально — через схемы, таблицы, картинки" },
+        { "id": "c33_2", "label": "Аудиально — через слушание и повторение вслух" },
+        { "id": "c33_3", "label": "Кинестетически — через практику и действие" },
+        { "id": "c33_4", "label": "Аналитически — через правила, объяснения, логику" }
+      ]
+    },
+    {
+      "id": "f34",
+      "type": "multiple_choice",
+      "ref": "previous_level",
+      "title": "Есть ли у вас официальный сертификат по немецкому языку?",
+      "required": false,
+      "choices": [
+        { "id": "c34_1", "label": "Нет" },
+        { "id": "c34_2", "label": "A1" },
+        { "id": "c34_3", "label": "A2" },
+        { "id": "c34_4", "label": "B1" },
+        { "id": "c34_5", "label": "B2" },
+        { "id": "c34_6", "label": "C1 или выше" }
+      ]
+    },
+
+    {
+      "id": "f35",
+      "type": "statement",
+      "title": "Раздел 8: Согласия GDPR",
+      "description": "Для работы платформы нам необходимо ваше согласие на обработку персональных данных."
+    },
+    {
+      "id": "f36",
+      "type": "legal",
+      "ref": "gdpr_data_consent",
+      "title": "Согласие на обработку персональных данных",
+      "required": true,
+      "properties": {
+        "description": "Я согласен(на) на хранение и обработку моих персональных данных (имя, email, результаты заданий) в целях обучения. Данные хранятся не более 24 месяцев с момента последней активности и могут быть удалены по запросу. Подробнее: [ссылка на политику конфиденциальности]."
+      }
+    },
+    {
+      "id": "f37",
+      "type": "legal",
+      "ref": "gdpr_audio_consent",
+      "title": "Согласие на обработку аудиозаписей",
+      "required": true,
+      "properties": {
+        "description": "Я согласен(на) на запись, хранение и автоматическую транскрипцию моих аудиозаписей. Аудиофайлы используются исключительно в учебных целях, хранятся в зашифрованном хранилище и удаляются через 12 месяцев или по запросу студента."
+      }
+    },
+    {
+      "id": "f38",
+      "type": "legal",
+      "ref": "gdpr_ai_consent",
+      "title": "Согласие на AI-анализ",
+      "required": true,
+      "properties": {
+        "description": "Я понимаю, что мои тексты и транскрипты могут быть обработаны AI-системами (OpenAI Whisper, LanguageTool, Claude) для создания черновых комментариев (DRAFT). Финальная проверка всегда выполняется преподавателем-человеком."
+      }
+    },
+
+    {
+      "id": "f99",
+      "type": "thankyou_screen",
+      "title": "Отлично! Анкета отправлена.",
+      "description": "Ваш преподаватель изучит результаты и свяжется с вами в течение 48 часов для составления персонального плана. Ожидайте письмо на указанный email.",
+      "button_text": "Перейти на сайт"
+    }
+  ],
+
+  "scoring": {
+    "description": "Схема вычисления начального CEFR и KPI",
+    "listening_score": {
+      "max_points": 3,
+      "correct_answers": {
+        "listening_q1": "c18_2",
+        "listening_q2": "c19_1",
+        "listening_q3": "c20_3"
+      }
+    },
+    "reading_score": {
+      "max_points": 3,
+      "correct_answers": {
+        "reading_q1": "c22_2",
+        "reading_q2": "c23_2",
+        "reading_q3": "c24_3"
+      }
+    },
+    "writing_score": {
+      "max_points": 10,
+      "criteria": ["grammar_accuracy", "vocabulary_range", "coherence", "task_completion"],
+      "graded_by": "teacher_or_ai_draft"
+    },
+    "speaking_score": {
+      "max_points": 10,
+      "criteria": ["fluency", "pronunciation", "vocabulary", "grammar", "task_completion"],
+      "graded_by": "teacher_or_ai_draft"
+    },
+    "cefr_mapping": {
+      "description": "Суммарный балл listening+reading (0–6) + self-assessment среднее (1–5)",
+      "A1": { "total_score_range": "0–3", "self_avg_range": "1.0–1.9" },
+      "A2": { "total_score_range": "3–4", "self_avg_range": "2.0–2.4" },
+      "B1": { "total_score_range": "4–5", "self_avg_range": "2.5–3.4" },
+      "B2": { "total_score_range": "5–6", "self_avg_range": "3.5–4.4" },
+      "C1": { "total_score_range": "6", "self_avg_range": "4.5–5.0" }
+    },
+    "kpi_initial": {
+      "accuracy_percent": "writing_score/10 * 100",
+      "fluency_score": "speaking_score.fluency (1–5)",
+      "pronunciation_score": "speaking_score.pronunciation (1–5)",
+      "listening_comprehension": "listening_score/3 * 100",
+      "reading_comprehension": "reading_score/3 * 100"
+    }
+  },
+
+  "settings": {
+    "language": "ru",
+    "progress_bar": true,
+    "show_time_estimate": true,
+    "estimated_time_minutes": 35,
+    "notifications": {
+      "on_submit": {
+        "email_to_teacher": true,
+        "email_to_student": true,
+        "student_email_subject": "Ваша анкета получена — Personal German Coach",
+        "student_email_body": "Спасибо за заполнение анкеты! Мы свяжемся с вами в течение 48 часов."
+      }
+    }
+  }
+}
