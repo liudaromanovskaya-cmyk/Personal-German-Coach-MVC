@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal German Coach — Демо</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  /* === НАВИГАЦИЯ === */
+  nav {
+    background: #1a1a2e;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  nav .logo { color: white; font-size: 20px; font-weight: 700; }
+  nav .logo span { color: #f0a500; }
+  nav .tabs { display: flex; gap: 8px; }
+  nav .tab {
+    padding: 8px 18px; border-radius: 20px; cursor: pointer;
+    border: 2px solid transparent; color: #aaa; font-size: 14px; transition: all .2s;
+  }
+  nav .tab:hover { color: white; border-color: #555; }
+  nav .tab.active { background: #f0a500; color: #1a1a2e; font-weight: 700; border-color: #f0a500; }
+
+  /* === СЕКЦИИ === */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ============================================================
+     ЛЕНДИНГ
+  ============================================================ */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white; padding: 80px 40px; text-align: center;
+  }
+  .hero h1 { font-size: 48px; margin-bottom: 20px; line-height: 1.2; }
+  .hero h1 span { color: #f0a500; }
+  .hero p { font-size: 20px; color: #ccc; max-width: 650px; margin: 0 auto 40px; line-height: 1.6; }
+  .hero .badges { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+  .badge { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); padding: 8px 20px; border-radius: 20px; font-size: 14px; }
+  .btn-main {
+    background: #f0a500; color: #1a1a2e; padding: 16px 40px;
+    border: none; border-radius: 30px; font-size: 18px; font-weight: 700;
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+  }
+  .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,165,0,.4); }
+
+  .problems {
+    background: white; padding: 60px 40px; text-align: center;
+  }
+  .problems h2 { font-size: 32px; margin-bottom: 40px; }
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+  .problem-card {
+    background: #fff8f0; border: 2px solid #ffe0a0; border-radius: 16px;
+    padding: 25px 20px; text-align: left;
+  }
+  .problem-card .emoji { font-size: 32px; margin-bottom: 12px; }
+  .problem-card h3 { font-size: 16px; margin-bottom: 8px; color: #cc7700; }
+  .problem-card p { font-size: 14px; color: #666; line-height: 1.5; }
+
+  .how-it-works { background: #f8f8f8; padding: 60px 40px; text-align: center; }
+  .how-it-works h2 { font-size: 32px; margin-bottom: 50px; }
+  .steps { display: flex; gap: 0; max-width: 900px; margin: 0 auto; align-items: flex-start; }
+  .step { flex: 1; text-align: center; padding: 0 15px; position: relative; }
+  .step:not(:last-child)::after {
+    content: '→'; position: absolute; right: -10px; top: 20px;
+    font-size: 28px; color: #f0a500;
+  }
+  .step .num {
+    width: 50px; height: 50px; background: #f0a500; color: #1a1a2e;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700; margin: 0 auto 15px;
+  }
+  .step h3 { font-size: 15px; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: #777; line-height: 1.4; }
+
+  .personas { background: white; padding: 60px 40px; text-align: center; }
+  .personas h2 { font-size: 32px; margin-bottom: 40px; }
+  .persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+  .persona-card {
+    border: 2px solid #eee; border-radius: 16px; padding: 25px 20px;
+    text-align: left; transition: border-color .2s, box-shadow .2s;
+  }
+  .persona-card:hover { border-color: #f0a500; box-shadow: 0 4px 20px rgba(240,165,0,.15); }
+  .persona-card .avatar { font-size: 40px; margin-bottom: 12px; }
+  .persona-card .name { font-weight: 700; font-size: 16px; }
+  .persona-card .role { color: #888; font-size: 13px; margin-bottom: 12px; }
+  .persona-card .goal { background: #f0f8ff; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #0066cc; }
+
+  .pricing { background: #1a1a2e; color: white; padding: 60px 40px; text-align: center; }
+  .pricing h2 { font-size: 32px; margin-bottom: 40px; color: white; }
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+  .price-card {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 16px; padding: 30px 20px; transition: transform .2s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.popular { border-color: #f0a500; background: rgba(240,165,0,.1); }
+  .price-card .badge-pop { background: #f0a500; color: #1a1a2e; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; margin-bottom: 15px; display: inline-block; }
+  .price-card h3 { font-size: 20px; margin-bottom: 8px; }
+  .price-card .price { font-size: 36px; font-weight: 700; color: #f0a500; margin-bottom: 15px; }
+  .price-card .price span { font-size: 16px; color: #aaa; }
+  .price-card ul { list-style: none; text-align: left; }
+  .price-card ul li { padding: 5px 0; font-size: 14px; color: #ccc; }
+  .price-card ul li::before { content: '✓ '; color: #f0a500; }
+
+  /* ============================================================
+     СТУДЕНТ
+  ============================================================ */
+  .student-layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 60px); }
+  .sidebar {
+    background: #1a1a2e; padding: 25px 0; color: white;
+  }
+  .sidebar .user-info { padding: 0 20px 25px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .sidebar .user-info .avatar-big { font-size: 50px; margin-bottom: 10px; }
+  .sidebar .user-info .uname { font-weight: 700; font-size: 16px; }
+  .sidebar .user-info .ulevel {
+    display: inline-block; background: #f0a500; color: #1a1a2e;
+    padding: 2px 10px; border-radius: 10px; font-size: 13px; font-weight: 700; margin-top: 5px;
+  }
+  .sidebar-menu { padding: 20px 0; }
+  .sidebar-menu .menu-item {
+    padding: 12px 25px; cursor: pointer; font-size: 15px;
+    color: #aaa; transition: all .15s; display: flex; align-items: center; gap: 12px;
+  }
+  .sidebar-menu .menu-item:hover { background: rgba(255,255,255,.07); color: white; }
+  .sidebar-menu .menu-item.active { background: rgba(240,165,0,.15); color: #f0a500; border-right: 3px solid #f0a500; }
+  .sidebar-menu .menu-item .icon { font-size: 18px; width: 24px; }
+
+  .main-content { background: #f5f5f5; padding: 30px; overflow-y: auto; }
+  .page-title { font-size: 26px; font-weight: 700; margin-bottom: 25px; color: #1a1a2e; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+  .kpi-card {
+    background: white; border-radius: 14px; padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .kpi-card .kpi-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .kpi-card .kpi-value { font-size: 32px; font-weight: 700; color: #1a1a2e; }
+  .kpi-card .kpi-value.green { color: #22c55e; }
+  .kpi-card .kpi-value.orange { color: #f0a500; }
+  .kpi-card .kpi-sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+  .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .card {
+    background: white; border-radius: 14px; padding: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: #1a1a2e; }
+  .card.full { grid-column: 1/-1; }
+
+  .assignment-item {
+    display: flex; align-items: center; gap: 15px;
+    padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .assignment-item:last-child { border-bottom: none; }
+  .assignment-item .a-icon {
+    width: 44px; height: 44px; border-radius: 12px; background: #f0f8ff;
+    display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+  }
+  .assignment-item .a-title { font-weight: 600; font-size: 15px; }
+  .assignment-item .a-meta { font-size: 12px; color: #888; margin-top: 3px; }
+  .assignment-item .a-status {
+    margin-left: auto; padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .a-status.todo { background: #fff3cd; color: #856404; }
+  .a-status.done { background: #d1f7d6; color: #166534; }
+  .a-status.new { background: #cfe2ff; color: #004085; }
+
+  .progress-bar-wrap { margin-bottom: 15px; }
+  .progress-bar-wrap .pb-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .progress-bar-wrap .pb-label span:last-child { font-weight: 700; color: #f0a500; }
+  .progress-bar { background: #eee; border-radius: 6px; height: 10px; overflow: hidden; }
+  .progress-bar .fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #f0a500, #e8830a); }
+
+  .feed-item { display: flex; gap: 15px; margin-bottom: 18px; }
+  .feed-item .day-badge {
+    width: 44px; height: 44px; background: #f0a500; color: #1a1a2e;
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0; text-align: center; line-height: 1.2;
+  }
+  .feed-item .feed-text .ft-title { font-weight: 600; font-size: 14px; }
+  .feed-item .feed-text .ft-word { font-size: 13px; color: #555; margin-top: 3px; }
+  .feed-item .feed-text .ft-task { font-size: 12px; color: #888; margin-top: 3px; font-style: italic; }
+
+  /* ============================================================
+     УЧИТЕЛЬ
+  ============================================================ */
+  .teacher-layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 60px); }
+  .teacher-sidebar {
+    background: #0f3460; padding: 25px 0; color: white;
+  }
+  .teacher-sidebar .t-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .teacher-sidebar .t-logo .role { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .teacher-sidebar .t-logo .tname { font-weight: 700; font-size: 17px; margin-top: 4px; }
+  .teacher-menu .tmenu-item {
+    padding: 12px 25px; cursor: pointer; font-size: 14px;
+    color: #aaa; display: flex; align-items: center; gap: 12px; transition: all .15s;
+  }
+  .teacher-menu .tmenu-item:hover { background: rgba(255,255,255,.07); color: white; }
+  .teacher-menu .tmenu-item.active { background: rgba(255,255,255,.12); color: white; border-right: 3px solid #f0a500; }
+  .teacher-menu .tmenu-item .badge-num {
+    margin-left: auto; background: #e74c3c; color: white;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 11px;
+  }
+  .teacher-menu .section-label {
+    padding: 15px 25px 5px; font-size: 11px; color: #666;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  .teacher-main { background: #f0f4f8; padding: 30px; overflow-y: auto; }
+
+  .student-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 25px; }
+  .student-card {
+    background: white; border-radius: 14px; padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07); cursor: pointer;
+    transition: box-shadow .2s, transform .2s; border: 2px solid transparent;
+  }
+  .student-card:hover { box-shadow: 0 6px 25px rgba(0,0,0,.12); transform: translateY(-2px); border-color: #f0a500; }
+  .student-card .sc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+  .student-card .sc-avatar { font-size: 38px; }
+  .student-card .sc-name { font-weight: 700; font-size: 16px; }
+  .student-card .sc-meta { font-size: 12px; color: #888; }
+  .sc-level { display: inline-block; background: #1a1a2e; color: #f0a500; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+  .sc-kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .sc-kpi { text-align: center; background: #f8f8f8; border-radius: 8px; padding: 8px 5px; }
+  .sc-kpi .v { font-weight: 700; font-size: 16px; color: #1a1a2e; }
+  .sc-kpi .l { font-size: 10px; color: #888; margin-top: 2px; }
+  .sc-kpi .v.green { color: #22c55e; }
+  .sc-kpi .v.orange { color: #f0a500; }
+
+  .inbox-item {
+    background: white; border-radius: 12px; padding: 20px;
+    margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-left: 4px solid #e0e0e0;
+  }
+  .inbox-item.new { border-left-color: #f0a500; }
+  .inbox-item .ii-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .inbox-item .ii-student { font-weight: 700; font-size: 15px; }
+  .inbox-item .ii-task { font-size: 13px; color: #555; }
+  .inbox-item .ii-time { margin-left: auto; font-size: 12px; color: #aaa; }
+  .inbox-item .ii-draft {
+    background: #fff8e1; border: 1px solid #ffd54f; border-radius: 10px;
+    padding: 12px 15px; font-size: 13px; line-height: 1.6; margin-bottom: 12px;
+  }
+  .inbox-item .ii-draft .draft-label { font-size: 11px; color: #f57f17; font-weight: 700; margin-bottom: 6px; }
+  .inbox-item .ii-actions { display: flex; gap: 10px; }
+  .btn-sm {
+    padding: 7px 16px; border-radius: 8px; font-size: 13px;
+    font-weight: 600; cursor: pointer; border: none; transition: opacity .2s;
+  }
+  .btn-sm:hover { opacity: .85; }
+  .btn-approve { background: #22c55e; color: white; }
+  .btn-edit { background: #f0a500; color: #1a1a2e; }
+  .btn-view { background: #eee; color: #333; }
+
+  /* ============================================================
+     КАК ЭТО РАБОТАЕТ (схема)
+  ============================================================ */
+  .flow-section { background: white; padding: 60px 40px; }
+  .flow-section h2 { font-size: 32px; text-align: center; margin-bottom: 50px; }
+  .flow-diagram {
+    max-width: 900px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .flow-row { display: flex; align-items: stretch; gap: 0; }
+  .flow-box {
+    flex: 1; background: #f8f8f8; border: 2px solid #e0e0e0;
+    border-radius: 14px; padding: 20px; text-align: center; margin: 5px;
+  }
+  .flow-box.highlight { background: #fff8e1; border-color: #f0a500; }
+  .flow-box.ai { background: #f0f4ff; border-color: #6366f1; }
+  .flow-box .fb-icon { font-size: 32px; margin-bottom: 10px; }
+  .flow-box h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .flow-box p { font-size: 12px; color: #777; line-height: 1.4; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; font-size: 28px; color: #f0a500; padding: 5px; }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    .student-layout, .teacher-layout { grid-template-columns: 1fr; }
+    .sidebar, .teacher-sidebar { display: none; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .content-row { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .step:not(:last-child)::after { content: '↓'; position: static; display: block; font-size: 24px; text-align: center; margin: 10px 0; }
+    .hero h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<nav>
+  <div class="logo">🇩🇪 Personal <span>German</span> Coach</div>
+  <div class="tabs">
+    <div class="tab active" onclick="showSection('landing')">🏠 Лендинг</div>
+    <div class="tab" onclick="showSection('student')">👩‍🎓 Кабинет студента</div>
+    <div class="tab" onclick="showSection('teacher')">👩‍🏫 Кабинет учителя</div>
+    <div class="tab" onclick="showSection('flow')">⚙️ Как работает</div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     ЛЕНДИНГ
+============================================================ -->
+<div id="landing" class="section active">
+
+  <div class="hero">
+    <h1>Немецкий язык —<br>персонально для <span>тебя</span></h1>
+    <p>Короткие задания 15–20 минут в день. Живой преподаватель. AI-анализ твоих ошибок. Прогресс, который видно.</p>
+    <div class="badges">
+      <div class="badge">🎯 Под твою профессию</div>
+      <div class="badge">🤖 AI + живой преподаватель</div>
+      <div class="badge">📊 CEFR-диагностика</div>
+      <div class="badge">🇩🇪 Только немецкий</div>
+    </div>
+    <button class="btn-main" onclick="showSection('student')">Посмотреть кабинет студента →</button>
+  </div>
+
+  <div class="problems">
+    <h2>С какими проблемами приходят студенты</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="emoji">😰</div>
+        <h3>Страх говорить</h3>
+        <p>Знаю слова, но боюсь ошибиться перед коллегами или врачом</p>
+      </div>
+      <div class="problem-card">
+        <div class="emoji">⏰</div>
+        <h3>Нет времени</h3>
+        <p>Работа, семья — на 2-часовые курсы просто не получается ходить</p>
+      </div>
+      <div class="problem-card">
+        <div class="emoji">📚</div>
+        <h3>Общие курсы не помогают</h3>
+        <p>Учим про погоду, а нужно — про медицину / IT / переговоры</p>
+      </div>
+      <div class="problem-card">
+        <div class="emoji">📉</div>
+        <h3>Не вижу прогресса</h3>
+        <p>Занимаюсь уже год, а уверенности больше не стало</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="how-it-works">
+    <h2>Как это работает — 5 шагов</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Анкета</h3>
+        <p>Заполняешь анкету. Рассказываешь о профессии, целях, уровне.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Диагностика</h3>
+        <p>AI + преподаватель определяют твой CEFR и составляют план.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Задания</h3>
+        <p>Получаешь задание 15–20 мин под твой уровень и профессию.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h3>Анализ</h3>
+        <p>AI транскрибирует аудио, находит ошибки. Черновик для учителя.</p>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <h3>Фидбек</h3>
+        <p>Преподаватель проверяет, редактирует и отправляет тебе лично.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="personas">
+    <h2>Для кого этот продукт</h2>
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="avatar">👩‍💻</div>
+        <div class="name">Анна, 31</div>
+        <div class="role">IT-разработчик, Мюнхен · B1</div>
+        <div class="goal">🎯 Говорить уверенно на рабочих митингах</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar">👨‍⚕️</div>
+        <div class="name">Дмитрий, 38</div>
+        <div class="role">Врач, Берлин · A2</div>
+        <div class="goal">🎯 Сдать Fachsprachprüfung</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar">👩‍💼</div>
+        <div class="name">Елена, 35</div>
+        <div class="role">Менеджер проектов, Цюрих · B2</div>
+        <div class="goal">🎯 Уверенные переговоры с клиентами</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar">👨‍🔧</div>
+        <div class="name">Сергей, 29</div>
+        <div class="role">Инженер, Гамбург · A1</div>
+        <div class="goal">🎯 Немецкий для повседневной жизни</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing">
+    <h2>Тарифы</h2>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <div class="price">€49<span>/мес</span></div>
+        <ul>
+          <li>4 задания в месяц</li>
+          <li>Письменный фидбек</li>
+          <li>Anki-карточки</li>
+          <li>30-дневный Feed</li>
+        </ul>
+      </div>
+      <div class="price-card popular">
+        <div class="badge-pop">⭐ ПОПУЛЯРНЫЙ</div>
+        <h3>Standard</h3>
+        <div class="price">€89<span>/мес</span></div>
+        <ul>
+          <li>8 заданий в месяц</li>
+          <li>Детальный фидбек</li>
+          <li>Анализ ошибок AI</li>
+          <li>Месячный KPI-отчёт</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>Premium</h3>
+        <div class="price">€129<span>/мес</span></div>
+        <ul>
+          <li>12 заданий в месяц</li>
+          <li>Приоритетный фидбек</li>
+          <li>Персональная стратегия</li>
+          <li>Ежемесячный отчёт PDF</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>Exam Prep</h3>
+        <div class="price">€299<span> разово</span></div>
+        <ul>
+          <li>8 недель интенсив</li>
+          <li>Goethe / TestDaF / TELC</li>
+          <li>Fachsprachprüfung</li>
+          <li>Гарантия подготовки</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     КАБИНЕТ СТУДЕНТА
+============================================================ -->
+<div id="student" class="section">
+  <div class="student-layout">
+
+    <div class="sidebar">
+      <div class="user-info">
+        <div class="avatar-big">👩‍💻</div>
+        <div class="uname">Анна Соколова</div>
+        <div class="ulevel">B1 → B2</div>
+        <div style="font-size:12px; color:#888; margin-top:8px;">IT-разработчик · Мюнхен</div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="menu-item active"><span class="icon">🏠</span> Главная</div>
+        <div class="menu-item"><span class="icon">📋</span> Мой план</div>
+        <div class="menu-item"><span class="icon">✏️</span> Задания</div>
+        <div class="menu-item"><span class="icon">💬</span> Фидбек</div>
+        <div class="menu-item"><span class="icon">📊</span> Прогресс</div>
+        <div class="menu-item"><span class="icon">🃏</span> Anki-карточки</div>
+        <div class="menu-item"><span class="icon">📰</span> Ежедневный Feed</div>
+        <div class="menu-item"><span class="icon">📅</span> Записаться на урок</div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="page-title">👋 Привет, Анна! Твой прогресс на этой неделе</div>
+
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Точность</div>
+          <div class="kpi-value green">78%</div>
+          <div class="kpi-sub">↑ +6% за месяц</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Беглость</div>
+          <div class="kpi-value orange">3.4 / 5</div>
+          <div class="kpi-sub">Цель: 4.0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Слов в Anki</div>
+          <div class="kpi-value">47</div>
+          <div class="kpi-sub">Новых за месяц</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Заданий</div>
+          <div class="kpi-value green">5/8</div>
+          <div class="kpi-sub">В этом месяце</div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div class="card">
+          <h3>📋 Мои задания</h3>
+          <div class="assignment-item">
+            <div class="a-icon">🎧</div>
+            <div>
+              <div class="a-title">Аудирование: DW Podcast</div>
+              <div class="a-meta">IT-тема · 20 мин · Выдано сегодня</div>
+            </div>
+            <div class="a-status new">Новое</div>
+          </div>
+          <div class="assignment-item">
+            <div class="a-icon">✉️</div>
+            <div>
+              <div class="a-title">Деловое письмо коллеге</div>
+              <div class="a-meta">Письмо · 15 мин · Срок: завтра</div>
+            </div>
+            <div class="a-status todo">Сделать</div>
+          </div>
+          <div class="assignment-item">
+            <div class="a-icon">🗣️</div>
+            <div>
+              <div class="a-title">Ролевая игра: stand-up</div>
+              <div class="a-meta">Говорение · 15 мин · Проверено</div>
+            </div>
+            <div class="a-status done">Готово ✓</div>
+          </div>
+          <div class="assignment-item">
+            <div class="a-icon">📖</div>
+            <div>
+              <div class="a-title">Чтение: heise.de статья</div>
+              <div class="a-meta">Чтение · 20 мин · Проверено</div>
+            </div>
+            <div class="a-status done">Готово ✓</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>💬 Последний фидбек от преподавателя</h3>
+          <div style="background:#f0fff4; border:2px solid #86efac; border-radius:10px; padding:15px; margin-bottom:15px; font-size:14px; line-height:1.7;">
+            <strong>✅ Что хорошо:</strong><br>
+            Отлично использовала "obwohl" — это структура B2! Темп речи стал намного увереннее.<br><br>
+            <strong>⚠️ Над чем работаем:</strong><br>
+            1. <em>Nebensatz</em>: "weil ich bin müde" → нужно "weil ich <strong>müde bin</strong>"<br>
+            2. <em>Akkusativ</em>: "mit mein Team" → "mit <strong>meinem</strong> Team" (Dativ после mit)<br><br>
+            <strong>📅 Фокус на 2 недели:</strong> Предлоги + Dativ-управление
+          </div>
+          <div style="font-size:12px; color:#888;">👩‍🏫 Преподаватель: Людмила · 2 часа назад</div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div class="card">
+          <h3>📊 Прогресс по навыкам</h3>
+          <div class="progress-bar-wrap">
+            <div class="pb-label"><span>🎧 Аудирование</span><span>72%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:72%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="pb-label"><span>📝 Грамматика</span><span>78%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:78%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="pb-label"><span>🗣️ Говорение</span><span>65%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="pb-label"><span>📖 Лексика</span><span>85%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:85%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="pb-label"><span>✉️ Письмо</span><span>80%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>📰 Ежедневный Feed (сегодня)</h3>
+          <div class="feed-item">
+            <div class="day-badge">День<br>23</div>
+            <div class="feed-text">
+              <div class="ft-title">🏥 Krankenversicherung — зачем врач говорит "Kassenpatient"?</div>
+              <div class="ft-word">📚 Слово дня: <strong>die Überweisung</strong> — направление к специалисту</div>
+              <div class="ft-task">✏️ Микро-задание: Позвони воображаемому Hausarzt и попроси Überweisung</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="day-badge">День<br>22</div>
+            <div class="feed-text">
+              <div class="ft-title">💼 Почему немцы так любят пунктуальность на работе</div>
+              <div class="ft-word">📚 Слово дня: <strong>die Pünktlichkeit</strong> — пунктуальность</div>
+              <div class="ft-task">✏️ Напиши: "Ich bin immer pünktlich, weil..."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     КАБИНЕТ УЧИТЕЛЯ
+============================================================ -->
+<div id="teacher" class="section">
+  <div class="teacher-layout">
+
+    <div class="teacher-sidebar">
+      <div class="t-logo">
+        <div class="role">Преподаватель</div>
+        <div class="tname">👩‍🏫 Людмила Романовская</div>
+        <div style="font-size:12px; color:#aaa; margin-top:8px;">3 студента активных</div>
+      </div>
+      <div class="teacher-menu" style="padding: 15px 0;">
+        <div class="section-label">Студенты</div>
+        <div class="tmenu-item active">👥 Все студенты</div>
+        <div class="tmenu-item">📋 Планы обучения</div>
+        <div class="section-label">Работа</div>
+        <div class="tmenu-item">
+          📥 Входящие задания
+          <span class="badge-num">2</span>
+        </div>
+        <div class="tmenu-item">✅ Проверить фидбек</div>
+        <div class="section-label">Инструменты</div>
+        <div class="tmenu-item">📚 Методолибра</div>
+        <div class="tmenu-item">🧠 AI-промпты</div>
+        <div class="tmenu-item">📈 Market Intel</div>
+        <div class="section-label">Данные</div>
+        <div class="tmenu-item">📊 KPI отчёты</div>
+        <div class="tmenu-item">⚙️ Настройки</div>
+      </div>
+    </div>
+
+    <div class="teacher-main">
+      <div class="page-title">👥 Мои студенты</div>
+
+      <div class="student-cards">
+        <div class="student-card">
+          <div class="sc-top">
+            <div class="sc-avatar">👩‍💻</div>
+            <div>
+              <div class="sc-name">Анна Соколова</div>
+              <div class="sc-meta">IT · Мюнхен · €89/мес</div>
+            </div>
+          </div>
+          <div class="sc-level">B1 → B2</div>
+          <div class="sc-kpis">
+            <div class="sc-kpi"><div class="v green">78%</div><div class="l">Точность</div></div>
+            <div class="sc-kpi"><div class="v orange">5/8</div><div class="l">Задания</div></div>
+            <div class="sc-kpi"><div class="v">47</div><div class="l">Слов Anki</div></div>
+          </div>
+        </div>
+
+        <div class="student-card">
+          <div class="sc-top">
+            <div class="sc-avatar">👨‍⚕️</div>
+            <div>
+              <div class="sc-name">Дмитрий Петров</div>
+              <div class="sc-meta">Медицина · Берлин · €299 Exam</div>
+            </div>
+          </div>
+          <div class="sc-level">A2 → B1</div>
+          <div class="sc-kpis">
+            <div class="sc-kpi"><div class="v orange">61%</div><div class="l">Точность</div></div>
+            <div class="sc-kpi"><div class="v">3/4</div><div class="l">Задания</div></div>
+            <div class="sc-kpi"><div class="v">28</div><div class="l">Слов Anki</div></div>
+          </div>
+        </div>
+
+        <div class="student-card">
+          <div class="sc-top">
+            <div class="sc-avatar">👩‍💼</div>
+            <div>
+              <div class="sc-name">Елена Кузнецова</div>
+              <div class="sc-meta">Менеджмент · Цюрих · €129/мес</div>
+            </div>
+          </div>
+          <div class="sc-level">B2 → C1</div>
+          <div class="sc-kpis">
+            <div class="sc-kpi"><div class="v green">89%</div><div class="l">Точность</div></div>
+            <div class="sc-kpi"><div class="v green">8/8</div><div class="l">Задания</div></div>
+            <div class="sc-kpi"><div class="v">63</div><div class="l">Слов Anki</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-title" style="margin-top:10px;">📥 Входящие — нужна проверка</div>
+
+      <div class="inbox-item new">
+        <div class="ii-top">
+          <div style="font-size:28px;">👩‍💻</div>
+          <div>
+            <div class="ii-student">Анна Соколова</div>
+            <div class="ii-task">Задание #7 — Ролевая игра: stand-up митинг (аудио 2:34)</div>
+          </div>
+          <div class="ii-time">15 мин назад · 🆕 Новое</div>
+        </div>
+        <div class="ii-draft">
+          <div class="draft-label">⚠️ DRAFT — AI-черновик (требует проверки преподавателя)</div>
+          <strong>✅ Что хорошо:</strong> Уверенный темп. Использовала "obwohl" — структура B2. Правильный порядок слов в 8 из 10 предложений.<br>
+          <strong>⚠️ Ошибки:</strong><br>
+          1. "weil ich bin müde" → "weil ich müde <strong>bin</strong>" (Nebensatz: глагол в конец)<br>
+          2. "mit mein Team" → "mit <strong>meinem</strong> Team" (mit + Dativ)<br>
+          <strong>📅 Фокус 2 нед.:</strong> Предлоги с Dativ + Nebensatz-порядок слов
+        </div>
+        <div class="ii-actions">
+          <button class="btn-sm btn-approve">✓ Одобрить и отправить</button>
+          <button class="btn-sm btn-edit">✏️ Редактировать</button>
+          <button class="btn-sm btn-view">🎧 Слушать аудио</button>
+        </div>
+      </div>
+
+      <div class="inbox-item new">
+        <div class="ii-top">
+          <div style="font-size:28px;">👨‍⚕️</div>
+          <div>
+            <div class="ii-student">Дмитрий Петров</div>
+            <div class="ii-task">Задание #3 — Cloze: медицинская терминология</div>
+          </div>
+          <div class="ii-time">2 часа назад · 🆕 Новое</div>
+        </div>
+        <div class="ii-draft">
+          <div class="draft-label">⚠️ DRAFT — AI-черновик (требует проверки преподавателя)</div>
+          <strong>✅ Что хорошо:</strong> Верно заполнены 18/25 пропусков. Медицинская лексика (Befund, verschreiben, einweisen) — правильно.<br>
+          <strong>⚠️ Ошибки:</strong><br>
+          1. "Rezept bekommen" → "Rezept <strong>ausstellen</strong> / ausschreiben" (коллокация)<br>
+          2. Артикль: "der Symptom" → "<strong>das</strong> Symptom"<br>
+          <strong>📅 Фокус:</strong> Коллокации с медицинскими существительными + артикли
+        </div>
+        <div class="ii-actions">
+          <button class="btn-sm btn-approve">✓ Одобрить и отправить</button>
+          <button class="btn-sm btn-edit">✏️ Редактировать</button>
+          <button class="btn-sm btn-view">📄 Смотреть текст</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     КАК РАБОТАЕТ СИСТЕМА
+============================================================ -->
+<div id="flow" class="section">
+  <div class="flow-section">
+    <h2>⚙️ Как работает система — шаг за шагом</h2>
+
+    <div style="max-width:900px; margin: 0 auto;">
+
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center; margin-bottom:20px;">
+        <div class="flow-box highlight">
+          <div class="fb-icon">📝</div>
+          <h4>Студент заполняет анкету</h4>
+          <p>Typeform: имя, профессия, уровень, цель, барьеры, GDPR-согласие</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box ai">
+          <div class="fb-icon">⚡</div>
+          <h4>Zapier запускает автоматизацию</h4>
+          <p>Данные → Airtable. Claude получает задачу составить план.</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="fb-icon">👩‍🏫</div>
+          <h4>Учитель получает уведомление</h4>
+          <p>Slack / Email: "Новый студент! Нужно одобрить план."</p>
+        </div>
+      </div>
+
+      <div style="text-align:center; font-size:28px; color:#f0a500; margin-bottom:20px;">↓</div>
+
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center; margin-bottom:20px;">
+        <div class="flow-box">
+          <div class="fb-icon">📧</div>
+          <h4>Студент получает Welcome</h4>
+          <p>Email с первым заданием, Anki-стартовой колодой и ссылкой на Feed</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">
+          <div class="fb-icon">🎙️</div>
+          <h4>Студент делает задание</h4>
+          <p>Записывает аудио или пишет текст. 15–20 минут. Загружает.</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box ai">
+          <div class="fb-icon">🤖</div>
+          <h4>AI обрабатывает</h4>
+          <p>Whisper → транскрипт. LanguageTool → ошибки. Claude → DRAFT анализ.</p>
+        </div>
+      </div>
+
+      <div style="text-align:center; font-size:28px; color:#f0a500; margin-bottom:20px;">↓</div>
+
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center;">
+        <div class="flow-box">
+          <div class="fb-icon">👩‍🏫</div>
+          <h4>Учитель проверяет DRAFT</h4>
+          <p>Видит транскрипт + ошибки + AI-черновик. Редактирует. Нажимает "Отправить".</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">
+          <div class="fb-icon">💬</div>
+          <h4>Студент получает фидбек</h4>
+          <p>Верифицированный учителем: сильные стороны, ошибки + правила, следующий шаг.</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box ai">
+          <div class="fb-icon">📊</div>
+          <h4>Прогресс обновляется</h4>
+          <p>KPI в Airtable. Anki-карточки. Месячный отчёт. CEFR апгрейд.</p>
+        </div>
+      </div>
+
+      <div style="background:#fff8e1; border:2px solid #f0a500; border-radius:16px; padding:25px; margin-top:40px; text-align:center;">
+        <div style="font-size:32px; margin-bottom:10px;">⚠️ Главный принцип</div>
+        <div style="font-size:20px; font-weight:700; margin-bottom:10px;">AI делает DRAFT — учитель делает финальное решение</div>
+        <div style="font-size:15px; color:#666; line-height:1.6;">Студент никогда не видит сырой AI-ответ. Всё, что получает студент — это проверено и одобрено живым преподавателем. AI экономит время учителя, но не заменяет его.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
