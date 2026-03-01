@@ -3,845 +3,1187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal German Coach — Демо</title>
+<title>Personal German Coach — Demo</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#FAF9F6; color:#1A1A1A; }
 
-  /* === НАВИГАЦИЯ === */
-  nav {
-    background: #1a1a2e;
-    padding: 15px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-  }
-  nav .logo { color: white; font-size: 20px; font-weight: 700; }
-  nav .logo span { color: #f0a500; }
-  nav .tabs { display: flex; gap: 8px; }
-  nav .tab {
-    padding: 8px 18px; border-radius: 20px; cursor: pointer;
-    border: 2px solid transparent; color: #aaa; font-size: 14px; transition: all .2s;
-  }
-  nav .tab:hover { color: white; border-color: #555; }
-  nav .tab.active { background: #f0a500; color: #1a1a2e; font-weight: 700; border-color: #f0a500; }
+/*
+  ЦВЕТОВАЯ СХЕМА — мягкая, не режет глаза
+  Фон:          #FAF9F6  тёплый кремовый
+  Карточки:     #FFFFFF
+  Сайдбар:      #2D3748  тёмный сланец (нейтральный, не зелёный)
+  Акцент тёмн:  #2E6B4F  тёмно-зелёный (только для акцентов)
+  Акцент осн:   #4A8C6E  средний шалфей (кнопки, ссылки)
+  Акцент светл: #EDF7F1  очень бледно-зелёный
+  Подчёрк:      #7CC8A0  яркий для светлого фона
+  Янтарь:       #D97706  срочность
+  Успех:        #34A868
+  Мут текст:    #718096
+  Граница:      #E2E8F0
+*/
 
-  /* === СЕКЦИИ === */
-  .section { display: none; }
-  .section.active { display: block; }
+/* ── NAV ── */
+nav {
+  background:#2D3748; height:54px; padding:0 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:200;
+}
+.nav-logo { color:#fff; font-size:16px; font-weight:700; letter-spacing:-.2px; }
+.nav-logo em { font-style:normal; color:#7CC8A0; }
+.nav-tabs { display:flex; gap:4px; }
+.nav-tab {
+  padding:6px 16px; border-radius:6px; cursor:pointer; font-size:13px;
+  color:rgba(255,255,255,.5); font-weight:500; transition:all .15s; border:none; background:none;
+}
+.nav-tab:hover { color:#fff; background:rgba(255,255,255,.07); }
+.nav-tab.active { background:#4A8C6E; color:#fff; }
 
-  /* ============================================================
-     ЛЕНДИНГ
-  ============================================================ */
-  .hero {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-    color: white; padding: 80px 40px; text-align: center;
-  }
-  .hero h1 { font-size: 48px; margin-bottom: 20px; line-height: 1.2; }
-  .hero h1 span { color: #f0a500; }
-  .hero p { font-size: 20px; color: #ccc; max-width: 650px; margin: 0 auto 40px; line-height: 1.6; }
-  .hero .badges { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-  .badge { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); padding: 8px 20px; border-radius: 20px; font-size: 14px; }
-  .btn-main {
-    background: #f0a500; color: #1a1a2e; padding: 16px 40px;
-    border: none; border-radius: 30px; font-size: 18px; font-weight: 700;
-    cursor: pointer; transition: transform .2s, box-shadow .2s;
-  }
-  .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,165,0,.4); }
+.section { display:none; }
+.section.active { display:block; }
 
-  .problems {
-    background: white; padding: 60px 40px; text-align: center;
-  }
-  .problems h2 { font-size: 32px; margin-bottom: 40px; }
-  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
-  .problem-card {
-    background: #fff8f0; border: 2px solid #ffe0a0; border-radius: 16px;
-    padding: 25px 20px; text-align: left;
-  }
-  .problem-card .emoji { font-size: 32px; margin-bottom: 12px; }
-  .problem-card h3 { font-size: 16px; margin-bottom: 8px; color: #cc7700; }
-  .problem-card p { font-size: 14px; color: #666; line-height: 1.5; }
+/* ══════════════════ ЛЕНДИНГ ══════════════════ */
+.hero {
+  background:linear-gradient(150deg,#2D3748 0%,#3A4D3F 100%);
+  color:#fff; padding:80px 40px 70px; text-align:center;
+}
+.hero-label { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#7CC8A0; font-weight:600; margin-bottom:18px; }
+.hero h1 { font-size:48px; font-weight:700; line-height:1.15; margin-bottom:20px; letter-spacing:-.4px; }
+.hero h1 em { font-style:normal; color:#7CC8A0; }
+.hero p { font-size:18px; color:rgba(255,255,255,.7); max-width:560px; margin:0 auto 34px; line-height:1.7; }
+.btn-cta {
+  background:#4A8C6E; color:#fff; padding:14px 36px;
+  border:none; border-radius:8px; font-size:15px; font-weight:700;
+  cursor:pointer; transition:background .2s;
+}
+.btn-cta:hover { background:#3D7A5E; }
+.hero-sub { font-size:12px; color:rgba(255,255,255,.35); margin-top:12px; }
 
-  .how-it-works { background: #f8f8f8; padding: 60px 40px; text-align: center; }
-  .how-it-works h2 { font-size: 32px; margin-bottom: 50px; }
-  .steps { display: flex; gap: 0; max-width: 900px; margin: 0 auto; align-items: flex-start; }
-  .step { flex: 1; text-align: center; padding: 0 15px; position: relative; }
-  .step:not(:last-child)::after {
-    content: '→'; position: absolute; right: -10px; top: 20px;
-    font-size: 28px; color: #f0a500;
-  }
-  .step .num {
-    width: 50px; height: 50px; background: #f0a500; color: #1a1a2e;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 700; margin: 0 auto 15px;
-  }
-  .step h3 { font-size: 15px; margin-bottom: 8px; }
-  .step p { font-size: 13px; color: #777; line-height: 1.4; }
+.l-wrap { max-width:940px; margin:0 auto; padding:60px 32px; }
+.l-wrap h2 { font-size:28px; font-weight:700; margin-bottom:36px; }
+.l-wrap h2.center { text-align:center; }
 
-  .personas { background: white; padding: 60px 40px; text-align: center; }
-  .personas h2 { font-size: 32px; margin-bottom: 40px; }
-  .persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
-  .persona-card {
-    border: 2px solid #eee; border-radius: 16px; padding: 25px 20px;
-    text-align: left; transition: border-color .2s, box-shadow .2s;
-  }
-  .persona-card:hover { border-color: #f0a500; box-shadow: 0 4px 20px rgba(240,165,0,.15); }
-  .persona-card .avatar { font-size: 40px; margin-bottom: 12px; }
-  .persona-card .name { font-weight: 700; font-size: 16px; }
-  .persona-card .role { color: #888; font-size: 13px; margin-bottom: 12px; }
-  .persona-card .goal { background: #f0f8ff; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #0066cc; }
+.prob-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
+.prob-card { background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:22px 18px; }
+.prob-card h3 { font-size:14px; font-weight:600; color:#2E6B4F; margin-bottom:6px; }
+.prob-card p { font-size:13px; color:#718096; line-height:1.55; }
 
-  .pricing { background: #1a1a2e; color: white; padding: 60px 40px; text-align: center; }
-  .pricing h2 { font-size: 32px; margin-bottom: 40px; color: white; }
-  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
-  .price-card {
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
-    border-radius: 16px; padding: 30px 20px; transition: transform .2s;
-  }
-  .price-card:hover { transform: translateY(-4px); }
-  .price-card.popular { border-color: #f0a500; background: rgba(240,165,0,.1); }
-  .price-card .badge-pop { background: #f0a500; color: #1a1a2e; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; margin-bottom: 15px; display: inline-block; }
-  .price-card h3 { font-size: 20px; margin-bottom: 8px; }
-  .price-card .price { font-size: 36px; font-weight: 700; color: #f0a500; margin-bottom: 15px; }
-  .price-card .price span { font-size: 16px; color: #aaa; }
-  .price-card ul { list-style: none; text-align: left; }
-  .price-card ul li { padding: 5px 0; font-size: 14px; color: #ccc; }
-  .price-card ul li::before { content: '✓ '; color: #f0a500; }
+.steps-row { display:flex; gap:0; align-items:flex-start; }
+.stp { flex:1; text-align:center; padding:0 10px; position:relative; }
+.stp:not(:last-child)::after { content:''; position:absolute; top:18px; right:-2px; width:20px; height:2px; background:#C6E8D7; }
+.stp-n { width:36px; height:36px; background:#EDF7F1; border:2px solid #4A8C6E; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#4A8C6E; margin:0 auto 12px; }
+.stp h3 { font-size:13px; font-weight:600; margin-bottom:5px; }
+.stp p { font-size:12px; color:#718096; line-height:1.5; }
 
-  /* ============================================================
-     СТУДЕНТ
-  ============================================================ */
-  .student-layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 60px); }
-  .sidebar {
-    background: #1a1a2e; padding: 25px 0; color: white;
-  }
-  .sidebar .user-info { padding: 0 20px 25px; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .sidebar .user-info .avatar-big { font-size: 50px; margin-bottom: 10px; }
-  .sidebar .user-info .uname { font-weight: 700; font-size: 16px; }
-  .sidebar .user-info .ulevel {
-    display: inline-block; background: #f0a500; color: #1a1a2e;
-    padding: 2px 10px; border-radius: 10px; font-size: 13px; font-weight: 700; margin-top: 5px;
-  }
-  .sidebar-menu { padding: 20px 0; }
-  .sidebar-menu .menu-item {
-    padding: 12px 25px; cursor: pointer; font-size: 15px;
-    color: #aaa; transition: all .15s; display: flex; align-items: center; gap: 12px;
-  }
-  .sidebar-menu .menu-item:hover { background: rgba(255,255,255,.07); color: white; }
-  .sidebar-menu .menu-item.active { background: rgba(240,165,0,.15); color: #f0a500; border-right: 3px solid #f0a500; }
-  .sidebar-menu .menu-item .icon { font-size: 18px; width: 24px; }
+.persona-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:14px; }
+.per-card { background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:20px 16px; }
+.per-name { font-weight:700; font-size:14px; margin-bottom:2px; }
+.per-role { font-size:12px; color:#718096; margin-bottom:10px; }
+.per-lv { display:inline-block; background:#EDF7F1; color:#2E6B4F; font-size:11px; font-weight:700; padding:2px 9px; border-radius:20px; margin-bottom:10px; }
+.per-goal { font-size:13px; color:#374151; border-left:3px solid #7CC8A0; padding-left:10px; line-height:1.5; }
 
-  .main-content { background: #f5f5f5; padding: 30px; overflow-y: auto; }
-  .page-title { font-size: 26px; font-weight: 700; margin-bottom: 25px; color: #1a1a2e; }
+.price-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:580px; margin:0 auto; }
+.pr-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:14px; padding:26px 22px; }
+.pr-card.featured { border-color:#4A8C6E; }
+.pr-badge { display:inline-block; background:#4A8C6E; color:#fff; font-size:10px; font-weight:700; padding:2px 10px; border-radius:20px; margin-bottom:10px; }
+.pr-name { font-size:17px; font-weight:700; margin-bottom:4px; }
+.pr-amount { font-size:34px; font-weight:700; color:#2D3748; }
+.pr-amount span { font-size:14px; color:#718096; font-weight:400; }
+.pr-desc { font-size:12px; color:#718096; margin-bottom:16px; }
+.pr-card ul { list-style:none; }
+.pr-card ul li { font-size:12px; padding:5px 0; border-bottom:1px solid #F7FAFC; color:#374151; display:flex; gap:6px; }
+.pr-card ul li::before { content:'✓'; color:#4A8C6E; font-weight:700; flex-shrink:0; }
+.pr-exam { background:#2D3748; border-radius:12px; padding:18px 22px; display:flex; align-items:center; justify-content:space-between; margin-top:14px; }
+.pr-exam h3 { font-size:15px; font-weight:700; color:#fff; }
+.pr-exam p { font-size:12px; color:rgba(255,255,255,.5); margin-top:3px; }
+.pr-exam-price { font-size:26px; font-weight:700; color:#7CC8A0; }
 
-  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-  .kpi-card {
-    background: white; border-radius: 14px; padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
-  }
-  .kpi-card .kpi-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-  .kpi-card .kpi-value { font-size: 32px; font-weight: 700; color: #1a1a2e; }
-  .kpi-card .kpi-value.green { color: #22c55e; }
-  .kpi-card .kpi-value.orange { color: #f0a500; }
-  .kpi-card .kpi-sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+/* ══════════════════ СТУДЕНТ ══════════════════ */
+.app { display:grid; grid-template-columns:210px 1fr; min-height:calc(100vh - 54px); }
 
-  .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .card {
-    background: white; border-radius: 14px; padding: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
-  }
-  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: #1a1a2e; }
-  .card.full { grid-column: 1/-1; }
+.sb { background:#2D3748; display:flex; flex-direction:column; }
+.sb-prof { padding:22px 18px 18px; border-bottom:1px solid rgba(255,255,255,.07); }
+.sb-name { color:#fff; font-weight:700; font-size:14px; margin-bottom:2px; }
+.sb-meta { font-size:11px; color:rgba(255,255,255,.4); margin-bottom:12px; }
+.sb-bar-wrap { }
+.sb-bar-label { font-size:10px; color:rgba(255,255,255,.3); display:flex; justify-content:space-between; margin-bottom:4px; }
+.sb-bar { background:rgba(255,255,255,.08); height:5px; border-radius:3px; }
+.sb-bar-fill { height:100%; background:#7CC8A0; border-radius:3px; }
 
-  .assignment-item {
-    display: flex; align-items: center; gap: 15px;
-    padding: 14px 0; border-bottom: 1px solid #f0f0f0;
-  }
-  .assignment-item:last-child { border-bottom: none; }
-  .assignment-item .a-icon {
-    width: 44px; height: 44px; border-radius: 12px; background: #f0f8ff;
-    display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-  }
-  .assignment-item .a-title { font-weight: 600; font-size: 15px; }
-  .assignment-item .a-meta { font-size: 12px; color: #888; margin-top: 3px; }
-  .assignment-item .a-status {
-    margin-left: auto; padding: 4px 12px; border-radius: 20px;
-    font-size: 12px; font-weight: 600; flex-shrink: 0;
-  }
-  .a-status.todo { background: #fff3cd; color: #856404; }
-  .a-status.done { background: #d1f7d6; color: #166534; }
-  .a-status.new { background: #cfe2ff; color: #004085; }
+.sb-menu { padding:10px 0; flex:1; }
+.sb-it { display:flex; align-items:center; gap:9px; padding:9px 18px; cursor:pointer; font-size:13px; color:rgba(255,255,255,.45); font-weight:500; transition:all .15s; border-left:3px solid transparent; }
+.sb-it:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); }
+.sb-it.on { color:#fff; background:rgba(124,200,160,.08); border-left-color:#7CC8A0; }
+.sb-dot { width:6px; height:6px; background:#D97706; border-radius:50%; margin-left:auto; }
 
-  .progress-bar-wrap { margin-bottom: 15px; }
-  .progress-bar-wrap .pb-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
-  .progress-bar-wrap .pb-label span:last-child { font-weight: 700; color: #f0a500; }
-  .progress-bar { background: #eee; border-radius: 6px; height: 10px; overflow: hidden; }
-  .progress-bar .fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #f0a500, #e8830a); }
+.sb-coach { margin:12px; background:rgba(255,255,255,.05); border-radius:8px; padding:11px 13px; border:1px solid rgba(255,255,255,.08); }
+.sb-coach-lbl { font-size:10px; color:rgba(255,255,255,.3); margin-bottom:3px; }
+.sb-coach-name { font-size:13px; color:#7CC8A0; font-weight:600; }
+.sb-coach-next { font-size:11px; color:rgba(255,255,255,.35); margin-top:3px; }
 
-  .feed-item { display: flex; gap: 15px; margin-bottom: 18px; }
-  .feed-item .day-badge {
-    width: 44px; height: 44px; background: #f0a500; color: #1a1a2e;
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; flex-shrink: 0; text-align: center; line-height: 1.2;
-  }
-  .feed-item .feed-text .ft-title { font-weight: 600; font-size: 14px; }
-  .feed-item .feed-text .ft-word { font-size: 13px; color: #555; margin-top: 3px; }
-  .feed-item .feed-text .ft-task { font-size: 12px; color: #888; margin-top: 3px; font-style: italic; }
+.stu-main { background:#FAF9F6; padding:28px 32px; overflow-y:auto; }
 
-  /* ============================================================
-     УЧИТЕЛЬ
-  ============================================================ */
-  .teacher-layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 60px); }
-  .teacher-sidebar {
-    background: #0f3460; padding: 25px 0; color: white;
-  }
-  .teacher-sidebar .t-logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .teacher-sidebar .t-logo .role { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-  .teacher-sidebar .t-logo .tname { font-weight: 700; font-size: 17px; margin-top: 4px; }
-  .teacher-menu .tmenu-item {
-    padding: 12px 25px; cursor: pointer; font-size: 14px;
-    color: #aaa; display: flex; align-items: center; gap: 12px; transition: all .15s;
-  }
-  .teacher-menu .tmenu-item:hover { background: rgba(255,255,255,.07); color: white; }
-  .teacher-menu .tmenu-item.active { background: rgba(255,255,255,.12); color: white; border-right: 3px solid #f0a500; }
-  .teacher-menu .tmenu-item .badge-num {
-    margin-left: auto; background: #e74c3c; color: white;
-    width: 20px; height: 20px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 11px;
-  }
-  .teacher-menu .section-label {
-    padding: 15px 25px 5px; font-size: 11px; color: #666;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
+/* Win-баннер */
+.win { background:#EDF7F1; border:1.5px solid #C6E8D7; border-radius:10px; padding:14px 18px; display:flex; gap:12px; align-items:center; margin-bottom:18px; }
+.win-txt h4 { font-size:13px; font-weight:700; color:#2E6B4F; margin-bottom:2px; }
+.win-txt p { font-size:12px; color:#4A8C6E; }
 
-  .teacher-main { background: #f0f4f8; padding: 30px; overflow-y: auto; }
+/* Задание дня */
+.task-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:14px; padding:26px 28px; margin-bottom:18px; }
+.tc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.tc-tag { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#4A8C6E; }
+.tc-time { font-size:11px; color:#718096; background:#F7FAFC; padding:3px 9px; border-radius:20px; }
+.tc-title { font-size:21px; font-weight:700; margin-bottom:8px; line-height:1.3; }
+.tc-desc { font-size:14px; color:#4A5568; line-height:1.65; margin-bottom:20px; }
+.tc-actions { display:flex; gap:10px; align-items:center; }
+.btn-send { background:#4A8C6E; color:#fff; padding:10px 24px; border:none; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; transition:background .2s; }
+.btn-send:hover { background:#3D7A5E; }
+.btn-hint { background:none; border:1.5px solid #E2E8F0; color:#718096; padding:9px 16px; border-radius:8px; font-size:13px; cursor:pointer; transition:all .2s; }
+.btn-hint:hover { border-color:#4A8C6E; color:#4A8C6E; }
 
-  .student-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 25px; }
-  .student-card {
-    background: white; border-radius: 14px; padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.07); cursor: pointer;
-    transition: box-shadow .2s, transform .2s; border: 2px solid transparent;
-  }
-  .student-card:hover { box-shadow: 0 6px 25px rgba(0,0,0,.12); transform: translateY(-2px); border-color: #f0a500; }
-  .student-card .sc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-  .student-card .sc-avatar { font-size: 38px; }
-  .student-card .sc-name { font-weight: 700; font-size: 16px; }
-  .student-card .sc-meta { font-size: 12px; color: #888; }
-  .sc-level { display: inline-block; background: #1a1a2e; color: #f0a500; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
-  .sc-kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .sc-kpi { text-align: center; background: #f8f8f8; border-radius: 8px; padding: 8px 5px; }
-  .sc-kpi .v { font-weight: 700; font-size: 16px; color: #1a1a2e; }
-  .sc-kpi .l { font-size: 10px; color: #888; margin-top: 2px; }
-  .sc-kpi .v.green { color: #22c55e; }
-  .sc-kpi .v.orange { color: #f0a500; }
+.hints { background:#F7FCFA; border:1px solid #C6E8D7; border-radius:8px; padding:14px 16px; margin-top:16px; display:none; }
+.hints.open { display:block; }
+.hints h4 { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#4A8C6E; margin-bottom:10px; }
+.hint-it { font-size:13px; color:#374151; padding:6px 0; border-bottom:1px solid #E2E8F0; line-height:1.5; }
+.hint-it:last-child { border:none; }
+.hint-it strong { color:#2E6B4F; }
 
-  .inbox-item {
-    background: white; border-radius: 12px; padding: 20px;
-    margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    border-left: 4px solid #e0e0e0;
-  }
-  .inbox-item.new { border-left-color: #f0a500; }
-  .inbox-item .ii-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .inbox-item .ii-student { font-weight: 700; font-size: 15px; }
-  .inbox-item .ii-task { font-size: 13px; color: #555; }
-  .inbox-item .ii-time { margin-left: auto; font-size: 12px; color: #aaa; }
-  .inbox-item .ii-draft {
-    background: #fff8e1; border: 1px solid #ffd54f; border-radius: 10px;
-    padding: 12px 15px; font-size: 13px; line-height: 1.6; margin-bottom: 12px;
-  }
-  .inbox-item .ii-draft .draft-label { font-size: 11px; color: #f57f17; font-weight: 700; margin-bottom: 6px; }
-  .inbox-item .ii-actions { display: flex; gap: 10px; }
-  .btn-sm {
-    padding: 7px 16px; border-radius: 8px; font-size: 13px;
-    font-weight: 600; cursor: pointer; border: none; transition: opacity .2s;
-  }
-  .btn-sm:hover { opacity: .85; }
-  .btn-approve { background: #22c55e; color: white; }
-  .btn-edit { background: #f0a500; color: #1a1a2e; }
-  .btn-view { background: #eee; color: #333; }
+/* Streak */
+.streak { display:flex; gap:10px; margin-bottom:18px; }
+.str-c { background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:14px 16px; flex:1; }
+.str-v { font-size:20px; font-weight:700; color:#2D3748; }
+.str-v.g { color:#34A868; }
+.str-l { font-size:11px; color:#718096; margin-top:2px; }
 
-  /* ============================================================
-     КАК ЭТО РАБОТАЕТ (схема)
-  ============================================================ */
-  .flow-section { background: white; padding: 60px 40px; }
-  .flow-section h2 { font-size: 32px; text-align: center; margin-bottom: 50px; }
-  .flow-diagram {
-    max-width: 900px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 0;
-  }
-  .flow-row { display: flex; align-items: stretch; gap: 0; }
-  .flow-box {
-    flex: 1; background: #f8f8f8; border: 2px solid #e0e0e0;
-    border-radius: 14px; padding: 20px; text-align: center; margin: 5px;
-  }
-  .flow-box.highlight { background: #fff8e1; border-color: #f0a500; }
-  .flow-box.ai { background: #f0f4ff; border-color: #6366f1; }
-  .flow-box .fb-icon { font-size: 32px; margin-bottom: 10px; }
-  .flow-box h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-  .flow-box p { font-size: 12px; color: #777; line-height: 1.4; }
-  .flow-arrow { display: flex; align-items: center; justify-content: center; font-size: 28px; color: #f0a500; padding: 5px; }
+/* Фидбек аккордеон */
+.acc { background:#fff; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+.acc-h { padding:14px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+.acc-h:hover { background:#FAFAFA; }
+.acc-htxt h4 { font-size:14px; font-weight:600; }
+.acc-htxt p { font-size:12px; color:#718096; margin-top:2px; }
+.acc-arr { color:#718096; font-size:11px; transition:transform .2s; }
+.acc-arr.o { transform:rotate(180deg); }
+.acc-b { display:none; padding:16px 20px 20px; border-top:1px solid #F0F0F0; }
+.acc-b.o { display:block; }
+.fb-good { background:#F0FDF4; border-left:3px solid #34A868; border-radius:0 8px 8px 0; padding:11px 13px; margin-bottom:10px; font-size:13px; color:#166534; line-height:1.6; }
+.fb-work { background:#FFFBEB; border-left:3px solid #D97706; border-radius:0 8px 8px 0; padding:11px 13px; margin-bottom:10px; font-size:13px; color:#92400E; line-height:1.6; }
+.fb-focus { background:#F7F5F0; border-radius:8px; padding:10px 13px; font-size:13px; color:#374151; }
+.fb-focus-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#718096; margin-bottom:4px; }
 
-  /* responsive */
-  @media (max-width: 768px) {
-    .student-layout, .teacher-layout { grid-template-columns: 1fr; }
-    .sidebar, .teacher-sidebar { display: none; }
-    .kpi-row { grid-template-columns: 1fr 1fr; }
-    .content-row { grid-template-columns: 1fr; }
-    .steps { flex-direction: column; }
-    .step:not(:last-child)::after { content: '↓'; position: static; display: block; font-size: 24px; text-align: center; margin: 10px 0; }
-    .hero h1 { font-size: 32px; }
-  }
+/* ══════════════════ УЧИТЕЛЬ ══════════════════ */
+.t-app { display:grid; grid-template-columns:230px 1fr; min-height:calc(100vh - 54px); }
+.t-sb { background:#2D3748; display:flex; flex-direction:column; }
+.t-sb-head { padding:20px 16px 16px; border-bottom:1px solid rgba(255,255,255,.07); }
+.t-sb-role { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:4px; }
+.t-sb-name { color:#fff; font-weight:700; font-size:14px; }
+.t-sb-stat { font-size:11px; color:rgba(255,255,255,.4); margin-top:3px; }
+
+.t-sb-sec { padding:10px 0; }
+.t-sb-sec-lbl { padding:8px 16px 4px; font-size:9px; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:1px; }
+.t-it { display:flex; align-items:center; gap:9px; padding:8px 16px; font-size:13px; color:rgba(255,255,255,.45); cursor:pointer; transition:all .15s; border-left:3px solid transparent; }
+.t-it:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); }
+.t-it.on { color:#fff; background:rgba(124,200,160,.07); border-left-color:#7CC8A0; }
+.t-badge { margin-left:auto; background:#D97706; color:#fff; font-size:9px; font-weight:700; padding:1px 6px; border-radius:10px; }
+
+.t-stu-list { padding:8px 10px; flex:1; overflow-y:auto; }
+.t-stu-it { display:flex; align-items:center; gap:9px; padding:9px 8px; border-radius:7px; cursor:pointer; transition:background .15s; margin-bottom:2px; }
+.t-stu-it:hover { background:rgba(255,255,255,.05); }
+.t-stu-it.on { background:rgba(124,200,160,.09); }
+.t-stu-nm { font-size:12px; font-weight:600; color:#fff; }
+.t-stu-mt { font-size:10px; color:rgba(255,255,255,.35); }
+.t-dot-u { width:7px; height:7px; background:#D97706; border-radius:50%; flex-shrink:0; }
+.t-dot-ok { width:7px; height:7px; background:#7CC8A0; border-radius:50%; flex-shrink:0; }
+
+.t-main { background:#FAF9F6; overflow-y:auto; }
+.t-tabs-bar { background:#fff; padding:0 28px; border-bottom:1px solid #E2E8F0; display:flex; align-items:center; gap:0; position:sticky; top:0; z-index:10; }
+.t-stu-title { font-size:15px; font-weight:700; padding:16px 0; margin-right:20px; }
+.t-tab { padding:16px 14px; font-size:13px; color:#718096; cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; font-weight:500; }
+.t-tab:hover { color:#1A1A1A; }
+.t-tab.on { color:#4A8C6E; border-bottom-color:#4A8C6E; }
+.t-tab-badge { display:inline-block; background:#FEF3C7; color:#D97706; font-size:9px; font-weight:700; padding:1px 6px; border-radius:10px; margin-left:4px; }
+
+.t-cnt { padding:22px 28px; }
+
+/* Inbox */
+.inbox-card { background:#fff; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; margin-bottom:14px; }
+.inbox-top { background:#FFFBEB; padding:13px 18px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #FEF3C7; }
+.inbox-urgent { font-size:12px; font-weight:700; color:#D97706; }
+.inbox-wait { font-size:11px; color:#92400E; }
+.inbox-body { padding:18px; }
+.inbox-ttl { font-size:14px; font-weight:700; margin-bottom:3px; }
+.inbox-meta { font-size:11px; color:#718096; margin-bottom:14px; }
+
+.transcript-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#718096; margin-bottom:5px; }
+.transcript { background:#F7FAFC; border:1px solid #E2E8F0; border-radius:7px; padding:12px 14px; font-size:13px; color:#374151; line-height:1.7; margin-bottom:12px; max-height:100px; overflow-y:auto; }
+.draft-box { background:#FFFBEB; border:1px solid #FEF3C7; border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+.draft-top { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.draft-tag { background:#FEF3C7; color:#D97706; font-size:9px; font-weight:700; padding:2px 7px; border-radius:4px; }
+.draft-note { font-size:11px; color:#92400E; }
+.draft-cnt { font-size:13px; color:#374151; line-height:1.7; }
+.err-line { margin-bottom:5px; }
+.err-orig { color:#DC2626; text-decoration:line-through; font-style:italic; }
+.err-fix { color:#16A34A; font-weight:600; }
+.err-rule { font-size:12px; color:#718096; }
+
+.edit-area { width:100%; border:1.5px solid #E2E8F0; border-radius:8px; padding:11px 13px; font-size:13px; line-height:1.7; resize:vertical; min-height:90px; font-family:inherit; background:#fff; transition:border-color .2s; margin-bottom:10px; color:#1A1A1A; }
+.edit-area:focus { outline:none; border-color:#4A8C6E; }
+.inbox-acts { display:flex; gap:9px; }
+.btn-approve { background:#4A8C6E; color:#fff; padding:9px 20px; border:none; border-radius:7px; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-approve:hover { background:#3D7A5E; }
+.btn-save { background:#F7F5F0; color:#374151; padding:9px 16px; border:1.5px solid #E2E8F0; border-radius:7px; font-size:13px; cursor:pointer; }
+
+/* Трек */
+.ctrl-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.ctrl-c { background:#fff; border:1px solid #E2E8F0; border-radius:11px; padding:16px; }
+.ctrl-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#718096; margin-bottom:10px; }
+.queue { display:flex; flex-direction:column; gap:7px; }
+.q-it { background:#fff; border:1px solid #E2E8F0; border-radius:8px; padding:10px 13px; display:flex; align-items:center; gap:10px; }
+.q-n { width:22px; height:22px; background:#EDF7F1; color:#4A8C6E; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+.q-n.cur { background:#4A8C6E; color:#fff; }
+.q-ttl { font-size:12px; font-weight:600; flex:1; }
+.q-mt { font-size:10px; color:#718096; }
+.q-st { font-size:10px; padding:2px 8px; border-radius:20px; }
+.qst-done { background:#DCFCE7; color:#166534; }
+.qst-cur { background:#EDF7F1; color:#4A8C6E; font-weight:700; }
+.qst-next { background:#F3F4F6; color:#718096; }
+.diff-row { display:flex; gap:5px; }
+.diff-btn { flex:1; padding:7px 4px; border:1.5px solid #E2E8F0; border-radius:6px; font-size:11px; cursor:pointer; text-align:center; background:#fff; color:#718096; transition:all .15s; }
+.diff-btn.on { border-color:#4A8C6E; background:#EDF7F1; color:#4A8C6E; font-weight:700; }
+.skill-row { display:flex; flex-wrap:wrap; gap:5px; }
+.sk-tag { padding:4px 10px; border-radius:20px; font-size:11px; cursor:pointer; border:1.5px solid #E2E8F0; background:#fff; color:#718096; transition:all .15s; }
+.sk-tag.on { border-color:#4A8C6E; background:#EDF7F1; color:#4A8C6E; font-weight:600; }
+.t-notes { width:100%; border:1.5px solid #E2E8F0; border-radius:7px; padding:9px 11px; font-size:12px; line-height:1.6; resize:none; height:72px; font-family:inherit; color:#374151; background:#FAFAFA; }
+.t-notes:focus { outline:none; border-color:#4A8C6E; background:#fff; }
+.err-list { display:flex; flex-direction:column; gap:5px; }
+.err-it { display:flex; align-items:center; gap:9px; font-size:12px; }
+.err-cnt { background:#FEF3C7; color:#D97706; font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; min-width:24px; text-align:center; }
+.session-prep-it { padding:8px 0; border-bottom:1px solid #F3F4F6; font-size:12px; color:#374151; display:flex; gap:8px; }
+.session-prep-it:last-child { border:none; }
+
+/* ══════════════════ СИСТЕМА — КАК РАБОТАЕТ ══════════════════ */
+.flow-page { background:#FAF9F6; }
+.flow-hero { background:#2D3748; color:#fff; padding:50px 40px 40px; text-align:center; }
+.flow-hero h2 { font-size:32px; font-weight:700; margin-bottom:10px; }
+.flow-hero p { font-size:16px; color:rgba(255,255,255,.6); max-width:580px; margin:0 auto; }
+
+.flow-legend { display:flex; gap:24px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+.fl-item { display:flex; align-items:center; gap:7px; font-size:12px; color:rgba(255,255,255,.7); }
+.fl-dot { width:10px; height:10px; border-radius:50%; }
+.fl-dot.stu { background:#7CC8A0; }
+.fl-dot.sys { background:#7FB3D3; }
+.fl-dot.tch { background:#F4A261; }
+.fl-dot.ai { background:#C9B1E8; }
+
+/* Фазы */
+.phases { max-width:960px; margin:0 auto; padding:40px 32px 60px; }
+.phase-block { margin-bottom:36px; }
+.phase-header {
+  display:flex; align-items:center; gap:14px; margin-bottom:16px;
+  padding:14px 18px; border-radius:10px; cursor:pointer;
+}
+.ph-num { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; color:#fff; }
+.ph-title { font-size:16px; font-weight:700; flex:1; }
+.ph-toggle { font-size:12px; color:#718096; }
+
+/* Цвета фаз */
+.ph-onboard .ph-num { background:#4A8C6E; }
+.ph-onboard { background:#EDF7F1; }
+.ph-setup .ph-num { background:#F4A261; }
+.ph-setup { background:#FFF8F0; }
+.ph-welcome .ph-num { background:#7CC8A0; }
+.ph-welcome { background:#F0FBF5; }
+.ph-assign .ph-num { background:#4A8C6E; }
+.ph-assign { background:#EDF7F1; }
+.ph-ai .ph-num { background:#9B8EC4; }
+.ph-ai { background:#F5F0FC; }
+.ph-review .ph-num { background:#F4A261; }
+.ph-review { background:#FFF8F0; }
+.ph-feedback .ph-num { background:#7CC8A0; }
+.ph-feedback { background:#F0FBF5; }
+.ph-session .ph-num { background:#4A8C6E; }
+.ph-session { background:#EDF7F1; }
+
+.phase-body { display:none; }
+.phase-body.open { display:block; }
+
+/* Колонки в фазе: юзер / система */
+.ph-cols { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:0 8px 8px; }
+.ph-col { border-radius:10px; padding:16px; }
+.ph-col.user { background:#fff; border:1px solid #E2E8F0; }
+.ph-col.sys { background:#2D3748; color:#fff; }
+.ph-col-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; opacity:.6; }
+.ph-col.sys .ph-col-lbl { color:rgba(255,255,255,.5); }
+.ph-col.user .ph-col-lbl { color:#718096; }
+
+.ph-row { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
+.ph-row:last-child { margin-bottom:0; }
+.ph-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.ph-icon.stu { background:#EDF7F1; }
+.ph-icon.tch { background:#FFF3E0; }
+.ph-icon.ai { background:#F3EEFF; }
+.ph-icon.sys { background:rgba(255,255,255,.1); }
+.ph-row-body h4 { font-size:13px; font-weight:600; margin-bottom:2px; }
+.ph-col.user .ph-row-body h4 { color:#1A1A1A; }
+.ph-col.sys .ph-row-body h4 { color:#fff; }
+.ph-row-body p { font-size:12px; line-height:1.5; }
+.ph-col.user .ph-row-body p { color:#718096; }
+.ph-col.sys .ph-row-body p { color:rgba(255,255,255,.55); }
+.ph-row-body code { font-size:11px; background:rgba(255,255,255,.1); padding:1px 5px; border-radius:3px; font-family:monospace; color:#7CC8A0; }
+
+/* Стрелка между фазами */
+.phase-arrow { text-align:center; font-size:20px; color:#C6E8D7; margin:-6px 0; }
+
+/* Итоговая схема-диаграмма */
+.arch-box { background:#2D3748; border-radius:14px; padding:30px 28px; margin:30px 0 0; color:#fff; }
+.arch-box h3 { font-size:18px; font-weight:700; margin-bottom:20px; text-align:center; }
+.arch-row { display:flex; align-items:center; gap:0; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+.arch-node { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:8px; padding:10px 14px; text-align:center; min-width:110px; }
+.arch-node.stu-color { border-color:#7CC8A0; background:rgba(124,200,160,.1); }
+.arch-node.tch-color { border-color:#F4A261; background:rgba(244,162,97,.1); }
+.arch-node.ai-color { border-color:#C9B1E8; background:rgba(201,177,232,.1); }
+.arch-node h5 { font-size:11px; font-weight:700; color:#fff; margin-bottom:3px; }
+.arch-node p { font-size:10px; color:rgba(255,255,255,.45); line-height:1.4; }
+.arch-arr { font-size:18px; color:rgba(255,255,255,.25); padding:0 6px; }
+
+@media(max-width:768px){
+  .app,.t-app{grid-template-columns:1fr;}
+  .sb,.t-sb{display:none;}
+  .ph-cols{grid-template-columns:1fr;}
+  .price-grid{grid-template-columns:1fr;}
+  .ctrl-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
-<!-- НАВИГАЦИЯ -->
 <nav>
-  <div class="logo">🇩🇪 Personal <span>German</span> Coach</div>
-  <div class="tabs">
-    <div class="tab active" onclick="showSection('landing')">🏠 Лендинг</div>
-    <div class="tab" onclick="showSection('student')">👩‍🎓 Кабинет студента</div>
-    <div class="tab" onclick="showSection('teacher')">👩‍🏫 Кабинет учителя</div>
-    <div class="tab" onclick="showSection('flow')">⚙️ Как работает</div>
+  <div class="nav-logo">Personal <em>German</em> Coach</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="show('landing',this)">Лендинг</button>
+    <button class="nav-tab" onclick="show('student',this)">Студент</button>
+    <button class="nav-tab" onclick="show('teacher',this)">Учитель</button>
+    <button class="nav-tab" onclick="show('system',this)">Как это работает</button>
   </div>
 </nav>
 
-<!-- ============================================================
-     ЛЕНДИНГ
-============================================================ -->
+<!-- ══════════════════ ЛЕНДИНГ ══════════════════ -->
 <div id="landing" class="section active">
-
   <div class="hero">
-    <h1>Немецкий язык —<br>персонально для <span>тебя</span></h1>
-    <p>Короткие задания 15–20 минут в день. Живой преподаватель. AI-анализ твоих ошибок. Прогресс, который видно.</p>
-    <div class="badges">
-      <div class="badge">🎯 Под твою профессию</div>
-      <div class="badge">🤖 AI + живой преподаватель</div>
-      <div class="badge">📊 CEFR-диагностика</div>
-      <div class="badge">🇩🇪 Только немецкий</div>
+    <div class="hero-label">Персональный репетитор немецкого языка</div>
+    <h1>Немецкий, который<br>работает на <em>вас</em></h1>
+    <p>15–20 минут в день. Задания под вашу профессию. Живой преподаватель плюс AI-анализ. Прогресс, который ощутим.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://calendly.com" target="_blank" style="text-decoration:none;">
+        <button class="btn-cta" style="background:#7CC8A0;color:#1A1A1A;">Записаться на диагностику →</button>
+      </a>
+      <button class="btn-cta" style="background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff;" onclick="show('student',document.querySelectorAll('.nav-tab')[1])">Посмотреть демо</button>
     </div>
-    <button class="btn-main" onclick="showSection('student')">Посмотреть кабинет студента →</button>
+    <div class="hero-sub">Первая диагностика бесплатно · Ответ в течение 24 часов</div>
   </div>
 
-  <div class="problems">
-    <h2>С какими проблемами приходят студенты</h2>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="emoji">😰</div>
-        <h3>Страх говорить</h3>
-        <p>Знаю слова, но боюсь ошибиться перед коллегами или врачом</p>
-      </div>
-      <div class="problem-card">
-        <div class="emoji">⏰</div>
-        <h3>Нет времени</h3>
-        <p>Работа, семья — на 2-часовые курсы просто не получается ходить</p>
-      </div>
-      <div class="problem-card">
-        <div class="emoji">📚</div>
-        <h3>Общие курсы не помогают</h3>
-        <p>Учим про погоду, а нужно — про медицину / IT / переговоры</p>
-      </div>
-      <div class="problem-card">
-        <div class="emoji">📉</div>
-        <h3>Не вижу прогресса</h3>
-        <p>Занимаюсь уже год, а уверенности больше не стало</p>
+  <div class="l-wrap">
+    <h2>С чем приходят студенты</h2>
+    <div class="prob-grid">
+      <div class="prob-card"><h3>Занимаются, но не двигаются</h3><p>Курсы идут, а уверенности не прибавляется. Программа не учитывает ваши пробелы.</p></div>
+      <div class="prob-card"><h3>Нет времени на длинные уроки</h3><p>На 2-часовые занятия стабильно не получается. Жизнь не даёт.</p></div>
+      <div class="prob-card"><h3>Темы не те</h3><p>Учат погоду и покупки, а нужны переговоры, медицинская документация, деловая переписка.</p></div>
+      <div class="prob-card"><h3>Страх говорить</h3><p>Знают язык, но замолкают. Это решается — методично, без стресса.</p></div>
+    </div>
+  </div>
+
+  <div style="background:#EDF7F1; padding:60px 32px;">
+    <div style="max-width:880px; margin:0 auto;">
+      <h2 class="center" style="margin-bottom:36px;">Как устроен процесс</h2>
+      <div class="steps-row">
+        <div class="stp"><div class="stp-n">1</div><h3>Диагностика</h3><p>Определяем уровень, профессию, цель.</p></div>
+        <div class="stp"><div class="stp-n">2</div><h3>Личный план</h3><p>Преподаватель составляет программу именно для вас.</p></div>
+        <div class="stp"><div class="stp-n">3</div><h3>Задание дня</h3><p>Одно задание, 15–20 мин, по вашей теме.</p></div>
+        <div class="stp"><div class="stp-n">4</div><h3>Разбор</h3><p>Преподаватель проверяет и пишет личный фидбек.</p></div>
+        <div class="stp"><div class="stp-n">5</div><h3>Сессия</h3><p>Раз в месяц — живой разговор, смотрим прогресс.</p></div>
       </div>
     </div>
   </div>
 
-  <div class="how-it-works">
-    <h2>Как это работает — 5 шагов</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="num">1</div>
-        <h3>Анкета</h3>
-        <p>Заполняешь анкету. Рассказываешь о профессии, целях, уровне.</p>
-      </div>
-      <div class="step">
-        <div class="num">2</div>
-        <h3>Диагностика</h3>
-        <p>AI + преподаватель определяют твой CEFR и составляют план.</p>
-      </div>
-      <div class="step">
-        <div class="num">3</div>
-        <h3>Задания</h3>
-        <p>Получаешь задание 15–20 мин под твой уровень и профессию.</p>
-      </div>
-      <div class="step">
-        <div class="num">4</div>
-        <h3>Анализ</h3>
-        <p>AI транскрибирует аудио, находит ошибки. Черновик для учителя.</p>
-      </div>
-      <div class="step">
-        <div class="num">5</div>
-        <h3>Фидбек</h3>
-        <p>Преподаватель проверяет, редактирует и отправляет тебе лично.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="personas">
-    <h2>Для кого этот продукт</h2>
+  <div class="l-wrap">
+    <h2>Для кого</h2>
     <div class="persona-grid">
-      <div class="persona-card">
-        <div class="avatar">👩‍💻</div>
-        <div class="name">Анна, 31</div>
-        <div class="role">IT-разработчик, Мюнхен · B1</div>
-        <div class="goal">🎯 Говорить уверенно на рабочих митингах</div>
-      </div>
-      <div class="persona-card">
-        <div class="avatar">👨‍⚕️</div>
-        <div class="name">Дмитрий, 38</div>
-        <div class="role">Врач, Берлин · A2</div>
-        <div class="goal">🎯 Сдать Fachsprachprüfung</div>
-      </div>
-      <div class="persona-card">
-        <div class="avatar">👩‍💼</div>
-        <div class="name">Елена, 35</div>
-        <div class="role">Менеджер проектов, Цюрих · B2</div>
-        <div class="goal">🎯 Уверенные переговоры с клиентами</div>
-      </div>
-      <div class="persona-card">
-        <div class="avatar">👨‍🔧</div>
-        <div class="name">Сергей, 29</div>
-        <div class="role">Инженер, Гамбург · A1</div>
-        <div class="goal">🎯 Немецкий для повседневной жизни</div>
+      <div class="per-card"><div class="per-name">Анна, 31</div><div class="per-role">IT-разработчик, Мюнхен</div><div class="per-lv">B1 → B2</div><div class="per-goal">Говорить уверенно на рабочих встречах без ступора</div></div>
+      <div class="per-card"><div class="per-name">Дмитрий, 38</div><div class="per-role">Врач, Берлин</div><div class="per-lv">A2 → B2</div><div class="per-goal">Подготовка к профессиональному языковому экзамену</div></div>
+      <div class="per-card"><div class="per-name">Елена, 35</div><div class="per-role">Менеджер, Цюрих</div><div class="per-lv">B2 → C1</div><div class="per-goal">Уверенные переговоры — не знание, а точность</div></div>
+      <div class="per-card"><div class="per-name">Сергей, 29</div><div class="per-role">Инженер, Гамбург</div><div class="per-lv">A1 → A2</div><div class="per-goal">Немецкий для жизни — Behörden, аренда, поликлиника</div></div>
+    </div>
+  </div>
+
+  <!-- ОТЗЫВЫ -->
+  <div style="background:#FAF9F6; padding:60px 32px;">
+    <div style="max-width:880px;margin:0 auto;">
+      <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Что говорят студенты</h2>
+      <p style="font-size:14px;color:#718096;margin-bottom:36px;">Реальные истории — без приукрашиваний</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:24px 22px;">
+          <div style="font-size:28px;color:#7CC8A0;font-weight:700;line-height:1;margin-bottom:14px;">"</div>
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin-bottom:18px;">Я два года ходила на групповые курсы и всё равно молчала на митингах. За три месяца с Людмилой я стала не просто говорить — я стала думать по-немецки в рабочих ситуациях. Это другое.</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#EDF7F1;display:flex;align-items:center;justify-content:center;font-size:18px;">A</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1A1A1A;">Анна, 31</div>
+              <div style="font-size:11px;color:#718096;">IT-разработчик · Мюнхен · B1→B2</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:24px 22px;">
+          <div style="font-size:28px;color:#7CC8A0;font-weight:700;line-height:1;margin-bottom:14px;">"</div>
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin-bottom:18px;">Fachsprachprüfung — это очень специфический экзамен. Обычный репетитор не знал как готовить. Здесь задания были именно под медицинский немецкий. Я сдал с первого раза.</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#EDF7F1;display:flex;align-items:center;justify-content:center;font-size:18px;">D</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1A1A1A;">Дмитрий, 38</div>
+              <div style="font-size:11px;color:#718096;">Врач · Берлин · A2→B2</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:24px 22px;">
+          <div style="font-size:28px;color:#7CC8A0;font-weight:700;line-height:1;margin-bottom:14px;">"</div>
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin-bottom:18px;">20 минут в день — это реально. Я много раз начинала и бросала. Тут задание маленькое, понятное, сразу видишь результат. И ждёшь фидбека как сообщения от друга.</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#EDF7F1;display:flex;align-items:center;justify-content:center;font-size:18px;">E</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1A1A1A;">Елена, 35</div>
+              <div style="font-size:11px;color:#718096;">Менеджер · Цюрих · B2→C1</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="pricing">
-    <h2>Тарифы</h2>
-    <div class="price-grid">
-      <div class="price-card">
-        <h3>Starter</h3>
-        <div class="price">€49<span>/мес</span></div>
-        <ul>
-          <li>4 задания в месяц</li>
-          <li>Письменный фидбек</li>
-          <li>Anki-карточки</li>
-          <li>30-дневный Feed</li>
-        </ul>
+  <div style="background:#2D3748; padding:60px 32px;">
+    <div style="max-width:620px; margin:0 auto;">
+      <h2 class="center" style="color:#fff; margin-bottom:32px;">Стоимость</h2>
+      <div class="price-grid">
+        <div class="pr-card">
+          <div class="pr-name">Регулярная работа</div>
+          <div class="pr-amount">€89<span>/мес</span></div>
+          <div class="pr-desc">4 задания + фидбек + сессия раз в месяц</div>
+          <ul>
+            <li>Личный план</li><li>4 задания с разбором</li>
+            <li>Словарные карточки Anki</li><li>Ежедневный мини-контент</li>
+          </ul>
+        </div>
+        <div class="pr-card featured">
+          <div class="pr-badge">Интенсив</div>
+          <div class="pr-name">Активный рост</div>
+          <div class="pr-amount">€149<span>/мес</span></div>
+          <div class="pr-desc">8 заданий + приоритет + 2 сессии</div>
+          <ul>
+            <li>Всё из базового</li><li>8 заданий в месяц</li>
+            <li>Ответ в течение 24 ч</li><li>2 сессии с преподавателем</li>
+          </ul>
+        </div>
       </div>
-      <div class="price-card popular">
-        <div class="badge-pop">⭐ ПОПУЛЯРНЫЙ</div>
-        <h3>Standard</h3>
-        <div class="price">€89<span>/мес</span></div>
-        <ul>
-          <li>8 заданий в месяц</li>
-          <li>Детальный фидбек</li>
-          <li>Анализ ошибок AI</li>
-          <li>Месячный KPI-отчёт</li>
-        </ul>
+      <div class="pr-exam">
+        <div><h3>Подготовка к экзамену</h3><p>Goethe · TestDaF · TELC · Fachsprachprüfung — 8 недель</p></div>
+        <div class="pr-exam-price">€299</div>
       </div>
-      <div class="price-card">
-        <h3>Premium</h3>
-        <div class="price">€129<span>/мес</span></div>
-        <ul>
-          <li>12 заданий в месяц</li>
-          <li>Приоритетный фидбек</li>
-          <li>Персональная стратегия</li>
-          <li>Ежемесячный отчёт PDF</li>
-        </ul>
+    </div>
+  </div>
+  </div>
+
+  <!-- ЧТО ПРОИСХОДИТ ПОСЛЕ РЕГИСТРАЦИИ -->
+  <div style="background:#FAF9F6;padding:60px 32px;">
+    <div style="max-width:700px;margin:0 auto;text-align:center;">
+      <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Что происходит после регистрации</h2>
+      <p style="font-size:14px;color:#718096;margin-bottom:40px;">Никакой неопределённости — вот точный план</p>
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:20px;align-items:flex-start;text-align:left;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <div style="width:40px;height:40px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">1</div>
+            <div style="width:2px;height:50px;background:#C6E8D7;margin:4px 0;"></div>
+          </div>
+          <div style="padding-top:8px;padding-bottom:20px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4A8C6E;margin-bottom:4px;">Сегодня</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Вы заполняете анкету (10–12 минут)</div>
+            <div style="font-size:13px;color:#718096;line-height:1.6;">Рассказываете о себе: профессия, цель, уровень, сколько времени есть. Больше ничего от вас не нужно.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;text-align:left;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <div style="width:40px;height:40px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">2</div>
+            <div style="width:2px;height:50px;background:#C6E8D7;margin:4px 0;"></div>
+          </div>
+          <div style="padding-top:8px;padding-bottom:20px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4A8C6E;margin-bottom:4px;">В течение 24 часов</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Людмила пишет вам лично</div>
+            <div style="font-size:13px;color:#718096;line-height:1.6;">Подтверждает получение анкеты, уточняет детали если нужно, и сообщает когда будет готов ваш план.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;text-align:left;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <div style="width:40px;height:40px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">3</div>
+            <div style="width:2px;height:50px;background:#C6E8D7;margin:4px 0;"></div>
+          </div>
+          <div style="padding-top:8px;padding-bottom:20px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4A8C6E;margin-bottom:4px;">На второй-третий день</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Получаете доступ к кабинету и первое задание</div>
+            <div style="font-size:13px;color:#718096;line-height:1.6;">Личный план готов. В кабинете ждёт первое задание — 15–20 минут. Скачиваете Anki-карточки. Всё.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;text-align:left;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <div style="width:40px;height:40px;background:#7CC8A0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1A1A1A;font-weight:700;font-size:14px;flex-shrink:0;">✓</div>
+          </div>
+          <div style="padding-top:8px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4A8C6E;margin-bottom:4px;">Дальше — ритм</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Одно задание → фидбек → следующее задание</div>
+            <div style="font-size:13px;color:#718096;line-height:1.6;">Раз в месяц — живая сессия с Людмилой. Смотрите прогресс, корректируете направление.</div>
+          </div>
+        </div>
+
       </div>
-      <div class="price-card">
-        <h3>Exam Prep</h3>
-        <div class="price">€299<span> разово</span></div>
-        <ul>
-          <li>8 недель интенсив</li>
-          <li>Goethe / TestDaF / TELC</li>
-          <li>Fachsprachprüfung</li>
-          <li>Гарантия подготовки</li>
-        </ul>
+
+      <div style="margin-top:36px;">
+        <a href="https://calendly.com" target="_blank" style="text-decoration:none;">
+          <button class="btn-cta">Записаться на диагностику →</button>
+        </a>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- ============================================================
-     КАБИНЕТ СТУДЕНТА
-============================================================ -->
+<!-- ══════════════════ СТУДЕНТ ══════════════════ -->
 <div id="student" class="section">
-  <div class="student-layout">
-
-    <div class="sidebar">
-      <div class="user-info">
-        <div class="avatar-big">👩‍💻</div>
-        <div class="uname">Анна Соколова</div>
-        <div class="ulevel">B1 → B2</div>
-        <div style="font-size:12px; color:#888; margin-top:8px;">IT-разработчик · Мюнхен</div>
-      </div>
-      <div class="sidebar-menu">
-        <div class="menu-item active"><span class="icon">🏠</span> Главная</div>
-        <div class="menu-item"><span class="icon">📋</span> Мой план</div>
-        <div class="menu-item"><span class="icon">✏️</span> Задания</div>
-        <div class="menu-item"><span class="icon">💬</span> Фидбек</div>
-        <div class="menu-item"><span class="icon">📊</span> Прогресс</div>
-        <div class="menu-item"><span class="icon">🃏</span> Anki-карточки</div>
-        <div class="menu-item"><span class="icon">📰</span> Ежедневный Feed</div>
-        <div class="menu-item"><span class="icon">📅</span> Записаться на урок</div>
+<div class="app">
+  <div class="sb">
+    <div class="sb-prof">
+      <div class="sb-name">Анна Соколова</div>
+      <div class="sb-meta">IT · Мюнхен · план «Активный рост»</div>
+      <div class="sb-bar-wrap">
+        <div class="sb-bar-label"><span>B1</span><span>B2</span></div>
+        <div class="sb-bar"><div class="sb-bar-fill" style="width:58%"></div></div>
       </div>
     </div>
-
-    <div class="main-content">
-      <div class="page-title">👋 Привет, Анна! Твой прогресс на этой неделе</div>
-
-      <div class="kpi-row">
-        <div class="kpi-card">
-          <div class="kpi-label">Точность</div>
-          <div class="kpi-value green">78%</div>
-          <div class="kpi-sub">↑ +6% за месяц</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Беглость</div>
-          <div class="kpi-value orange">3.4 / 5</div>
-          <div class="kpi-sub">Цель: 4.0</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Слов в Anki</div>
-          <div class="kpi-value">47</div>
-          <div class="kpi-sub">Новых за месяц</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Заданий</div>
-          <div class="kpi-value green">5/8</div>
-          <div class="kpi-sub">В этом месяце</div>
-        </div>
-      </div>
-
-      <div class="content-row">
-        <div class="card">
-          <h3>📋 Мои задания</h3>
-          <div class="assignment-item">
-            <div class="a-icon">🎧</div>
-            <div>
-              <div class="a-title">Аудирование: DW Podcast</div>
-              <div class="a-meta">IT-тема · 20 мин · Выдано сегодня</div>
-            </div>
-            <div class="a-status new">Новое</div>
-          </div>
-          <div class="assignment-item">
-            <div class="a-icon">✉️</div>
-            <div>
-              <div class="a-title">Деловое письмо коллеге</div>
-              <div class="a-meta">Письмо · 15 мин · Срок: завтра</div>
-            </div>
-            <div class="a-status todo">Сделать</div>
-          </div>
-          <div class="assignment-item">
-            <div class="a-icon">🗣️</div>
-            <div>
-              <div class="a-title">Ролевая игра: stand-up</div>
-              <div class="a-meta">Говорение · 15 мин · Проверено</div>
-            </div>
-            <div class="a-status done">Готово ✓</div>
-          </div>
-          <div class="assignment-item">
-            <div class="a-icon">📖</div>
-            <div>
-              <div class="a-title">Чтение: heise.de статья</div>
-              <div class="a-meta">Чтение · 20 мин · Проверено</div>
-            </div>
-            <div class="a-status done">Готово ✓</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>💬 Последний фидбек от преподавателя</h3>
-          <div style="background:#f0fff4; border:2px solid #86efac; border-radius:10px; padding:15px; margin-bottom:15px; font-size:14px; line-height:1.7;">
-            <strong>✅ Что хорошо:</strong><br>
-            Отлично использовала "obwohl" — это структура B2! Темп речи стал намного увереннее.<br><br>
-            <strong>⚠️ Над чем работаем:</strong><br>
-            1. <em>Nebensatz</em>: "weil ich bin müde" → нужно "weil ich <strong>müde bin</strong>"<br>
-            2. <em>Akkusativ</em>: "mit mein Team" → "mit <strong>meinem</strong> Team" (Dativ после mit)<br><br>
-            <strong>📅 Фокус на 2 недели:</strong> Предлоги + Dativ-управление
-          </div>
-          <div style="font-size:12px; color:#888;">👩‍🏫 Преподаватель: Людмила · 2 часа назад</div>
-        </div>
-      </div>
-
-      <div class="content-row">
-        <div class="card">
-          <h3>📊 Прогресс по навыкам</h3>
-          <div class="progress-bar-wrap">
-            <div class="pb-label"><span>🎧 Аудирование</span><span>72%</span></div>
-            <div class="progress-bar"><div class="fill" style="width:72%"></div></div>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="pb-label"><span>📝 Грамматика</span><span>78%</span></div>
-            <div class="progress-bar"><div class="fill" style="width:78%"></div></div>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="pb-label"><span>🗣️ Говорение</span><span>65%</span></div>
-            <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="pb-label"><span>📖 Лексика</span><span>85%</span></div>
-            <div class="progress-bar"><div class="fill" style="width:85%"></div></div>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="pb-label"><span>✉️ Письмо</span><span>80%</span></div>
-            <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>📰 Ежедневный Feed (сегодня)</h3>
-          <div class="feed-item">
-            <div class="day-badge">День<br>23</div>
-            <div class="feed-text">
-              <div class="ft-title">🏥 Krankenversicherung — зачем врач говорит "Kassenpatient"?</div>
-              <div class="ft-word">📚 Слово дня: <strong>die Überweisung</strong> — направление к специалисту</div>
-              <div class="ft-task">✏️ Микро-задание: Позвони воображаемому Hausarzt и попроси Überweisung</div>
-            </div>
-          </div>
-          <div class="feed-item">
-            <div class="day-badge">День<br>22</div>
-            <div class="feed-text">
-              <div class="ft-title">💼 Почему немцы так любят пунктуальность на работе</div>
-              <div class="ft-word">📚 Слово дня: <strong>die Pünktlichkeit</strong> — пунктуальность</div>
-              <div class="ft-task">✏️ Напиши: "Ich bin immer pünktlich, weil..."</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="sb-menu">
+      <div class="sb-it on">Задание сегодня <span class="sb-dot"></span></div>
+      <div class="sb-it">Фидбек от преподавателя</div>
+      <div class="sb-it">Мой прогресс</div>
+      <div class="sb-it">Связь с Людмилой</div>
+    </div>
+    <div class="sb-coach">
+      <div class="sb-coach-lbl">Ваш преподаватель</div>
+      <div class="sb-coach-name">Людмила Р.</div>
+      <div class="sb-coach-next">Сессия: 15 марта</div>
     </div>
   </div>
-</div>
 
-<!-- ============================================================
-     КАБИНЕТ УЧИТЕЛЯ
-============================================================ -->
+  <div class="stu-main">
+
+    <!-- Переключатель день 1 / текущий -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+      <span style="font-size:12px;color:#718096;">Показать:</span>
+      <div style="display:flex;background:#F0F0EE;border-radius:8px;padding:3px;gap:2px;">
+        <button id="btnDay1" onclick="switchView('day1')" style="padding:5px 14px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:#4A8C6E;color:#fff;transition:all .2s;">День 1 — новый студент</button>
+        <button id="btnCurrent" onclick="switchView('current')" style="padding:5px 14px;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:#718096;transition:all .2s;">Месяц 2 — в процессе</button>
+      </div>
+    </div>
+
+    <!-- ЭКРАН ДЕНЬ 1 -->
+    <div id="viewDay1">
+      <div style="background:#EDF7F1;border:1.5px solid #C6E8D7;border-radius:12px;padding:20px 24px;margin-bottom:18px;">
+        <div style="font-size:15px;font-weight:700;color:#2E6B4F;margin-bottom:6px;">Добро пожаловать, Анна.</div>
+        <div style="font-size:13px;color:#374151;line-height:1.7;">Людмила изучила вашу анкету и составила личный план. Первое задание уже ждёт. Займёт около 20 минут — без спешки, в своём темпе.</div>
+      </div>
+      <div class="task-card">
+        <div class="tc-top">
+          <div class="tc-tag">Ваше первое задание</div>
+          <div class="tc-time">около 20 минут</div>
+        </div>
+        <div class="tc-title">Расскажите о своей работе по-немецки</div>
+        <div class="tc-desc">
+          Запишите аудио (1–2 минуты): кто вы, где работаете, чем занимаетесь. Говорите как умеете — цель не в идеальности, а в том, чтобы Людмила услышала вас живым голосом.
+          <br><br>
+          <strong>Не думайте про ошибки.</strong> Людмила разберёт всё сама и напишет вам лично.
+        </div>
+        <div class="tc-actions">
+          <button class="btn-send">Записать и отправить</button>
+          <button class="btn-hint" onclick="toggleHintsDay1()">Нужна подсказка?</button>
+        </div>
+        <div class="hints" id="hBDay1">
+          <h4>С чего начать</h4>
+          <div class="hint-it"><strong>Начало:</strong> "Ich heiße... Ich arbeite als... bei..."</div>
+          <div class="hint-it"><strong>Чем занимаетесь:</strong> "Meine Aufgaben sind... / Ich bin zuständig für..."</div>
+          <div class="hint-it"><strong>Где:</strong> "Ich arbeite in München / im Homeoffice / hybrid"</div>
+          <div class="hint-it">Не знаете слово — скажите по-русски или опишите вокруг. Это нормально на первом занятии.</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:18px 20px;">
+        <div style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:4px;">Что будет после того как отправите</div>
+        <div style="font-size:13px;color:#718096;line-height:1.7;">Людмила прослушает запись и пришлёт разбор — обычно в течение 24 часов. Вы получите письмо. Больше ничего делать не нужно.</div>
+      </div>
+    </div>
+
+    <!-- ЭКРАН "В ПРОЦЕССЕ" (месяц 2) — скрыт по умолчанию -->
+    <div id="viewCurrent" style="display:none;">
+    <div class="win">
+      <div style="font-size:20px;">&#10024;</div>
+      <div class="win-txt">
+        <h4>Dativ после предлогов — заметный прогресс</h4>
+        <p>Людмила отметила это в последней проверке.</p>
+      </div>
+    </div>
+      <div style="font-size:20px;">&#10024;</div>
+      <div class="win-txt">
+        <h4>Dativ после предлогов — заметный прогресс</h4>
+        <p>Людмила отметила это в последней проверке.</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <div class="tc-top">
+        <div class="tc-tag">Задание на сегодня</div>
+        <div class="tc-time">около 20 минут</div>
+      </div>
+      <div class="tc-title">Деловое письмо: запрос на отпуск</div>
+      <div class="tc-desc">
+        Напишите письмо руководителю с просьбой взять отпуск с 10 по 21 марта. Укажите причину и сообщите, кому передадите дела. Объём: 5–8 предложений.
+        <br><br>
+        <strong>Фокус этой недели:</strong> вежливые формулировки в деловой переписке + Konjunktiv II.
+      </div>
+      <div class="tc-actions">
+        <button class="btn-send">Отправить выполненное</button>
+        <button class="btn-hint" onclick="toggleHints()">Нужна подсказка?</button>
+      </div>
+      <div class="hints" id="hB">
+        <h4>Подсказки — шаг за шагом</h4>
+        <div class="hint-it"><strong>Обращение:</strong> Sehr geehrte Frau / Sehr geehrter Herr + фамилия</div>
+        <div class="hint-it"><strong>Просьба:</strong> Ich würde mich freuen, wenn Sie mir... / Ich bitte Sie...</div>
+        <div class="hint-it"><strong>Даты:</strong> vom 10. bis zum 21. März (не "bis 21"!)</div>
+        <div class="hint-it"><strong>Передача дел:</strong> Die Übergabe meiner Aufgaben übernimmt meine Kollegin...</div>
+        <div class="hint-it"><strong>Закрытие:</strong> Mit freundlichen Grüßen + имя</div>
+      </div>
+    </div>
+
+    <div class="streak">
+      <div class="str-c"><div class="str-v g">5</div><div class="str-l">заданий в этом месяце</div></div>
+      <div class="str-c"><div class="str-v">15 марта</div><div class="str-l">следующая сессия</div></div>
+      <div class="str-c"><div class="str-v">3</div><div class="str-l">дня подряд</div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-h" onclick="toggleAcc()">
+        <div class="acc-htxt"><h4>Фидбек от Людмилы — задание #4</h4><p>Получен 2 дня назад</p></div>
+        <div class="acc-arr" id="aArr">&#9660;</div>
+      </div>
+      <div class="acc-b" id="aBody">
+        <div class="fb-good"><strong>Что получилось:</strong><br>Уверенный темп. Конструкция "obwohl" — уже уровень B2.</div>
+        <div class="fb-work"><strong>Над чем работаем:</strong><br>"weil ich bin müde" → "weil ich müde <strong>bin</strong>" (глагол в конец придаточного).<br>"mit mein Team" → "mit <strong>meinem</strong> Team" (mit + Dativ).</div>
+        <div class="fb-focus"><div class="fb-focus-lbl">Фокус следующих двух недель</div>Предлоги с Dativ + порядок слов в придаточных</div>
+      </div>
+    </div><!-- /acc -->
+    </div><!-- /viewCurrent -->
+
+  </div><!-- /stu-main -->
+</div><!-- /app -->
+</div><!-- /section student -->
+
+<!-- ══════════════════ УЧИТЕЛЬ ══════════════════ -->
 <div id="teacher" class="section">
-  <div class="teacher-layout">
-
-    <div class="teacher-sidebar">
-      <div class="t-logo">
-        <div class="role">Преподаватель</div>
-        <div class="tname">👩‍🏫 Людмила Романовская</div>
-        <div style="font-size:12px; color:#aaa; margin-top:8px;">3 студента активных</div>
+<div class="t-app">
+  <div class="t-sb">
+    <div class="t-sb-head">
+      <div class="t-sb-role">Преподаватель</div>
+      <div class="t-sb-name">Людмила Романовская</div>
+      <div class="t-sb-stat">3 студента · 2 ждут проверки</div>
+    </div>
+    <div class="t-sb-sec">
+      <div class="t-sb-sec-lbl">Студенты</div>
+      <div class="t-stu-list">
+        <div class="t-stu-it on"><div style="flex:1"><div class="t-stu-nm">Анна Соколова</div><div class="t-stu-mt">B1→B2 · ждёт 3 ч</div></div><div class="t-dot-u"></div></div>
+        <div class="t-stu-it"><div style="flex:1"><div class="t-stu-nm">Дмитрий Петров</div><div class="t-stu-mt">A2→B1 · ждёт 2 ч</div></div><div class="t-dot-u"></div></div>
+        <div class="t-stu-it"><div style="flex:1"><div class="t-stu-nm">Елена Кузнецова</div><div class="t-stu-mt">B2→C1 · проверено</div></div><div class="t-dot-ok"></div></div>
       </div>
-      <div class="teacher-menu" style="padding: 15px 0;">
-        <div class="section-label">Студенты</div>
-        <div class="tmenu-item active">👥 Все студенты</div>
-        <div class="tmenu-item">📋 Планы обучения</div>
-        <div class="section-label">Работа</div>
-        <div class="tmenu-item">
-          📥 Входящие задания
-          <span class="badge-num">2</span>
+    </div>
+    <div class="t-sb-sec">
+      <div class="t-sb-sec-lbl">Инструменты</div>
+      <div class="t-it">Методолибра</div>
+      <div class="t-it">Банк заданий</div>
+      <div class="t-it">Шаблоны фидбека</div>
+    </div>
+  </div>
+
+  <div class="t-main">
+    <div class="t-tabs-bar">
+      <div class="t-stu-title">Анна Соколова</div>
+      <div class="t-tab on">Входящее <span class="t-tab-badge">новое</span></div>
+      <div class="t-tab">Личный трек</div>
+      <div class="t-tab">Наблюдения</div>
+      <div class="t-tab">К сессии</div>
+    </div>
+
+    <div class="t-cnt">
+      <div class="inbox-card">
+        <div class="inbox-top">
+          <div class="inbox-urgent">Новое задание — нужна проверка</div>
+          <div class="inbox-wait">Ждёт 3 часа</div>
         </div>
-        <div class="tmenu-item">✅ Проверить фидбек</div>
-        <div class="section-label">Инструменты</div>
-        <div class="tmenu-item">📚 Методолибра</div>
-        <div class="tmenu-item">🧠 AI-промпты</div>
-        <div class="tmenu-item">📈 Market Intel</div>
-        <div class="section-label">Данные</div>
-        <div class="tmenu-item">📊 KPI отчёты</div>
-        <div class="tmenu-item">⚙️ Настройки</div>
+        <div class="inbox-body">
+          <div class="inbox-ttl">Задание #5 — Ролевая игра: stand-up митинг (аудио 2:34)</div>
+          <div class="inbox-meta">B1→B2 · Говорение · Фокус: Nebensatz, деловая лексика</div>
+          <div class="transcript-lbl">Транскрипт (Whisper AI)</div>
+          <div class="transcript">"Guten Morgen alle. Also ich habe gestern die neue Feature fertig gemacht. Es war schwierig, weil ich bin sehr müde gewesen, aber ich habe es geschafft. Heute ich werde die Tests schreiben. Ich brauche Hilfe von mein Team für die Code Review..."</div>
+          <div class="draft-box">
+            <div class="draft-top"><div class="draft-tag">DRAFT</div><div class="draft-note">AI-черновик — отредактируйте перед отправкой</div></div>
+            <div class="draft-cnt">
+              <div style="margin-bottom:8px;"><strong>Что получилось:</strong> Уверенный темп, понятная структура. Хороший прогресс в лексике.</div>
+              <div class="err-line"><span class="err-orig">weil ich bin müde</span> → <span class="err-fix">weil ich müde bin</span> <span class="err-rule">(Nebensatz: глагол в конец)</span></div>
+              <div class="err-line"><span class="err-orig">von mein Team</span> → <span class="err-fix">von meinem Team</span> <span class="err-rule">(von + Dativ)</span></div>
+            </div>
+          </div>
+          <textarea class="edit-area">Анна, хороший темп и уверенная структура — это заметный прогресс! Работаем над двумя моментами:
+
+1. Придаточные: глагол всегда в конец — "weil ich müde bin"
+2. Предлоги с Dativ: von/mit/nach/bei → "von meinem Team"
+
+На следующей неделе: задание целенаправленно на Nebensatz-порядок.</textarea>
+          <div class="inbox-acts">
+            <button class="btn-approve">Отправить студенту</button>
+            <button class="btn-save">Сохранить черновик</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctrl-grid" style="margin-top:16px;">
+        <div>
+          <div class="ctrl-c">
+            <div class="ctrl-lbl">Очередь заданий</div>
+            <div class="queue">
+              <div class="q-it"><div class="q-n">4</div><div style="flex:1"><div class="q-ttl">Ролевая игра: stand-up</div><div class="q-mt">Говорение · 15 мин</div></div><div class="q-st qst-done">Проверено</div></div>
+              <div class="q-it" style="border-color:#4A8C6E;"><div class="q-n cur">5</div><div style="flex:1"><div class="q-ttl">Деловое письмо</div><div class="q-mt">Письмо · 20 мин</div></div><div class="q-st qst-cur">Текущее</div></div>
+              <div class="q-it"><div class="q-n">6</div><div style="flex:1"><div class="q-ttl">Аудирование: DW Podcast</div><div class="q-mt">Слушание · 20 мин</div></div><div class="q-st qst-next">Следующее</div></div>
+              <div class="q-it"><div class="q-n">7</div><div style="flex:1"><div class="q-ttl">Nebensatz — целевая практика</div><div class="q-mt">Грамматика · 15 мин</div></div><div class="q-st qst-next">Следующее</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="ctrl-c"><div class="ctrl-lbl">Темп и сложность</div><div class="diff-row"><div class="diff-btn">Медленнее</div><div class="diff-btn on">Текущий</div><div class="diff-btn">Быстрее</div></div></div>
+          <div class="ctrl-c"><div class="ctrl-lbl">Навыки в фокусе</div><div class="skill-row"><div class="sk-tag on">Говорение</div><div class="sk-tag on">Грамматика</div><div class="sk-tag">Аудирование</div><div class="sk-tag">Письмо</div><div class="sk-tag">Лексика</div></div></div>
+          <div class="ctrl-c"><div class="ctrl-lbl">Мои наблюдения (только для меня)</div><textarea class="t-notes">Анна быстро схватывает правила, но под давлением (ролевая игра) откатывается к Nebensatz-ошибкам. Следующие задания — стрессовые форматы говорения.</textarea></div>
+        </div>
+      </div>
+
+      <div class="ctrl-grid" style="margin-top:12px;">
+        <div class="ctrl-c"><div class="ctrl-lbl">Повторяющиеся ошибки</div><div class="err-list"><div class="err-it"><span class="err-cnt">7×</span><span>Nebensatz — глагол не в конце</span></div><div class="err-it"><span class="err-cnt">5×</span><span>von / mit + неверный падеж</span></div><div class="err-it"><span class="err-cnt">3×</span><span>Артикль das/der (das Symptom)</span></div></div></div>
+        <div class="ctrl-c"><div class="ctrl-lbl">К сессии 15 марта</div><div class="session-prep-it"><span style="color:#34A868;font-weight:700;">+</span> Темп речи вырос — отметить</div><div class="session-prep-it"><span style="color:#D97706;font-weight:700;">!</span> Nebensatz — целевой блок в сессии</div><div class="session-prep-it"><span style="color:#718096;font-weight:700;">?</span> Спросить: страх на митингах лучше?</div><div class="session-prep-it"><span style="color:#718096;font-weight:700;">→</span> Скорректировать план: добавить Konjunktiv II</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════ КАК ЭТО РАБОТАЕТ ══════════════════ -->
+<div id="system" class="section">
+<div class="flow-page">
+
+  <div class="flow-hero">
+    <h2>Как это работает — полная картина</h2>
+    <p style="font-size:16px;color:rgba(255,255,255,.6);max-width:560px;margin:10px auto 20px;">От первого клика до уверенного немецкого — каждый шаг виден заранее</p>
+
+    <!-- Переключатель: для клиента / для преподавателя -->
+    <div style="display:flex;justify-content:center;margin-bottom:10px;">
+      <div style="display:flex;background:rgba(255,255,255,.1);border-radius:8px;padding:3px;gap:2px;">
+        <button id="btnClient" onclick="switchFlow('client')" style="padding:7px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;background:#7CC8A0;color:#1A1A1A;">Для студента — просто</button>
+        <button id="btnTech" onclick="switchFlow('tech')" style="padding:7px 20px;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:rgba(255,255,255,.55);">Для преподавателя — детально</button>
       </div>
     </div>
 
-    <div class="teacher-main">
-      <div class="page-title">👥 Мои студенты</div>
+    <div class="flow-legend">
+      <div class="fl-item"><div class="fl-dot stu"></div> Студент</div>
+      <div class="fl-item"><div class="fl-dot tch"></div> Преподаватель</div>
+      <div class="fl-item"><div class="fl-dot ai"></div> AI / автоматизация</div>
+      <div class="fl-item"><div class="fl-dot sys"></div> Система / данные</div>
+    </div>
+  </div>
 
-      <div class="student-cards">
-        <div class="student-card">
-          <div class="sc-top">
-            <div class="sc-avatar">👩‍💻</div>
-            <div>
-              <div class="sc-name">Анна Соколова</div>
-              <div class="sc-meta">IT · Мюнхен · €89/мес</div>
-            </div>
+  <!-- ПРОСТАЯ ВЕРСИЯ — для клиента -->
+  <div id="flowClient" style="background:#FAF9F6;padding:50px 32px;">
+    <div style="max-width:680px;margin:0 auto;">
+
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:44px;height:44px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">1</div>
+            <div style="width:2px;flex:1;background:#C6E8D7;margin:6px 0;min-height:40px;"></div>
           </div>
-          <div class="sc-level">B1 → B2</div>
-          <div class="sc-kpis">
-            <div class="sc-kpi"><div class="v green">78%</div><div class="l">Точность</div></div>
-            <div class="sc-kpi"><div class="v orange">5/8</div><div class="l">Задания</div></div>
-            <div class="sc-kpi"><div class="v">47</div><div class="l">Слов Anki</div></div>
+          <div style="padding-top:10px;padding-bottom:28px;flex:1;">
+            <div style="font-size:16px;font-weight:700;margin-bottom:5px;">Вы заполняете анкету</div>
+            <div style="font-size:14px;color:#718096;line-height:1.7;">10–12 минут. Рассказываете о профессии, цели и уровне. Людмила получает уведомление и начинает составлять ваш личный план.</div>
           </div>
         </div>
 
-        <div class="student-card">
-          <div class="sc-top">
-            <div class="sc-avatar">👨‍⚕️</div>
-            <div>
-              <div class="sc-name">Дмитрий Петров</div>
-              <div class="sc-meta">Медицина · Берлин · €299 Exam</div>
-            </div>
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:44px;height:44px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">2</div>
+            <div style="width:2px;flex:1;background:#C6E8D7;margin:6px 0;min-height:40px;"></div>
           </div>
-          <div class="sc-level">A2 → B1</div>
-          <div class="sc-kpis">
-            <div class="sc-kpi"><div class="v orange">61%</div><div class="l">Точность</div></div>
-            <div class="sc-kpi"><div class="v">3/4</div><div class="l">Задания</div></div>
-            <div class="sc-kpi"><div class="v">28</div><div class="l">Слов Anki</div></div>
+          <div style="padding-top:10px;padding-bottom:28px;flex:1;">
+            <div style="font-size:16px;font-weight:700;margin-bottom:5px;">Людмила готовит план — лично под вас</div>
+            <div style="font-size:14px;color:#718096;line-height:1.7;">Не шаблон, а настоящая программа: темы, задания, темп. В течение 24 часов вы получаете доступ к кабинету и первое задание.</div>
           </div>
         </div>
 
-        <div class="student-card">
-          <div class="sc-top">
-            <div class="sc-avatar">👩‍💼</div>
-            <div>
-              <div class="sc-name">Елена Кузнецова</div>
-              <div class="sc-meta">Менеджмент · Цюрих · €129/мес</div>
-            </div>
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:44px;height:44px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">3</div>
+            <div style="width:2px;flex:1;background:#C6E8D7;margin:6px 0;min-height:40px;"></div>
           </div>
-          <div class="sc-level">B2 → C1</div>
-          <div class="sc-kpis">
-            <div class="sc-kpi"><div class="v green">89%</div><div class="l">Точность</div></div>
-            <div class="sc-kpi"><div class="v green">8/8</div><div class="l">Задания</div></div>
-            <div class="sc-kpi"><div class="v">63</div><div class="l">Слов Anki</div></div>
+          <div style="padding-top:10px;padding-bottom:28px;flex:1;">
+            <div style="font-size:16px;font-weight:700;margin-bottom:5px;">Вы делаете одно задание</div>
+            <div style="font-size:14px;color:#718096;line-height:1.7;">15–20 минут. По вашей теме и уровню. Записываете аудио или пишете текст. Если что-то непонятно — есть подсказки. Отправляете одной кнопкой.</div>
           </div>
         </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:44px;height:44px;background:#4A8C6E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">4</div>
+            <div style="width:2px;flex:1;background:#C6E8D7;margin:6px 0;min-height:40px;"></div>
+          </div>
+          <div style="padding-top:10px;padding-bottom:28px;flex:1;">
+            <div style="font-size:16px;font-weight:700;margin-bottom:5px;">Людмила проверяет и пишет разбор</div>
+            <div style="font-size:14px;color:#718096;line-height:1.7;">Что получилось хорошо. Что исправить и почему. Что отработать дальше. Конкретно — по вашей работе, не из учебника. Приходит на почту.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:44px;height:44px;background:#7CC8A0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1A1A1A;font-weight:700;font-size:18px;flex-shrink:0;">↻</div>
+          </div>
+          <div style="padding-top:10px;flex:1;">
+            <div style="font-size:16px;font-weight:700;margin-bottom:5px;">Цикл повторяется — и прогресс накапливается</div>
+            <div style="font-size:14px;color:#718096;line-height:1.7;">Раз в месяц — живая сессия с Людмилой. Смотрите что изменилось, корректируете направление. Немецкий становится частью жизни — без перегрузки.</div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="page-title" style="margin-top:10px;">📥 Входящие — нужна проверка</div>
-
-      <div class="inbox-item new">
-        <div class="ii-top">
-          <div style="font-size:28px;">👩‍💻</div>
-          <div>
-            <div class="ii-student">Анна Соколова</div>
-            <div class="ii-task">Задание #7 — Ролевая игра: stand-up митинг (аудио 2:34)</div>
-          </div>
-          <div class="ii-time">15 мин назад · 🆕 Новое</div>
-        </div>
-        <div class="ii-draft">
-          <div class="draft-label">⚠️ DRAFT — AI-черновик (требует проверки преподавателя)</div>
-          <strong>✅ Что хорошо:</strong> Уверенный темп. Использовала "obwohl" — структура B2. Правильный порядок слов в 8 из 10 предложений.<br>
-          <strong>⚠️ Ошибки:</strong><br>
-          1. "weil ich bin müde" → "weil ich müde <strong>bin</strong>" (Nebensatz: глагол в конец)<br>
-          2. "mit mein Team" → "mit <strong>meinem</strong> Team" (mit + Dativ)<br>
-          <strong>📅 Фокус 2 нед.:</strong> Предлоги с Dativ + Nebensatz-порядок слов
-        </div>
-        <div class="ii-actions">
-          <button class="btn-sm btn-approve">✓ Одобрить и отправить</button>
-          <button class="btn-sm btn-edit">✏️ Редактировать</button>
-          <button class="btn-sm btn-view">🎧 Слушать аудио</button>
-        </div>
-      </div>
-
-      <div class="inbox-item new">
-        <div class="ii-top">
-          <div style="font-size:28px;">👨‍⚕️</div>
-          <div>
-            <div class="ii-student">Дмитрий Петров</div>
-            <div class="ii-task">Задание #3 — Cloze: медицинская терминология</div>
-          </div>
-          <div class="ii-time">2 часа назад · 🆕 Новое</div>
-        </div>
-        <div class="ii-draft">
-          <div class="draft-label">⚠️ DRAFT — AI-черновик (требует проверки преподавателя)</div>
-          <strong>✅ Что хорошо:</strong> Верно заполнены 18/25 пропусков. Медицинская лексика (Befund, verschreiben, einweisen) — правильно.<br>
-          <strong>⚠️ Ошибки:</strong><br>
-          1. "Rezept bekommen" → "Rezept <strong>ausstellen</strong> / ausschreiben" (коллокация)<br>
-          2. Артикль: "der Symptom" → "<strong>das</strong> Symptom"<br>
-          <strong>📅 Фокус:</strong> Коллокации с медицинскими существительными + артикли
-        </div>
-        <div class="ii-actions">
-          <button class="btn-sm btn-approve">✓ Одобрить и отправить</button>
-          <button class="btn-sm btn-edit">✏️ Редактировать</button>
-          <button class="btn-sm btn-view">📄 Смотреть текст</button>
-        </div>
+      <div style="margin-top:40px;background:#2D3748;border-radius:14px;padding:24px 28px;color:#fff;text-align:center;">
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Главное, что вам не нужно делать</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;">Разбираться в технологиях. Скачивать приложения. Помнить про расписание. Всё происходит само — вы просто открываете кабинет и делаете одно задание.</div>
       </div>
 
     </div>
   </div>
-</div>
 
-<!-- ============================================================
-     КАК РАБОТАЕТ СИСТЕМА
-============================================================ -->
-<div id="flow" class="section">
-  <div class="flow-section">
-    <h2>⚙️ Как работает система — шаг за шагом</h2>
+  <div id="flowTech" style="display:none;"><div class="phases">
 
-    <div style="max-width:900px; margin: 0 auto;">
-
-      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center; margin-bottom:20px;">
-        <div class="flow-box highlight">
-          <div class="fb-icon">📝</div>
-          <h4>Студент заполняет анкету</h4>
-          <p>Typeform: имя, профессия, уровень, цель, барьеры, GDPR-согласие</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box ai">
-          <div class="fb-icon">⚡</div>
-          <h4>Zapier запускает автоматизацию</h4>
-          <p>Данные → Airtable. Claude получает задачу составить план.</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box">
-          <div class="fb-icon">👩‍🏫</div>
-          <h4>Учитель получает уведомление</h4>
-          <p>Slack / Email: "Новый студент! Нужно одобрить план."</p>
+    <!-- ФАЗА 1 -->
+    <div class="phase-block">
+      <div class="phase-header ph-onboard" onclick="togglePhase('p1')">
+        <div class="ph-num">1</div>
+        <div class="ph-title">Студент заполняет анкету и проходит диагностику</div>
+        <div class="ph-toggle" id="p1t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p1">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что видит / делает студент</div>
+            <div class="ph-row"><div class="ph-icon stu">🌐</div><div class="ph-row-body"><h4>Находит лендинг</h4><p>Через рекламу, рекомендацию или поиск. Читает про продукт, находит себя в персонажах.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">📝</div><div class="ph-row-body"><h4>Заполняет анкету Typeform</h4><p>38 вопросов: имя, профессия, город, цель, уровень, барьеры, сколько времени в день. Занимает 10–12 минут. Подписывает GDPR-согласие.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">🎧</div><div class="ph-row-body"><h4>Проходит диагностический тест</h4><p>30–45 минут: аудирование (3 задания), чтение (3 задания), письмо. По желанию — пробное говорение.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon sys">⚡</div><div class="ph-row-body"><h4>Zapier Flow A запускается</h4><p>Триггер: отправка Typeform → автоматически создаётся запись в Airtable (таблица Students).</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">🤖</div><div class="ph-row-body"><h4>Алгоритм считает CEFR</h4><p>Баллы теста (0–6) + самооценка (1–5) → итоговый уровень A1/A2/B1/B2/C1. Записывается в Airtable.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">🧠</div><div class="ph-row-body"><h4>Claude генерирует черновик плана</h4><p>Промпт <code>plan_generator.txt</code>: уровень + профессия + цель + барьеры → месячный план + детальная неделя 1. Статус: <code>DRAFT</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">💬</div><div class="ph-row-body"><h4>Slack-уведомление преподавателю</h4><p>"Новый студент: Анна Соколова, B1, IT, Мюнхен. Нужно одобрить план."</p></div></div>
+          </div>
         </div>
       </div>
-
-      <div style="text-align:center; font-size:28px; color:#f0a500; margin-bottom:20px;">↓</div>
-
-      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center; margin-bottom:20px;">
-        <div class="flow-box">
-          <div class="fb-icon">📧</div>
-          <h4>Студент получает Welcome</h4>
-          <p>Email с первым заданием, Anki-стартовой колодой и ссылкой на Feed</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box highlight">
-          <div class="fb-icon">🎙️</div>
-          <h4>Студент делает задание</h4>
-          <p>Записывает аудио или пишет текст. 15–20 минут. Загружает.</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box ai">
-          <div class="fb-icon">🤖</div>
-          <h4>AI обрабатывает</h4>
-          <p>Whisper → транскрипт. LanguageTool → ошибки. Claude → DRAFT анализ.</p>
-        </div>
-      </div>
-
-      <div style="text-align:center; font-size:28px; color:#f0a500; margin-bottom:20px;">↓</div>
-
-      <div style="display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; gap:5px; align-items:center;">
-        <div class="flow-box">
-          <div class="fb-icon">👩‍🏫</div>
-          <h4>Учитель проверяет DRAFT</h4>
-          <p>Видит транскрипт + ошибки + AI-черновик. Редактирует. Нажимает "Отправить".</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box highlight">
-          <div class="fb-icon">💬</div>
-          <h4>Студент получает фидбек</h4>
-          <p>Верифицированный учителем: сильные стороны, ошибки + правила, следующий шаг.</p>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box ai">
-          <div class="fb-icon">📊</div>
-          <h4>Прогресс обновляется</h4>
-          <p>KPI в Airtable. Anki-карточки. Месячный отчёт. CEFR апгрейд.</p>
-        </div>
-      </div>
-
-      <div style="background:#fff8e1; border:2px solid #f0a500; border-radius:16px; padding:25px; margin-top:40px; text-align:center;">
-        <div style="font-size:32px; margin-bottom:10px;">⚠️ Главный принцип</div>
-        <div style="font-size:20px; font-weight:700; margin-bottom:10px;">AI делает DRAFT — учитель делает финальное решение</div>
-        <div style="font-size:15px; color:#666; line-height:1.6;">Студент никогда не видит сырой AI-ответ. Всё, что получает студент — это проверено и одобрено живым преподавателем. AI экономит время учителя, но не заменяет его.</div>
-      </div>
-
     </div>
-  </div>
-</div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 2 -->
+    <div class="phase-block">
+      <div class="phase-header ph-setup" onclick="togglePhase('p2')">
+        <div class="ph-num">2</div>
+        <div class="ph-title">Преподаватель настраивает план и активирует студента</div>
+        <div class="ph-toggle" id="p2t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p2">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что делает преподаватель</div>
+            <div class="ph-row"><div class="ph-icon tch">👩‍🏫</div><div class="ph-row-body"><h4>Открывает профиль нового студента</h4><p>Видит анкету, результаты теста, CEFR, AI-черновик плана. Всё в одном месте.</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">✏️</div><div class="ph-row-body"><h4>Редактирует план</h4><p>Может изменить акценты, добавить или убрать темы. Знает своего студента — вносит живой экспертный взгляд поверх AI-черновика.</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">✅</div><div class="ph-row-body"><h4>Утверждает и активирует</h4><p>Нажимает "Утвердить план". Студент переходит в статус Active. Первое задание добавляется в очередь.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon sys">🗄️</div><div class="ph-row-body"><h4>Airtable: Plan создан</h4><p>Таблица Plans: student_id, cefr_start, monthly_goals, week_1_detail, status=<code>active</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">📋</div><div class="ph-row-body"><h4>Задания добавлены в очередь</h4><p>Таблица Assignments: первые 4 задания с типами, темами, уровнем сложности. Статус первого: <code>assigned</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">📧</div><div class="ph-row-body"><h4>Zapier запускает Welcome-серию</h4><p>MailerLite: три письма (день 1, день 3, день 7) — план, первое задание, Anki-колода, ссылка на Feed.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 3 -->
+    <div class="phase-block">
+      <div class="phase-header ph-welcome" onclick="togglePhase('p3')">
+        <div class="ph-num">3</div>
+        <div class="ph-title">Студент получает Welcome и первое задание</div>
+        <div class="ph-toggle" id="p3t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p3">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что видит студент</div>
+            <div class="ph-row"><div class="ph-icon stu">📬</div><div class="ph-row-body"><h4>Welcome-письмо от Людмилы</h4><p>Персональное письмо: "Анна, ваш план готов. Первое задание — вот оно. Займёт 20 минут."</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">🔐</div><div class="ph-row-body"><h4>Доступ в личный кабинет</h4><p>Открывает — видит одно задание на сегодня. Имя преподавателя. Дату следующей сессии. Больше ничего лишнего.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">🃏</div><div class="ph-row-body"><h4>Anki-стартовая колода</h4><p>22 карточки по интеграционной лексике его уровня. Ссылка для импорта в Anki или Quizlet.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon sys">📰</div><div class="ph-row-body"><h4>30-дневный Feed активирован</h4><p>MailerLite: ежедневное письмо — культурный факт + слово дня + микро-задание (3–5 мин). Адаптировано к профессии студента.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">📅</div><div class="ph-row-body"><h4>Calendly-ссылка для бронирования сессии</h4><p>Автоматически включена в письмо. Студент может запланировать первую месячную сессию сразу.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 4 -->
+    <div class="phase-block">
+      <div class="phase-header ph-assign" onclick="togglePhase('p4')">
+        <div class="ph-num">4</div>
+        <div class="ph-title">Студент выполняет задание</div>
+        <div class="ph-toggle" id="p4t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p4">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что делает студент</div>
+            <div class="ph-row"><div class="ph-icon stu">📖</div><div class="ph-row-body"><h4>Читает задание</h4><p>Видит тему, описание, время выполнения. Если застрял — нажимает "Нужна подсказка?" — появляются подсказки по одной.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">🎙️</div><div class="ph-row-body"><h4>Записывает аудио или пишет текст</h4><p>Аудио — прямо из браузера или записывает на телефон. Текст — в поле в кабинете. 15–20 минут работы.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">📤</div><div class="ph-row-body"><h4>Загружает и отправляет</h4><p>Один клик. Всё — больше делать ничего не нужно. Ждёт фидбека от Людмилы.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon sys">☁️</div><div class="ph-row-body"><h4>Файл сохраняется в Google Drive / S3</h4><p>Аудио шифруется. Ссылка записывается в Airtable (таблица Submissions). GDPR-compliant хранение.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">⚡</div><div class="ph-row-body"><h4>Zapier Flow B запускается автоматически</h4><p>Триггер: новая запись в Submissions со статусом <code>submitted</code> → запускается цепочка AI-обработки.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 5 -->
+    <div class="phase-block">
+      <div class="phase-header ph-ai" onclick="togglePhase('p5')">
+        <div class="ph-num">5</div>
+        <div class="ph-title">AI обрабатывает задание за кулисами</div>
+        <div class="ph-toggle" id="p5t">развернуть ▼</div>
+      </div>
+      <div class="phase-body open" id="p5">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что студент видит в этот момент</div>
+            <div class="ph-row"><div class="ph-icon stu">⏳</div><div class="ph-row-body"><h4>Ничего особенного</h4><p>В кабинете студента показывается: "Задание получено. Людмила проверит и пришлёт фидбек." Статус тихо обновляется.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">📰</div><div class="ph-row-body"><h4>Продолжает получать Feed</h4><p>Ежедневные мини-задания не прерываются — язык продолжает звучать в жизни студента.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами — шаг за шагом</div>
+            <div class="ph-row"><div class="ph-icon ai">🎤</div><div class="ph-row-body"><h4>Шаг 1 — Whisper API (OpenAI)</h4><p>Аудиофайл → текстовый транскрипт. Точность 95%+ для немецкого. Результат сохраняется в Airtable: поле <code>transcript</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">🔍</div><div class="ph-row-body"><h4>Шаг 2 — LanguageTool API</h4><p>Транскрипт / текст → массив ошибок с правилами. Находит: падежи, артикли, порядок слов, согласование. Сохраняется в <code>grammar_errors</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">🧠</div><div class="ph-row-body"><h4>Шаг 3 — Claude API</h4><p>Промпт <code>auto_analysis.txt</code>: транскрипт + ошибки + уровень + фокус студента → структурированный анализ: сильные стороны / топ-3 ошибки с правилами / фокус на 2 недели / Anki-карточки. Статус: <code>DRAFT</code>.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">🗄️</div><div class="ph-row-body"><h4>Шаг 4 — Airtable обновляется</h4><p>Submission: <code>draft_comment</code>, <code>auto_tags</code>, <code>review_status = pending_teacher</code>. Анки-карточки добавляются в очередь.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">🔔</div><div class="ph-row-body"><h4>Шаг 5 — Уведомление преподавателю</h4><p>Slack + Email: "Анна Соколова прислала задание #5. AI-черновик готов. Ждёт вашей проверки."</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 6 -->
+    <div class="phase-block">
+      <div class="phase-header ph-review" onclick="togglePhase('p6')">
+        <div class="ph-num">6</div>
+        <div class="ph-title">Преподаватель проверяет черновик и отправляет фидбек</div>
+        <div class="ph-toggle" id="p6t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p6">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что делает преподаватель</div>
+            <div class="ph-row"><div class="ph-icon tch">📥</div><div class="ph-row-body"><h4>Открывает входящее задание</h4><p>Видит: имя студента, тип задания, время ожидания, транскрипт, список ошибок от LanguageTool, AI-черновик.</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">✏️</div><div class="ph-row-body"><h4>Читает и редактирует черновик</h4><p>AI уже написал основу. Преподаватель добавляет живой голос: что-то убирает, что-то уточняет, добавляет личное наблюдение. Занимает 3–7 минут вместо 15–20.</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">✅</div><div class="ph-row-body"><h4>Нажимает "Отправить студенту"</h4><p>Только теперь студент получает фидбек. До этого момента — студент не видит ни черновика, ни процесса.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon sys">🗄️</div><div class="ph-row-body"><h4>Airtable: статус обновляется</h4><p>Submission: <code>teacher_comment</code> сохранён, <code>review_status = sent</code>, <code>reviewed_at</code> = timestamp.</p></div></div>
+            <div class="ph-row"><div class="ph-icon ai">📧</div><div class="ph-row-body"><h4>MailerLite отправляет письмо студенту</h4><p>"Людмила проверила ваше задание. Открыть фидбек →" Ссылка ведёт в личный кабинет.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">📊</div><div class="ph-row-body"><h4>KPI-снимок в таблице Progress</h4><p>Airtable Progress: accuracy_percent, teacher_score, auto_tags, неделя/месяц. Данные для месячной сессии накапливаются автоматически.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 7 -->
+    <div class="phase-block">
+      <div class="phase-header ph-feedback" onclick="togglePhase('p7')">
+        <div class="ph-num">7</div>
+        <div class="ph-title">Студент получает фидбек и двигается дальше</div>
+        <div class="ph-toggle" id="p7t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p7">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что видит студент</div>
+            <div class="ph-row"><div class="ph-icon stu">📬</div><div class="ph-row-body"><h4>Письмо с фидбеком</h4><p>Открывает — видит: что получилось хорошо (конкретно), 1–2 ошибки с объяснением правила, фокус на следующие 2 недели. Не больше.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">⭐</div><div class="ph-row-body"><h4>Если есть прогресс — маленькое подтверждение</h4><p>Кабинет показывает: "Людмила отметила, что Dativ после предлогов стал заметно лучше." Просто и по делу.</p></div></div>
+            <div class="ph-row"><div class="ph-icon stu">➡️</div><div class="ph-row-body"><h4>Следующее задание появляется</h4><p>Кабинет обновляется: одно новое задание. Цикл повторяется.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что происходит за кулисами</div>
+            <div class="ph-row"><div class="ph-icon ai">🃏</div><div class="ph-row-body"><h4>Новые Anki-карточки добавлены</h4><p>Claude предложил 2–5 карточек из этого задания. Экспорт CSV готов для скачивания.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">🔄</div><div class="ph-row-body"><h4>Очередь заданий обновляется</h4><p>Airtable: следующее задание переходит в статус <code>assigned</code>. Студент видит его в кабинете как "Задание на сегодня".</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">📈</div><div class="ph-row-body"><h4>Паттерны ошибок обновляются</h4><p>Преподаватель видит в своём кабинете: "Nebensatz — 7 раз". Данные для сессии накапливаются.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-arrow">↓</div>
+
+    <!-- ФАЗА 8 -->
+    <div class="phase-block">
+      <div class="phase-header ph-session" onclick="togglePhase('p8')">
+        <div class="ph-num">8</div>
+        <div class="ph-title">Ежемесячная сессия с преподавателем</div>
+        <div class="ph-toggle" id="p8t">развернуть ▼</div>
+      </div>
+      <div class="phase-body" id="p8">
+        <div class="ph-cols">
+          <div class="ph-col user">
+            <div class="ph-col-lbl">Что происходит</div>
+            <div class="ph-row"><div class="ph-icon tch">📅</div><div class="ph-row-body"><h4>Живая встреча (Zoom / очно)</h4><p>30–45 минут. Преподаватель ведёт — студент говорит, обсуждает, задаёт вопросы.</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">📊</div><div class="ph-row-body"><h4>Показывает прогресс за месяц</h4><p>Accuracy, выполнение заданий, рост словаря. Не цифры ради цифр — разговор: "Вот что изменилось, вот куда идём."</p></div></div>
+            <div class="ph-row"><div class="ph-icon tch">🗺️</div><div class="ph-row-body"><h4>Корректирует план вместе со студентом</h4><p>Может сместить акцент (больше говорения), добавить специальный блок, изменить темп. Студент участвует в решении.</p></div></div>
+          </div>
+          <div class="ph-col sys">
+            <div class="ph-col-lbl">Что система подготовила автоматически</div>
+            <div class="ph-row"><div class="ph-icon ai">📋</div><div class="ph-row-body"><h4>Тезисы к сессии</h4><p>Дашборд преподавателя: что похвалить, что разобрать, что спросить. Сформировано из данных Airtable автоматически.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">📈</div><div class="ph-row-body"><h4>KPI-отчёт за месяц</h4><p>Accuracy, fluency trend, homework_completion_rate, vocabulary_growth. Можно показать студенту на экране.</p></div></div>
+            <div class="ph-row"><div class="ph-icon sys">✅</div><div class="ph-row-body"><h4>После сессии — план обновлён</h4><p>Преподаватель вносит правки в дашборде. Новые задания появляются в очереди. Цикл продолжается.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Итоговая архитектура -->
+    <div class="arch-box">
+      <h3>Архитектура одним взглядом</h3>
+      <div class="arch-row">
+        <div class="arch-node stu-color"><h5>Студент</h5><p>Typeform → Кабинет → Задание → Загрузка</p></div>
+        <div class="arch-arr">→</div>
+        <div class="arch-node ai-color"><h5>Zapier / n8n</h5><p>Автоматизация всех потоков A / B / C</p></div>
+        <div class="arch-arr">→</div>
+        <div class="arch-node ai-color"><h5>AI-цепочка</h5><p>Whisper → LanguageTool → Claude DRAFT</p></div>
+        <div class="arch-arr">→</div>
+        <div class="arch-node tch-color"><h5>Преподаватель</h5><p>Дашборд → Редактура → Отправка</p></div>
+        <div class="arch-arr">→</div>
+        <div class="arch-node stu-color"><h5>Студент</h5><p>Верифицированный фидбек</p></div>
+      </div>
+      <div class="arch-row" style="margin-top:10px;">
+        <div class="arch-node"><h5>Airtable</h5><p>Students · Plans · Assignments · Submissions · Progress</p></div>
+        <div class="arch-arr">↔</div>
+        <div class="arch-node"><h5>MailerLite</h5><p>Welcome · Фидбек · 30-дней Feed</p></div>
+        <div class="arch-arr">↔</div>
+        <div class="arch-node"><h5>Calendly</h5><p>Бронирование сессий</p></div>
+        <div class="arch-arr">↔</div>
+        <div class="arch-node"><h5>Gumroad / Stripe</h5><p>Оплата → Flow C</p></div>
+      </div>
+    </div>
+
+  </div></div><!-- /phases /flowTech -->
+</div><!-- /flow-page -->
+</div><!-- /section system -->
 
 <script>
-function showSection(name) {
+function show(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(name).classList.add('active');
-  event.target.classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
+}
+function toggleHints() {
+  document.getElementById('hB').classList.toggle('open');
+}
+function toggleHintsDay1() {
+  document.getElementById('hBDay1').classList.toggle('open');
+}
+function toggleAcc() {
+  document.getElementById('aBody').classList.toggle('o');
+  document.getElementById('aArr').classList.toggle('o');
+}
+function togglePhase(id) {
+  const body = document.getElementById(id);
+  const toggle = document.getElementById(id + 't');
+  const isOpen = body.classList.toggle('open');
+  toggle.textContent = isOpen ? 'свернуть ▲' : 'развернуть ▼';
+}
+// Переключатель День 1 / Месяц 2 в кабинете студента
+function switchView(view) {
+  const d1 = document.getElementById('viewDay1');
+  const cur = document.getElementById('viewCurrent');
+  const b1 = document.getElementById('btnDay1');
+  const bc = document.getElementById('btnCurrent');
+  if (view === 'day1') {
+    d1.style.display = 'block';
+    cur.style.display = 'none';
+    b1.style.background = '#4A8C6E'; b1.style.color = '#fff';
+    bc.style.background = 'transparent'; bc.style.color = '#718096';
+  } else {
+    d1.style.display = 'none';
+    cur.style.display = 'block';
+    bc.style.background = '#4A8C6E'; bc.style.color = '#fff';
+    b1.style.background = 'transparent'; b1.style.color = '#718096';
+  }
+}
+// Переключатель Клиент / Технический на странице системы
+function switchFlow(mode) {
+  const cl = document.getElementById('flowClient');
+  const te = document.getElementById('flowTech');
+  const bc = document.getElementById('btnClient');
+  const bt = document.getElementById('btnTech');
+  if (mode === 'client') {
+    cl.style.display = 'block'; te.style.display = 'none';
+    bc.style.background = '#7CC8A0'; bc.style.color = '#1A1A1A';
+    bt.style.background = 'transparent'; bt.style.color = 'rgba(255,255,255,.55)';
+  } else {
+    cl.style.display = 'none'; te.style.display = 'block';
+    bt.style.background = '#7CC8A0'; bt.style.color = '#1A1A1A';
+    bc.style.background = 'transparent'; bc.style.color = 'rgba(255,255,255,.55)';
+  }
 }
 </script>
-
 </body>
 </html>
