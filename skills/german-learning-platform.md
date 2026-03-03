@@ -649,6 +649,258 @@ This is non-negotiable and more effective than 10 fill-in-the-blank exercises.
 
 ---
 
+## PART 2H — SPEAKING METHODOLOGY (Oral Production)
+
+### Why speaking needs its own methodology
+Phonology (PART 2B) covers sounds. Shadowing (PART 2D) covers imitation.
+But spontaneous oral production — actually generating speech in real time —
+requires a separate framework. This is the most feared and most needed skill.
+
+### Two Types of Speaking Tasks (always distinguish)
+
+**Interactional Speaking** — conversation, social exchange, relationship-building
+- Purpose: connection, not information transfer
+- Examples: small talk at work, casual chat with neighbor, conversation at party
+- Key features: turn-taking, back-channeling ("ach so", "stimmt"), topic shifts
+- Russian → German transfer risk: Russians use less small talk, more silence —
+  perceived as cold or unfriendly by Germans
+
+**Transactional Speaking** — getting something done through language
+- Purpose: information exchange, task completion
+- Examples: ordering food, making appointments, asking directions, job interviews
+- Key features: clear requests, confirmation, strategic competence when stuck
+- This is where our students need MOST immediate help
+
+**Platform rule:** Tag every speaking task as interactional or transactional.
+A1–A2: focus on transactional (survival tasks). B1+: balance both types.
+
+### Prepared vs. Spontaneous Speech
+
+```
+PREPARED SPEECH            SPONTANEOUS SPEECH
+─────────────────────────────────────────────────────
+Script available           No script
+Time to plan               Real-time planning
+Low cognitive load         High cognitive load
+Focus: accuracy            Focus: fluency
+Example: presentation,     Example: conversation,
+         phone call prep            reactions, emergencies
+```
+
+**Scaffolding sequence:**
+1. Student prepares and reads aloud (maximally supported)
+2. Student reads from notes (partially supported)
+3. Student speaks from keywords only
+4. Student speaks without preparation (authentic spontaneous)
+
+Never jump straight to step 4 with anxious students.
+Prepared speech IS valuable — it builds automatized chunks that later
+appear in spontaneous speech.
+
+### Speaking Output Protocol (every speaking task)
+
+```
+Step 1: CONTEXT ACTIVATION
+  "Вы звоните в Zahnarztpraxis. Что вам нужно сказать? Думайте по-русски,
+   потом формулируйте по-немецки."
+
+Step 2: SILENT PLANNING (30–60 seconds)
+  Student plans WITHOUT speaking. This simulates real mental preparation.
+  "Не торопитесь. У вас 1 минута. Подумайте что скажете."
+
+Step 3: PRODUCTION
+  Student speaks (records or in live session).
+  Teacher does NOT interrupt.
+
+Step 4: SELF-EVALUATION
+  "Что получилось? Что хотели сказать но не смогли?"
+  Student identifies own gaps BEFORE teacher feedback.
+
+Step 5: TEACHER FEEDBACK
+  Focus on 1–2 items max. Not comprehensive correction.
+
+Step 6: REPEAT
+  Student repeats the same task with the feedback incorporated.
+  (The single most underused step — repetition with feedback integration)
+```
+
+### Fluency Development Techniques (for B1+)
+
+**4/3/2 Technique (Nation):**
+Student tells a story/describes a situation:
+- In 4 minutes → then same content in 3 minutes → then in 2 minutes.
+- Forces automatization: same content, faster retrieval. Builds fluency measurably.
+
+**Information Gap Tasks:**
+Student A has information Student B needs (or vice versa).
+Both must communicate to complete the task.
+Even in 1:1 teaching: teacher has picture/text, student asks questions, or vice versa.
+
+**Consciousness-raising through recording:**
+Student records themselves → listens back → notes 1 thing to improve.
+Self-monitoring is more durable than external correction.
+
+**Platform rules for speaking tasks:**
+- Every speaking task tagged: interactional / transactional
+- Always include silent planning time before production
+- Record-and-review tasks monthly minimum
+- Never correct ALL errors in speaking — choose 1–2 targets per session
+- "Repeat with feedback" step is MANDATORY — not optional
+
+---
+
+## PART 2I — PRAGMATICS & SPEECH ACTS
+
+### Why pragmatics is not optional for immigrants
+
+Pragmatic failure = using grammatically correct language in the wrong social context.
+It is MORE damaging than grammar errors because:
+- Grammar errors → "they're learning" (tolerated)
+- Pragmatic errors → "they're rude/strange/aggressive" (not tolerated)
+
+A student who says "Gib mir das Formular" to a Behörde officer
+is grammatically correct but socially catastrophic.
+
+### Speech Acts Framework (Austin 1962, Searle 1969)
+
+Every utterance performs an ACTION. Key speech acts for German immigrants:
+
+```
+REQUESTING: "Könnten Sie mir bitte helfen?" (softened)
+            "Ich hätte gerne..." (polite want)
+            NOT: "Gib mir..." (command — wrong register)
+
+REFUSING:   "Das ist leider nicht möglich."
+            "Ich würde gerne, aber leider..."
+            NOT: "Nein." (too abrupt in many contexts)
+            NOT: Russian indirect refusal (Germans misread as "maybe")
+
+APOLOGIZING: "Es tut mir leid" (sincere, formal)
+             "Entschuldigung" (excuse me, getting past)
+             "Entschuldigen Sie bitte" (I apologize, more formal)
+             NOT: "Sorry" (accepted but marks as non-German)
+
+COMPLAINING: Beschwerde = formal complaint (letter/email)
+             Informale Kritik = "Ich finde das nicht so gut"
+             NOT: direct emotional complaint (Russian style) in German professional context
+
+COMPLIMENTING: Germans give and RECEIVE compliments differently
+               Giving: "Das haben Sie sehr gut gemacht" (professional)
+               Receiving: "Danke schön" (accept it — don't deflect as Russians do)
+
+DISAGREEING: "Das sehe ich etwas anders" (professional)
+             "Ich bin da anderer Meinung, weil..." (B2+)
+             NOT: silent disagreement (German culture expects explicit, polite pushback)
+```
+
+### Russian → German Pragmatic Transfer Errors (most common)
+
+| Russian behavior | German interpretation | German equivalent |
+|-----------------|----------------------|-------------------|
+| Indirect refusal ("может быть") | "Yes, let me check" confusion | "Leider nicht möglich" — direct but polite |
+| No small talk before request | Rude, transactional | 1–2 social sentences first always |
+| Silence when unsure | Disinterest or disagreement | "Einen Moment, ich überlege..." |
+| Deflecting compliments | False modesty / uncomfortable | "Danke schön" — accept it |
+| Emotional directness at work | Unprofessional | Sachlichkeit — topic-focused, neutral |
+| Calling someone by first name immediately | Inappropriate (Sie/du confusion) | Wait for explicit "du" offer |
+
+### Register System (Sie / du / informal)
+
+This is a complete linguistic system that must be explicitly taught:
+
+```
+FORMAL (Sie): Behörde, doctor, shop staff (first contact), older strangers,
+              colleagues at professional meetings, official letters
+              → "Guten Tag, könnten Sie mir bitte sagen, wo...?"
+
+INFORMAL (du): close friends, family, younger peers who offered "du",
+               some modern workplaces (start-ups), children
+               → "Hey, weißt du, wo...?"
+
+MIXED:        Modern offices — wait for colleague to offer "du" first
+              Never switch Sie→du without invitation — serious faux pas
+```
+
+**Platform rule:** Every dialogue/role-play task must specify the Sie/du register.
+Register mismatch is a cultural error — treat as seriously as grammar.
+
+**Monthly speech act task (mandatory B1+):**
+"Опишите ситуацию, когда регистр общения (Sie/du, тон) был для вас неясен.
+ Что вы сказали? Что должны были сказать?"
+→ Teacher decodes through cultural lens (not grammar correction).
+
+---
+
+## PART 2J — TELEPHONE & VIDEO CALL SKILLS
+
+### Why this is a separate skill
+
+Phone German is measurably harder than face-to-face German:
+- No visual cues: no lip-reading, no facial expression, no gestures
+- No "wait, I'll show you" option
+- Acoustics often poor (mobile, background noise)
+- Standard formulas are MANDATORY — deviation sounds strange
+- Asking for repetition feels awkward → students avoid → miss information
+
+For Russian immigrants: booking a doctor appointment by phone =
+one of the highest-anxiety real-life tasks. THIS is where students give up.
+
+### Telephone Script Framework (mandatory for A2+)
+
+```
+ANSWERING:
+  "Hier ist [Name]."  ← standard German
+  NOT: "Hallo?" (informal, sounds odd professionally)
+
+ASKING FOR SOMEONE:
+  "Guten Tag, ich würde gerne mit Herrn/Frau [Name] sprechen."
+  "Könnte ich bitte Herrn [Name] sprechen?"
+
+STATING PURPOSE:
+  "Ich rufe wegen [Termin / meiner Krankenkasse / Bestellung] an."
+  "Ich möchte einen Termin vereinbaren."
+
+ASKING FOR REPETITION:
+  "Entschuldigung, könnten Sie das bitte wiederholen?"
+  "Wie bitte? Ich habe das nicht ganz verstanden."
+  "Könnten Sie bitte etwas langsamer sprechen?"
+
+CONFIRMING:
+  "Also, der Termin ist am [Datum] um [Uhrzeit] Uhr — ist das richtig?"
+  "Ich fasse kurz zusammen: ..."
+
+ENDING:
+  "Vielen Dank, auf Wiederhören."  ← ALWAYS "Wiederhören" not "Wiedersehen" by phone
+```
+
+### Telephone Training Protocol
+
+```
+Stage 1: Student reads script aloud (teacher on "phone")
+Stage 2: Student uses keywords only
+Stage 3: Surprise call — teacher calls student at start of session, no prep
+Stage 4: Real call preparation — student writes script for their actual upcoming call,
+          rehearses with teacher, makes the real call, debriefs after
+```
+
+**Stage 4 is the highest-value activity in the entire curriculum.**
+A student who has to call their Krankenversicherung = use Stage 4.
+Real-world practice under genuine communicative pressure = maximum acquisition trigger.
+
+**Common phone situations to practice (priority order for immigrants):**
+1. Zahnarzt/Arzt — Termin vereinbaren / absagen
+2. Krankenversicherung — Frage zur Leistung
+3. Vermieter — Reparatur melden
+4. Arbeitgeber — sich krankmelden ("Ich bin heute leider krank")
+5. Kinderarzt / Schule der Kinder
+6. Behörde — Termin anfragen
+
+**Platform rule:** "Real call preparation" is a task type in the system.
+Student submits: script written, rehearsal recorded, outcome after real call.
+Teacher provides pre-call feedback and post-call debrief.
+
+---
+
 ## PART 3 — INTERLANGUAGE & ERROR ANALYSIS (Selinker)
 
 Every student has an interlanguage — a developing grammar system that is NEITHER
@@ -670,6 +922,60 @@ Classify ALL teacher-marked errors by type:
 - Correct: pragmatic errors always, transfer errors usually, developmental errors gently
 - Never correct more than 2–3 patterns per feedback session (cognitive overload)
 - Distinguish: errors (systematic, need attention) vs. mistakes (slips, ignore)
+
+### Fossilization — When Errors Become Habits (Selinker, 1972)
+
+**What is fossilization?**
+An error becomes fossilized when it persists despite repeated correction,
+explicit instruction, and extended exposure. The student "knows" the rule
+but cannot stop producing the error automatically.
+
+Common fossilized errors in Russian → German learners:
+- "Ich bin 42 Jahre" (correct: Ich bin 42 Jahre ALT)
+- Missing verb-second order: "Gestern ich war..." (correct: war ich)
+- Adjective endings in accusative: "Ich sehe ein groß Mann"
+- Misuse of Perfekt/Präteritum in spoken German
+
+**Why fossilization happens:**
+Declarative knowledge never fully automatized (DeKeyser). The correct form
+exists in conscious memory but NOT in automatic production.
+
+**Fossilization Detection Protocol:**
+- Same error appears 5+ times in consecutive sessions = suspect fossilization
+- Error persists after explicit correction + metalinguistic explanation
+- Student self-corrects when asked but reverts in spontaneous speech
+
+**Deliberate Unlearning Protocol (Fossilization Treatment):**
+```
+Step 1: RAISE AWARENESS
+  Show student their OWN recording/writing with error highlighted.
+  "Вы слышите? Вот как вы говорите. Вот как нужно."
+
+Step 2: CONTRAST DRILLING (not standard drilling)
+  Student produces WRONG form intentionally → CORRECT form immediately
+  "Скажите неправильно: 'Ich bin müde.'"
+  "Теперь правильно: 'Ich bin MÜDE.' Снова."
+  (Contrast strengthens the correct trace by comparison)
+
+Step 3: TIMED MICRO-DRILLS (DeKeyser automatization)
+  20 rapid-fire production trials with target form — speed matters
+  "У вас 30 секунд — 10 предложений с 'Ich bin [adjektiv].'"
+
+Step 4: COMMUNICATIVE TASK WITH FOCUS
+  Real task where student MUST use the target form AND knows teacher is watching it
+  "В этом задании я слежу только за одним: за порядком слов."
+
+Step 5: INTEGRATION IN SPONTANEOUS SPEECH
+  Free production — teacher counts target structure occurrences silently
+  Do NOT correct other errors during this phase — only track the target
+```
+
+**Important:** Temporary regression is NORMAL during unlearning.
+Student may speak worse overall while correcting one fossilized pattern.
+Explain this in advance to prevent anxiety and dropout.
+
+**Platform rule:** Flag fossilized errors in teacher dashboard separately
+from regular errors. Unlearning protocol requires minimum 4 weeks of targeted work.
 
 ---
 
@@ -803,7 +1109,121 @@ Well-being = prerequisite for learning. Design platform for PERMA:
 - **M**eaning: link every task to student's real life goal
 - **A**ccomplishment: visible milestones, CEFR level transitions as rituals
 
-### 4.8 Growth Mindset (Dweck / Stanford, 2006 — meta-confirmed 2024)
+### 4.8 Acculturation Theory — Phases of Integration (Oberg, Berry)
+
+**This is the most underappreciated factor in immigrant language education.**
+
+Every Russian-speaking student on this platform is not just learning a language —
+they are navigating a complete life transition. Their language progress is
+inseparable from their integration trajectory.
+
+### The Culture Shock Curve (Kalervo Oberg, 1960)
+
+```
+PHASE 1: HONEYMOON (месяцы 1–6)
+─────────────────────────────────────────────────────────────
+Experience: Everything is fascinating — architecture, order, cleanliness.
+            "Германия такая чистая! Всё так организовано!"
+Language:   HIGH motivation. Eager to learn. Everything is interesting.
+Learning:   Fast surface acquisition. High WTC. Absorbs quickly.
+Teacher:    Ride the wave. Set ambitious goals. Build Ideal L2 Self now.
+
+PHASE 2: CULTURE SHOCK / CRISIS (месяцы 3–18)
+─────────────────────────────────────────────────────────────
+Experience: Exhaustion, frustration, homesickness, feeling invisible.
+            "Немцы холодные. Бюрократия невыносима. Зачем я здесь?"
+Language:   WTC COLLAPSES. Language anxiety SPIKES. "Why bother?"
+            May avoid German situations. May regress to Russian bubble.
+Learning:   Progress stalls or regresses. Many students DROP OUT in this phase.
+Teacher:    CRITICAL PHASE. Slow down. Reduce task complexity temporarily.
+            Validate feelings. DON'T push. Small wins only.
+            "Это нормальная стадия. Через неё проходят все. Она закончится."
+
+PHASE 3: ADJUSTMENT (месяцы 6–24)
+─────────────────────────────────────────────────────────────
+Experience: Student finds strategies. Discovers routines. Builds small community.
+            "Я понял/а как тут работает Behörde." "У меня есть коллега-немка."
+Language:   Functional language use recovers. WTC gradually increases.
+Learning:   Stable progress. Real-life situations become tractable.
+Teacher:    Functional task focus. Language for real situations.
+            Celebrate every real-world success: "Я сама позвонила в Zahnarzt!"
+
+PHASE 4: INTEGRATION / ADAPTATION (год 2–5+)
+─────────────────────────────────────────────────────────────
+Experience: Bicultural identity. Germany feels like home alongside Russia.
+Language:   German feels like part of "me", not a foreign costume (Norton, 2001).
+            Learner autonomy emerges. Internal motivation dominates.
+Learning:   Self-directed. High WTC. Complex tasks welcomed.
+Teacher:    Coach role. Gradual handover. Celebrate bicultural identity.
+```
+
+### Berry's Acculturation Strategies (John Berry, 1997 / 2005)
+
+**Critical for motivation diagnosis:** How a student relates to BOTH cultures
+determines what kind of language motivation they have.
+
+```
+                    Важно сохранить русскую культуру/идентичность?
+                         ДА                      НЕТ
+                ┌──────────────────┬───────────────────────┐
+Принять    ДА  │  INTEGRATION     │   ASSIMILATION        │
+немецкую       │  (оптимально)    │   (стресс идентичности)│
+культуру?  НЕТ │  SEPARATION      │   MARGINALIZATION     │
+               │  (изоляция)      │   (кризис, риск)      │
+               └──────────────────┴───────────────────────┘
+```
+
+**Integration (лучший прогноз):**
+Student wants to be German AND Russian. Additive bilingualism.
+→ Language = tool for participation, not replacement of identity
+→ Platform frame: "Немецкий добавляется к вам — он не заменяет русский"
+
+**Assimilation (стресс):**
+Student wants to "become German" — rejects Russian identity markers.
+High identity stress. May learn fast but burn out.
+→ Teacher: validate both identities. Translanguaging is a resource, not weakness.
+
+**Separation (риск застревания):**
+Student lives in Russian-speaking bubble. Little contact with German.
+Low intrinsic motivation for German. "Russian is enough here."
+→ Teacher: create real-world German situations, show need. Don't lecture — demonstrate.
+→ Real cost of staying in bubble: job ceiling, exclusion, children's disadvantage.
+
+**Marginalization (кризис):**
+Student rejects BOTH cultures. Alienation, depression risk.
+→ Language learning is lowest priority. Psychological safety is the first task.
+→ Teacher: refer to professional support if signs appear. Do NOT push curriculum.
+
+### Acculturation Diagnostic Protocol (first 2 sessions)
+
+Ask directly (warm tone, no judgment):
+```
+1. "Как вы себя чувствуете в Германии сейчас — как дома, или это ещё
+    не совсем ваша страна?"
+   → Identifies current phase (Honeymoon / Culture Shock / Adjustment / Integration)
+
+2. "Как вы относитесь к тому, что вы русскоязычный человек в Германии?
+    Это важная часть того, кто вы есть?"
+   → Identifies Berry strategy (Integration vs Assimilation vs Separation)
+
+3. "Что бы изменилось в вашей жизни если бы немецкий стал для вас
+    таким же лёгким, как русский?"
+   → Reveals Ideal L2 Self and real motivation depth
+```
+
+**Teacher action based on diagnosis:**
+- Phase 2 (Culture Shock) + Separation → Start with REAL NEED tasks only
+  (not grammar). Demonstrate: "Вот что немецкий даст вам через 6 месяцев."
+- Phase 1 (Honeymoon) + Integration → Full speed ahead, build vision now
+- Phase 4 (Integration) + Integration → Coach mode, advanced curriculum
+
+**Platform rule:** Record acculturation phase in student profile.
+Review monthly — phases shift. Update teaching approach accordingly.
+Never interpret cultural shock symptoms as "laziness" or "lack of motivation."
+
+---
+
+### 4.9 Growth Mindset (Dweck / Stanford, 2006 — meta-confirmed 2024)
 
 **Fixed Mindset vs. Growth Mindset — the highest-impact psychological lever.**
 
@@ -970,6 +1390,48 @@ Month 5+: Student self-directs, teacher coaches and quality-checks
 - Error journal: student tracks their OWN recurring mistakes
 - Study log: what I did this week, what worked, what didn't
 
+### Self-Regulated Learning (SRL — Zimmerman, 2002)
+
+Holec & Little describe autonomy as a goal. Zimmerman describes HOW to get there.
+SRL is the mechanism: the cognitive skills that make autonomous learners possible.
+
+**Three SRL phases (must be explicitly taught — students don't do this naturally):**
+
+```
+PHASE 1: FORETHOUGHT (перед занятием)
+  Goal setting:   "Моя цель сегодня: ..."
+  Strategy plan:  "Для этого я буду делать..."
+  Motivation:     "Это важно потому что..."
+
+  Platform task: Student writes 3-sentence plan before starting each assignment.
+  Even 1 sentence: "Сегодня я хочу научиться [конкретно]."
+
+PHASE 2: PERFORMANCE MONITORING (в процессе)
+  Self-monitoring: "Получается ли то что я планировал?"
+  Strategy shift:  "Это не работает → попробую иначе"
+  Attention control: "Я отвлёкся → возвращаюсь к заданию"
+
+  Platform tool: Student tags own submission: "лёгко / нормально / трудно"
+  Teacher uses this data for calibration, not grading.
+
+PHASE 3: SELF-REFLECTION (после занятия)
+  Self-evaluation:  "Достиг ли я цели?"
+  Attribution:      "Почему получилось / не получилось?"
+  Adaptation:       "В следующий раз я попробую..."
+
+  Platform prompt (mandatory monthly): "Что вы узнали о том, КАК вы учитесь?"
+```
+
+**SRL progression (aligned with Scaffolding Withdrawal Schedule):**
+- Month 1: Teacher provides ALL three phases as prompts
+- Month 2: Teacher provides Phase 1 + 3 prompts, student monitors own performance
+- Month 3+: Student initiates all three phases independently
+
+**Why SRL matters more than any technique:**
+A student with strong SRL can learn from ANY resource — textbook, YouTube, conversation.
+A student without SRL fails even with the best teacher and materials.
+Building SRL is the deepest long-term investment of this platform.
+
 ---
 
 ## PART 8 — GENERATIONAL DESIGN PRINCIPLES + COGNITIVE ARCHITECTURE
@@ -1046,6 +1508,47 @@ If student has 30 minutes, structure as:
 
 **Platform rule:** No single continuous activity should exceed 12 minutes.
 Tag all assignments with expected time. If task exceeds 12 min, split into sub-tasks.
+
+### 8.4 Multimedia Learning Principles (Richard Mayer, 2001 / updated 2023)
+
+People learn better from words AND pictures than from words alone.
+But only when the design follows these principles. Violations cause WORSE learning
+than text-only (extraneous load — already in 8.2).
+
+**The 5 most important principles for platform design:**
+
+```
+1. COHERENCE PRINCIPLE
+   Remove everything that does not directly support the learning objective.
+   Each task page: 1 task, 1 instruction, nothing else.
+   Violation: decorative graphics, irrelevant examples, long introductions.
+
+2. SIGNALING PRINCIPLE
+   Highlight what matters. Bold key terms. Use headers. Visual hierarchy.
+   Student's eye should go immediately to the most important element.
+   Application: bold the target grammar structure in feedback.
+                highlight the 1-2 correction points in student's text.
+
+3. MODALITY PRINCIPLE
+   Audio + image > text + image (for explanations).
+   Teacher audio feedback + written text > written text alone.
+   Application: encourage teachers to send audio messages for complex feedback.
+
+4. SEGMENTING PRINCIPLE
+   Break complex content into learner-paced segments with pauses between.
+   Long grammar explanation? Break into 3 micro-steps, student confirms each.
+   Application: multi-step instructions → numbered steps, not one paragraph.
+
+5. PERSONALIZATION PRINCIPLE
+   Use conversational language, not formal textbook language.
+   "Посмотрите на это предложение" > "Обратитесь к представленному ниже примеру"
+   Already embedded in platform tone (CLAUDE.md) — reinforce here.
+```
+
+**Platform UI implication:**
+Every screen element should pass the Coherence test:
+"Does this help the student complete THIS task right now?"
+If no → remove it.
 
 ---
 
@@ -1377,8 +1880,46 @@ A final quality checklist. Before delivering any curriculum unit, verify:
 - [ ] Weekly 3-question check-in sent
 - [ ] Language diary reviewed at least monthly
 - [ ] Student has set up daily German media exposure (AJATT adaptation)
+- [ ] 1 German song assigned per month (melodic memory)
+- [ ] Extensive reading graded reader recommended at student's level
+- [ ] Numerical literacy drill included this month
 
----
+**Speaking (PART 2H):**
+- [ ] Speaking task tagged: interactional / transactional
+- [ ] Silent planning time provided before production (30–60 sec)
+- [ ] "Repeat with feedback" step included (student redoes task after correction)
+- [ ] Self-evaluation prompted before teacher feedback
+
+**Pragmatics (PART 2I):**
+- [ ] Register (Sie/du) specified in all dialogue/role-play tasks
+- [ ] At least 1 speech act task per month (requesting / refusing / apologizing / complaining)
+- [ ] Russian → German pragmatic transfer checked
+
+**Phone skills (PART 2J):**
+- [ ] Real call preparation task used when student has actual upcoming German call
+- [ ] Standard telephone formulas reviewed before phone task
+- [ ] Post-call debrief included when real call was made
+
+**Fossilization (PART 3 update):**
+- [ ] Fossilized errors tracked separately from developmental errors
+- [ ] If fossilized error detected: unlearning protocol initiated (not just re-correction)
+- [ ] Student warned that temporary regression is normal during unlearning
+
+**Acculturation (PART 4.8):**
+- [ ] Acculturation phase diagnosed and recorded in student profile
+- [ ] Berry strategy identified (integration / assimilation / separation / marginalization)
+- [ ] Teaching approach adapted to current acculturation phase
+- [ ] Culture shock symptoms not misread as "laziness" or "low motivation"
+
+**SRL — Self-Regulated Learning (PART 7 update):**
+- [ ] Forethought prompt given before assignment ("what is your goal today?")
+- [ ] Self-reflection prompt given after assignment ("did you reach it?")
+- [ ] SRL phase matches scaffolding withdrawal stage
+
+**Multimedia Design (PART 8.4):**
+- [ ] Coherence principle applied: no irrelevant content on task screen
+- [ ] Signaling applied: target structure/correction is visually highlighted
+- [ ] Complex instructions broken into numbered steps
 
 ---
 
@@ -1463,6 +2004,155 @@ Teacher reviews diary monthly: "вы собрали 12 фраз — из них 
 Use these as a toolkit — diagnose which style fits this student's learning profile
 and emphasize that strand in their curriculum.
 
+### Music & Melodic Memory
+
+**The brain's melodic memory system is separate from linguistic memory —
+and language embedded in music survives even severe brain damage.**
+
+Songs bypass the "foreign language barrier" in the amygdala (affective filter).
+Students who freeze in conversation often sing German correctly — this is neural evidence
+that melodic encoding creates a different, more durable memory trace.
+
+**Efficiency:** Learning 1 German song = ~30–50 words in phonological context +
+prosody practice + cultural knowledge + emotional connection. Best ROI per minute
+of ANY between-session activity.
+
+**Song Learning Protocol:**
+```
+Session 1: Listen 3× (no text) → global comprehension, gist
+Session 2: Read lyrics + translation → word/phrase understanding
+Session 3: Listen + read simultaneously → matching sound to text
+Session 4: Sing along (imperfect is fine) → production
+Session 5: Pick 3 interesting expressions → analyse + use in own sentence
+```
+
+**German Music Map by Level:**
+```
+A1–A2: Kinderlieder (also excellent for parents with children)
+        "Ein Männlein steht im Walde" — simple, high repetition
+        Modern simple: Tim Bendzko "Nur noch kurz die Welt retten" (simple language)
+
+A2–B1: Rammstein (extreme pronunciation exercise — every word is clear!)
+        Peter Fox "Stadtaffe" — Berlin colloquial
+        Clueso — clear articulation, everyday themes
+
+B1–B2: Cro "Melodie", Mark Forster, Lena "Satellite"
+        Wincent Weiss, Lea — modern pop, natural speech patterns
+
+B2–C1: Deutschrap: Alligatoah, Sido — rich vocabulary, cultural references
+        Lied: Reinhard Mey, Udo Jürgens — traditional, formal German
+```
+
+**Platform rule:** Assign 1 German song per month as home task.
+Student submits: (a) 3 phrases they found interesting, (b) 1 sentence from their life
+using 1 phrase from the song. Teacher reviews cultural/linguistic content.
+
+### Extensive Reading (Krashen's Free Voluntary Reading, 1994)
+
+**The most powerful and cheapest acquisition activity that almost nobody does systematically.**
+
+**The principle:** Read texts where 95%+ of words are known. This creates
+massive comprehensible input (Krashen i+1 at scale). 15–20 minutes/day =
+~10,000 words of exposure per month = measurable vocabulary growth.
+
+**The 95% rule (critical):**
+If student encounters more than 5 unknown words per page → text is too hard.
+NOT for studying. For reading. Studying kills the flow = kills acquisition.
+
+**German Graded Readers by Level:**
+```
+A1–A2: Einfach Lesen! (Hueber Verlag) — very short chapters, pictures
+        "Die Olchis" (children's, but adults like them)
+        "Emil und die Detektive" (A2 adapted version)
+
+B1:    Lektüren Deutsch als Fremdsprache (Cornelsen, dtv)
+        "Der Vorleser" (adapted B1 version)
+        "Krabat" (B1 adapted)
+
+B2+:   Original German fiction — start with authors who write simply:
+        Daniel Kehlmann "Die Vermessung der Welt"
+        Sebastian Fitzek (thriller — compulsive reading = more German input)
+        Zeit Online articles — excellent authentic B2 non-fiction
+```
+
+**Platform rule:** Recommend 1 graded reader per CEFR level.
+Student reports: pages read this week, 1 interesting word/phrase noticed.
+No comprehension quiz — kills joy of reading. Trust the process.
+
+### Tandem / Language Exchange
+
+**Language exchange = free native speaker practice.** Structure matters:
+30 minutes German + 30 minutes Russian. Each partner corrects the other.
+
+**Why tandem works (and why it often fails):**
+Works: when both partners have similar goals and commit to structure.
+Fails: when conversation drifts to the dominant language (usually English or Russian).
+
+**Structured Tandem Protocol:**
+```
+Minutes 0–5:    Set topic for today's German half
+Minutes 5–25:   German conversation on topic (Russian partner corrects)
+Minute 25:      Native partner writes down 3 corrections with explanations
+Minutes 30–35:  Set topic for Russian half
+Minutes 35–55:  Russian conversation (German partner corrects)
+Minute 55:      Write 3 corrections for Russian learner
+```
+
+**Finding partners:**
+- Tandem (app) — language exchange matching
+- HelloTalk — text/voice/video exchange
+- Speaky — conversation partner matching
+- Local: Volkshochschule Tandem programs (free, in-person)
+- Facebook groups: "Deutsch-Russisch Sprachtausch"
+
+**Platform rule:** Teacher recommends tandem as supplement from B1 level.
+Student reports: tandem session done this week → earns "real conversation" badge.
+Teacher can use tandem conversation topics as next session warm-up material.
+
+### Numerical Literacy in German
+
+**Completely overlooked but critical for daily life.**
+Numbers in German have a specific difficulty for Russian speakers:
+the tens-and-ones are REVERSED ("einundzwanzig" = "one-and-twenty").
+This causes consistent errors under pressure: shops, phone numbers, addresses.
+
+**Target areas (priority order):**
+
+```
+1. BASIC NUMBERS 1–100
+   Special attention: 21–99 (reverse order)
+   Drill: rapid-fire phone number dictation
+
+2. LARGE NUMBERS
+   1.000 (tausend), 1.000.000 (eine Million)
+   German uses . as thousands separator (not comma like Russian)
+   Price: "Das kostet neun Euro achtundneunzig" (9,98€)
+
+3. DATES
+   "der dritte Februar zweitausendvierundzwanzig"
+   Written: 03.02.2024 (same as Russian — bridge!)
+   Spoken: ordinal numbers + month + year
+
+4. TIME
+   24-hour clock (formal): "Der Termin ist um 14 Uhr 30"
+   Colloquial: "halb drei" (2:30!), "Viertel vor drei" (2:45)
+   "Viertel nach zwei" (2:15) — confusing for Russian speakers
+
+5. PHONE NUMBERS
+   Germans often say numbers in pairs: 089 / 44 55 / 66
+   "null acht neun — vier vier fünf fünf — sechs sechs"
+
+6. ADDRESSES
+   "Hauptstraße [Hausnummer], [PLZ] [Stadt]"
+   Dictation: "Hauptstraße vierzehn, achtzehntausend München"
+```
+
+**Number Literacy Drill Protocol:**
+Monthly "numbers under pressure" micro-task:
+- Teacher sends voice message with 5 numbers/dates to transcribe
+- Student sends back transcribed text + reads them aloud (recording)
+- Works at ALL levels — just adjust complexity
+
 ### Between-Session Check-In (Weekly Template)
 
 Every week, teacher sends 3 questions:
@@ -1476,6 +2166,198 @@ Student answers are used to:
 - Inform next session's real-life task focus
 - Track WTC (Willingness to Communicate) growth over time
 - Feed language diary → new assignment material
+
+---
+
+---
+
+## PART 16 — STUDENT LIFE SCENARIOS: Daily German Integration
+
+**For teachers:** Use these profiles to customize immersion recommendations.
+Every student receives a personalized daily plan at session 1–2.
+German must fit INTO the life the student already has — not compete with it.
+
+---
+
+### 👨‍👩‍👧‍👦 SCENARIO 1 — WORKING PARENT WITH CHILDREN
+*35–45, 2 kids (7 and 12), 9–18 job, evenings = children + exhaustion*
+
+**Core constraint:** No long focus windows. Constant interruptions.
+Evening brain = depleted. Weekend mornings = only real opportunity.
+
+```
+07:00  Breakfast + getting kids ready  → German radio in background (10 min)
+07:30  School run (car)               → Podcast DW / Slow German (20 min)
+12:30  Lunch alone                    → 1 DW article or news (10 min)
+18:00  Commute home                   → Phonetic shadowing (20 min)
+20:30  Kids in bed                    → Main assignment OR 5-min SRS (min viable)
+Before own sleep                      → 3 flashcards (consolidation window)
+Saturday 07:00 (kids still sleeping)  → 45-min full session — weekly priority
+```
+
+**Activity integration:**
+- Cooking: read German recipe aloud, label kitchen items (Kühlschrank, Herd, Tasse)
+- Grocery shopping: name items in German mentally as they go into cart
+- Homework help: give self instructions quietly in German
+- Reading to children: German children's books (Gruffalo auf Deutsch!)
+- Children's songs: Kinderlieder are excellent input + children benefit too
+
+**Teacher note:** Acknowledge exhaustion openly. Never assign tasks that require
+fresh cognitive energy for tired evenings. Passive input (audio) = evening default.
+Active production = morning or Saturday only.
+
+---
+
+### 🎓 SCENARIO 2 — STUDENT / YOUNG PROFESSIONAL
+*22–28, studying or first job, irregular schedule, phone = life*
+
+**Core constraint:** Procrastination. Social media competes for every attention window.
+"I'll start tomorrow" is the primary enemy.
+
+```
+08:00  Breakfast + getting ready      → Podcast while eating (30 min)
+Transit to class/work                 → Shadowing / audio (variable)
+Between classes / coffee break        → 10 min Anki or 1 sentence challenge
+Library / study time                  → 1 page graded reader (10 min)
+Evening                               → Main session 45–60 min
+Social media time                     → HelloTalk: 1 message in German per day
+```
+
+**Activity integration by hobby:**
+- Gaming: switch game interface to German
+- YouTube: 1 German channel on interest topic (history, tech, cooking, humor)
+- Netflix: 1 German series always in rotation ("Dark" B2+, "How to Sell Drugs" B1+)
+- Music: Spotify German playlist matching their taste
+- Instagram/TikTok: follow 5 German accounts → feed gradually transforms
+
+**Teacher note:** Embed in existing digital habits. Don't add German on top of life —
+REPLACE existing content with German content (same platforms, same time, German content).
+
+---
+
+### 🧑 SCENARIO 3 — SINGLE ADULT / CHILDLESS
+*30–50, full-time job, free evenings, has hobbies*
+
+**Core advantage:** Predictable schedule. Evenings available.
+This is the most favorable profile for systematic language progress.
+
+```
+07:00  Morning (breakfast + prep)     → 30-min study — MORNING = peak cognition
+Transit                               → Audio input
+Lunch break                           → German article or video (15 min)
+Gym / exercise                        → Audiobook or podcast (40–60 min — GOLD)
+Evening                               → Assignment OR German series / film
+Before sleep                          → 5 min SRS
+```
+
+**Activity integration by hobby:**
+- Gym: exclusively German audio content (podcast, audiobook, music)
+- Cooking: German cooking YouTube (Chefkoch, Kitchen Impossible)
+- Reading: 1 German graded reader always alongside main book
+- Travel: plan trips using German websites (DB.de, idealo.de — not Google)
+- Sports: follow German sports commentary, Bundesliga if interested
+
+**Teacher note:** Recommend morning study as primary slot — not evening.
+Evenings are valuable for immersion (passive) but not peak cognitive work.
+
+---
+
+### 💻 SCENARIO 4 — FREELANCER / REMOTE WORKER
+*28–45, works from home, self-directed schedule*
+
+**Core constraint:** Blurry work/rest boundaries. "Pomodoro potential" is enormous.
+
+```
+09:00  Start of workday               → First 30 min = German study (before work)
+Work Pomodoro (25+5)                  → Each 5-min break: 1 Anki card
+13:00  Lunch break                    → 30-min study session (golden — no pressure)
+Coffee break                          → Voice message to language partner
+After work                            → Passive immersion: German radio / podcast
+Evening                               → Optional session or immersion (series)
+```
+
+**Activity integration:**
+- Computer: full interface in German (Windows, browser, email)
+- Work communication: read any German-language work content actively
+- Zoom prep: 5-min review of German phrases before calls with German colleagues
+- Pomodoro reward: favorite German YouTube video as break
+
+**Teacher note:** The lunch break study session has highest ROI for this profile.
+No commute → use saved time for German. Computer in German = constant low-level input.
+
+---
+
+### 👶 SCENARIO 5 — PARENT ON PARENTAL LEAVE
+*25–38, baby/toddler at home, fragmented attention, chronic sleep deprivation*
+
+**Core constraint:** No focus window > 10 minutes. Exhaustion is real and valid.
+**Core opportunity:** Enormous amount of time with baby = output practice opportunity.
+
+```
+GOLDEN WINDOW: baby's nap time (20–45 min)
+ → This is the ONLY focused study time. Protect it absolutely.
+ → Don't clean. Don't cook. Don't scroll. STUDY.
+
+During nursing/rocking                → Audio (baby does not object to German)
+Walk with stroller                    → Shadowing or podcast
+Floor play with baby                  → Narrate actions IN GERMAN aloud
+                                        ("Jetzt nehme ich den Ball. Der Ball ist rot.")
+Cooking (baby in bouncer)            → German radio or YouTube in background
+Before own sleep                      → 5 min SRS only (exhaustion is real)
+```
+
+**Activity integration:**
+- Talk to baby in German = best output practice (zero judgment, high exposure)
+- Read German children's books to baby (melodic, repetitive = great input)
+- Kinderlieder: German children's songs → melodic memory + baby enjoys
+- Supermarket with baby: name items in German quietly as you shop
+
+**Teacher note:** Remove guilt about "not doing enough." 5 minutes/day > 0 minutes.
+Talking to baby in German is NOT neglect — it is bilingual parenting.
+Validate this and celebrate it as a learning strategy, not a compromise.
+
+---
+
+### 🏠 SCENARIO 6 — OLDER ADULT / RETIREE (55+)
+*55–70, retired or part-time, most time available, fixed mindset risk*
+
+**Core constraint:** "Too old" belief. Digital anxiety. Post-lunch cognitive dip.
+**Core advantage:** Most time of all profiles. High life experience = rich context for language.
+
+```
+09:00–10:30  Morning (peak cognition for 55+) → Main study session
+11:00        Walk                              → German audio (30–40 min)
+13:00–15:00  POST-LUNCH DIP                   → NO active study!
+                                                 Passive only: German TV / radio fоном
+15:30        After recovery                    → Light reading (graded reader)
+19:00        Tagesschau (ARD, 15 min)          → Daily ritual: German news
+Before sleep                                  → 5 min SRS
+```
+
+**Activity integration by interest:**
+- Gardening: German gardening YouTube; order seeds from German catalogues
+- History/culture: Deutsche Wochenschau archive on YouTube (authentic, historic)
+- Cooking: German recipes online, cook German regional dishes
+- Social: Volkshochschule conversation group 1× per week (community + language)
+- Letter writing: write postcards or messages to German neighbors / colleagues
+
+**Teacher note:** Respect chronobiology rigorously. Morning = only active study time.
+Afternoon = passive input only. Social element is critical: isolated older adults
+learn dramatically better when study has a social/community component.
+The Tagesschau 15-minute ritual has measurable effect on news vocabulary within 3 months.
+
+---
+
+### Daily Schedule Summary for Teacher Reference
+
+| Scenario | Best active study time | Passive input time | Minimum viable daily |
+|----------|----------------------|-------------------|---------------------|
+| Working parent | Saturday morning | Commute + evening | 5-min SRS before sleep |
+| Student | Evening (45–60 min) | Commute + transit | 10-min Anki between classes |
+| Single adult | Morning (30 min) | Gym + evening | Morning session |
+| Freelancer | Lunch (30 min) | Background radio | Pomodoro Anki breaks |
+| Parental leave | Baby nap (20–40 min) | Baby time narration | 5-min nap window |
+| Older adult | Morning (60–90 min) | Afternoon TV/radio | Tagesschau ritual |
 
 ---
 
