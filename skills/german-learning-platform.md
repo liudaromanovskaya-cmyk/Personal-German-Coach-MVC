@@ -647,6 +647,52 @@ This is non-negotiable and more effective than 10 fill-in-the-blank exercises.
 | Story/narrative | Thematic word sets (5–10) | 10–15 min | A2+ |
 | Generative processing | Any new vocabulary | 2 min per word | A2+ |
 
+### Passive vs. Active Vocabulary — The Hidden Gap
+
+**This is the most common student complaint: "I know this word but can't use it."**
+
+```
+PASSIVE VOCABULARY   = recognize when heard or read (receptive)
+                       Average B1 student: ~3,000–4,000 passive words
+
+ACTIVE VOCABULARY    = produce spontaneously in speech/writing (productive)
+                       Average B1 student: ~800–1,200 active words
+
+THE GAP: 2,000+ words student "knows" but cannot use.
+```
+
+**Why the gap exists:**
+Passive recognition needs only partial memory trace — context fills the rest.
+Active production needs complete, automatized retrieval — a much stronger trace.
+Listening and reading build passive vocabulary naturally.
+Speaking and writing are required to build active vocabulary.
+
+**Passive → Active Bridge Protocol (for each target word):**
+```
+Step 1: RECOGNITION CHECK
+  "You know this word when you see it?" → Yes = passive
+  "Use it in a sentence right now?" → No = still passive
+
+Step 2: ACTIVE PRODUCTION DRILL
+  Student produces 3 ORIGINAL sentences — not translations, from real life.
+  Generic: "Ich vereinbare einen Termin." (still passive feeling)
+  Real:    "Ich muss einen Termin beim Zahnarzt vereinbaren — mein Zahn schmerzt."
+
+Step 3: TIMED RETRIEVAL (automatization test)
+  Teacher gives situation: "Your boss expects you at 9, you'll be 20 min late."
+  Student has 5 seconds to produce the sentence.
+  Succeeds under pressure = word is moving to active.
+
+Step 4: SPONTANEOUS USE TRACKING
+  Teacher watches for unprompted use in subsequent tasks.
+  First spontaneous use in speech = word is now ACTIVE.
+  Teacher marks: "Sie haben 'vereinbaren' von alleine verwendet — aktiver Wortschatz!"
+```
+
+**Platform rule:** Track passive vs active separately per key vocabulary in student profile.
+Monthly metric: "X words moved from passive to active this month."
+This is more meaningful and motivating than "X new words learned."
+
 ---
 
 ## PART 2H — SPEAKING METHODOLOGY (Oral Production)
@@ -1921,6 +1967,26 @@ A final quality checklist. Before delivering any curriculum unit, verify:
 - [ ] Signaling applied: target structure/correction is visually highlighted
 - [ ] Complex instructions broken into numbered steps
 
+**Passive → Active Vocabulary (PART 2G update):**
+- [ ] Student's passive vocabulary stock checked before assuming production readiness
+- [ ] At least 1 bridge drill per session if student complains "I know it but can't use it"
+- [ ] Bridge sequence used: Recognition → Controlled → Freer → Unguided production
+
+**Student Experience Design (PART 17):**
+- [ ] New student received Welcome Package before first session
+- [ ] Every task delivered using Task Card format (goal / context / instruction / hint trigger / time / submit)
+- [ ] Warm-up protocol used at session start (check-in + review + bridge)
+- [ ] Post-Submit Bridge delivered after every submission (what's next / what's ready)
+- [ ] Revision Card format used when student is asked to revise work
+- [ ] Weekly Load Selector applied: max 2–3 between-session tracks assigned at a time
+
+**Crisis & Recovery Protocols (PART 18):**
+- [ ] If student says "I understand but can't speak" → 18.1 protocol activated (not reassurance)
+- [ ] If acute anxiety observed → 18.2 first-aid applied (breathing + downshift + micro-win)
+- [ ] If plateau suspected (2+ weeks no progress) → 18.3 Plateau Action Plan initiated
+- [ ] If student disengages / goes silent → 18.4 Re-Engagement Protocol used within 48 h
+- [ ] Milestone reached → 18.5 Level-Up Ceremony delivered (no milestone passes in silence)
+
 ---
 
 ## PART 15 — BETWEEN-SESSION MICRO-PRACTICE & DAILY IMMERSION
@@ -2358,6 +2424,429 @@ The Tagesschau 15-minute ritual has measurable effect on news vocabulary within 
 | Freelancer | Lunch (30 min) | Background radio | Pomodoro Anki breaks |
 | Parental leave | Baby nap (20–40 min) | Baby time narration | 5-min nap window |
 | Older adult | Morning (60–90 min) | Afternoon TV/radio | Tagesschau ritual |
+
+---
+
+---
+
+## PART 17 — STUDENT EXPERIENCE DESIGN
+
+*What the student ACTUALLY receives and does at each step of the journey.*
+*This is the operationalization layer — without it, all methodology stays in the teacher's head.*
+
+---
+
+### 17.1 Welcome Package (Day 1 — sent after first session)
+
+Every student receives this document immediately after session 1.
+It answers all "what do I do now?" questions before they arise.
+
+```
+ДОБРО ПОЖАЛОВАТЬ — Как работает ваша программа
+
+1. ОДНО ЗАДАНИЕ ЗА РАЗ
+   Вы всегда видите только одно активное задание.
+   Выполнили → сдали → ждёте обратную связь → получаете следующее.
+   Никаких очередей и списков. Один шаг за раз.
+
+2. ВРЕМЯ ОТВЕТА
+   Ваш преподаватель отвечает в течение 24 часов.
+   Как только вы сдали задание — вы получите подтверждение.
+   Пока ждёте — у вас будет маленький мост-задание (2–5 мин).
+
+3. ПОДСКАЗКИ
+   Каждое задание имеет 3 уровня подсказок — по запросу.
+   Вы никогда не останетесь одни с непонятной задачей.
+   Воспользоваться подсказкой = умно, не слабо.
+
+4. ЧТО ДЕЛАТЬ МЕЖДУ ЗАНЯТИЯМИ
+   [Персонализированный список из 2–3 пунктов — учитель заполняет]
+   Например: слушать X минут немецкого в день + 5 мин Anki вечером.
+
+5. ЕСЛИ ЧТО-ТО НЕПОНЯТНО
+   Напишите преподавателю. Любой вопрос — хороший вопрос.
+   Нет "глупых" вопросов о языке — только ценная информация.
+
+6. ЕСЛИ ВЫ ПРОПУСТИЛИ НЕСКОЛЬКО ДНЕЙ
+   Это бывает. Просто напишите и скажите.
+   Мы найдём лёгкий путь вернуться — без наверстывания и стресса.
+```
+
+---
+
+### 17.2 Task Card — Standard Student-Facing Assignment Format
+
+Every task the student receives must follow this format.
+This is what the student SEES — not the teacher's metadata.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ЗАДАНИЕ: [Название — глагол + ситуация]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ЗАЧЕМ СЕЙЧАС:
+  [1 предложение — реальная ситуация которую это готовит]
+  Пример: "Чтобы вы смогли записаться к врачу не теряясь."
+
+ВРЕМЯ: примерно [X] минут
+
+РАЗМИНКА (2 мин):
+  [Конкретный вопрос на активацию]
+  Пример: "Как вы обычно записываетесь к врачу? Что вы говорите? Думайте по-русски."
+
+ЗАДАНИЕ:
+  [Чёткая инструкция — 1–3 шага максимум]
+  Пример: "Запишите голосовое сообщение (1–2 мин): вы звоните в Zahnarztpraxis
+           и хотите записаться на ближайший приём."
+
+ПОДСКАЗКИ (если нужны):
+  🟡 Подсказка 1: [тематическая — можно открыть]
+  🟠 Подсказка 2: [структурная — можно открыть]
+  🔴 Подсказка 3: [пример ответа — можно открыть]
+
+КОГДА ГОТОВО:
+  Нажмите "Сдать" — я отвечу в течение 24 часов.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Platform rule:** Teacher fills this template for EVERY task.
+No free-form assignments. Structure reduces student anxiety immediately.
+
+---
+
+### 17.3 Warm-Up Protocol (2–3 minutes before every task)
+
+**Why:** Activating prior knowledge before a task improves performance by 15–25%
+(Ausubel's Advance Organizer theory, 1968 — confirmed across SLA research).
+The brain needs a "runway" before takeoff.
+
+**Standard warm-up prompt (always included in Task Card):**
+```
+РАЗМИНКА (2 мин) — перед тем как начать задание:
+
+Тип A — Активация схемы:
+  "Что вы знаете об этой ситуации на русском?
+   Что обычно происходит? Что говорят люди?"
+
+Тип B — Активация языка:
+  "Какие немецкие слова или фразы приходят в голову
+   когда вы думаете об этой теме?"
+
+Тип C — Прогнозирование:
+  "Как вы думаете, что нужно будет сделать в этом задании?"
+```
+
+**Teacher chooses 1 warm-up type per task. Always the same position: before instructions.**
+Students who skip warm-up (especially anxious students) produce poorer first attempts.
+
+---
+
+### 17.4 Post-Submit Bridge ("While You Wait")
+
+Immediately after student submits a task, they receive a micro-bridge task.
+This serves two purposes: (1) maintains momentum, (2) prevents "idle wait" anxiety.
+
+```
+ЗАДАНИЕ СДАНО ✓
+Ваш преподаватель ответит в течение 24 часов.
+
+А пока — 5 минут:
+[Teacher assigns one of these — chosen automatically based on task topic]
+
+  Вариант A (SRS): Повторите 5 слов из прошлого задания → [ссылка на карточки]
+  Вариант B (Chunk): Используйте сегодняшнее выражение в 1 настоящей ситуации.
+                     Напишите что вы скажете (по-русски или по-немецки).
+  Вариант C (Input): Послушайте 3 минуты этого аудио → [ссылка на DW/Podcast]
+                     Главный вопрос: о чём речь? (не каждое слово!)
+```
+
+**Platform rule:** Post-submit bridge auto-assigned. Teacher pre-selects 3 options
+when creating the main task. System shows one based on student's current focus area.
+
+---
+
+### 17.5 Revision Card Format
+
+**The single most important student-facing tool that currently doesn't exist.**
+
+After receiving feedback, student must REVISE — not just read.
+The Revision Card makes revision concrete and trackable.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REVISION CARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Что я написал/сказал:
+  ___________________________________
+
+Как точнее (из фидбека):
+  ___________________________________
+
+Почему именно так (из объяснения):
+  ___________________________________
+
+Мой новый пример (из моей жизни):
+  ___________________________________
+
+Я запомню это так (образ / история / связь):
+  ___________________________________
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Platform rule:** For each correction point in feedback, teacher attaches a Revision Card.
+Student fills it and submits back. Teacher confirms: "Отлично — ревизия принята."
+Without this confirmation loop, revision is a ritual without accountability.
+
+**Maximum 2 Revision Cards per feedback session** (Cognitive Load principle).
+If more corrections exist — teacher prioritizes 2 most important.
+
+---
+
+### 17.6 Weekly Load Selector
+
+**The problem:** The skill file contains 8+ parallel between-session tracks.
+A student who sees all of them at once will do none of them.
+
+**The solution:** Teacher selects 2–3 tracks per week per student profile.
+
+```
+ВАШИ ЗАДАНИЯ НА НЕДЕЛЮ:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Teacher selects from this menu — max 3 items]
+
+ЕЖЕДНЕВНО (обязательно):
+  ☐ SRS Anki — 5 минут вечером (5 слов)
+
+ЭТОЙ НЕДЕЛЕЙ (выберите подходящее):
+  ☐ Слушать DW Langsam — 10 мин в дороге
+  ☐ Прочитать 1 страницу из [название книги]
+  ☐ Shadowing аудио — 7 мин утром
+  ☐ Написать 2 записи в языковой дневник
+  ☐ 1 сессия Tandem с партнёром
+
+ЕСЛИ ЕСТЬ ВРЕМЯ:
+  ☐ Посмотреть 1 эпизод [сериал] с немецкими субтитрами
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Platform rule:** Teacher sends updated Weekly Load every Monday.
+2 tracks minimum, 3 maximum. Never all tracks simultaneously.
+Adjust based on life scenario (working parent → 2 tracks, freelancer → 3 tracks).
+
+---
+
+## PART 18 — CRISIS & RECOVERY PROTOCOLS
+
+*What teacher and student do when things go wrong.*
+*Currently absent from the file — but these situations happen with EVERY student.*
+
+---
+
+### 18.1 "I Understand But Can't Speak" Protocol
+
+**This is the most common and most demoralizing moment in L2 learning.**
+
+**Name it immediately.** Give the student a name for what they're experiencing:
+
+```
+TEACHER SCRIPT (when student reports this):
+"То, что вы описываете — это называется 'comprehension-production gap'.
+ Это абсолютно нормально и происходит со всеми.
+ Ваш мозг обработал огромное количество немецкого на входе.
+ Теперь ему нужно построить отдельный выходной путь.
+ Это занимает время — обычно 2–6 месяцев.
+ Это НЕ означает что вы плохо учитесь.
+ Это означает что вы много слушали и читали — что правильно.
+ Теперь мы добавляем производство. Вот план:"
+```
+
+**5-Step Production Activation Plan:**
+```
+Шаг 1: ЗАМЕДЛИТЬ INPUT, УВЕЛИЧИТЬ OUTPUT
+  Сократить слушание на 30%. Добавить говорение на 30%.
+  "Меньше получать — больше производить."
+
+Шаг 2: ГОВОРИТЬ О ЗНАКОМОМ
+  Только темы которые студент знает наизусть — своя жизнь, работа, семья.
+  НЕ новые темы. НЕ новый словарь. Только производство из того что уже есть.
+
+Шаг 3: PREPARED SPEECH CHAIN (DeKeyser automatization)
+  Студент пересказывает одно и то же 5 раз (разным "собеседникам" — учителю,
+  телефону, зеркалу) пока это не становится автоматическим.
+
+Шаг 4: TIME PRESSURE DRILLS
+  Учитель даёт ситуацию → 5 секунд на ответ.
+  Цель: прорвать паузу "думать перед говорением".
+
+Шаг 5: REAL USE MISSION
+  Студент получает задание на неделю: 1 реальный разговор по-немецки.
+  Любой. Кассир, коллега, сосед. Сдаёт отчёт: "Что сказал? Что ответили?"
+```
+
+**Platform rule:** When student reports comprehension-production gap → activate this plan.
+Do NOT increase grammar exercises. Do NOT slow down.
+The answer is MORE output, not more input or more grammar.
+
+---
+
+### 18.2 Acute Language Anxiety — First Aid
+
+**When student is sitting in front of a task and panics.**
+"Я не могу. У меня не получится. Я сдамся."
+
+This is FLCA (Horwitz) in its acute form. It needs a concrete 3-step response.
+
+**Student-facing "First Aid" button (in task interface):**
+```
+КНОПКА: "Мне сложно начать"
+
+Когда нажата — показывает:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ШАГ 1: ЗАЗЕМЛЕНИЕ (30 секунд)
+  Сделайте 3 медленных вдоха.
+  Посмотрите на руки. Почувствуйте стул под собой.
+  Вы здесь. Вы в безопасности. Это просто задание.
+
+ШАГ 2: ПЕРЕФОРМУЛИРОВКА
+  "Это задание страшное" → "Это задание новое для меня"
+  "Я провалюсь" → "Я попробую"
+  "Я не знаю как" → "Я узнаю в процессе"
+
+ШАГ 3: МАЛЕНЬКИЙ ПЕРВЫЙ ШАГ
+  Не делайте всё задание.
+  Сделайте только первое предложение / первые 30 секунд.
+  Только начало. Потом посмотрим.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Если всё равно не получается — напишите преподавателю.
+Это тоже хорошее действие.
+```
+
+**Platform rule:** "First Aid" button always visible in task interface.
+When used → teacher notified. Teacher follows up in feedback:
+"Вы нажали 'сложно начать' — молодец, что всё равно попробовали. Вот что я заметил..."
+
+---
+
+### 18.3 Plateau Action Plan
+
+**When student's progress stalls for 3+ weeks (DST — Larsen-Freeman, PART 13.1)**
+
+**Early detection signals:**
+- Error patterns not changing across 3 consecutive sessions
+- Student self-reports: "Я чувствую что стою на месте"
+- Kirkpatrick Level 2 (learning) shows no movement
+- Increased hint usage without improvement
+
+**Teacher action plan:**
+```
+WEEK 1: INVESTIGATE
+  "Как вы себя чувствуете с немецким прямо сейчас?"
+  Check: external stress? Illness? Work pressure? Acculturation phase shift?
+  If yes → plateau = external cause, not method failure. Wait + reduce load.
+
+WEEK 2: CHANGE THE FORMAT
+  Switch task type completely:
+  If mostly writing → switch to speaking for 2 weeks
+  If mostly grammar → switch to extensive reading for 2 weeks
+  If mostly formal tasks → switch to informal/fun content
+  The plateau is often a format plateau, not a language plateau.
+
+WEEK 3: LOOK BACK (most powerful)
+  Show student their work from 8 weeks ago.
+  "Посмотрите что вы написали в октябре. А вот что вы пишете сейчас."
+  Students on a plateau often CANNOT see their own progress.
+  Backward comparison almost always reveals real growth they missed.
+
+WEEK 4: CELEBRATE THE PLATEAU
+  "Plateaus in language learning = your brain is consolidating.
+   The next jump is coming. This is not stagnation — this is preparation."
+  Name 1 specific thing that IS improving even during the plateau.
+```
+
+**Student-facing message during plateau:**
+```
+"Ваш мозг сейчас делает невидимую работу — перестраивает и
+ укрепляет всё что вы выучили. Скачок роста придёт.
+ Посмотрите, что вы не могли делать 2 месяца назад — и можете сейчас."
+```
+
+---
+
+### 18.4 Re-Engagement Protocol (Student Goes Silent)
+
+**Early warning signals (teacher monitors):**
+- 2 missed tasks in a row without explanation
+- No response to weekly check-in
+- Tasks submitted but revision never completed
+- Increasing time between submission and response
+
+**Three-tier re-engagement response:**
+
+**TIER 1 — After 5 days of silence (warm check-in):**
+```
+Teacher message: "Привет! Я заметила что вас не было несколько дней.
+ Всё хорошо? Жизнь иногда берёт верх — это нормально.
+ Когда будете готовы — напишите. Мы найдём лёгкий путь вернуться."
+No task. No pressure. Just connection.
+```
+
+**TIER 2 — After 10 days of silence (offer easy re-entry):**
+```
+Teacher sends a "Gift Task" — 5 minutes, zero stakes:
+"Пришлите мне голосовое — 2 предложения о том как прошла ваша неделя.
+ Не думайте о грамматике. Просто расскажите."
+No judgment of language quality. Just re-activation of the habit.
+```
+
+**TIER 3 — After 2 weeks of silence (direct conversation):**
+```
+"Я хотела поговорить честно: как вы себя чувствуете с немецким прямо сейчас?
+ Иногда нужна пауза. Иногда нужно что-то изменить.
+ Что было бы полезным для вас прямо сейчас?"
+Diagnose: cultural shock? Life crisis? Platform fatigue? Loss of goal?
+Adjust approach based on answer.
+```
+
+**Platform rule:** Teacher receives automatic notification after 2 missed tasks.
+Re-engagement is initiated by teacher, not waited for from student.
+A student who disappears is usually in phase 2 (culture shock) — not disinterested.
+
+---
+
+### 18.5 Level-Up Ceremony (CEFR Level Transition)
+
+**Completing a CEFR level is one of the biggest motivational moments.
+It must be celebrated deliberately — not just logged.**
+
+**Level-Up Protocol (when teacher confirms readiness):**
+
+```
+STEP 1: TEACHER ANNOUNCEMENT (personalized)
+  NOT: "Вы перешли на B1."
+  YES: "Вы только что сделали кое-что важное.
+        Три месяца назад вы [specific thing they couldn't do].
+        Сегодня вы делаете это [specific evidence].
+        Это и есть A2→B1. Вы там."
+
+STEP 2: STUDENT BACKWARD REFLECTION
+  "Посмотрите на ваше первое задание с нами. Вот оно.
+   Прочитайте. Что вы думаете?
+   [Student responds]
+   Это — ваш прогресс. Не цифры, не тест. Вот он."
+
+STEP 3: NEW LEVEL PREVIEW
+  "Теперь на B1 мы будем делать вещи которые раньше казались сложными:
+   [3 concrete can-do statements that are now accessible]
+   Это ваша следующая карта."
+
+STEP 4: CHOICE MOMENT (autonomy + SDT)
+  "Из этих трёх направлений — что вам важнее всего сейчас?
+   А. [реальная ситуация 1]  Б. [реальная ситуация 2]  В. [реальная ситуация 3]"
+  Student chooses the direction of the next curriculum block.
+```
+
+**Platform rule:** Level-Up ceremony is a dedicated 15-minute segment.
+It is NOT routine. It is a ritual. Teacher prepares for it — it is NOT improvised.
 
 ---
 
