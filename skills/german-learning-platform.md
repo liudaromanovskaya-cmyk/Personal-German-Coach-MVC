@@ -317,6 +317,338 @@ real-world interaction: job interviews, Behörde, phone calls, shops.
 
 ---
 
+## PART 2C — LISTENING COMPREHENSION METHODOLOGY
+
+### Why listening is a skill that must be explicitly taught
+Most platforms and textbooks assume listening will "just happen" with enough input.
+Research shows this is wrong. Anderson & Lynch (1988) identified three distinct
+comprehension levels that require deliberate training:
+
+```
+Level 1 — GLOBAL     : overall meaning, gist, topic
+                        "О чём шла речь?" — not every word, just the main point
+Level 2 — DETAILED   : specific information, exact content
+                        "Какое время встречи назвали?" — extract precise data
+Level 3 — INFERENTIAL: what was MEANT but not SAID
+                        "Почему собеседник замолчал?" — pragmatic comprehension
+```
+
+**Platform rule:** Tag every listening task with its target level (1/2/3).
+A1–A2 students: primarily Level 1–2. B2+: all three levels, with emphasis on Level 3.
+
+### Top-Down vs. Bottom-Up Processing (Rumelhart Schema Theory, 1980)
+
+Native listeners use BOTH simultaneously. L2 learners often default to bottom-up
+(word-by-word decoding) because their schema for German discourse is underdeveloped.
+
+```
+BOTTOM-UP  → decode each sound → each word → build meaning upward
+             (default for beginners — exhausting, misses global meaning)
+
+TOP-DOWN   → use context, schema, world knowledge to predict meaning
+             (what experienced listeners do — predicts before hearing)
+```
+
+**What is a Schema?**
+A mental template for how a situation typically unfolds.
+"Arztgespräch" schema: greeting → problem description → questions → diagnosis → plan.
+When student activates this schema BEFORE listening, comprehension rises dramatically.
+
+**Pre-listening schema activation (mandatory for all listening tasks):**
+- "Вы сейчас услышите разговор с врачом. Что обычно говорят в таких ситуациях?"
+- Show image / title / context — activate schema BEFORE pressing play
+- 2–3 prediction questions: "О чём, как вы думаете, пойдёт речь?"
+
+**Tolerance of Ambiguity — a trainable skill:**
+Beginning learners freeze when they miss a word. Native listeners tolerate ambiguity
+and fill gaps using top-down schema. This tolerance must be explicitly cultivated.
+
+**Training protocol:**
+- Play audio with intentional gaps (hand over speaker for 2 seconds)
+- Student must guess what was said from context
+- Debrief: "Какой контекст помог вам догадаться?"
+- Weekly drill: "missing word" game — what word completes this sentence logically?
+
+### Phonological Loop (Baddeley, Working Memory Model)
+
+Listening and speaking share the same neural pathway — the phonological loop.
+This is WHY shadowing works: "hear to speak" trains the same neural connection.
+
+**Practical implication:**
+- Students who listen extensively but never speak will STILL improve speaking
+- Students who shadow (hear + repeat) improve FASTER than passive listeners
+- Subvocalization during listening (quiet mumbling) increases comprehension
+
+**Platform rules for listening tasks:**
+- Minimum 1 listening task per week at all levels
+- Pre-listening schema activation: always
+- Post-listening reflection: "Что вы поняли сразу? Что потребовало нескольких попыток?"
+- Level-appropriate audio: A1 = slow, clear, short (30–60 sec); B2 = native speed, longer
+- 3 plays maximum — more than 3 = passive re-hearing, not active processing
+
+---
+
+## PART 2D — SHADOWING PROTOCOL (Arguelles, adapted)
+
+Shadowing = listening to audio and repeating simultaneously, matching the speaker's
+rhythm, speed, and prosody. One of the most powerful pronunciation and listening tools
+in polyglot and academic methodology.
+
+### Three Variants — use deliberately based on objective
+
+**Variant 1: PHONETIC SHADOWING**
+Focus: sound and rhythm only. Student does NOT think about meaning.
+- Walk (physical movement helps rhythm synchronization)
+- Hold audio in one ear, repeat aloud simultaneously
+- Match stress, intonation, speed — not words semantically
+- Target: pronunciation, prosody, rhythm
+- Duration: 5–10 minutes per session max
+- When: A1–A2 stages; new prosody patterns; heavy accent correction work
+
+**Variant 2: CONTENT SHADOWING**
+Focus: meaning + sound simultaneously.
+- Student understands the audio AND repeats it
+- This is cognitively demanding — short sessions only
+- Prepares for fluent spontaneous speech
+- Target: fluency, automatization of chunks
+- Duration: 3–7 minutes per session (exhausting — respect this limit)
+- When: B1+ students; fluency development phase
+
+**Variant 3: SCRIPTORIUM (Arguelles)**
+Focus: reading + speaking + writing simultaneously.
+- Student reads text aloud, then writes each sentence immediately after speaking it
+- Engages auditory + visual + kinesthetic channels simultaneously
+- Extremely powerful for grammar form memorization
+- Target: form accuracy, orthography, grammar automatization
+- Duration: 10–15 minutes max (energy-intensive)
+- When: any level; specific grammar forms that need deep encoding
+
+### Dosing Protocol (Energy Management — critical)
+
+**The most common shadowing mistake is overdosing.**
+Shadowing is neurologically intensive. Diminishing returns begin after 15 minutes.
+
+```
+Session structure (Phonetic or Content shadowing):
+  5 min warm-up     → listen only, no shadowing
+  5–10 min shadowing → active simultaneous repetition
+  5 min rest        → silence or light comprehension task
+  Max 2 rounds per day
+```
+
+**Signs of overdose:**
+- Student begins slurring, speed drops, errors increase
+- Response: STOP immediately — rest, then review passively
+- Overdosing creates fatigue, not automatization
+
+**Recommended audio for German shadowing:**
+- DW Langsam gesprochene Nachrichten (A2–B1)
+- Deutsche Welle radio (B1–B2)
+- Authentic TV news (B2–C1)
+- Student's own recorded texts read by teacher (highly effective for personalization)
+
+**Platform rule:**
+Tag all shadowing tasks with variant (phonetic/content/scriptorium) + duration.
+Do NOT assign > 15 minutes of shadowing per session.
+Student rates energy cost after each session: "лёгко / умеренно / тяжело".
+
+---
+
+## PART 2E — TRANSCRIPTION & DICTO-GLOSS (Wajnryb, 1990)
+
+### Why transcription works
+Writing what you hear forces active phoneme identification, spelling, grammar awareness.
+Bridges listening → writing → speaking skills simultaneously.
+One of the most underused but highest-ROI activities in adult language education.
+
+### Four Transcription Variants
+
+**Variant 1: FULL TRANSCRIPTION**
+Student listens to short audio (20–40 sec) and transcribes word for word.
+- Best for: grammar form recognition, spelling, concentration
+- Works at: A2–B2
+- Session: play 2–3 times, transcribe, compare to transcript, analyze gaps
+
+**Variant 2: PARTIAL TRANSCRIPTION**
+Audio with blanks: student fills in missing words/phrases while listening.
+- Best for: targeted vocabulary or grammar in context
+- Customizable: teacher blanks exactly what needs training
+- Works at: all levels (adjust gap difficulty)
+
+**Variant 3: SELF-DICTATION**
+Student writes a sentence from memory, then checks audio → compares.
+- Best for: working memory, chunked recall, attention to form under time pressure
+- Works at: A2+
+- High metacognitive value: students discover their own phoneme gaps
+
+**Variant 4: DICTO-GLOSS (Wajnryb, 1990)**
+The most sophisticated variant. Trains reconstruction from meaning, not dictation.
+
+```
+Steps:
+1. Teacher reads text at normal speed (student takes KEYWORDS only, no transcription)
+2. Text read again at normal speed (student adds more keywords)
+3. Student reconstructs full text from keywords — using their OWN grammar
+4. Compare reconstructed text with original
+5. Analyze: what grammar did student use? What structures emerged?
+```
+
+**Why dicto-gloss is superior to regular transcription:**
+- Student must use productive grammar (Output Hypothesis — Swain)
+- Reveals what grammar the student has AUTOMATIZED vs. what is only declarative
+- Differences between student's text and original = diagnostic data
+- Much more engaging than fill-in-the-blank — student is authoring, not copying
+
+**Platform rule:**
+Include 1 dicto-gloss task per month for B1+ students.
+AI can pre-analyze student reconstruction: flag grammatical differences as DRAFT,
+teacher reviews which are errors vs. acceptable alternatives.
+
+---
+
+## PART 2F — WRITING METHODOLOGY
+
+### Two Complementary Approaches (both required)
+
+**Genre-Based Writing Approach (Swales, 1990; Hyland, 2004)**
+Writing is always a social act in a specific genre with a specific audience and purpose.
+Before writing anything, student must know: WHY this text? WHO reads it? WHAT genre?
+
+```
+German writing genres (ordered by frequency for immigrants):
+  A1–A2: Formular (forms), kurze Nachricht (SMS/WhatsApp), Bewerbungsanschreiben (simple)
+  B1:    Email (formal/informal), Beschwerdebrief, einfache Argumentation
+  B2:    Offizieller Brief, Motivationsschreiben, Zusammenfassung
+  C1:    Analytischer Text, Gutachten, komplexe Argumentation
+```
+
+**Platform rule:** Every writing task begins with genre identification:
+"Это письмо в Amt → жанр: offizieller Brief → структура: Betreff, Anrede, Inhalt, Abschluss"
+
+**Process Writing Approach (Flower & Hayes, 1981)**
+Writing is a cognitive process, not a product. The goal is to train the process.
+
+```
+Process stages (all must be made explicit to student):
+  1. BRAINSTORM   → ideas in any language (Russian allowed)
+  2. PLAN         → structure, genre conventions, audience
+  3. DRAFT        → write fast without self-editing (silence inner critic)
+  4. REVISE       → content and structure first
+  5. EDIT         → grammar, spelling, style last
+```
+
+**Critical error in traditional teaching:**
+Students go directly from assignment to editing their grammar as they write.
+This collapses brainstorm + draft + edit into one step — creates anxiety,
+blocks ideas, and produces over-cautious, formulaic output.
+
+**Fix:** Explicitly separate stages. Teacher reviews PROCESS not just product:
+- "Вы сначала накидали идеи?" → brainstorm feedback
+- "Что вы хотели сказать этим абзацем?" → structure feedback
+- Grammar corrections: LAST, only after content is solid
+
+### 5-Stage Scaffolding Sequence for Writing
+
+```
+Stage 1: DECONSTRUCT   → Analyze 2 authentic examples of the target genre
+                          "Что общего у этих двух Bewerbungsschreiben?"
+                          "Какова структура? Какой тон? Какие фразы типичны?"
+
+Stage 2: JOINT WRITING → Teacher and student write together in session
+                          Teacher models process, student contributes content
+                          "Что мы напишем в теме письма? Как начнём?"
+
+Stage 3: GUIDED WRITING → Student writes with framework
+                           Template with structure markers, key phrases to complete
+                           "Используя эту структуру, напишите свой вариант"
+
+Stage 4: INDEPENDENT DRAFT → Student writes alone from scratch
+                              Teacher provides feedback at content + form levels
+                              (NO grammar corrections until content is approved)
+
+Stage 5: PUBLISH / USE → Student sends real email, submits real application, etc.
+                          Authentic purpose = completion of Freire/TBLT cycle
+                          "Вы написали письмо — теперь отправьте его"
+```
+
+**Platform rule:**
+A1–A2 students: focus on Stages 1–3 (deconstructing + guided writing).
+B1+ students: all 5 stages, with Stage 5 required when real-world use is possible.
+Writing feedback is TWO-PASS: content first (teacher), then language (teacher + AI draft).
+
+---
+
+## PART 2G — VOCABULARY TOOLKIT (7 Evidence-Based Methods)
+
+Beyond the Nation frequency lists and Lewis chunks, use these 7 acquisition methods
+based on cognitive psychology and SLA research:
+
+### Method 1 — Keyword Mnemonic (Atkinson & Raugh, 1975)
+Create a sound-alike bridge between L1 and L2 word.
+- Example: "Fenster" (window) → sounds like "fist" + "er" → imagine fist punching through window
+- Research: 40–60% better recall than rote repetition at 1 week (Atkinson & Raugh, 1975)
+- Platform use: teacher creates keyword image for high-frequency words student keeps forgetting
+
+### Method 2 — Dual Coding (Paivio, 1971 — still confirmed 2024)
+Information encoded in TWO channels (verbal + visual) is retained better than one.
+- Every new vocabulary item: word + image (drawn, found, or visualized mentally)
+- AI can suggest image associations; teacher selects appropriate ones
+- Platform task type: "Нарисуйте или опишите образ, который поможет запомнить это слово"
+
+### Method 3 — Elaborative Encoding (Craik & Lockhart Levels of Processing, 1972)
+Shallow processing (repeat 10×) → weak trace. Deep processing (USE in context) → strong trace.
+```
+Shallow:   "Fenster, Fenster, Fenster..." (repeat word)
+Medium:    "Fenster = window" (translate)
+Deep:      "Mein Fenster ist kaputt — ich muss den Vermieter anrufen" (use in real context)
+```
+**Platform rule:** Every new word is practiced in a personally relevant sentence (student's own life).
+"Ich wohne in [Straße] und mein Fenster gibt den Blick auf [Platz] frei."
+
+### Method 4 — Nation's 4 Strands Protocol (Nation, 2001; updated 2024)
+Balanced vocabulary acquisition requires 4 equal strands of exposure:
+1. **Meaning-focused INPUT** — read/listen to comprehensible texts (extensive reading/listening)
+2. **Meaning-focused OUTPUT** — write/speak using known vocabulary in real communication
+3. **Language-focused learning** — deliberate study: flash cards, drills, word lists
+4. **Fluency development** — speed reading, timed speaking — automatize KNOWN vocabulary
+
+**Platform rule:** Check 4-strand balance each month per student.
+Most platforms focus only on Strand 3 (deliberate study). Add Strands 1, 2, 4.
+
+### Method 5 — Spaced Repetition System / Anki (Ebbinghaus + algorithm)
+Already embedded in spaced repetition schedule (PART 2.5).
+Apply specifically to vocabulary:
+- New word → review +1d, +3d, +7d, +14d, +30d
+- Error on review → reset interval to +1d
+- Teacher can create student's personal word deck from assignment errors
+
+### Method 6 — Story/Narrative Method
+Embed new vocabulary in a memorable story or mini-narrative.
+- Memory palace variant: place words in a familiar route through known space
+- Story chain: connect 5–7 new words in one short absurd story
+- Research: narrative encoding improves recall by 30–50% over list learning
+- Platform task: "Придумайте короткую историю, используя все 5 слов недели"
+
+### Method 7 — Generative Processing (Joe, 1998)
+Student generates NOVEL sentences using new vocabulary — not copied examples.
+Generating forces deeper semantic processing than reading examples.
+**Platform rule:** Every new word → 1 original sentence from student's real life.
+This is non-negotiable and more effective than 10 fill-in-the-blank exercises.
+
+### Vocabulary Toolkit Summary Matrix
+
+| Method | Best for | Session time | Level |
+|--------|----------|-------------|-------|
+| Keyword mnemonic | Hard-to-remember words | 2 min per word | All |
+| Dual coding | Concrete nouns, verbs | 1 min per word | All |
+| Elaborative encoding | Any word | 3 min per word | A2+ |
+| 4 Strands balance | Curriculum design | Monthly check | All |
+| SRS/Anki | High-frequency top 2000 | 5–10 min daily | All |
+| Story/narrative | Thematic word sets (5–10) | 10–15 min | A2+ |
+| Generative processing | Any new vocabulary | 2 min per word | A2+ |
+
+---
+
 ## PART 3 — INTERLANGUAGE & ERROR ANALYSIS (Selinker)
 
 Every student has an interlanguage — a developing grammar system that is NEITHER
@@ -471,6 +803,63 @@ Well-being = prerequisite for learning. Design platform for PERMA:
 - **M**eaning: link every task to student's real life goal
 - **A**ccomplishment: visible milestones, CEFR level transitions as rituals
 
+### 4.8 Growth Mindset (Dweck / Stanford, 2006 — meta-confirmed 2024)
+
+**Fixed Mindset vs. Growth Mindset — the highest-impact psychological lever.**
+
+Carol Dweck's decades of Stanford research show that the belief about
+whether intelligence/ability is fixed or malleable determines resilience
+when learning becomes difficult. For adult L2 learners, this is critical:
+adults tend to have stronger fixed mindset beliefs about language ability
+("у меня нет способностей к языкам", "я уже слишком старая").
+
+```
+FIXED MINDSET                   GROWTH MINDSET
+─────────────────────────────────────────────────────────
+"Я не способна к языкам"     → "Я ещё не достигла этого уровня"
+"Я сделала ошибку — значит    → "Ошибка показала мне, что нужно
+ я плохой ученик"                 потренировать"
+"Это слишком сложно для меня" → "Это сложно СЕЙЧАС — пока"
+"Другие учатся быстрее"       → "Каждый учится по-своему"
+"Я провалилась"               → "Я получила данные о том, что
+                                  нужно сделать иначе"
+```
+
+**The power of "YET" — Dweck's key intervention:**
+Change "I can't do this" → "I can't do this YET."
+One word. Supported by brain plasticity research: adult brains form new
+neural connections at any age — language learning literally grows the brain.
+
+**Fixed Mindset Onboarding Protocol (first session):**
+1. Ask: "Что вы думаете о своих способностях к немецкому?"
+2. Listen for fixed mindset language: "нет способностей", "плохая память",
+   "слишком поздно", "немецкий слишком сложный"
+3. Respond with brain plasticity data (age-appropriate):
+   "Исследования МРТ показывают, что мозг взрослого человека продолжает
+   формировать новые связи при изучении языка. 'Не могу' означает
+   'пока не могу' — разница огромная."
+4. Establish Growth Mindset language contract:
+   - Teacher NEVER says "неспособный", "слишком старый/ая", "нет таланта"
+   - Student tries to catch own fixed-mindset thoughts and reframe them
+   - Every error is re-labeled: "ценная информация для обучения"
+
+**Feedback language that builds Growth Mindset:**
+```
+Avoid (Fixed):                  Use (Growth):
+"Неправильно"               →  "Вот как это работает иначе"
+"Вы ещё не знаете это"      →  "Вы учитесь этому прямо сейчас"
+"Молодец!" (praise for ease) →  "Молодец, что так старались / не сдались"
+"Это легко"                 →  "С практикой это станет автоматическим"
+"У вас талант"              →  "Вы отработали это хорошо"
+```
+
+**Critical note from 2024 meta-analysis:**
+Large-scale replications have shown that simple mindset interventions
+("just tell students they can grow") have small effect sizes.
+What WORKS is embedding Growth Mindset into every interaction:
+how teacher responds to errors, how progress is framed, how effort is praised.
+Platform: embed Growth Mindset into all feedback templates, not just onboarding.
+
 ---
 
 ## PART 5 — INSTRUCTIONAL DESIGN (Backward Design — Wiggins & McTighe)
@@ -583,7 +972,9 @@ Month 5+: Student self-directs, teacher coaches and quality-checks
 
 ---
 
-## PART 8 — GENERATIONAL DESIGN PRINCIPLES (Millennials & Gen Z)
+## PART 8 — GENERATIONAL DESIGN PRINCIPLES + COGNITIVE ARCHITECTURE
+
+### 8.1 Generational Design (Millennials & Gen Z)
 
 Students born 1981–2012 require:
 - **Chunked sessions**: max 25–30 minutes of focused work, not 2-hour blocks
@@ -593,6 +984,68 @@ Students born 1981–2012 require:
 - **Mobile-first**: all tasks completable on phone
 - **Authentic connection**: they will leave if interaction feels automated or generic
 - **Micro-goals**: "сегодня цель — одно новое выражение для офиса"
+
+### 8.2 Cognitive Load Theory (Sweller, 1988 — extended to SLA 2023)
+
+Every task places three types of load on working memory simultaneously.
+Task design MUST manage all three. Cognitive overload → no learning, only frustration.
+
+```
+INTRINSIC LOAD    = inherent complexity of the material itself
+                    (Dativ + Konjunktiv II simultaneously = high intrinsic load)
+                    → Control by: one grammar point per task, i+1 calibration
+
+EXTRANEOUS LOAD   = unnecessary cognitive effort from poor design
+                    (cluttered UI, unclear instructions, too many elements at once)
+                    → Control by: clean interface, one task on screen, clear instructions
+
+GERMANE LOAD      = effort that builds schema (useful!)
+                    (connecting new pattern to known patterns, seeing structure)
+                    → Maximize by: explicit pattern recognition tasks, analogies,
+                      connecting to Russian equivalents
+```
+
+**Total load must stay within working memory capacity:**
+Average adult: 4±1 items simultaneously in working memory (Miller, updated by Cowan 2001).
+When overloaded: student freezes, guesses randomly, or disengages.
+
+**Platform rules from Cognitive Load Theory:**
+- Never introduce more than 1–2 new grammar concepts per session
+- New vocabulary: maximum 5–7 new items per session (not 20 word lists)
+- Split complex tasks into sub-tasks: first the structure, then the content
+- Use dual modality: text + audio together better than text alone (Split-Attention Effect)
+- Worked examples before problem-solving: show a model first, then ask student to do it
+- Remove decorative elements from student-facing UI (extraneous load in design)
+
+### 8.3 Microlearning Architecture (Nature Neuroscience, 2024)
+
+**Key finding from 2024 Nature study:**
+Optimal session for adult L2 learning = **8–12 minutes of focused practice**.
+
+This seems counterintuitive. However:
+- Attention peaks in the first 10 minutes, then declines sharply
+- Multiple short sessions outperform single long sessions (total time equal)
+- 3 × 10-minute sessions on different days > 1 × 30-minute session on one day
+- Micro-breaks between sessions allow initial consolidation to begin
+
+**Microlearning session structure (8–12 min block):**
+```
+Min 0–2:  ACTIVATION    → recall what was done last time (retrieval practice)
+Min 2–7:  CORE TASK     → one focused language task at i+1 level
+Min 7–10: OUTPUT        → student produces 1–3 sentences using today's focus
+Min 10–12: REFLECTION   → "Что было сложно? Что удалось?" (metacognition)
+```
+
+**Multi-block session design (for 25–30 min sessions):**
+If student has 30 minutes, structure as:
+- Block 1 (10 min): new input — chunk, grammar pattern, or listening task
+- 2 min break (physical: stand, walk, water)
+- Block 2 (10 min): production — student uses today's pattern in real context
+- 2 min break
+- Block 3 (8 min): spaced repetition — review previous patterns
+
+**Platform rule:** No single continuous activity should exceed 12 minutes.
+Tag all assignments with expected time. If task exceeds 12 min, split into sub-tasks.
 
 ---
 
@@ -885,6 +1338,144 @@ A final quality checklist. Before delivering any curriculum unit, verify:
 - [ ] ICC component addressed at least 1× per month (Byram)
 - [ ] Translanguaging permitted (Russian as resource)
 - [ ] Freire principle: does this connect to student's real problem in Germany?
+
+**Listening (PART 2C):**
+- [ ] Listening task tagged with level: global / detailed / inferential
+- [ ] Pre-listening schema activation included
+- [ ] Student plays audio maximum 3 times (active, not passive re-hearing)
+- [ ] Post-listening reflection prompt included
+
+**Shadowing (PART 2D):**
+- [ ] Shadowing variant specified: phonetic / content / scriptorium
+- [ ] Duration tagged: ≤ 10 min phonetic/content, ≤ 15 min scriptorium
+- [ ] Energy cost rated after session ("лёгко / умеренно / тяжело")
+
+**Writing (PART 2F):**
+- [ ] Genre identified before student begins writing
+- [ ] Writing process made explicit (brainstorm → plan → draft → revise → edit)
+- [ ] Stage in scaffolding sequence specified (1–5)
+- [ ] Content feedback given BEFORE grammar feedback
+
+**Vocabulary (PART 2G):**
+- [ ] At least 1 vocabulary method from toolkit applied (not just rote repetition)
+- [ ] New word practiced in student's personally relevant sentence (generative processing)
+- [ ] 4 Strands balance checked this month (input / output / focused / fluency)
+
+**Psychology (Growth Mindset — PART 4.8):**
+- [ ] Feedback language avoids fixed-mindset framing ("неспособный", "не дано")
+- [ ] Errors framed as information, not failure
+- [ ] "YET" reframe applied when student uses fixed-mindset language
+
+**Cognitive Architecture (PART 8.2–8.3):**
+- [ ] No more than 1–2 new grammar concepts per session (Cognitive Load)
+- [ ] No more than 5–7 new vocabulary items per session
+- [ ] Single continuous activity does not exceed 12 minutes (Microlearning)
+- [ ] Session structured with micro-breaks if >20 minutes total
+
+**Between-session practice (PART 15):**
+- [ ] At least 1 micro-task assigned for each day between sessions
+- [ ] Weekly 3-question check-in sent
+- [ ] Language diary reviewed at least monthly
+- [ ] Student has set up daily German media exposure (AJATT adaptation)
+
+---
+
+---
+
+## PART 15 — BETWEEN-SESSION MICRO-PRACTICE & DAILY IMMERSION
+
+### The Gap Problem
+Students see the teacher 1–3 times per week. That leaves 4–6 days of potential
+language loss. Without consistent between-session practice, Ebbinghaus forgetting
+curve erases 50–80% of what was learned. The platform must address the gap.
+
+### Minimum Viable Session — "5 минут лучше нуля"
+
+**Scientific basis:** Even very short practice maintains neural pathways.
+Discontinuity (no practice) causes more forgetting than frequency.
+5 minutes every day > 35 minutes once a week (even if total minutes equal).
+
+**Platform micro-task types (2–10 minutes each):**
+```
+Evening SRS review    → 3–5 words from this week's assignments (Anki/flashcard)
+Morning sentence      → 1 sentence using yesterday's chunk in today's context
+Voice memo            → record 1 spontaneous thought in German (no editing)
+WhatsApp trigger      → teacher sends 1 question via WhatsApp, student replies
+Phrase of the day     → teacher sends 1 chunk, student uses it once in the day
+```
+
+**Platform rule:** Assign at least 1 micro-task per day between sessions.
+Micro-tasks are separate from main assignments — they are MAINTENANCE, not new learning.
+
+### Everyday Immersion Protocol (AJATT Adaptation)
+
+AJATT (All Japanese All The Time — Khatzumoto, adapted for German context):
+A systematic approach to creating German exposure in daily life.
+
+**The 30-Minute Daily Rule (Minimum effective dose):**
+At least 30 minutes of German per day — any combination of:
+- Listening while commuting (podcast, DW, Spotify German playlist)
+- Reading while waiting (DW news app, simple German articles)
+- Watching with German subtitles (Netflix + Language Reactor extension)
+- Recording a voice note in German (1 observation from the day)
+
+**Student setup protocol (teacher configures at session 1–2):**
+```
+Phone interface        → change to German (highest immersion impact)
+News app               → add DW (Deutsche Welle) or Zeit Online
+Podcast subscription   → "Slow German mit Annik Rubens" (A2–B1)
+                          "Auf Deutsch gesagt" (B1–B2)
+                          "Das Wort" (B2+)
+YouTube algorithm      → watch 1 German video → algorithm learns, delivers more
+Spotify playlist       → German music matching student's taste (exposure, prosody)
+```
+
+**The Language Diary (живой фразник)**
+Student keeps a small notebook (digital or physical) of real phrases heard or needed.
+Format: "ситуация → что хотел сказать → как сказать правильно"
+
+```
+Example entries:
+  Кассир сказала мне что-то про Tüte [сумку для покупок] — я не понял
+  → "Möchten Sie eine Tüte?" "Ja, bitte" / "Nein, danke, ich habe meinen Beutel"
+
+  На работе нужно было сказать что я задержусь
+  → "Ich verspäte mich leider um etwa 10 Minuten"
+
+  В аптеке: как спросить про таблетки от головной боли
+  → "Haben Sie etwas gegen Kopfschmerzen?"
+```
+
+**Platform rule:** Language diary entries become ASSIGNMENT material.
+Teacher reviews diary monthly: "вы собрали 12 фраз — из них сделаем 3 микрозадания."
+
+### Polyglot Evidence Base (adapted for platform)
+
+| Polyglot | Key technique | Platform adaptation |
+|----------|---------------|---------------------|
+| **Luca Lampariello** | Bidirectional translation: translate DE→RU, then RU→DE from memory | Use for grammar drilling — translate student's own sentences |
+| **Steve Kaufmann** | Massive comprehensible input — hours per day listening + reading | Assign 30-min daily German media exposure; track in check-in |
+| **Alexander Arguelles** | Scriptorium + shadowing — write what you hear | Monthly dicto-gloss + phonetic shadowing tasks |
+| **Benny Lewis** | Speak from Day 1 — make mistakes loudly and publicly | First session: record 1-minute German intro, no matter what level |
+| **Tim Doner** | Phonetics-first: nail sounds before grammar | Begin A1 with 2 weeks phonology-only (ü, ö, ch, r sounds) |
+
+**Platform rule:** No single polyglot method suits all students.
+Use these as a toolkit — diagnose which style fits this student's learning profile
+and emphasize that strand in their curriculum.
+
+### Between-Session Check-In (Weekly Template)
+
+Every week, teacher sends 3 questions:
+```
+1. "Использовали ли вы немецкий в реальной ситуации на этой неделе? Где?"
+2. "Что в немецком было сложным вне занятий?" (collects language diary data)
+3. "Что хотите разобрать на следующем занятии?"
+```
+
+Student answers are used to:
+- Inform next session's real-life task focus
+- Track WTC (Willingness to Communicate) growth over time
+- Feed language diary → new assignment material
 
 ---
 
