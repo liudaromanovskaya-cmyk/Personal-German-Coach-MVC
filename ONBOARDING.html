@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкета нового студента — Personal German Coach</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#FAF9F6; color:#1A1A1A; }
+
+/* ── ШАПКА ── */
+nav {
+  background:#2D3748; padding:0 24px; height:56px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100;
+}
+.nav-logo { color:#fff; font-size:15px; font-weight:700; letter-spacing:-.2px; }
+.nav-logo em { font-style:normal; color:#7CC8A0; }
+.nav-tag { font-size:11px; color:rgba(255,255,255,.4); }
+
+/* ── ГЛАВНАЯ ОБЁРТКА ── */
+.page { max-width:680px; margin:0 auto; padding:36px 24px 80px; }
+
+/* ── ВСТУПЛЕНИЕ ── */
+.intro { margin-bottom:36px; }
+.intro h1 { font-size:22px; font-weight:700; margin-bottom:8px; line-height:1.3; }
+.intro p { font-size:14px; color:#718096; line-height:1.7; }
+.intro-meta { display:flex; gap:20px; margin-top:16px; flex-wrap:wrap; }
+.intro-pill {
+  display:flex; align-items:center; gap:6px;
+  font-size:12px; color:#4A8C6E; font-weight:600;
+  background:#EDF7F1; border:1px solid #C6E8D7;
+  padding:5px 12px; border-radius:20px;
+}
+
+/* ── СЕКЦИИ ── */
+.section { margin-bottom:28px; }
+.section-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:16px; }
+.section-num {
+  width:28px; height:28px; min-width:28px;
+  background:#4A8C6E; color:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; margin-top:1px;
+}
+.section-title { font-size:15px; font-weight:700; margin-bottom:2px; }
+.section-sub { font-size:12px; color:#718096; }
+
+/* ── ВОПРОС-ГРУППА ── */
+.q { background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; padding:16px 18px; margin-bottom:10px; }
+.q-label { font-size:13px; font-weight:600; color:#1A1A1A; margin-bottom:10px; display:block; }
+.q-hint { font-size:11px; color:#718096; margin-bottom:11px; margin-top:-6px; line-height:1.5; }
+
+/* ── РАДИО-КАРТОЧКИ ── */
+.radio-cards { display:flex; flex-wrap:wrap; gap:8px; }
+.rc {
+  display:flex; align-items:center; gap:8px;
+  padding:9px 14px; border:1.5px solid #E2E8F0; border-radius:8px;
+  cursor:pointer; font-size:13px; color:#4A5568;
+  transition:all .15s; min-height:44px; user-select:none;
+}
+.rc:hover { border-color:#7CC8A0; background:#F7FDF9; }
+.rc.checked { border-color:#4A8C6E; background:#EDF7F1; color:#2E6B4F; font-weight:600; }
+.rc-dot {
+  width:16px; height:16px; min-width:16px;
+  border:2px solid #CBD5E0; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .15s; flex-shrink:0;
+}
+.rc.checked .rc-dot { border-color:#4A8C6E; background:#4A8C6E; }
+.rc.checked .rc-dot::after {
+  content:''; width:6px; height:6px;
+  background:#fff; border-radius:50%; display:block;
+}
+
+/* ── ЧЕКБОКСЫ-ПИЛЮЛИ ── */
+.pills { display:flex; flex-wrap:wrap; gap:8px; }
+.pill {
+  padding:8px 14px; border:1.5px solid #E2E8F0; border-radius:20px;
+  cursor:pointer; font-size:12px; color:#4A5568;
+  transition:all .15s; min-height:36px; user-select:none;
+  display:flex; align-items:center;
+}
+.pill:hover { border-color:#7CC8A0; background:#F7FDF9; }
+.pill.checked { border-color:#4A8C6E; background:#EDF7F1; color:#2E6B4F; font-weight:600; }
+
+/* ── ШКАЛА ОЦЕНКИ ── */
+.rating-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.rating-end { font-size:11px; color:#718096; flex-shrink:0; }
+.rating-dots { display:flex; gap:6px; }
+.rd { cursor:pointer; user-select:none; }
+.rd-dot {
+  width:38px; height:38px; border:2px solid #E2E8F0; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; color:#A0AEC0; transition:all .15s;
+}
+.rd:hover .rd-dot { border-color:#7CC8A0; color:#4A8C6E; }
+.rd.checked .rd-dot { border-color:#4A8C6E; background:#4A8C6E; color:#fff; }
+
+/* ── НАВЫКИ CEFR ── */
+.cefr-skill { margin-bottom:14px; }
+.cefr-skill:last-child { margin-bottom:0; }
+.cefr-lbl { font-size:12px; font-weight:600; color:#718096; margin-bottom:6px; }
+.cefr-row { flex-wrap:nowrap; }
+.cefr-row .rc { min-width:52px; justify-content:center; padding:9px 8px; font-weight:700; }
+
+/* ── ДОПОЛНИТЕЛЬНЫЙ ТЕКСТ ── */
+.profile-input {
+  width:100%; padding:10px 14px; border:1.5px solid #E2E8F0; border-radius:8px;
+  font-family:inherit; font-size:13px; color:#1A1A1A; background:#FAF9F6;
+  transition:border-color .15s; outline:none; resize:vertical;
+}
+.profile-input:focus { border-color:#4A8C6E; background:#fff; }
+.profile-input::placeholder { color:#A0AEC0; }
+textarea.profile-input { min-height:72px; line-height:1.5; }
+
+/* ── РАЗДЕЛИТЕЛЬ ── */
+.divider { border:none; border-top:2px dashed #E2E8F0; margin:32px 0; }
+
+/* ── КНОПКА ОТПРАВКИ ── */
+.submit-block { text-align:center; padding-top:8px; }
+.submit-note { font-size:12px; color:#718096; margin-bottom:16px; line-height:1.6; }
+.submit-btn {
+  background:#4A8C6E; color:#fff; border:none; border-radius:12px;
+  padding:16px 48px; font-size:16px; font-weight:700;
+  cursor:pointer; font-family:inherit; min-height:54px;
+  transition:background .15s; width:100%; max-width:360px;
+}
+.submit-btn:hover { background:#3a7059; }
+.submit-btn:disabled { background:#A0AEC0; cursor:default; }
+
+/* ── СОСТОЯНИЕ УСПЕХА ── */
+.success-screen {
+  display:none; text-align:center;
+  background:#EDF7F1; border:1.5px solid #C6E8D7;
+  border-radius:16px; padding:40px 24px; margin-top:24px;
+}
+.success-screen.open { display:block; }
+.success-icon { font-size:48px; margin-bottom:16px; }
+.success-screen h2 { font-size:20px; font-weight:700; color:#2E6B4F; margin-bottom:8px; }
+.success-screen p { font-size:14px; color:#4A8C6E; line-height:1.7; }
+
+/* ── СОСТОЯНИЕ ОШИБКИ ── */
+.error-msg {
+  display:none; background:#FFF5F5; border:1.5px solid #FEB2B2;
+  border-radius:10px; padding:14px 18px; margin-top:14px;
+  font-size:13px; color:#C53030; line-height:1.6;
+}
+.error-msg.open { display:block; }
+
+/* ── АДАПТИВ ── */
+@media (max-width:600px) {
+  .page { padding:24px 16px 60px; }
+  .intro h1 { font-size:19px; }
+  .radio-cards { flex-direction:column; }
+  .rc { width:100%; }
+  .cefr-row { flex-direction:row !important; flex-wrap:nowrap; }
+  .cefr-row .rc { flex:1; min-width:0; padding:8px 4px; font-size:12px; }
+  .rating-row { flex-direction:column; align-items:flex-start; gap:8px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Personal <em>German</em> Coach</div>
+  <div class="nav-tag">Анкета нового студента</div>
+</nav>
+
+<div class="page">
+
+  <!-- ВСТУПЛЕНИЕ -->
+  <div class="intro">
+    <h1>Расскажите о себе — я составлю план именно для вас</h1>
+    <p>Эта анкета помогает мне понять ваши цели, уровень и ритм жизни до нашей первой встречи. Никаких правильных или неправильных ответов — только честно, как есть.</p>
+    <div class="intro-meta">
+      <div class="intro-pill">⏱ около 10 минут</div>
+      <div class="intro-pill">🔒 только мне</div>
+      <div class="intro-pill">📬 получу сразу</div>
+    </div>
+  </div>
+
+
+  <!-- ══ 1. БАЗОВЫЕ ДАННЫЕ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">Немного о вас</div>
+        <div class="section-sub">Чтобы я знала, как к вам обращаться и что учитывать</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Как вас зовут?</label>
+      <input class="profile-input" type="text" data-field="Имя" placeholder="Имя и фамилия">
+    </div>
+
+    <div class="q">
+      <span class="q-label">Ваш возраст</span>
+      <div class="radio-cards" data-q="Возраст">
+        <label class="rc"><span class="rc-dot"></span>18–25</label>
+        <label class="rc"><span class="rc-dot"></span>26–35</label>
+        <label class="rc"><span class="rc-dot"></span>36–45</label>
+        <label class="rc"><span class="rc-dot"></span>46–55</label>
+        <label class="rc"><span class="rc-dot"></span>56+</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Где вы сейчас находитесь? (страна, город — как вам удобно)</label>
+      <input class="profile-input" type="text" data-field="Где сейчас находитесь" placeholder="Напишите так, как вам удобно — страна, город или просто регион">
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как давно вы там живёте или работаете?</span>
+      <div class="radio-cards" data-q="Как давно на текущем месте">
+        <label class="rc"><span class="rc-dot"></span>Только переехал(а) — меньше 6 месяцев</label>
+        <label class="rc"><span class="rc-dot"></span>6–12 месяцев</label>
+        <label class="rc"><span class="rc-dot"></span>1–3 года</label>
+        <label class="rc"><span class="rc-dot"></span>Больше 3 лет</label>
+        <label class="rc"><span class="rc-dot"></span>Пока не переехал(а) — это в планах</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Ваша профессия / сфера</label>
+      <input class="profile-input" type="text" data-field="Профессия" placeholder="Например: IT, медицина, бухгалтерия, менеджмент...">
+    </div>
+
+    <div class="q">
+      <span class="q-label">Ваш родной язык</span>
+      <div class="radio-cards" data-q="Родной язык">
+        <label class="rc"><span class="rc-dot"></span>Русский</label>
+        <label class="rc"><span class="rc-dot"></span>Украинский</label>
+        <label class="rc"><span class="rc-dot"></span>Оба (русский + украинский)</label>
+        <label class="rc"><span class="rc-dot"></span>Другой</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">На каком языке работаете / общаетесь сейчас?</span>
+      <div class="radio-cards" data-q="Рабочий язык">
+        <label class="rc"><span class="rc-dot"></span>В основном русский/украинский</label>
+        <label class="rc"><span class="rc-dot"></span>Смесь немецкого и русского</label>
+        <label class="rc"><span class="rc-dot"></span>Немецкий</label>
+        <label class="rc"><span class="rc-dot"></span>Английский</label>
+        <label class="rc"><span class="rc-dot"></span>Не работаю сейчас</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 2. УРОВЕНЬ НЕМЕЦКОГО ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">Уровень немецкого</div>
+        <div class="section-sub">Самооценка — честно, как есть. Ниже — точнее.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как давно изучаете немецкий?</span>
+      <div class="radio-cards" data-q="Опыт изучения">
+        <label class="rc"><span class="rc-dot"></span>Только начинаю</label>
+        <label class="rc"><span class="rc-dot"></span>Меньше года</label>
+        <label class="rc"><span class="rc-dot"></span>1–2 года</label>
+        <label class="rc"><span class="rc-dot"></span>3–5 лет</label>
+        <label class="rc"><span class="rc-dot"></span>Больше 5 лет</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Оцените каждый навык по шкале CEFR</span>
+      <p class="q-hint">Если не знаете уровни — A1 это «здравствуйте», B1 это «могу объяснить что хочу», C1 это «почти как носитель».</p>
+
+      <div class="cefr-skill">
+        <div class="cefr-lbl">🎧 Слушание (Hören) — понимаю на слух</div>
+        <div class="radio-cards cefr-row" data-q="Уровень: Слушание">
+          <label class="rc"><span class="rc-dot"></span>A1</label>
+          <label class="rc"><span class="rc-dot"></span>A2</label>
+          <label class="rc"><span class="rc-dot"></span>B1</label>
+          <label class="rc"><span class="rc-dot"></span>B2</label>
+          <label class="rc"><span class="rc-dot"></span>C1</label>
+        </div>
+      </div>
+      <div class="cefr-skill">
+        <div class="cefr-lbl">🗣 Говорение (Sprechen) — могу выразить мысль</div>
+        <div class="radio-cards cefr-row" data-q="Уровень: Говорение">
+          <label class="rc"><span class="rc-dot"></span>A1</label>
+          <label class="rc"><span class="rc-dot"></span>A2</label>
+          <label class="rc"><span class="rc-dot"></span>B1</label>
+          <label class="rc"><span class="rc-dot"></span>B2</label>
+          <label class="rc"><span class="rc-dot"></span>C1</label>
+        </div>
+      </div>
+      <div class="cefr-skill">
+        <div class="cefr-lbl">📖 Чтение (Lesen) — читаю тексты</div>
+        <div class="radio-cards cefr-row" data-q="Уровень: Чтение">
+          <label class="rc"><span class="rc-dot"></span>A1</label>
+          <label class="rc"><span class="rc-dot"></span>A2</label>
+          <label class="rc"><span class="rc-dot"></span>B1</label>
+          <label class="rc"><span class="rc-dot"></span>B2</label>
+          <label class="rc"><span class="rc-dot"></span>C1</label>
+        </div>
+      </div>
+      <div class="cefr-skill">
+        <div class="cefr-lbl">✏️ Письмо (Schreiben) — пишу тексты</div>
+        <div class="radio-cards cefr-row" data-q="Уровень: Письмо">
+          <label class="rc"><span class="rc-dot"></span>A1</label>
+          <label class="rc"><span class="rc-dot"></span>A2</label>
+          <label class="rc"><span class="rc-dot"></span>B1</label>
+          <label class="rc"><span class="rc-dot"></span>B2</label>
+          <label class="rc"><span class="rc-dot"></span>C1</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Сдавали языковой экзамен? (можно несколько)</span>
+      <div class="pills" data-q="Экзамены">
+        <label class="pill">Нет, не сдавал(а)</label>
+        <label class="pill">Goethe-Zertifikat</label>
+        <label class="pill">telc</label>
+        <label class="pill">ÖSD</label>
+        <label class="pill">TestDaF</label>
+        <label class="pill">DSH</label>
+        <label class="pill">Einbürgerungstest</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 3. МОТИВАЦИЯ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">Зачем вам немецкий</div>
+        <div class="section-sub">Это влияет на то, как я строю программу</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Главная причина, по которой вы учите немецкий?</span>
+      <div class="radio-cards" data-q="Главная мотивация">
+        <label class="rc"><span class="rc-dot"></span>Интеграция — хочу жить полноценно в немецком обществе</label>
+        <label class="rc"><span class="rc-dot"></span>Работа — нужен для карьеры или работы с коллегами</label>
+        <label class="rc"><span class="rc-dot"></span>Переезд — планирую переехать в немецкоязычную страну</label>
+        <label class="rc"><span class="rc-dot"></span>Семья — партнёр, дети или родственники</label>
+        <label class="rc"><span class="rc-dot"></span>Экзамен — нужен конкретный сертификат</label>
+        <label class="rc"><span class="rc-dot"></span>Личный интерес — культура, литература, путешествия</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Насколько это срочно?</span>
+      <div class="radio-cards" data-q="Срочность">
+        <label class="rc"><span class="rc-dot"></span>Очень срочно — нужно уже сейчас</label>
+        <label class="rc"><span class="rc-dot"></span>В течение 3–6 месяцев</label>
+        <label class="rc"><span class="rc-dot"></span>Не спешу — хочу делать основательно</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 4. ЦЕЛИ И СИТУАЦИИ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">Реальные ситуации</div>
+        <div class="section-sub">Какой немецкий вам нужен в жизни</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Какие ситуации нужно уметь решать по-немецки? (отметьте все подходящие)</span>
+      <div class="pills" data-q="Нужные ситуации">
+        <label class="pill">Behörde — ведомства, Amt</label>
+        <label class="pill">Врач, больница, страховка</label>
+        <label class="pill">Телефонные звонки</label>
+        <label class="pill">Работа с немецкими коллегами</label>
+        <label class="pill">Документы, договоры, официальные письма</label>
+        <label class="pill">Повседневное общение (магазин, сосед)</label>
+        <label class="pill">Дети: школа, Kindergarten</label>
+        <label class="pill">Карьера и собеседования</label>
+        <label class="pill">Понимать ТВ, новости, подкасты</label>
+        <label class="pill">Сдать языковой экзамен</label>
+        <label class="pill">Не зависеть от переводчика</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Самая срочная ситуация — что важно решить в первую очередь?</label>
+      <textarea class="profile-input" data-field="Самая срочная ситуация" rows="2"
+        placeholder="Например: «через 2 месяца собеседование на работу» или «хочу сама записываться к врачу»"></textarea>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 5. КОНТАКТ С НЕМЕЦКИМ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title">Немецкий в вашей жизни сейчас</div>
+        <div class="section-sub">Сколько языка вокруг вас каждый день</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Есть ли рядом с вами носители немецкого языка?</span>
+      <div class="radio-cards" data-q="Носители рядом">
+        <label class="rc"><span class="rc-dot"></span>Нет совсем — живу в русскоязычной среде</label>
+        <label class="rc"><span class="rc-dot"></span>Иногда — коллеги или соседи</label>
+        <label class="rc"><span class="rc-dot"></span>Да — каждый день на работе или дома</label>
+        <label class="rc"><span class="rc-dot"></span>Партнёр / муж / жена говорят по-немецки</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как часто вы слышите немецкий в повседневной жизни?</span>
+      <div class="radio-cards" data-q="Частота контакта с языком">
+        <label class="rc"><span class="rc-dot"></span>Практически никогда</label>
+        <label class="rc"><span class="rc-dot"></span>Иногда — в магазине, транспорте</label>
+        <label class="rc"><span class="rc-dot"></span>Часто — на работе или в учёбе</label>
+        <label class="rc"><span class="rc-dot"></span>Постоянно — живу в немецком окружении</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 6. ВРЕМЯ И РИТМ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">6</div>
+      <div>
+        <div class="section-title">Время и ритм</div>
+        <div class="section-sub">Реальное время — не идеальное, а то что есть</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Сколько минут в день вы готовы уделять немецкому?</span>
+      <div class="radio-cards" data-q="Минут в день">
+        <label class="rc"><span class="rc-dot"></span>До 15 минут</label>
+        <label class="rc"><span class="rc-dot"></span>15–30 минут</label>
+        <label class="rc"><span class="rc-dot"></span>30–45 минут</label>
+        <label class="rc"><span class="rc-dot"></span>45–60 минут</label>
+        <label class="rc"><span class="rc-dot"></span>Больше часа</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">В какие дни вам удобнее всего заниматься? (можно несколько)</span>
+      <div class="pills" data-q="Удобные дни">
+        <label class="pill">Пн</label>
+        <label class="pill">Вт</label>
+        <label class="pill">Ср</label>
+        <label class="pill">Чт</label>
+        <label class="pill">Пт</label>
+        <label class="pill">Сб</label>
+        <label class="pill">Вс</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Готовы ли заниматься в выходные?</span>
+      <div class="radio-cards" data-q="Выходные">
+        <label class="rc"><span class="rc-dot"></span>Да, это лучшее время</label>
+        <label class="rc"><span class="rc-dot"></span>Иногда — если не очень много</label>
+        <label class="rc"><span class="rc-dot"></span>Нет — выходные только для отдыха</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Когда лучше всего получается сосредоточиться?</span>
+      <div class="radio-cards" data-q="Лучшее время суток">
+        <label class="rc"><span class="rc-dot"></span>Утром (до работы)</label>
+        <label class="rc"><span class="rc-dot"></span>Днём (пауза, обед)</label>
+        <label class="rc"><span class="rc-dot"></span>Вечером</label>
+        <label class="rc"><span class="rc-dot"></span>По-разному каждый день</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Насколько предсказуем ваш график?</span>
+      <div class="radio-cards" data-q="Предсказуемость графика">
+        <label class="rc"><span class="rc-dot"></span>Очень стабильный</label>
+        <label class="rc"><span class="rc-dot"></span>В основном стабильный</label>
+        <label class="rc"><span class="rc-dot"></span>Непредсказуемый — меняется каждую неделю</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 7. СТИЛЬ ОБУЧЕНИЯ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">7</div>
+      <div>
+        <div class="section-title">Как вы лучше всего учитесь</div>
+        <div class="section-sub">Это определяет, какие задания я буду давать</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как информация лучше всего "заходит"? (можно несколько)</span>
+      <p class="q-hint">Не то, как надо — а то, как реально получается лучше.</p>
+      <div class="pills" data-q="Стиль усвоения">
+        <label class="pill">Смотрю схемы, таблицы, карточки — люблю видеть структуру</label>
+        <label class="pill">Слушаю и повторяю — на слух запоминается быстрее</label>
+        <label class="pill">Практикую в разговоре — лучше через действие</label>
+        <label class="pill">Читаю объяснения и конспектирую — нужно понять логику</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как вам удобнее получать новый материал?</span>
+      <div class="radio-cards" data-q="Порядок подачи">
+        <label class="rc"><span class="rc-dot"></span>Сначала объяснение правила — потом практика</label>
+        <label class="rc"><span class="rc-dot"></span>Сначала практика — потом объяснение почему так</label>
+        <label class="rc"><span class="rc-dot"></span>Только практика — правила пусть сами "осядут"</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как вы предпочитаете получать задания?</span>
+      <div class="radio-cards" data-q="Формат заданий">
+        <label class="rc"><span class="rc-dot"></span>Короткие — каждый день по 10–15 минут</label>
+        <label class="rc"><span class="rc-dot"></span>Более долгие — несколько раз в неделю по 30 минут</label>
+        <label class="rc"><span class="rc-dot"></span>Смешанно — по-разному</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 8. АФФЕКТИВНЫЙ ПРОФИЛЬ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">8</div>
+      <div>
+        <div class="section-title">Как вы себя чувствуете с немецким</div>
+        <div class="section-sub">Честные ответы — самые полезные</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Когда говорю по-немецки с незнакомым человеком, я чувствую...</span>
+      <div class="rating-row">
+        <span class="rating-end">Сильную тревогу</span>
+        <div class="rating-dots" data-q="Тревога при говорении (1=очень тревожно, 5=уверенно)">
+          <label class="rd"><span class="rd-dot">1</span></label>
+          <label class="rd"><span class="rd-dot">2</span></label>
+          <label class="rd"><span class="rd-dot">3</span></label>
+          <label class="rd"><span class="rd-dot">4</span></label>
+          <label class="rd"><span class="rd-dot">5</span></label>
+        </div>
+        <span class="rating-end">Полную уверенность</span>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Когда я делаю ошибку в немецком, я...</span>
+      <div class="radio-cards" data-q="Реакция на ошибки">
+        <label class="rc"><span class="rc-dot"></span>Расстраиваюсь и хочу прекратить</label>
+        <label class="rc"><span class="rc-dot"></span>Немного смущаюсь, но продолжаю</label>
+        <label class="rc"><span class="rc-dot"></span>Отношусь нейтрально — ошибки нормальны</label>
+        <label class="rc"><span class="rc-dot"></span>Воспринимаю как возможность улучшиться</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Как вы предпочитаете получать исправления?</span>
+      <div class="radio-cards" data-q="Предпочтение коррекции">
+        <label class="rc"><span class="rc-dot"></span>Сразу — в момент ошибки</label>
+        <label class="rc"><span class="rc-dot"></span>После высказывания, не прерывая</label>
+        <label class="rc"><span class="rc-dot"></span>Письменно, после разговора</label>
+        <label class="rc"><span class="rc-dot"></span>Как угодно — главное получить фидбек</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Что больше всего мешает говорить по-немецки?</span>
+      <div class="radio-cards" data-q="Главный барьер">
+        <label class="rc"><span class="rc-dot"></span>Страх ошибиться / выглядеть глупо</label>
+        <label class="rc"><span class="rc-dot"></span>Не знаю нужных слов — не могу выразить мысль</label>
+        <label class="rc"><span class="rc-dot"></span>Знаю правила, но в разговоре теряюсь</label>
+        <label class="rc"><span class="rc-dot"></span>Не понимаю что говорит собеседник</label>
+        <label class="rc"><span class="rc-dot"></span>Смущает мой акцент или произношение</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 9. СЛОЖНЫЕ МЕСТА ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">9</div>
+      <div>
+        <div class="section-title">Где сложнее всего</div>
+        <div class="section-sub">Где сосредоточить больше усилий</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Какие навыки даются труднее всего? (можно несколько)</span>
+      <div class="pills" data-q="Трудные навыки">
+        <label class="pill">Грамматика</label>
+        <label class="pill">Произношение</label>
+        <label class="pill">Словарный запас</label>
+        <label class="pill">Понимание на слух</label>
+        <label class="pill">Говорение</label>
+        <label class="pill">Чтение сложных текстов</label>
+        <label class="pill">Официальное письмо</label>
+        <label class="pill">Беглость и темп речи</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Когда носитель говорит в нормальном темпе, я...</span>
+      <div class="radio-cards" data-q="Понимание носителей">
+        <label class="rc"><span class="rc-dot"></span>Почти ничего не понимаю</label>
+        <label class="rc"><span class="rc-dot"></span>Улавливаю отдельные слова</label>
+        <label class="rc"><span class="rc-dot"></span>Понимаю примерно половину</label>
+        <label class="rc"><span class="rc-dot"></span>В основном понимаю</label>
+        <label class="rc"><span class="rc-dot"></span>Понимаю хорошо</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Знаю правила — но в разговоре «теряюсь» и не могу их применить?</span>
+      <div class="radio-cards" data-q="Разрыв знание-действие">
+        <label class="rc"><span class="rc-dot"></span>Да, это моя главная проблема</label>
+        <label class="rc"><span class="rc-dot"></span>Иногда бывает</label>
+        <label class="rc"><span class="rc-dot"></span>Нет, у меня правила и разговор связаны</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 10. ОПЫТ ОБУЧЕНИЯ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">Что уже пробовали</div>
+        <div class="section-sub">Чтобы не повторять то, что не работает</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Какие методы уже пробовали? (можно несколько)</span>
+      <div class="pills" data-q="Что пробовали">
+        <label class="pill">Duolingo / Babbel</label>
+        <label class="pill">Онлайн-курс</label>
+        <label class="pill">Языковые курсы (группа)</label>
+        <label class="pill">Интеграционный курс</label>
+        <label class="pill">Репетитор (частный)</label>
+        <label class="pill">Учебники самостоятельно</label>
+        <label class="pill">YouTube / подкасты</label>
+        <label class="pill">Anki / карточки</label>
+        <label class="pill">Общение с носителями</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Что помогло больше всего? (что нравилось в процессе)</label>
+      <textarea class="profile-input" data-field="Что помогло" rows="2"
+        placeholder="Например: «разговорная практика с живым человеком» или «повторение карточек по утрам»"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Что точно не работает для вас?</label>
+      <textarea class="profile-input" data-field="Что не работает" rows="2"
+        placeholder="Например: «скучные грамматические таблицы» или «учёба через видео — отвлекаюсь»"></textarea>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══ 11. ЖЕЛАЕМЫЙ РЕЗУЛЬТАТ ══ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">11</div>
+      <div>
+        <div class="section-title">Каким вы хотите видеть свой немецкий</div>
+        <div class="section-sub">Это моя отправная точка при составлении вашего плана</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Через 3 месяца я хочу уметь...</label>
+      <textarea class="profile-input" data-field="Цель через 3 месяца" rows="3"
+        placeholder="Опишите своими словами — конкретную ситуацию, которую хотите решать без помощи?"></textarea>
+    </div>
+
+    <div class="q">
+      <span class="q-label">«Хороший немецкий» для меня — это прежде всего...</span>
+      <div class="radio-cards" data-q="Определение успеха">
+        <label class="rc"><span class="rc-dot"></span>Говорить без долгих пауз и словаря</label>
+        <label class="rc"><span class="rc-dot"></span>Понимать носителей в любой ситуации</label>
+        <label class="rc"><span class="rc-dot"></span>Сдать нужный экзамен</label>
+        <label class="rc"><span class="rc-dot"></span>Не чувствовать тревогу при разговоре</label>
+        <label class="rc"><span class="rc-dot"></span>Самостоятельно решать все бытовые вопросы</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="q-label">Что ещё важно знать обо мне, чтобы занятия были именно для меня?</label>
+      <textarea class="profile-input" data-field="Дополнительно" rows="3"
+        placeholder="Любая информация — жизненные обстоятельства, что беспокоит, о чём хочется поговорить на первой встрече..."></textarea>
+    </div>
+  </div>
+
+
+  <!-- ── КНОПКА ОТПРАВКИ ── -->
+  <div class="submit-block">
+    <p class="submit-note">
+      Нажимая кнопку, вы отправляете анкету мне лично.<br>
+      Я отвечу в течение 24 часов и предложу время для диагностической встречи.
+    </p>
+    <button class="submit-btn" onclick="submitForm()">Отправить анкету</button>
+    <div class="error-msg" id="errorMsg">
+      Что-то пошло не так при отправке. Попробуйте ещё раз или напишите мне напрямую.
+    </div>
+  </div>
+
+  <!-- ── ЭКРАН УСПЕХА ── -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🎉</div>
+    <h2>Анкета отправлена!</h2>
+    <p>
+      Спасибо, что уделили время — это важно.<br><br>
+      Я прочитаю ваши ответы до нашей встречи и приду на диагностику уже зная,
+      с чего начать именно для вас.<br><br>
+      <strong>Жду нас на первой встрече!</strong>
+    </p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+/* ══════════════════════════════════════════════
+   FORMSPREE ENDPOINT
+   Замените YOUR_FORMSPREE_ID на ваш код с formspree.io
+   Например: https://formspree.io/f/xabcde12
+   ══════════════════════════════════════════════ */
+var FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORMSPREE_ID';
+
+
+/* ── Инициализация: клики по карточкам и пилюлям ── */
+document.addEventListener('DOMContentLoaded', function() {
+
+  /* Радио-карточки — каждый .radio-cards независимая группа */
+  document.querySelectorAll('.radio-cards').forEach(function(row) {
+    row.querySelectorAll('.rc').forEach(function(label) {
+      label.addEventListener('click', function() {
+        row.querySelectorAll('.rc').forEach(function(l) { l.classList.remove('checked'); });
+        label.classList.add('checked');
+      });
+    });
+  });
+
+  /* Чекбоксы-пилюли */
+  document.querySelectorAll('.pill').forEach(function(label) {
+    label.addEventListener('click', function() { label.classList.toggle('checked'); });
+  });
+
+  /* Шкала оценки — заливаем до выбранного */
+  document.querySelectorAll('.rating-dots').forEach(function(group) {
+    var dots = Array.prototype.slice.call(group.querySelectorAll('.rd'));
+    dots.forEach(function(dot, idx) {
+      dot.addEventListener('click', function() {
+        dots.forEach(function(d, i) { d.classList.toggle('checked', i <= idx); });
+      });
+    });
+  });
+});
+
+
+/* ── Сбор всех ответов ── */
+function collectAnswers() {
+  var data = {};
+
+  /* Текстовые поля */
+  document.querySelectorAll('[data-field]').forEach(function(input) {
+    data[input.dataset.field] = input.value.trim() || '—';
+  });
+
+  /* Радио-группы */
+  document.querySelectorAll('.radio-cards[data-q]').forEach(function(group) {
+    var checked = group.querySelector('.rc.checked');
+    data[group.dataset.q] = checked ? checked.textContent.trim() : '—';
+  });
+
+  /* Чекбоксы (пилюли) */
+  document.querySelectorAll('.pills[data-q]').forEach(function(group) {
+    var checked = Array.prototype.slice.call(group.querySelectorAll('.pill.checked'))
+      .map(function(l) { return l.textContent.trim(); });
+    data[group.dataset.q] = checked.length > 0 ? checked.join(', ') : '—';
+  });
+
+  /* Шкала оценки */
+  document.querySelectorAll('.rating-dots[data-q]').forEach(function(group) {
+    var checked = group.querySelectorAll('.rd.checked');
+    data[group.dataset.q] = checked.length > 0 ? checked.length + ' из 5' : '—';
+  });
+
+  return data;
+}
+
+
+/* ── Отправка формы ── */
+function submitForm() {
+  var btn = document.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Отправляю...';
+  document.getElementById('errorMsg').classList.remove('open');
+
+  var answers = collectAnswers();
+
+  fetch(FORMSPREE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(answers)
+  })
+  .then(function(response) {
+    if (response.ok) {
+      document.querySelector('.submit-block').style.display = 'none';
+      var success = document.getElementById('successScreen');
+      success.classList.add('open');
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      throw new Error('Ошибка сервера');
+    }
+  })
+  .catch(function() {
+    btn.disabled = false;
+    btn.textContent = 'Отправить анкету';
+    document.getElementById('errorMsg').classList.add('open');
+  });
+}
+</script>
+</body>
+</html>
