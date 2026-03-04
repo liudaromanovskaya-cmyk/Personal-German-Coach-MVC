@@ -20,6 +20,12 @@
 - [Аутентичные материалы](#аутентичные-материалы)
 - [Методика](#методика)
 - [Telegram — дополнительные материалы](#telegram--дополнительные-материалы)
+- [Telegram ChatExport — новые материалы](#telegram-chatexport--новые-материалы)
+- [Telegram ChatExport (2) — художественная литература](#telegram-chatexport-2--художественная-литература)
+- [Landeskunde](#landeskunde)
+- [Redewendungen / Phraseologie / Umgangssprache](#redewendungen--phraseologie--umgangssprache)
+- [Berufsdeutsch — специализированный](#berufsdeutsch--специализированный)
+- [Downloads — учебные материалы](#downloads--учебные-материалы)
 
 ---
 
@@ -624,4 +630,307 @@
 
 ---
 
-*Файл обновлён 2026-03-04. Пути: `C:/Users/roman/Documents/daf/` + `C:/Users/roman/Downloads/Telegram Desktop/`*
+---
+
+## Telegram ChatExport — новые материалы
+
+📁 `C:/Users/roman/Downloads/Telegram Desktop/ChatExport_2026-03-04/files/`
+
+> Экспорт Telegram-чата от 04.03.2026. **ChatExport (основной):** 193 файла. **ChatExport (1):** 13 файлов (в основном Ремарк + дублированная литература). Ниже — только учебные материалы, личные пропущены.
+
+### Грамматика (новое)
+
+| Материал | Уровень | Формат |
+|---|---|---|
+| Handbuch der Deutschen Grammatik (Elke Hentschel) | B2–C2 | PDF |
+| Deutsche Morphologie (Elke Hentschel) — академический | C1–C2 | PDF |
+| Kamjanowa — Theorie + Übungen | A2–B2 | PDF (2 файла) |
+| Duden Übungsbuch extra — Grammatik, Rechtschreibung, Zeichensetzung | B1–C1 | PDF |
+| Die neue Rechtschreibung — Regeln und Beispiele im Überblick | B1–C1 | PDF |
+| Am liebsten den Superlativ — Grammatiktests für Anfänger | A1–A2 | PDF |
+| Ich bin, du bist...sind Sie — Grammatiktests für Anfänger | A1–A2 | PDF |
+| Deutsche Grammatik B2 | B2 | PDF |
+| Relativkonstruktionen im gesprochenen Deutsch (Karin) — академический | C2 | PDF |
+| Немецкий в таблицах (на русском) | A1–B2 | PDF |
+| Немецкий язык. Практическая грамматика. Уровень А1 (на русском) | A1 | PDF |
+| Времена немецкого глагола — Мышковая (на русском) | A1–B2 | FB2 |
+
+### Словарный запас (новое)
+
+| Материал | Уровень | Формат |
+|---|---|---|
+| Duden — Das Wörterbuch der Synonyme | B1–C1 | PDF |
+| Synonymwörterbuch der deutschen Redensarten (Hans) | B2–C1 | PDF |
+| Mein großes Bilder-Wörterbuch (иллюстрированный, для начинающих) | A1 | PDF |
+| PONS A1–B1 (словарь/упражнения) | A1–B1 | PDF |
+| PONS (общий словарь) | — | PDF |
+| Wortschatz Deutsch — 9000 слов (Britisches Englisch, самостоятельное изучение) | B1–C1 | PDF |
+| PONS Wörterbuch der Jugendsprache (DE/EN/FR/ES) | B1–C1 | PDF |
+| Psychologie-Wörterbuch (Wortschatz Englisch-Deutsch) | C1 | PDF |
+| Abkürzungen B1–B2 | B1–B2 | PDF |
+| 101 Fragen und Antworten | A2–B1 | PDF |
+| Die 101 häufigsten Fehler im Deutschen (Klaus Mackowiak) | B1–C1 | PDF |
+
+### Говорение (новое)
+
+| Материал | Уровень | Формат |
+|---|---|---|
+| Treffpunkt Dialog — Sprechtraining A1/A2/B1/B2 ⭐ | A1–B2 | PDF |
+
+### Экзамены (новое из ChatExport)
+
+| Материал | Уровень | Формат |
+|---|---|---|
+| GOETHE Zertifikat A1 | A1 | PDF |
+| GOETHE Zertifikat A2 (2 копии) | A2 | PDF |
+| GOETHE Zertifikat B1 | B1 | PDF |
+| GOETHE Zertifikat B2 | B2 | PDF |
+| GOETHE Zertifikat C1 | C1 | PDF |
+| GOETHE Zertifikat C2 ⭐ | C2 | PDF |
+| C2 Modellsatz Übungssatz 01 | C2 | PDF |
+| Modellprüfung ÖSD Zertifikat C1 ⭐ (австрийский экзамен) | C1 | PDF |
+| Modellprüfung telc Deutsch C1 | C1 | PDF |
+| Modelltest telc Deutsch B2 | B2 | ZIP |
+| Sprachbausteine Deutsch B1 — 10 Modelltests | B1 | PDF |
+| TRautheim — Subtest Sprachbausteine und Schreiben B2 DTB/BSK | B2 | PDF |
+| A1 Telc Übungstest | A1 | PDF |
+| DTZ A2–B1 | A2–B1 | PDF |
+| Deutsch B2 — Beschwerdebrief Schreiben Schritt für Schritt | B2 | PDF |
+| Deutsch B2 — Übungen zur Prüfungsvorbereitung: Leseverstehen, Lückentexte | B2 | PDF |
+| Fit für die Fachsprachprüfung in 1 Woche (Deutsch B2–C1 Medizin) | B2–C1 | PDF |
+| Sprachbausteine Deutsch B2–C1 Medizin Fachsprachprüfung | B2–C1 | PDF |
+
+### Курсы и учебники (новое)
+
+| Материал | Уровень | Формат |
+|---|---|---|
+| Nicos Weg A1–B1 — Arbeitsbuch ⭐ (онлайн-курс Goethe-Institut) | A1–B1 | PDF |
+| Hallo Deutsch 1 — Arbeitsbuch Modul 1 | A1 | PDF |
+| Miteinander — Deutsch (скачиваемый курс) | A1–B1 | PDF |
+| DaZ (Deutsch als Zweitsprache) — тетради 1–5 | A1–B1 | PDF (5 файлов) |
+| Wunderkinder Plus 2 — Lehrerhandbuch (детский DaF) | A1 детский | PDF |
+| Deutsch als Fremdsprache (общий курс) | A1–B2 | PDF |
+| Deutsch als Fremdsprache A2–B2 | A2–B2 | PDF |
+| PONS A1–B1 | A1–B1 | PDF |
+| DLL-Einheit 6 ⭐ (Deutsch Lehren Lernen — методика Goethe-Institut) | методика | PDF |
+| Die Storytelling-Methode — Schritt für Schritt | методика | PDF |
+| Besser lernen | методика | PDF |
+
+### Художественная литература (новое)
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Der kleine Prinz (Saint-Exupéry) | B1–B2 | PDF |
+| Die Chroniken von Narnia — тт. 1–7 (C.S. Lewis) | B1–B2 | PDF (7 тт.) |
+| Die Geschichte von Herrn Sommer (Süskind) | B2 | PDF |
+| Der Kontrabass (Süskind) | B2–C1 | PDF |
+| Die Taube (Süskind) | B2–C1 | PDF |
+| Das Parfum (Süskind) | C1 | PDF |
+| George Orwell — 1984 (немецкий перевод) | C1 | PDF |
+| George Orwell — Farm der Tiere | B2–C1 | PDF |
+| Michail Bulgakow — Der Meister und Margarita | C1 | PDF |
+| **Erich Maria Remarque — Im Westen nichts Neues** ⭐ | C1 | PDF |
+| **Erich Maria Remarque — Arc de Triomphe** | C1 | PDF |
+| **Erich Maria Remarque — Der schwarze Obelisk** | C1 | PDF |
+| **Erich Maria Remarque — Die Nacht von Lissabon** | C1 | PDF |
+| **Erich Maria Remarque — Der Funke Leben** | C1 | PDF |
+| Lukianenko Sergej — Wächter der Nacht | C1 | PDF |
+| Alexander Puschkin — Romane und Novellen | C1–C2 | PDF |
+| Anton Tschechow — Gesammelte Werke (в Downloads) | C1 | PDF |
+| Hans Fallada — 55 andere Geschichten (в Downloads) | B2–C1 | PDF |
+| Ganz leicht | A2–B1 | PDF |
+
+### Школьные материалы (для студентов-родителей или подросткового уровня)
+
+| Материал | Класс/Уровень | Формат |
+|---|---|---|
+| 8. Klasse Deutsch | A2–B1 | PDF |
+| 9. Klasse Deutsch | B1 | PDF |
+| 10. Klasse Deutsch | B1–B2 | PDF |
+| Mein Lernbuch für die 1. Klasse | начальный | PDF |
+| S7327 Demo Übungsheft Lilo 2 (детский DaF) | A1 дети | PDF |
+
+---
+
+## Telegram ChatExport (2) — художественная литература
+
+📁 `C:/Users/roman/Downloads/Telegram Desktop/ChatExport_2026-03-04 (2)/files/`
+
+> Только новые произведения — дубликаты (HP Bd.1, Orwell, Bulgakov Meister und Margarita, Karlsson, Der kleine Prinz, Wächter der Nacht, Puschkin Romane und Novellen) не повторяются.
+
+### Детская литература / простое чтение
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Willkommen im Kinder-Märchenland! (сборник сказок) | A1–A2 | PDF |
+| Лучшие немецкие сказки (Luchshie nemetskie skazki) | A1–B1 | PDF |
+| Die Schönste im ganzen Land (сказка) | A1–B1 | PDF |
+| Wilhelm Hauff — Märchen (сборник) | A2–B1 | PDF |
+| Wilhelm Hauff — Der kleine Muck | B1 | PDF |
+| Emil und die Detektive (Erich Kästner) ⭐ | A2–B1 | PDF |
+| Der Mann ohne Gesicht | B1 | PDF |
+
+### B2
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Harry Potter und das verwunschene Kind (Bd. 8, пьеса) | B2 | PDF |
+| Der Hund von Baskerville (Arthur Conan Doyle, DE) | B2 | PDF |
+
+### B2–C1
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Gut gegen Nordwind (Daniel Glattauer) ⭐ | B2–C1 | PDF |
+| Alle sieben Wellen (Daniel Glattauer) | B2–C1 | PDF |
+| Die Bücherdiebin (Markus Zusak) ⭐ | B2–C1 | PDF |
+| Der Alchimist (Paulo Coelho, DE) | B2–C1 | PDF |
+| Schachnovelle (Stefan Zweig) ⭐ | B2–C1 | PDF |
+| Hundeherz (Michail Bulgakow) | B2–C1 | PDF |
+
+### C1
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Der Vorleser (Bernhard Schlink) ⭐ | C1 | PDF |
+| Enkelin (Bernhard Schlink) | C1 | PDF |
+| Der Steppenwolf (Hermann Hesse) | C1 | PDF |
+| Die Verwandlung (Franz Kafka) ⭐ | C1 | PDF |
+| Traumnovelle / Fridolin (Arthur Schnitzler) | C1 | PDF |
+| Naokos Lächeln (Haruki Murakami, DE) | C1 | PDF |
+| Ungeduld des Herzens (Stefan Zweig) | C1 | PDF |
+| Sternstunden der Menschheit (Stefan Zweig) | C1 | PDF |
+| Rausch der Verwandlung (Stefan Zweig) | C1 | EPUB |
+| Die Welt von gestern (Stefan Zweig) | C1–C2 | EPUB |
+| Kabale und Liebe (Friedrich Schiller) | C1 | PDF |
+| Die Räuber (Friedrich Schiller) | C1 | PDF |
+| Der Spieler (Fjodor Dostojewski, DE) | C1 | PDF |
+| Königin Margot (Alexandre Dumas, DE) | C1 | PDF |
+| Vom Ende der Einsamkeit (Benedict Wells) | C1 | PDF |
+| Der Weg zurück (Erich Maria Remarque) | C1 | PDF |
+| Wächter des Tages (Sergej Lukianenko) | C1 | PDF |
+| Wächter des Zwielichts (Sergej Lukianenko) | C1 | PDF |
+
+### C1–C2 / тяжёлая классика
+
+| Книга | Уровень | Формат |
+|---|---|---|
+| Die Leiden des jungen Werthers (Goethe) | C1–C2 | PDF |
+| Caspar Hauser (Jakob Wassermann) | C1–C2 | EPUB |
+| Die Brüder Karamasow (F. M. Dostojewski, DE) | C2 | PDF |
+| Gesammelte Werke — Victor Hugo (DE) | C1–C2 | PDF |
+| Eugen Onegin (Puschkin, DE) | C1–C2 | PDF |
+| Der Kaufmann von Venedig (Shakespeare, DE) | C1–C2 | PDF |
+
+---
+
+## Landeskunde
+
+📁 ChatExport + `daf/13. Landeskunde/`
+
+| Материал | Уровень | Формат | Где |
+|---|---|---|---|
+| **Tatsachen über Deutschland (2023)** ⭐ — официальное издание, все темы | B1–C1 | PDF (2 копии) | ChatExport |
+| Unterrichtsmagazin Deutsch lernen — Ausgabe 31: Arbeiten in der Pflege | B1–B2 | PDF | ChatExport |
+| Schweizer Hochdeutsch — особенности швейцарского немецкого | B2–C1 | PDF | ChatExport |
+| Wienerisch — das andere Deutsch (венский диалект) | B2–C1 | PDF | ChatExport |
+| Tatsachen über Deutschland — папка (13. Landeskunde в daf) | B1–C1 | folder | daf/13 |
+| Feste.pdf (немецкие праздники) | A2–B1 | PDF | Downloads |
+| AB Straßennamen | A2–B1 | PDF | Telegram |
+| Führerscheinabgabe für die Ältere (социальная тема) | B2 | PDF | Telegram |
+
+> **Tatsachen über Deutschland** — бесплатно скачать свежее издание: https://www.tatsachen-ueber-deutschland.de
+
+---
+
+## Redewendungen / Phraseologie / Umgangssprache
+
+| Материал | Уровень | Формат | Где |
+|---|---|---|---|
+| **Bock auf echtes Deutsch** — Umgangssprache für Deutschlerner ⭐ | B1–B2 | PDF | ChatExport |
+| Synonymwörterbuch der deutschen Redensarten (Hans) | B2–C1 | PDF | ChatExport |
+| 400 немецких рифмованных пословиц и поговорок (на русском) | B1–C1 | PDF | ChatExport |
+| Duden — Das Wörterbuch der Synonyme | B1–C1 | PDF | ChatExport |
+| PONS Wörterbuch der Jugendsprache | B1–C1 | PDF | ChatExport |
+| Wienerisch — das andere Deutsch | B2–C1 | PDF | ChatExport |
+| Schweizer Hochdeutsch | B2–C1 | PDF | ChatExport |
+| Wie sagt man das? (сборник фраз) | A2–B1 | PDF | Downloads |
+| Idiom.pdf (идиомы) | B1–C1 | PDF | Downloads |
+| Synonyme.pdf (синонимы) | B1–C1 | PDF | Downloads |
+| Man tut, was man kann (устойчивые выражения) | B1–B2 | PDF | Downloads |
+| Schimpf.pdf (Schimpfwörter — для понимания) | B2–C1 | PDF | Downloads |
+| Die 101 häufigsten Fehler im Deutschen (Mackowiak) | B1–C1 | PDF | ChatExport |
+| Duden Allgemeinbildung Kompakt — Zitate und Redewendungen | C1 | PDF | Telegram |
+| Das würde ich so nicht sagen | B2–C1 | PDF | Telegram |
+| Německo-ukrainský slovník lajlivych sliv (сленг, ненорм. лексика) | C1 | DJVU | ChatExport |
+| Перевод жаргона и сленга в немецкоязычных произведениях (рус.) | C1 | PDF | Downloads |
+| C1 Verknüpfungswörter — Forumsbeitrag (речевые связки) | C1 | PDF | Telegram |
+| Forumsbeitrag — Redemittel (B2–C1) | B2–C1 | PDF | Telegram |
+| Redemittel-Grafikbeschreibung | B2–C1 | PDF | Telegram |
+| Mittelpunkt B2/C1 — Redemittelsammlung | B2–C1 | PDF | daf/7 |
+
+---
+
+## Berufsdeutsch — специализированный
+
+| Материал | Специализация | Уровень | Где |
+|---|---|---|---|
+| Kommunizieren im Beruf | общий | B2–C1 | Telegram + ChatExport |
+| Einstieg Beruf — Erste Schritte | общий | A1–A2 | Telegram + ChatExport |
+| Professioneller Sprachleitfaden Bank | банковское дело | B2–C1 | Downloads |
+| Banktraining B2–C1 (презентация) | банковское дело | B2–C1 | Downloads |
+| HörenSprechen Bei der Bank | банковское дело | A2–B1 | Telegram |
+| dl_b_banken_leichte_sprache | банковское дело | A2–B1 | Telegram |
+| Nemetskiy yazyk dlya IT-studentov ⭐ | IT / информатика | B1–C1 | ChatExport |
+| Unterrichtsmagazin Ausgabe 31: Arbeiten in der Pflege | медицина/уход | B1–B2 | ChatExport |
+| Fit für die Fachsprachprüfung in 1 Woche (Medizin B2–C1) | медицина | B2–C1 | ChatExport |
+| Sprachbausteine B2–C1 Medizin Fachsprachprüfung | медицина | B2–C1 | ChatExport |
+| Telc B2–C1 Medizin Übungstest | медицина | B2–C1 | daf/7 |
+| Телк B1–B2 Pflege | уход за больными | B1–B2 | daf/7 |
+| Немецкий деловой этикет (Aleksanova, рус.) | деловой этикет | B2 | Telegram |
+| TRautheim — Sprachbausteine und Schreiben B2 DTB/BSK | деловой тест | B2 | ChatExport |
+| Psychiatrie 2020plus (спец. лексика) | психиатрия | C1 | ChatExport |
+| Psychologie-Wörterbuch (Wortschatz EN–DE) | психология | C1 | ChatExport |
+
+---
+
+## Downloads — учебные материалы
+
+📁 `C:/Users/roman/Downloads/` (не в Telegram-папке)
+
+### C1 — большой пул
+
+| Материал | Формат |
+|---|---|
+| Deutsch Intensiv Schreiben C1 Das Training | PDF |
+| Deutsch-intensiv-Wortschatz C1 | PDF |
+| Deutsch C1 Hochschule — Handbuch | PDF |
+| Deutsch C1 Hochschule — Tipps zur Prüfungsvorbereitung | PDF |
+| Telc C1 Hochschule — Übungstest 1 | PDF |
+| Prüfungstraining Telc Deutsch C1 Hochschule | ZIP |
+
+### Аутентичные тексты и задания
+
+| Файл | Тема | Уровень |
+|---|---|---|
+| Sollte der Staat Studierende finanziell stärker unterstützen.pdf | образование, государство | C1 |
+| Schreiben C1 — Abgabe des Führerscheins (в Documents) | общество | C1 |
+| Thema für den schriftlichen Ausdruck Teil 1 (в Documents) | письмо C1 | C1 |
+| Ein Zoobesuch einer Grundschulklasse.pdf | педагогика | B1–B2 |
+| B1 Deutsch Mikrotraining 4 Wochen (PPT) | система занятий | B1 |
+| DP_AUDIO_2023.pdf (Deutsch Perfekt Audio 2023) | аудирование | B1–C1 |
+
+### Диагностические материалы (ваши собственные)
+
+| Файл | Назначение |
+|---|---|
+| Diagnostika_WAU_A2B1_Client_v2.pdf | Диагностика для студента A2–B1 |
+| Diagnostika_WAU_A2B1_SlidesOnly.pdf | Слайды диагностики |
+| Diagnostika_WAU_A2B1_SpeakerScript.pdf | Скрипт для преподавателя |
+| WAU_Diagnostik_A2B1_Guide.pdf | Гид по диагностике |
+| WAU_Diagnostik_A2B1_Kit.zip | Полный комплект диагностики |
+| deutsch-perfekt_sprachtest-a2-c1.pdf | Тест уровня |
+
+---
+
+*Файл обновлён 2026-03-04. Пути: `C:/Users/roman/Documents/daf/` + `C:/Users/roman/Downloads/`*
