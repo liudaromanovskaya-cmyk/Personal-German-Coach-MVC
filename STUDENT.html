@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мой кабинет — Personal German Coach</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#FAF9F6; color:#1A1A1A; }
+
+/* ── NAV ── */
+nav {
+  background:#2D3748; height:54px; padding:0 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:200;
+}
+.nav-left { display:flex; align-items:center; gap:12px; }
+.nav-logo { color:#fff; font-size:15px; font-weight:700; letter-spacing:-.2px; }
+.nav-logo em { font-style:normal; color:#7CC8A0; }
+.nav-right { display:flex; align-items:center; gap:10px; }
+.nav-streak { background:rgba(255,255,255,.08); color:#7CC8A0; font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; }
+.nav-avatar { width:32px; height:32px; background:#4A8C6E; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }
+.hamburger { background:none; border:none; color:rgba(255,255,255,.6); font-size:20px; cursor:pointer; padding:6px; display:none; line-height:1; }
+
+/* ── LAYOUT ── */
+.layout { display:flex; min-height:calc(100vh - 54px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:220px; min-width:220px; background:#2D3748; display:flex; flex-direction:column;
+  height:calc(100vh - 54px); position:sticky; top:54px;
+  overflow-y:auto; transition:transform .25s;
+  scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+.sidebar::-webkit-scrollbar { width:3px; }
+.sidebar::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); }
+.sb-profile { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.07); }
+.sb-name { color:#fff; font-weight:700; font-size:14px; margin-bottom:2px; }
+.sb-level { font-size:11px; color:#7CC8A0; margin-bottom:12px; }
+.sb-week-label { font-size:10px; color:rgba(255,255,255,.3); margin-bottom:5px; }
+.sb-bar { background:rgba(255,255,255,.08); height:4px; border-radius:2px; }
+.sb-bar-fill { height:100%; background:#7CC8A0; border-radius:2px; }
+.sb-menu { padding:10px 0; flex:1; }
+.sb-item {
+  display:flex; align-items:center; gap:10px; padding:10px 18px; cursor:pointer;
+  color:rgba(255,255,255,.45); font-size:13px; font-weight:500;
+  border-left:3px solid transparent; transition:all .15s;
+}
+.sb-item:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); }
+.sb-item.active { color:#fff; border-left-color:#7CC8A0; background:rgba(124,200,160,.08); }
+.sb-item .dot-badge { margin-left:auto; background:#D97706; color:#fff; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; }
+.sb-coach { margin:12px; background:rgba(255,255,255,.05); border-radius:8px; padding:12px 14px; border:1px solid rgba(255,255,255,.08); }
+.sb-coach-lbl { font-size:10px; color:rgba(255,255,255,.3); margin-bottom:2px; }
+.sb-coach-name { font-size:13px; color:#7CC8A0; font-weight:600; margin-bottom:2px; }
+.sb-coach-next { font-size:11px; color:rgba(255,255,255,.3); }
+
+/* ── MAIN ── */
+.main { flex:1; overflow-y:auto; }
+.view { display:none; padding:28px 32px 60px; }
+.view.active { display:block; }
+
+/* ── WIN BANNER ── */
+.win-banner {
+  background:#EDF7F1; border:1.5px solid #C6E8D7; border-radius:12px;
+  padding:16px 18px; display:flex; gap:14px; align-items:flex-start;
+  margin-bottom:20px; position:relative;
+}
+.win-icon { font-size:22px; flex-shrink:0; margin-top:1px; }
+.win-text h4 { font-size:14px; font-weight:700; color:#2E6B4F; margin-bottom:4px; }
+.win-text p { font-size:13px; color:#4A8C6E; line-height:1.6; }
+.win-close { position:absolute; right:12px; top:10px; background:none; border:none; font-size:16px; color:#7CC8A0; cursor:pointer; }
+
+/* ── THEME BANNER ── */
+.theme-banner {
+  background:#2D3748; border-radius:12px; padding:14px 20px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:16px; flex-wrap:wrap; gap:8px;
+}
+.theme-label { font-size:10px; text-transform:uppercase; letter-spacing:1.2px; color:rgba(255,255,255,.4); font-weight:700; margin-bottom:3px; }
+.theme-name { font-size:15px; font-weight:700; color:#fff; }
+.theme-meta { text-align:right; }
+.theme-day { font-size:12px; color:#7CC8A0; font-weight:600; }
+.theme-sub { font-size:11px; color:rgba(255,255,255,.35); margin-top:2px; }
+
+/* ── DAY PROGRESS ── */
+.day-progress {
+  display:flex; align-items:center; gap:0;
+  margin-bottom:20px; padding:0 4px;
+}
+.dp-step { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; }
+.dp-circle {
+  width:32px; height:32px; border-radius:50%; border:2px solid #E2E8F0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; color:#A0AEC0; background:#fff;
+  position:relative; z-index:1; transition:all .3s;
+}
+.dp-circle.done { background:#4A8C6E; border-color:#4A8C6E; color:#fff; }
+.dp-circle.active { background:#2D3748; border-color:#4A8C6E; color:#7CC8A0; box-shadow:0 0 0 3px rgba(74,140,110,.15); }
+.dp-label { font-size:10px; color:#A0AEC0; font-weight:600; text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
+.dp-label.done { color:#4A8C6E; }
+.dp-label.active { color:#2D3748; }
+.dp-line { flex:1; height:2px; background:#E2E8F0; margin-top:-18px; }
+.dp-line.done { background:#4A8C6E; }
+
+/* ── DAY BLOCKS ── */
+.day-block {
+  background:#fff; border:1.5px solid #E2E8F0; border-radius:14px;
+  margin-bottom:12px; overflow:hidden; transition:border-color .2s;
+}
+.day-block.active { border-color:#4A8C6E; }
+.day-block.done { border-color:#C6E8D7; }
+.day-block.locked { opacity:.55; }
+
+.block-header {
+  display:flex; align-items:center; gap:14px; padding:16px 20px;
+  cursor:pointer; transition:background .15s;
+}
+.day-block.locked .block-header { cursor:default; }
+.day-block.done .block-header:hover { background:#F7FAFC; }
+.block-num {
+  width:32px; height:32px; border-radius:50%; border:2px solid #E2E8F0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; color:#A0AEC0; flex-shrink:0;
+}
+.block-num.done { background:#4A8C6E; border-color:#4A8C6E; color:#fff; font-size:15px; }
+.block-num.active { background:#EDF7F1; border-color:#4A8C6E; color:#4A8C6E; }
+.block-num.locked { background:#F7FAFC; }
+.block-info { flex:1; }
+.block-title { font-size:15px; font-weight:700; color:#1A1A1A; margin-bottom:2px; }
+.day-block.locked .block-title { color:#A0AEC0; }
+.block-sub { font-size:12px; color:#718096; }
+.block-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.block-time { font-size:11px; color:#718096; background:#F7FAFC; padding:2px 9px; border-radius:20px; }
+.block-status-done { font-size:11px; color:#4A8C6E; font-weight:700; }
+.block-chevron { color:#A0AEC0; font-size:12px; transition:transform .2s; }
+.day-block.expanded .block-chevron { transform:rotate(180deg); }
+
+.block-body { display:none; padding:0 20px 22px; border-top:1px solid #F0F4F8; }
+.day-block.active .block-body { display:block; }
+.day-block.expanded .block-body { display:block; }
+
+/* ── WÖRTER BLOCK ── */
+.woerter-summary {
+  display:flex; gap:12px; padding:14px 0 2px; flex-wrap:wrap;
+}
+.w-sum-pill {
+  background:#EDF7F1; border:1px solid #C6E8D7; border-radius:20px;
+  padding:5px 14px; font-size:12px; color:#2E6B4F; font-weight:600;
+}
+
+/* Flip card */
+.flip-section { padding-top:16px; }
+.flip-progress { font-size:11px; color:#718096; margin-bottom:12px; }
+.flip-progress span { color:#4A8C6E; font-weight:700; }
+.flip-card-wrap { perspective:800px; margin-bottom:14px; }
+.flip-card {
+  width:100%; min-height:140px; position:relative;
+  transform-style:preserve-3d; transition:transform .4s;
+}
+.flip-card.flipped { transform:rotateY(180deg); }
+.flip-front, .flip-back {
+  position:absolute; inset:0; backface-visibility:hidden;
+  background:#F7FAFC; border:1.5px solid #C6E8D7; border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:20px; text-align:center;
+}
+.flip-back { transform:rotateY(180deg); background:#EDF7F1; }
+.flip-word { font-size:22px; font-weight:700; color:#2D3748; margin-bottom:6px; }
+.flip-article { font-size:13px; color:#4A8C6E; font-weight:600; margin-bottom:4px; }
+.flip-prompt { font-size:12px; color:#A0AEC0; }
+.flip-translation { font-size:18px; font-weight:700; color:#2E6B4F; margin-bottom:6px; }
+.flip-colloc { font-size:12px; color:#4A8C6E; font-style:italic; margin-bottom:4px; }
+.flip-example { font-size:12px; color:#718096; line-height:1.5; }
+.flip-btn { background:none; border:none; font-size:12px; color:#4A8C6E; cursor:pointer; text-decoration:underline; margin-top:10px; }
+.flip-actions { display:flex; gap:10px; margin-bottom:14px; }
+.btn-know {
+  flex:1; padding:10px; border-radius:8px; border:1.5px solid #C6E8D7;
+  background:#EDF7F1; color:#2E6B4F; font-size:13px; font-weight:700;
+  cursor:pointer; transition:all .15s; font-family:inherit; min-height:44px;
+}
+.btn-know:hover { background:#D1F0E1; }
+.btn-still {
+  flex:1; padding:10px; border-radius:8px; border:1.5px solid #FDE68A;
+  background:#FFF9F0; color:#B45309; font-size:13px; font-weight:700;
+  cursor:pointer; transition:all .15s; font-family:inherit; min-height:44px;
+}
+.btn-still:hover { background:#FDEFC7; }
+
+/* New word profile */
+.new-word-section { padding-top:16px; border-top:1px solid #F0F4F8; margin-top:6px; }
+.new-word-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#D97706; margin-bottom:14px; }
+.new-word-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.new-word-counter { font-size:11px; color:#718096; }
+.word-profile {
+  background:#F7FAFC; border:1.5px solid #E2E8F0; border-radius:12px;
+  padding:18px 20px; margin-bottom:12px;
+}
+.wp-head { display:flex; align-items:baseline; gap:8px; margin-bottom:10px; }
+.wp-article { font-size:13px; color:#4A8C6E; font-weight:700; }
+.wp-word { font-size:20px; font-weight:700; color:#1A1A1A; }
+.wp-def { font-size:13px; color:#4A5568; line-height:1.65; margin-bottom:10px; }
+.wp-translation { font-size:12px; color:#718096; background:#fff; border:1px solid #E2E8F0; border-radius:6px; padding:4px 10px; display:inline-block; margin-bottom:10px; }
+.wp-colloc-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#A0AEC0; margin-bottom:4px; }
+.wp-colloc { font-size:13px; color:#2E6B4F; font-weight:600; margin-bottom:8px; }
+.wp-example { font-size:12px; color:#718096; font-style:italic; line-height:1.55; border-left:2px solid #C6E8D7; padding-left:10px; }
+.btn-add-anki {
+  background:none; border:1.5px solid #E2E8F0; color:#718096;
+  padding:7px 16px; border-radius:8px; font-size:12px; cursor:pointer;
+  font-family:inherit; transition:all .15s; margin-top:8px;
+}
+.btn-add-anki:hover { border-color:#4A8C6E; color:#4A8C6E; }
+.btn-add-anki.added { background:#EDF7F1; border-color:#C6E8D7; color:#2E6B4F; }
+.new-word-next {
+  background:#4A8C6E; color:#fff; border:none; border-radius:8px;
+  padding:10px 24px; font-size:13px; font-weight:700; cursor:pointer;
+  font-family:inherit; min-height:44px; transition:background .15s;
+}
+.new-word-next:hover { background:#3D7A5E; }
+
+/* ── HÖREN BLOCK ── */
+.pretask {
+  background:#F7FAFC; border-radius:10px; padding:14px 16px;
+  margin:16px 0; border-left:3px solid #7CC8A0;
+}
+.pretask-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#4A8C6E; margin-bottom:8px; }
+.pretask p { font-size:13px; color:#4A5568; line-height:1.65; }
+.audio-player {
+  background:#F0F4F8; border-radius:10px; padding:14px 18px;
+  display:flex; align-items:center; gap:14px; margin-bottom:16px;
+}
+.play-btn {
+  width:44px; height:44px; background:#4A8C6E; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:none; cursor:pointer; flex-shrink:0; color:#fff; font-size:15px;
+  transition:background .15s;
+}
+.play-btn:hover { background:#3D7A5E; }
+.audio-info { flex:1; min-width:0; }
+.audio-title { font-size:13px; font-weight:600; color:#2D3748; }
+.audio-sub { font-size:11px; color:#718096; margin-top:2px; }
+.audio-bar { height:3px; background:#D0D9E3; border-radius:2px; margin-top:8px; }
+.audio-bar-fill { height:100%; background:#4A8C6E; border-radius:2px; width:0%; transition:width .2s; }
+.audio-reset { font-size:11px; color:#4A8C6E; cursor:pointer; flex-shrink:0; padding:4px; }
+.audio-reset:hover { text-decoration:underline; }
+.task-instruction { font-size:14px; color:#2D3748; line-height:1.7; margin-bottom:14px; font-weight:500; }
+.response-area {
+  width:100%; min-height:120px; padding:14px 16px;
+  border:1.5px solid #E2E8F0; border-radius:10px; font-family:inherit;
+  font-size:14px; color:#1A1A1A; background:#fff; resize:vertical; outline:none;
+  transition:border-color .15s; line-height:1.65; margin-bottom:12px;
+}
+.response-area:focus { border-color:#4A8C6E; }
+.response-area::placeholder { color:#A0AEC0; }
+.response-area.warn { border-color:#D97706; }
+.word-count { font-size:11px; color:#A0AEC0; text-align:right; margin-top:-8px; margin-bottom:12px; }
+.word-count.ok { color:#4A8C6E; }
+.hint-toggle {
+  background:none; border:1.5px solid #E2E8F0; color:#718096;
+  padding:9px 18px; border-radius:8px; font-size:13px; cursor:pointer;
+  transition:all .15s; font-family:inherit; min-height:44px;
+}
+.hint-toggle:hover { border-color:#4A8C6E; color:#4A8C6E; }
+.hint-block { background:#F7FCF9; border:1px solid #C6E8D7; border-radius:10px; padding:16px 18px; margin-top:12px; display:none; }
+.hint-block.open { display:block; }
+.hint-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#4A8C6E; margin-bottom:12px; }
+.hint-item { font-size:13px; color:#374151; padding:7px 0; border-bottom:1px solid #E8F5EE; line-height:1.55; }
+.hint-item:last-child { border:none; padding-bottom:0; }
+.hint-item strong { color:#2E6B4F; }
+.action-bar { display:flex; gap:10px; align-items:center; margin-top:16px; flex-wrap:wrap; }
+.btn-submit {
+  background:#4A8C6E; color:#fff; padding:11px 26px; border:none; border-radius:8px;
+  font-size:14px; font-weight:700; cursor:pointer; transition:background .2s;
+  font-family:inherit; min-height:44px;
+}
+.btn-submit:hover { background:#3D7A5E; }
+
+/* ── GRAMMATIK BLOCK ── */
+.gram-intro { font-size:13px; color:#4A5568; line-height:1.65; padding:16px 0 14px; }
+.gram-rule {
+  background:#F7FAFC; border-left:3px solid #7CC8A0; border-radius:0 8px 8px 0;
+  padding:10px 14px; margin-bottom:18px; font-size:13px; color:#2D3748; line-height:1.6;
+}
+.gram-rule strong { color:#4A8C6E; }
+.fill-sentence { margin-bottom:16px; }
+.fill-sentence:last-of-type { margin-bottom:20px; }
+.fill-text { font-size:14px; color:#2D3748; line-height:1.8; margin-bottom:6px; }
+.word-bank { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.word-tile {
+  background:#EDF7F1; border:1.5px solid #C6E8D7; border-radius:6px;
+  padding:5px 12px; font-size:13px; color:#2E6B4F; font-weight:600;
+  cursor:pointer; transition:all .15s;
+}
+.word-tile:hover { background:#D1F0E1; }
+.word-tile.used { background:#F0F4F8; border-color:#E2E8F0; color:#A0AEC0; cursor:default; }
+.fill-blank-input {
+  display:inline-block; min-width:100px; border-bottom:2px solid #4A8C6E;
+  font-size:14px; color:#2E6B4F; font-weight:700; padding:0 4px;
+  background:none; cursor:pointer; text-align:center;
+}
+.fill-blank-input.empty { border-color:#E2E8F0; color:#A0AEC0; }
+.fill-result { font-size:12px; margin-top:4px; display:none; }
+.fill-result.correct { color:#4A8C6E; display:block; }
+.fill-result.wrong { color:#D97706; display:block; }
+.btn-check {
+  background:#4A8C6E; color:#fff; padding:10px 24px; border:none; border-radius:8px;
+  font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; min-height:44px;
+  transition:background .15s;
+}
+.btn-check:hover { background:#3D7A5E; }
+
+/* ── REFLEXION BLOCK ── */
+.refl-intro { font-size:13px; color:#718096; line-height:1.65; padding:14px 0 16px; }
+.refl-question { margin-bottom:18px; }
+.refl-q-text { font-size:14px; font-weight:600; color:#2D3748; margin-bottom:8px; }
+.refl-input {
+  width:100%; padding:12px 14px; border:1.5px solid #E2E8F0; border-radius:10px;
+  font-family:inherit; font-size:13px; color:#1A1A1A; background:#fff;
+  outline:none; resize:none; transition:border-color .15s; line-height:1.6;
+  min-height:60px;
+}
+.refl-input:focus { border-color:#4A8C6E; }
+.refl-input::placeholder { color:#A0AEC0; }
+.btn-finish {
+  background:#4A8C6E; color:#fff; padding:12px 32px; border:none; border-radius:8px;
+  font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; min-height:44px;
+  transition:background .15s; width:100%;
+}
+.btn-finish:hover { background:#3D7A5E; }
+
+/* ── DAY COMPLETE ── */
+.day-complete {
+  display:none; text-align:center; padding:40px 20px;
+  background:#EDF7F1; border-radius:14px; margin-top:8px;
+}
+.day-complete.open { display:block; }
+.day-complete-icon { font-size:48px; margin-bottom:14px; }
+.day-complete-title { font-size:20px; font-weight:700; color:#2E6B4F; margin-bottom:8px; }
+.day-complete-sub { font-size:14px; color:#4A8C6E; line-height:1.7; margin-bottom:20px; }
+.day-complete-stats { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; }
+.dc-stat { text-align:center; }
+.dc-stat-value { font-size:22px; font-weight:700; color:#2E6B4F; }
+.dc-stat-label { font-size:11px; color:#718096; margin-top:2px; }
+
+/* ── PROGRESS VIEW ── */
+.view-title { font-size:22px; font-weight:700; margin-bottom:6px; }
+.view-sub { font-size:14px; color:#718096; margin-bottom:28px; line-height:1.6; }
+.stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+.stat-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:14px; padding:20px 18px; }
+.stat-card.accent { background:#EDF7F1; border-color:#C6E8D7; }
+.stat-icon { font-size:22px; margin-bottom:10px; }
+.stat-value { font-size:28px; font-weight:700; color:#2D3748; margin-bottom:3px; }
+.stat-card.accent .stat-value { color:#2E6B4F; }
+.stat-label { font-size:12px; color:#718096; line-height:1.5; }
+.narrative { background:#EDF7F1; border-radius:14px; padding:22px 24px; margin-bottom:20px; }
+.narrative-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#4A8C6E; margin-bottom:10px; }
+.narrative-text { font-size:15px; color:#2E6B4F; line-height:1.75; font-weight:500; }
+.skills-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:14px; padding:24px; margin-bottom:20px; }
+.skills-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+.skills-card-title { font-size:15px; font-weight:700; }
+.skills-card-note { font-size:11px; color:#718096; }
+.skill-row { margin-bottom:18px; }
+.skill-row:last-child { margin-bottom:0; }
+.skill-meta-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
+.skill-name { font-size:13px; font-weight:600; color:#2D3748; }
+.skill-comment { font-size:12px; color:#4A8C6E; font-style:italic; }
+.skill-comment.amber { color:#D97706; }
+.skill-bar-bg { background:#F0F4F8; height:8px; border-radius:4px; }
+.skill-bar-fg { height:100%; border-radius:4px; background:#7CC8A0; }
+.skill-bar-fg.amber { background:#D97706; }
+.milestone-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:14px; padding:22px 24px; }
+.milestone-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#718096; margin-bottom:8px; }
+.milestone-title { font-size:16px; font-weight:700; color:#2D3748; margin-bottom:16px; }
+.milestone-bar-bg { background:#F0F4F8; height:10px; border-radius:5px; margin-bottom:10px; }
+.milestone-bar-fg { height:100%; border-radius:5px; background:linear-gradient(90deg,#7CC8A0,#4A8C6E); }
+.milestone-note { font-size:12px; color:#718096; }
+
+/* ── FEEDBACK VIEW ── */
+.feedback-list { display:flex; flex-direction:column; gap:12px; }
+.fb-item { background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+.fb-header { display:flex; align-items:center; gap:12px; padding:16px 20px; cursor:pointer; transition:background .15s; }
+.fb-header:hover { background:#F7FAFC; }
+.fb-date { font-size:11px; color:#718096; min-width:70px; }
+.fb-taskname { font-size:13px; font-weight:600; flex:1; }
+.fb-skill { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#4A8C6E; background:#EDF7F1; padding:2px 8px; border-radius:20px; flex-shrink:0; }
+.fb-chevron { color:#A0AEC0; font-size:14px; transition:transform .2s; flex-shrink:0; }
+.fb-item.open .fb-chevron { transform:rotate(180deg); }
+.fb-body { display:none; padding:0 20px 20px; }
+.fb-item.open .fb-body { display:block; }
+.fb-section { margin-bottom:14px; }
+.fb-section:last-child { margin-bottom:0; }
+.fb-section-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px; }
+.fb-section-lbl.good { color:#4A8C6E; }
+.fb-section-lbl.next { color:#D97706; }
+.fb-section-lbl.step { color:#718096; }
+.fb-text { font-size:13px; color:#374151; line-height:1.65; }
+.correction { background:#FFF9F0; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; margin-top:10px; font-size:13px; }
+.correction .wrong { color:#B45309; text-decoration:line-through; }
+.correction .right { color:#2E6B4F; font-weight:700; }
+.correction .rule { display:block; margin-top:6px; font-size:12px; color:#718096; line-height:1.55; }
+
+/* ── PLAN VIEW ── */
+.plan-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-bottom:20px; }
+.plan-day { background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; padding:18px; }
+.plan-day.today-day { border-color:#4A8C6E; }
+.plan-day-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#718096; margin-bottom:12px; }
+.plan-day.today-day .plan-day-lbl { color:#4A8C6E; }
+.plan-ex { display:flex; align-items:center; gap:9px; padding:7px 0; border-bottom:1px solid #F0F4F8; }
+.plan-ex:last-child { border:none; padding-bottom:0; }
+.plan-check { width:20px; height:20px; border-radius:5px; border:1.5px solid #E2E8F0; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; color:#fff; }
+.plan-check.done { background:#4A8C6E; border-color:#4A8C6E; }
+.plan-check.current { border-color:#D97706; color:#D97706; }
+.plan-ex-name { font-size:12px; color:#374151; flex:1; line-height:1.4; }
+.plan-ex-time { font-size:11px; color:#718096; flex-shrink:0; }
+.principle-block { background:#EDF7F1; border-radius:12px; padding:20px 22px; }
+.principle-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#4A8C6E; margin-bottom:8px; }
+.principle-text { font-size:14px; color:#2E6B4F; line-height:1.7; }
+
+/* ── TASK CHECKLIST ── */
+.task-checklist { margin:16px 0; }
+.tcl-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px; }
+.tcl-label.req { color:#4A8C6E; }
+.tcl-label.opt { color:#D97706; margin-top:12px; }
+.tcl-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid #F0F4F8; cursor:pointer; user-select:none; }
+.tcl-item:last-child { border:none; }
+.tcl-item.req { cursor:default; }
+.tcl-box { width:20px; height:20px; border:1.5px solid #E2E8F0; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:#fff; transition:all .15s; margin-top:1px; }
+.tcl-item.checked .tcl-box { background:#4A8C6E; border-color:#4A8C6E; }
+.tcl-item.opt.checked .tcl-box { background:#D97706; border-color:#D97706; }
+.tcl-text { font-size:13px; color:#374151; line-height:1.5; flex:1; }
+.tcl-item.checked .tcl-text { color:#A0AEC0; }
+.tcl-opt-badge { font-size:10px; background:#FFF9F0; color:#B45309; padding:1px 7px; border-radius:20px; font-weight:600; flex-shrink:0; margin-top:2px; white-space:nowrap; }
+
+/* ── SUBMIT CONFIRMATION ── */
+.submit-confirm { display:none; background:#F0FAF5; border:1.5px solid #4A8C6E; border-radius:12px; padding:20px; margin-top:14px; }
+.submit-confirm.open { display:block; }
+.sc-title { font-size:15px; font-weight:700; color:#2E6B4F; margin-bottom:4px; }
+.sc-sub { font-size:13px; color:#4A5568; line-height:1.6; margin-bottom:16px; }
+.sc-row { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+.sc-chip { background:#EDF7F1; border:1px solid #C6E8D7; border-radius:8px; padding:8px 12px; flex:1; min-width:80px; text-align:center; }
+.sc-chip-val { font-size:17px; font-weight:700; color:#2E6B4F; }
+.sc-chip-lbl { font-size:11px; color:#718096; margin-top:2px; }
+.sc-btns { display:flex; gap:10px; }
+.btn-confirm-send { background:#4A8C6E; color:#fff; padding:11px 20px; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:background .2s; font-family:inherit; min-height:44px; flex:1; }
+.btn-confirm-send:hover { background:#3D7A5E; }
+.btn-back-edit { background:none; color:#718096; padding:11px 14px; border:1.5px solid #E2E8F0; border-radius:8px; font-size:13px; cursor:pointer; font-family:inherit; min-height:44px; }
+.btn-back-edit:hover { border-color:#4A8C6E; color:#4A8C6E; }
+
+/* ── SNACK CARDS ── */
+.snack-section { margin-top:24px; text-align:left; }
+.snack-title { font-size:13px; font-weight:700; color:#2D3748; margin-bottom:3px; }
+.snack-subtitle { font-size:12px; color:#718096; margin-bottom:14px; }
+.snack-scroll { display:flex; gap:12px; overflow-x:auto; padding:4px 2px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+.snack-scroll::-webkit-scrollbar { height:3px; }
+.snack-scroll::-webkit-scrollbar-thumb { background:#C6E8D7; border-radius:2px; }
+.snack-card { min-width:250px; max-width:268px; background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; padding:16px 18px; flex-shrink:0; scroll-snap-align:start; }
+.snack-badge { display:inline-block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; padding:2px 8px; border-radius:20px; margin-bottom:10px; }
+.snack-badge.lk { background:#EDF7F1; color:#2E6B4F; }
+.snack-badge.rw { background:#FFF9F0; color:#B45309; }
+.snack-badge.witz { background:#EFF6FF; color:#1D4ED8; }
+.snack-badge.etik { background:#F5F3FF; color:#5B21B6; }
+.snack-de { font-size:13px; color:#1A1A1A; line-height:1.7; margin-bottom:10px; }
+.snack-de strong { color:#2E6B4F; }
+.snack-de em { font-style:italic; color:#718096; }
+.snack-words { border-top:1px solid #F0F4F8; padding-top:8px; margin-bottom:10px; }
+.snack-w { font-size:12px; color:#374151; padding:2px 0; line-height:1.5; }
+.snack-w strong { color:#4A8C6E; }
+.snack-toggle-btn { background:none; border:none; font-size:12px; color:#4A8C6E; cursor:pointer; padding:0; text-decoration:underline; font-family:inherit; }
+.snack-ru { display:none; margin-top:8px; font-size:12px; color:#718096; background:#F7FAFC; border-radius:6px; padding:8px 10px; line-height:1.6; border:1px solid #E2E8F0; }
+.snack-ru.open { display:block; }
+
+/* ── MOBILE ── */
+@media(max-width:700px){
+  .hamburger { display:block; }
+  .sidebar { position:fixed; left:0; top:54px; z-index:150; transform:translateX(-100%); height:calc(100vh - 54px); box-shadow:4px 0 16px rgba(0,0,0,.2); }
+  .sidebar.open { transform:translateX(0); }
+  .sb-overlay { display:none; position:fixed; inset:0; top:54px; background:rgba(0,0,0,.4); z-index:149; }
+  .sb-overlay.open { display:block; }
+  .view { padding:20px 16px 60px; }
+  .stat-grid { grid-template-columns:1fr 1fr; }
+  .plan-grid { grid-template-columns:1fr; }
+  .fb-header { flex-wrap:wrap; gap:8px; }
+  .fb-date { min-width:auto; }
+  .flip-actions { flex-direction:column; }
+  .dp-label { display:none; }
+  .theme-banner { flex-direction:column; align-items:flex-start; }
+  .theme-meta { text-align:left; }
+  .radio-cards { flex-direction:column; }
+  .rc-label { width:100%; }
+  .rating-row { flex-direction:column; align-items:flex-start; }
+}
+
+/* ── PROFILE VIEW ── */
+.profile-header { margin-bottom:24px; }
+.profile-header h2 { font-size:20px; font-weight:700; margin-bottom:6px; }
+.profile-header p { font-size:13px; color:#718096; line-height:1.6; max-width:560px; }
+.profile-section { margin-bottom:24px; }
+.ps-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:16px; }
+.ps-num { width:28px; height:28px; min-width:28px; background:#4A8C6E; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; margin-top:1px; }
+.ps-title { font-size:15px; font-weight:700; color:#1A1A1A; margin-bottom:2px; }
+.ps-sub { font-size:12px; color:#718096; }
+.q-group { background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; padding:16px 18px; margin-bottom:10px; }
+.q-label { font-size:13px; font-weight:600; color:#1A1A1A; margin-bottom:10px; display:block; }
+.q-hint { font-size:11px; color:#718096; margin-bottom:12px; margin-top:-6px; line-height:1.5; }
+.radio-cards { display:flex; flex-wrap:wrap; gap:8px; }
+.rc-label { display:flex; align-items:center; gap:8px; padding:9px 14px; border:1.5px solid #E2E8F0; border-radius:8px; cursor:pointer; font-size:13px; color:#4A5568; transition:all .15s; min-height:44px; user-select:none; }
+.rc-label:hover { border-color:#7CC8A0; background:#F7FDF9; }
+.rc-label.checked { border-color:#4A8C6E; background:#EDF7F1; color:#2E6B4F; font-weight:600; }
+.rc-dot { width:16px; height:16px; min-width:16px; border:2px solid #CBD5E0; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+.rc-label.checked .rc-dot { border-color:#4A8C6E; background:#4A8C6E; }
+.rc-label.checked .rc-dot::after { content:''; width:6px; height:6px; background:#fff; border-radius:50%; display:block; }
+.check-pills { display:flex; flex-wrap:wrap; gap:8px; }
+.cp-label { display:flex; align-items:center; padding:8px 14px; border:1.5px solid #E2E8F0; border-radius:20px; cursor:pointer; font-size:12px; color:#4A5568; transition:all .15s; min-height:36px; user-select:none; }
+.cp-label:hover { border-color:#7CC8A0; background:#F7FDF9; }
+.cp-label.checked { border-color:#4A8C6E; background:#EDF7F1; color:#2E6B4F; font-weight:600; }
+.cefr-skill { margin-bottom:14px; }
+.cefr-skill:last-child { margin-bottom:0; }
+.cefr-skill-lbl { font-size:12px; font-weight:600; color:#718096; margin-bottom:6px; }
+.cefr-row { flex-wrap:nowrap; }
+.cefr-row .rc-label { min-width:52px; justify-content:center; padding:9px 10px; font-weight:700; }
+.rating-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.rating-ends { font-size:11px; color:#718096; flex-shrink:0; }
+.rating-dots { display:flex; gap:6px; }
+.rd-label { cursor:pointer; user-select:none; }
+.rd-dot { width:38px; height:38px; border:2px solid #E2E8F0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#A0AEC0; transition:all .15s; }
+.rd-label:hover .rd-dot { border-color:#7CC8A0; color:#4A8C6E; }
+.rd-label.checked .rd-dot { border-color:#4A8C6E; background:#4A8C6E; color:#fff; }
+.profile-input { width:100%; padding:10px 14px; border:1.5px solid #E2E8F0; border-radius:8px; font-family:inherit; font-size:13px; color:#1A1A1A; background:#FAF9F6; transition:border-color .15s; outline:none; resize:vertical; }
+.profile-input:focus { border-color:#4A8C6E; background:#fff; }
+.profile-input::placeholder { color:#A0AEC0; }
+textarea.profile-input { min-height:72px; line-height:1.5; }
+.profile-save { margin-top:8px; padding-bottom:16px; }
+.profile-save-btn { background:#4A8C6E; color:#fff; border:none; border-radius:10px; padding:14px 36px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; min-height:50px; transition:background .15s; }
+.profile-save-btn:hover { background:#3a7059; }
+.profile-save-btn:disabled { background:#A0AEC0; cursor:default; }
+.profile-saved-msg { display:none; background:#EDF7F1; border:1.5px solid #C6E8D7; border-radius:10px; padding:16px 20px; margin-top:16px; }
+.profile-saved-msg.open { display:block; }
+.profile-saved-msg strong { color:#2E6B4F; font-size:15px; display:block; margin-bottom:4px; }
+.profile-saved-msg p { color:#4A8C6E; font-size:13px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Меню">☰</button>
+    <div class="nav-logo">Personal <em>German</em> Coach</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-streak" id="streakBadge">🔥 12 дней</div>
+    <div class="nav-avatar">МС</div>
+  </div>
+</nav>
+
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sb-profile">
+      <div class="sb-name">Мария Соколова</div>
+      <div class="sb-level">Уровень B1 · Немецкий</div>
+      <div class="sb-week-label">Прогресс этой недели</div>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:60%"></div></div>
+    </div>
+    <div class="sb-menu">
+      <div class="sb-item active" onclick="showView('today',this)"><span>📋</span> Сегодня <span class="dot-badge" id="todayBadge">1</span></div>
+      <div class="sb-item" onclick="showView('progress',this)"><span>📈</span> Прогресс</div>
+      <div class="sb-item" onclick="showView('feedback',this)"><span>💬</span> Обратная связь <span class="dot-badge">2</span></div>
+      <div class="sb-item" onclick="showView('plan',this)"><span>🗓</span> Мой план</div>
+      <div class="sb-item" onclick="showView('profile',this)"><span>📝</span> Мой профиль</div>
+    </div>
+    <div class="sb-coach">
+      <div class="sb-coach-lbl">Ваш преподаватель</div>
+      <div class="sb-coach-name">Анна В.</div>
+      <div class="sb-coach-next">Следующий урок — пт, 10:00</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ══════════════ СЕГОДНЯ ══════════════ -->
+    <div class="view active" id="view-today">
+
+      <div class="win-banner" id="winBanner">
+        <div class="win-icon">⭐</div>
+        <div class="win-text">
+          <h4>Заметный прогресс в говорении!</h4>
+          <p>Анна отметила: ваша речь стала намного увереннее. Предложения длиннее, паузы короче.</p>
+        </div>
+        <button class="win-close" onclick="document.getElementById('winBanner').style.display='none'">✕</button>
+      </div>
+
+      <!-- Тема недели -->
+      <div class="theme-banner">
+        <div>
+          <div class="theme-label">Тема недели</div>
+          <div class="theme-name">Beim Arzt · Gesundheit</div>
+        </div>
+        <div class="theme-meta">
+          <div class="theme-day">Среда · День 17</div>
+          <div class="theme-sub">~26 минут сегодня</div>
+        </div>
+      </div>
+
+      <!-- Прогресс дня -->
+      <div class="day-progress">
+        <div class="dp-step">
+          <div class="dp-circle done" id="dp1">✓</div>
+          <div class="dp-label done">Wörter</div>
+        </div>
+        <div class="dp-line done" id="dl1"></div>
+        <div class="dp-step">
+          <div class="dp-circle active" id="dp2">2</div>
+          <div class="dp-label active">Hören</div>
+        </div>
+        <div class="dp-line" id="dl2"></div>
+        <div class="dp-step">
+          <div class="dp-circle" id="dp3">3</div>
+          <div class="dp-label">Grammatik</div>
+        </div>
+        <div class="dp-line" id="dl3"></div>
+        <div class="dp-step">
+          <div class="dp-circle" id="dp4">4</div>
+          <div class="dp-label">Reflexion</div>
+        </div>
+      </div>
+
+      <!-- ─── БЛОК 1: WÖRTER (выполнен) ─── -->
+      <div class="day-block done" id="block-woerter">
+        <div class="block-header" onclick="toggleDoneBlock('woerter')">
+          <div class="block-num done">✓</div>
+          <div class="block-info">
+            <div class="block-title">Wörter — Словарный запас</div>
+            <div class="block-sub">6 слов повторено · 4 новых слова</div>
+          </div>
+          <div class="block-right">
+            <div class="block-status-done">Готово</div>
+            <div class="block-chevron">▼</div>
+          </div>
+        </div>
+        <div class="block-body" id="body-woerter">
+          <div class="woerter-summary">
+            <div class="w-sum-pill">✓ die Schmerzen</div>
+            <div class="w-sum-pill">✓ vereinbaren</div>
+            <div class="w-sum-pill">✓ die Diagnose</div>
+            <div class="w-sum-pill">✓ verschreiben</div>
+            <div class="w-sum-pill">✓ sich erholen</div>
+            <div class="w-sum-pill">✓ laut + Dat.</div>
+          </div>
+          <div class="new-word-section">
+            <div class="new-word-label">Новые слова сегодня</div>
+            <div class="word-profile">
+              <div class="wp-head"><span class="wp-article">die</span><span class="wp-word">Untersuchung</span></div>
+              <div class="wp-def">Was der Arzt macht, wenn er sich Ihren Körper genau anschaut und prüft — zum Beispiel Herz hören, Blutdruck messen, Reflexe testen.</div>
+              <div class="wp-translation">осмотр, обследование</div>
+              <div class="wp-colloc-label">Говорят так</div>
+              <div class="wp-colloc">eine gründliche Untersuchung <strong>durchführen</strong></div>
+              <div class="wp-example">„Wir müssen noch eine gründliche Untersuchung machen." — из сегодняшнего диалога</div>
+            </div>
+            <div class="word-profile">
+              <div class="wp-head"><span class="wp-article">das</span><span class="wp-word">Rezept</span></div>
+              <div class="wp-def">Ein Papier vom Arzt, das erlaubt, ein bestimmtes Medikament in der Apotheke zu kaufen.</div>
+              <div class="wp-translation">рецепт</div>
+              <div class="wp-colloc-label">Говорят так</div>
+              <div class="wp-colloc">ein Rezept <strong>ausstellen</strong> / <strong>einlösen</strong></div>
+              <div class="wp-example">„Ich stelle Ihnen ein Rezept aus." — Arzt stellt das Rezept aus, Patient löst es ein.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── БЛОК 2: HÖREN (активный) ─── -->
+      <div class="day-block active" id="block-hoeren">
+        <div class="block-header">
+          <div class="block-num active">2</div>
+          <div class="block-info">
+            <div class="block-title">Hören — Аудирование</div>
+            <div class="block-sub">Диктоглосс: диалог у врача</div>
+          </div>
+          <div class="block-right">
+            <div class="block-time">12 мин</div>
+          </div>
+        </div>
+        <div class="block-body">
+          <!-- Чеклист блока -->
+          <div class="task-checklist">
+            <div class="tcl-label req">Обязательно выполнить</div>
+            <div class="tcl-item req" id="check-listen">
+              <div class="tcl-box"></div>
+              <div class="tcl-text">Прослушать диалог (1–2 раза)</div>
+            </div>
+            <div class="tcl-item req" id="check-write">
+              <div class="tcl-box"></div>
+              <div class="tcl-text">Написать пересказ на немецком — минимум 50 слов</div>
+            </div>
+            <div class="tcl-label opt">Дополнительно — по желанию</div>
+            <div class="tcl-item opt" id="check-anki" onclick="toggleCheck('check-anki')">
+              <div class="tcl-box"></div>
+              <div class="tcl-text">Записать одно новое слово из диалога в Anki</div>
+              <span class="tcl-opt-badge">бонус</span>
+            </div>
+            <div class="tcl-item opt" id="check-phrase" onclick="toggleCheck('check-phrase')">
+              <div class="tcl-box"></div>
+              <div class="tcl-text">Выписать одну фразу, которая понравилась</div>
+              <span class="tcl-opt-badge">бонус</span>
+            </div>
+          </div>
+          <div class="pretask">
+            <div class="pretask-label">Сначала — 2 минуты</div>
+            <p>Вы уже знаете слова из блока Wörter. Теперь подумайте: как обычно начинается разговор с врачом? Что говорит пациент? Что спрашивает доктор? Активируйте то, что уже знаете.</p>
+          </div>
+          <div class="audio-player">
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Dialog: Beim Hausarzt</div>
+              <div class="audio-sub">1:28 · Слушайте столько раз, сколько нужно</div>
+              <div class="audio-bar"><div class="audio-bar-fill" id="audioFill"></div></div>
+            </div>
+            <div class="audio-reset" onclick="resetAudio()">↺ Сначала</div>
+          </div>
+          <div class="task-instruction">Прослушайте 1–2 раза, делайте заметки. Потом восстановите содержание диалога своими словами по-немецки — не дословно, а смысл.</div>
+          <textarea class="response-area" id="responseArea" oninput="updateWordCount()"
+            placeholder="Schreiben Sie auf Deutsch...
+
+Zum Beispiel: „Ein Patient kommt zum Arzt. Er hat Schmerzen im... Der Arzt fragt, ob..."></textarea>
+          <div class="word-count" id="wordCount">0 слов</div>
+          <button class="hint-toggle" onclick="toggleHints()" id="hintBtn">💡 Мне нужна подсказка</button>
+          <div class="hint-block" id="hintBlock">
+            <div class="hint-label">Подсказки</div>
+            <div class="hint-item"><strong>Трудно начать?</strong> Напишите: «Ein Patient kommt zum Arzt. Er klagt über...»</div>
+            <div class="hint-item"><strong>Структура диалога:</strong> Жалоба → Вопросы врача → Осмотр → Диагноз / Рецепт</div>
+            <div class="hint-item"><strong>Из Wörter сегодня:</strong> Untersuchung, Rezept — используйте их в тексте</div>
+            <div class="hint-item"><strong>Не помните слово?</strong> Опишите иначе: «das Ding, das der Arzt gibt» вместо «Rezept»</div>
+          </div>
+          <div class="action-bar">
+            <button class="btn-submit" id="submitBtn" onclick="showSubmitConfirm()">Отправить преподавателю →</button>
+          </div>
+          <div class="submit-confirm" id="submitConfirm">
+            <div class="sc-title">Отправить задание Анне?</div>
+            <div class="sc-sub">Она ответит в течение 24 часов. Пока ждёте — загляните в культурные снеки на экране завершения дня.</div>
+            <div class="sc-row">
+              <div class="sc-chip">
+                <div class="sc-chip-val" id="sc-words">0</div>
+                <div class="sc-chip-lbl">слов написано</div>
+              </div>
+              <div class="sc-chip">
+                <div class="sc-chip-val">пт 12:00</div>
+                <div class="sc-chip-lbl">дедлайн</div>
+              </div>
+              <div class="sc-chip">
+                <div class="sc-chip-val">24 ч</div>
+                <div class="sc-chip-lbl">ответ Анны</div>
+              </div>
+            </div>
+            <div class="sc-btns">
+              <button class="btn-back-edit" onclick="cancelSubmit()">← Изменить</button>
+              <button class="btn-confirm-send" onclick="confirmSubmit()">Отправить ✓</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── БЛОК 3: GRAMMATIK (заблокирован) ─── -->
+      <div class="day-block locked" id="block-grammatik">
+        <div class="block-header">
+          <div class="block-num locked">🔒</div>
+          <div class="block-info">
+            <div class="block-title">Grammatik — Грамматика</div>
+            <div class="block-sub">Modalverben: müssen / dürfen / sollen</div>
+          </div>
+          <div class="block-right">
+            <div class="block-time">5 мин</div>
+          </div>
+        </div>
+        <div class="block-body">
+          <div class="gram-intro">Эти глаголы постоянно звучат в разговоре с врачом. Три предложения — из сегодняшнего диалога.</div>
+          <div class="gram-rule">
+            <strong>Правило:</strong> Modalverb стоит на 2-м месте, инфинитив — в конце.<br>
+            «Sie <strong>müssen</strong> die Tabletten täglich <strong>nehmen</strong>.»
+          </div>
+
+          <!-- Банк слов -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#718096;margin-bottom:8px;">Выберите нужный глагол:</div>
+            <div class="word-bank">
+              <div class="word-tile" id="tile-muss" onclick="selectTile('müssen','muss')">müssen</div>
+              <div class="word-tile" id="tile-darf" onclick="selectTile('dürfen','darf')">dürfen</div>
+              <div class="word-tile" id="tile-soll" onclick="selectTile('sollen','soll')">sollen</div>
+              <div class="word-tile" id="tile-moechte" onclick="selectTile('möchte','moechte')">möchte</div>
+            </div>
+          </div>
+
+          <div class="fill-sentence">
+            <div class="fill-text">1. Sie <span class="fill-blank-input empty" id="blank1" onclick="fillBlank(1)">_______</span> täglich drei Tabletten nehmen.</div>
+            <div class="fill-result" id="result1"></div>
+          </div>
+          <div class="fill-sentence">
+            <div class="fill-text">2. Sie <span class="fill-blank-input empty" id="blank2" onclick="fillBlank(2)">_______</span> keinen Sport treiben — mindestens zwei Wochen.</div>
+            <div class="fill-result" id="result2"></div>
+          </div>
+          <div class="fill-sentence">
+            <div class="fill-text">3. Der Arzt hat gesagt, ich <span class="fill-blank-input empty" id="blank3" onclick="fillBlank(3)">_______</span> viel trinken.</div>
+            <div class="fill-result" id="result3"></div>
+          </div>
+
+          <button class="btn-check" onclick="checkGrammar()">Проверить →</button>
+        </div>
+      </div>
+
+      <!-- ─── БЛОК 4: REFLEXION (заблокирован) ─── -->
+      <div class="day-block locked" id="block-reflexion">
+        <div class="block-header">
+          <div class="block-num locked">🔒</div>
+          <div class="block-info">
+            <div class="block-title">Reflexion — Итог дня</div>
+            <div class="block-sub">3 вопроса · 2 минуты</div>
+          </div>
+          <div class="block-right">
+            <div class="block-time">2 мин</div>
+          </div>
+        </div>
+        <div class="block-body">
+          <div class="refl-intro">Эти вопросы не для оценки. Они помогают вашему мозгу закрепить то, что было сегодня.</div>
+          <div class="refl-question">
+            <div class="refl-q-text">Какая фраза из сегодняшнего дня запомнилась больше всего?</div>
+            <textarea class="refl-input" id="refl1" placeholder="Например: «eine Untersuchung durchführen»..."></textarea>
+          </div>
+          <div class="refl-question">
+            <div class="refl-q-text">Что было сложнее, чем вы ожидали?</div>
+            <textarea class="refl-input" id="refl2" placeholder="Можно коротко — одно слово или предложение..."></textarea>
+          </div>
+          <div class="refl-question">
+            <div class="refl-q-text">Какое слово добавите в карточки Anki сегодня?</div>
+            <textarea class="refl-input" id="refl3" placeholder="Слово + как оно употребляется..."></textarea>
+          </div>
+          <button class="btn-finish" onclick="finishDay()">Завершить день ✓</button>
+        </div>
+      </div>
+
+      <!-- День завершён -->
+      <div class="day-complete" id="dayComplete">
+        <div class="day-complete-icon">🎉</div>
+        <div class="day-complete-title">День завершён — отлично!</div>
+        <div class="day-complete-sub">Анна получила ваше задание и ответит в течение 24 часов.<br>Завтра: говорение — Rollenspiel на ту же тему.</div>
+        <div class="day-complete-stats">
+          <div class="dc-stat">
+            <div class="dc-stat-value">10</div>
+            <div class="dc-stat-label">слов сегодня</div>
+          </div>
+          <div class="dc-stat">
+            <div class="dc-stat-value">26</div>
+            <div class="dc-stat-label">минут</div>
+          </div>
+          <div class="dc-stat">
+            <div class="dc-stat-value" id="newStreakVal">13</div>
+            <div class="dc-stat-label">дней подряд</div>
+          </div>
+        </div><!-- /.day-complete-stats -->
+        <!-- Культурные снеки — пока ждёте ответа -->
+        <div class="snack-section">
+          <div class="snack-title">Пока ждёте ответа — читайте интересное</div>
+          <div class="snack-subtitle">Тема недели: Beim Arzt · Gesundheit — страноведение, идиомы, юмор</div>
+          <div class="snack-scroll">
+
+            <div class="snack-card">
+              <span class="snack-badge lk">Landeskunde</span>
+              <div class="snack-de">
+                Jeder Patient in Deutschland hat einen <strong>Hausarzt</strong> — die erste <strong>Anlaufstelle</strong> bei Krankheit. Zum Facharzt (z. B. Kardiologe) braucht man meist eine <strong>Überweisung</strong>.
+              </div>
+              <div class="snack-words">
+                <div class="snack-w"><strong>die Anlaufstelle</strong> — первый пункт обращения</div>
+                <div class="snack-w"><strong>die Überweisung</strong> — направление к специалисту</div>
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">У каждого пациента в Германии есть участковый врач — первая инстанция при болезни. К специалисту (кардиолог и др.) нужно направление.</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge lk">Landeskunde</span>
+              <div class="snack-de">
+                Wer krank ist und nicht arbeiten kann, braucht eine <strong>Krankschreibung</strong> (Abkürzung: <em>AU = Arbeitsunfähigkeitsbescheinigung</em>). Sie muss spätestens am 4. Krankheitstag beim <strong>Arbeitgeber</strong> sein.
+              </div>
+              <div class="snack-words">
+                <div class="snack-w"><strong>die AU / Krankschreibung</strong> — больничный лист</div>
+                <div class="snack-w"><strong>arbeitsunfähig</strong> — нетрудоспособный</div>
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">Кто болеет и не может работать — нужен больничный лист (AU). Его нужно передать работодателю не позже 4-го дня болезни.</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge lk">Landeskunde</span>
+              <div class="snack-de">
+                In Deutschland gibt es zwei Arten der Krankenversicherung: die <strong>gesetzliche</strong> (GKV) für die Mehrheit der Bevölkerung und die <strong>private</strong> (PKV) für Selbstständige und Besserverdiener.
+              </div>
+              <div class="snack-words">
+                <div class="snack-w"><strong>gesetzlich versichert</strong> — застрахован по ОМС</div>
+                <div class="snack-w"><strong>privat versichert</strong> — частная страховка</div>
+                <div class="snack-w"><strong>der Selbstständige</strong> — самозанятый, ИП</div>
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">В Германии два типа страховки: государственная (GKV) — для большинства, частная (PKV) — для самозанятых и высокооплачиваемых.</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge rw">Redewendung</span>
+              <div class="snack-de">
+                <strong>„auf dem Damm sein"</strong><br>
+                <em>= sich gut fühlen, fit sein</em><br><br>
+                „Endlich bin ich wieder <strong>auf dem Damm</strong> — die Grippe ist vorbei!"
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">«быть в форме / хорошо себя чувствовать»<br><br>«Наконец-то я снова в форме — грипп прошёл!»</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge rw">Redewendung</span>
+              <div class="snack-de">
+                <strong>„auf Draht sein"</strong><br>
+                <em>= aufmerksam, aktiv und fit sein</em><br><br>
+                „Heute Morgen bin ich voll <strong>auf Draht</strong> — ich habe gut geschlafen."
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">«быть в тонусе, бодром состоянии»<br><br>«Сегодня утром я в полном тонусе — хорошо выспалась.»</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge etik">Etikette</span>
+              <div class="snack-de">
+                Beim Arzt in Deutschland gilt immer das <strong>„Sie"</strong> — auch wenn der Arzt jung ist. Siezen Sie ihn/sie immer zuerst. Das „Du" bietet der Arzt selbst an, wenn er möchte.
+              </div>
+              <div class="snack-words">
+                <div class="snack-w"><strong>siezen</strong> — обращаться на «Вы»</div>
+                <div class="snack-w"><strong>das „Du" anbieten</strong> — предложить перейти на «ты»</div>
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">У врача в Германии всегда «Sie» — даже если врач молодой. Вы начинаете с «Вы». Врач сам предложит «ты», если захочет.</div>
+            </div>
+
+            <div class="snack-card">
+              <span class="snack-badge witz">Witz</span>
+              <div class="snack-de">
+                Patient: „Doktor, ich glaube, ich bin eine Motte."<br>
+                Arzt: „Das ist ein Fall für den Psychiater, nicht für mich."<br>
+                Patient: „Ich weiß — aber Ihr Licht war an..."
+              </div>
+              <button class="snack-toggle-btn" onclick="toggleSnackRu(this)">🇷🇺 Перевод</button>
+              <div class="snack-ru">Пациент: «Доктор, мне кажется, я мотылёк.»<br>Врач: «Это к психиатру, не ко мне.»<br>Пациент: «Знаю — но у вас горел свет...»</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /view-today -->
+
+
+    <!-- ══════════════ ПРОГРЕСС ══════════════ -->
+    <div class="view" id="view-progress">
+      <div class="view-title">Ваш прогресс</div>
+      <div class="view-sub">Здесь видно, как вы растёте. Цифры — чтобы замечать движение, не ради баллов.</div>
+      <div class="stat-grid">
+        <div class="stat-card accent"><div class="stat-icon">🔥</div><div class="stat-value">12</div><div class="stat-label">дней подряд вы занимаетесь</div></div>
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-value">47</div><div class="stat-label">новых слов добавлено в Anki на этой неделе</div></div>
+        <div class="stat-card"><div class="stat-icon">✍️</div><div class="stat-value">18</div><div class="stat-label">заданий выполнено с начала курса</div></div>
+        <div class="stat-card accent"><div class="stat-icon">🎯</div><div class="stat-value">B1</div><div class="stat-label">текущий уровень — держитесь уверенно</div></div>
+      </div>
+      <div class="narrative">
+        <div class="narrative-label">Слово недели от Анны</div>
+        <div class="narrative-text">«Мария, ваша речь заметно изменилась за последние три недели. Вы стали меньше останавливаться и больше доверять себе. Видно, что слова начинают приходить быстрее — это именно то, к чему мы шли.»</div>
+      </div>
+      <div class="skills-card">
+        <div class="skills-card-header"><div class="skills-card-title">По навыкам</div><div class="skills-card-note">Прогресс внутри уровня B1</div></div>
+        <div class="skill-row"><div class="skill-meta-row"><span class="skill-name">👂 Hören — Аудирование</span><span class="skill-comment">Уже улавливаете темп речи</span></div><div class="skill-bar-bg"><div class="skill-bar-fg" style="width:72%"></div></div></div>
+        <div class="skill-row"><div class="skill-meta-row"><span class="skill-name">🗣 Sprechen — Говорение</span><span class="skill-comment">Большой прогресс за месяц</span></div><div class="skill-bar-bg"><div class="skill-bar-fg" style="width:58%"></div></div></div>
+        <div class="skill-row"><div class="skill-meta-row"><span class="skill-name">📖 Lesen — Чтение</span><span class="skill-comment">Уверенно</span></div><div class="skill-bar-bg"><div class="skill-bar-fg" style="width:80%"></div></div></div>
+        <div class="skill-row"><div class="skill-meta-row"><span class="skill-name">✍️ Schreiben — Письмо</span><span class="skill-comment amber">Есть куда расти — работаем</span></div><div class="skill-bar-bg"><div class="skill-bar-fg amber" style="width:45%"></div></div></div>
+        <div class="skill-row"><div class="skill-meta-row"><span class="skill-name">📝 Wortschatz — Словарный запас</span><span class="skill-comment">47 слов на этой неделе</span></div><div class="skill-bar-bg"><div class="skill-bar-fg" style="width:65%"></div></div></div>
+      </div>
+      <div class="milestone-card">
+        <div class="milestone-label">Следующий рубеж</div>
+        <div class="milestone-title">До уровня B2 — ещё примерно 2 месяца</div>
+        <div class="milestone-bar-bg"><div class="milestone-bar-fg" style="width:38%"></div></div>
+        <div class="milestone-note">Сейчас: середина B1. Осталось: укрепить говорение и письмо.</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════ ОБРАТНАЯ СВЯЗЬ ══════════════ -->
+    <div class="view" id="view-feedback">
+      <div class="view-title">Обратная связь</div>
+      <div class="view-sub">Комментарии Анны к вашим заданиям. Читайте когда будете готовы.</div>
+      <div class="feedback-list">
+        <div class="fb-item open">
+          <div class="fb-header" onclick="toggleFb(this.parentElement)">
+            <div class="fb-date">3 мар</div>
+            <div class="fb-taskname">Ролленшпиль: разговор с врачом</div>
+            <div class="fb-skill">Sprechen</div>
+            <div class="fb-chevron">▼</div>
+          </div>
+          <div class="fb-body">
+            <div class="fb-section"><div class="fb-section-lbl good">Что вышло хорошо</div><div class="fb-text">Вы уверенно описали симптомы и дважды переспросили, когда не поняли — именно так делают носители. Структура разговора логичная, начало и конец оформлены правильно.</div></div>
+            <div class="fb-section"><div class="fb-section-lbl next">Один нюанс</div><div class="correction"><span class="wrong">Ich habe Schmerzen in meinen Bauch</span><br><span class="right">Ich habe Schmerzen im Bauch</span><span class="rule">После «in» при указании места → Dativ: «im» = «in dem». Формула: Schmerzen im Bauch / im Arm / im Kopf.</span></div></div>
+            <div class="fb-section"><div class="fb-section-lbl step">Следующий шаг</div><div class="fb-text">Добавьте в Anki: «Schmerzen <strong>im</strong> Bauch» как готовую фразу — целиком, не слова по отдельности.</div></div>
+          </div>
+        </div>
+        <div class="fb-item">
+          <div class="fb-header" onclick="toggleFb(this.parentElement)">
+            <div class="fb-date">28 фев</div>
+            <div class="fb-taskname">Диктоглосс: радио-репортаж</div>
+            <div class="fb-skill">Hören</div>
+            <div class="fb-chevron">▼</div>
+          </div>
+          <div class="fb-body">
+            <div class="fb-section"><div class="fb-section-lbl good">Что вышло хорошо</div><div class="fb-text">Вы уловили главную идею и ключевые факты. Особенно понравилось «laut dem Bericht» — точно в духе новостного регистра.</div></div>
+            <div class="fb-section"><div class="fb-section-lbl next">Один нюанс</div><div class="correction"><span class="wrong">weil die Preise sind gestiegen</span><br><span class="right">weil die Preise gestiegen sind</span><span class="rule">В придаточном с «weil» глагол уходит в конец. Сегодняшняя грамматика — как раз про это.</span></div></div>
+            <div class="fb-section"><div class="fb-section-lbl step">Следующий шаг</div><div class="fb-text">Напишите 5 предложений с «weil» о своём дне. Именно так строится автоматизм.</div></div>
+          </div>
+        </div>
+        <div class="fb-item">
+          <div class="fb-header" onclick="toggleFb(this.parentElement)">
+            <div class="fb-date">24 фев</div>
+            <div class="fb-taskname">Письмо: жалоба в управляющую компанию</div>
+            <div class="fb-skill">Schreiben</div>
+            <div class="fb-chevron">▼</div>
+          </div>
+          <div class="fb-body">
+            <div class="fb-section"><div class="fb-section-lbl good">Отлично</div><div class="fb-text">Правильный формальный тон, чёткая структура: проблема → просьба → срок. Именно так пишут немцы. Сохраните это письмо — оно станет вашим шаблоном.</div></div>
+            <div class="fb-section"><div class="fb-section-lbl next">Маленький нюанс</div><div class="correction"><span class="wrong">Ich bitte Sie, das Problem zu lösen schnell</span><br><span class="right">Ich bitte Sie, das Problem schnell zu lösen</span><span class="rule">С «bitten + zu-инфинитив» наречие стоит перед «zu lösen».</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════ МОЙ ПЛАН ══════════════ -->
+    <div class="view" id="view-plan">
+      <div class="view-title">Мой план на неделю</div>
+      <div class="view-sub">Тема: <strong>Beim Arzt · Gesundheit</strong>. Каждый день — другой навык, одна тема.</div>
+      <div class="plan-grid">
+        <div class="plan-day">
+          <div class="plan-day-lbl">Понедельник</div>
+          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter + Hören: диалог у врача</div><div class="plan-ex-time">22 мин</div></div>
+          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Dativ nach «in»</div><div class="plan-ex-time">5 мин</div></div>
+        </div>
+        <div class="plan-day">
+          <div class="plan-day-lbl">Вторник</div>
+          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter + Lesen: выписка врача</div><div class="plan-ex-time">22 мин</div></div>
+          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: weil-Stellung</div><div class="plan-ex-time">5 мин</div></div>
+        </div>
+        <div class="plan-day today-day">
+          <div class="plan-day-lbl">Сегодня — среда</div>
+          <div class="plan-ex"><div class="plan-check current" id="planCheck1">→</div><div class="plan-ex-name">Wörter + Hören: диктоглосс</div><div class="plan-ex-time">19 мин</div></div>
+          <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Grammatik: Modalverben</div><div class="plan-ex-time">5 мин</div></div>
+          <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Reflexion</div><div class="plan-ex-time">2 мин</div></div>
+        </div>
+        <div class="plan-day">
+          <div class="plan-day-lbl">Четверг</div>
+          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Wörter + Sprechen: Rollenspiel</div><div class="plan-ex-time">20 мин</div></div>
+          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Aussprache: ch-Laut</div><div class="plan-ex-time">5 мин</div></div>
+        </div>
+        <div class="plan-day">
+          <div class="plan-day-lbl">Пятница</div>
+          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Урок с Анной (10:00)</div><div class="plan-ex-time">60 мин</div></div>
+        </div>
+        <div class="plan-day">
+          <div class="plan-day-lbl">Суббота</div>
+          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Schreiben: письмо в страховую</div><div class="plan-ex-time">20 мин</div></div>
+          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Extensives Lesen — с удовольствием</div><div class="plan-ex-time">15 мин</div></div>
+        </div>
+      </div>
+      <div class="principle-block">
+        <div class="principle-lbl">Почему одна тема — вся неделя?</div>
+        <div class="principle-text">Слово нужно встретить 8–10 раз в разных контекстах, чтобы оно стало вашим. Поэтому «Untersuchung» вы слышите в диалоге, читаете в выписке, говорите в Rollenspiel и пишете в письме — это одно слово, четыре ситуации, один мозг, который запомнил навсегда.</div>
+      </div>
+    </div>
+
+    <!-- ══════════════ МОЙ ПРОФИЛЬ ══════════════ -->
+    <div class="view" id="view-profile">
+
+      <div class="profile-header">
+        <h2>Мой профиль студента</h2>
+        <p>Ваши ответы помогут преподавателю составить личный план обучения — точно под ваши цели, уровень и ритм жизни. Это займёт около 10 минут.</p>
+      </div>
+
+      <!-- 1. Базовые данные -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">1</div>
+          <div><div class="ps-title">Базовые данные</div><div class="ps-sub">Немного о вас — чтобы обращаться правильно</div></div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Как вас зовут?</label>
+          <input class="profile-input" type="text" placeholder="Имя и фамилия">
+        </div>
+        <div class="q-group">
+          <span class="q-label">Ваш возраст</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>18–25</label>
+            <label class="rc-label"><span class="rc-dot"></span>26–35</label>
+            <label class="rc-label"><span class="rc-dot"></span>36–45</label>
+            <label class="rc-label"><span class="rc-dot"></span>46–55</label>
+            <label class="rc-label"><span class="rc-dot"></span>56+</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Ваш город в Германии / Швейцарии</label>
+          <input class="profile-input" type="text" placeholder="Например: Мюнхен, Берлин, Цюрих">
+        </div>
+        <div class="q-group">
+          <span class="q-label">Сколько времени вы живёте в Германии / Швейцарии?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Меньше 6 месяцев</label>
+            <label class="rc-label"><span class="rc-dot"></span>6–12 месяцев</label>
+            <label class="rc-label"><span class="rc-dot"></span>1–2 года</label>
+            <label class="rc-label"><span class="rc-dot"></span>2–5 лет</label>
+            <label class="rc-label"><span class="rc-dot"></span>Больше 5 лет</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Ваша профессия / сфера деятельности</label>
+          <input class="profile-input" type="text" placeholder="Например: IT, медицина, бухгалтерия, продажи...">
+        </div>
+        <div class="q-group">
+          <span class="q-label">На каком языке работаете / общаетесь в повседневной жизни?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>В основном русский</label>
+            <label class="rc-label"><span class="rc-dot"></span>Смесь немецкого и русского</label>
+            <label class="rc-label"><span class="rc-dot"></span>Немецкий</label>
+            <label class="rc-label"><span class="rc-dot"></span>Английский</label>
+            <label class="rc-label"><span class="rc-dot"></span>Не работаю сейчас</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Уровень немецкого -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">2</div>
+          <div><div class="ps-title">Уровень немецкого</div><div class="ps-sub">Самооценка по каждому навыку — честно, как есть сейчас</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Как давно изучаете немецкий?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Только начинаю</label>
+            <label class="rc-label"><span class="rc-dot"></span>Меньше года</label>
+            <label class="rc-label"><span class="rc-dot"></span>1–2 года</label>
+            <label class="rc-label"><span class="rc-dot"></span>3–5 лет</label>
+            <label class="rc-label"><span class="rc-dot"></span>Больше 5 лет</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Самооценка по навыкам (CEFR)</span>
+          <p class="q-hint">Выберите уровень для каждого навыка. Если не уверены — лучше выберите ниже, а не выше.</p>
+          <div class="cefr-skill">
+            <div class="cefr-skill-lbl">🎧 Слушание (Hören)</div>
+            <div class="radio-cards cefr-row">
+              <label class="rc-label"><span class="rc-dot"></span>A1</label>
+              <label class="rc-label"><span class="rc-dot"></span>A2</label>
+              <label class="rc-label"><span class="rc-dot"></span>B1</label>
+              <label class="rc-label"><span class="rc-dot"></span>B2</label>
+              <label class="rc-label"><span class="rc-dot"></span>C1</label>
+            </div>
+          </div>
+          <div class="cefr-skill">
+            <div class="cefr-skill-lbl">🗣 Говорение (Sprechen)</div>
+            <div class="radio-cards cefr-row">
+              <label class="rc-label"><span class="rc-dot"></span>A1</label>
+              <label class="rc-label"><span class="rc-dot"></span>A2</label>
+              <label class="rc-label"><span class="rc-dot"></span>B1</label>
+              <label class="rc-label"><span class="rc-dot"></span>B2</label>
+              <label class="rc-label"><span class="rc-dot"></span>C1</label>
+            </div>
+          </div>
+          <div class="cefr-skill">
+            <div class="cefr-skill-lbl">📖 Чтение (Lesen)</div>
+            <div class="radio-cards cefr-row">
+              <label class="rc-label"><span class="rc-dot"></span>A1</label>
+              <label class="rc-label"><span class="rc-dot"></span>A2</label>
+              <label class="rc-label"><span class="rc-dot"></span>B1</label>
+              <label class="rc-label"><span class="rc-dot"></span>B2</label>
+              <label class="rc-label"><span class="rc-dot"></span>C1</label>
+            </div>
+          </div>
+          <div class="cefr-skill">
+            <div class="cefr-skill-lbl">✏️ Письмо (Schreiben)</div>
+            <div class="radio-cards cefr-row">
+              <label class="rc-label"><span class="rc-dot"></span>A1</label>
+              <label class="rc-label"><span class="rc-dot"></span>A2</label>
+              <label class="rc-label"><span class="rc-dot"></span>B1</label>
+              <label class="rc-label"><span class="rc-dot"></span>B2</label>
+              <label class="rc-label"><span class="rc-dot"></span>C1</label>
+            </div>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Проходили ли языковой экзамен? (можно несколько)</span>
+          <div class="check-pills">
+            <label class="cp-label">Нет, не сдавал(а)</label>
+            <label class="cp-label">Goethe-Zertifikat</label>
+            <label class="cp-label">telc</label>
+            <label class="cp-label">ÖSD</label>
+            <label class="cp-label">TestDaF</label>
+            <label class="cp-label">DSH</label>
+            <label class="cp-label">Einbürgerungstest</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Цели и ситуации -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">3</div>
+          <div><div class="ps-title">Цели и реальные ситуации</div><div class="ps-sub">Для чего вам нужен немецкий — прямо сейчас</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Какие ситуации нужно решать по-немецки? (отметьте все подходящие)</span>
+          <div class="check-pills">
+            <label class="cp-label">Behörde — ведомства, Amt</label>
+            <label class="cp-label">Врач, больница, страховка</label>
+            <label class="cp-label">Работа с немецкими коллегами</label>
+            <label class="cp-label">Телефонные звонки</label>
+            <label class="cp-label">Документы, договоры, письма</label>
+            <label class="cp-label">Повседневное общение (магазин, сосед)</label>
+            <label class="cp-label">Дети: школа, Kindergarten</label>
+            <label class="cp-label">Карьера и профессиональный рост</label>
+            <label class="cp-label">Сдать языковой экзамен</label>
+            <label class="cp-label">Понимать телевизор, новости, подкасты</label>
+            <label class="cp-label">Не зависеть от переводчика</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Самая срочная ситуация — что нужно решить в первую очередь?</label>
+          <textarea class="profile-input" rows="2" placeholder="Например: «через 2 месяца собеседование» или «хочу сама записаться к врачу, не просить мужа»"></textarea>
+        </div>
+      </div>
+
+      <!-- 4. Время и ритм -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">4</div>
+          <div><div class="ps-title">Время и ритм</div><div class="ps-sub">Реальное время — не идеальное, а то, что есть</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Сколько минут в день вы готовы уделять немецкому?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>До 15 минут</label>
+            <label class="rc-label"><span class="rc-dot"></span>15–30 минут</label>
+            <label class="rc-label"><span class="rc-dot"></span>30–45 минут</label>
+            <label class="rc-label"><span class="rc-dot"></span>45–60 минут</label>
+            <label class="rc-label"><span class="rc-dot"></span>Больше часа</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Когда удобнее всего заниматься?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Утром (до работы)</label>
+            <label class="rc-label"><span class="rc-dot"></span>Днём (пауза, обед)</label>
+            <label class="rc-label"><span class="rc-dot"></span>Вечером</label>
+            <label class="rc-label"><span class="rc-dot"></span>В выходные</label>
+            <label class="rc-label"><span class="rc-dot"></span>По-разному каждый день</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Насколько предсказуем ваш график?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Очень стабильный</label>
+            <label class="rc-label"><span class="rc-dot"></span>В основном стабильный</label>
+            <label class="rc-label"><span class="rc-dot"></span>Непредсказуемый</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Аффективный профиль -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">5</div>
+          <div><div class="ps-title">Отношение к обучению</div><div class="ps-sub">Честные ответы помогут подобрать правильный подход</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Когда говорю по-немецки с незнакомым человеком, я чувствую...</span>
+          <div class="rating-row">
+            <span class="rating-ends">Сильную тревогу</span>
+            <div class="rating-dots" id="rating-anxiety">
+              <label class="rd-label"><span class="rd-dot">1</span></label>
+              <label class="rd-label"><span class="rd-dot">2</span></label>
+              <label class="rd-label"><span class="rd-dot">3</span></label>
+              <label class="rd-label"><span class="rd-dot">4</span></label>
+              <label class="rd-label"><span class="rd-dot">5</span></label>
+            </div>
+            <span class="rating-ends">Полную уверенность</span>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Когда я делаю ошибку в немецком, я...</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Расстраиваюсь и хочу прекратить</label>
+            <label class="rc-label"><span class="rc-dot"></span>Немного смущаюсь, но продолжаю</label>
+            <label class="rc-label"><span class="rc-dot"></span>Отношусь нейтрально — ошибки нормальны</label>
+            <label class="rc-label"><span class="rc-dot"></span>Рассматриваю как возможность улучшиться</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Как вы предпочитаете получать исправления?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Сразу — в момент ошибки</label>
+            <label class="rc-label"><span class="rc-dot"></span>После высказывания, не прерывая</label>
+            <label class="rc-label"><span class="rc-dot"></span>Письменно, отдельно от разговора</label>
+            <label class="rc-label"><span class="rc-dot"></span>Как угодно — главное получить фидбек</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Что больше всего мешает мне говорить по-немецки?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Страх ошибиться или выглядеть глупо</label>
+            <label class="rc-label"><span class="rc-dot"></span>Не знаю нужных слов — не могу выразить мысль</label>
+            <label class="rc-label"><span class="rc-dot"></span>Понимаю правила, но в разговоре теряюсь</label>
+            <label class="rc-label"><span class="rc-dot"></span>Не понимаю что говорит собеседник</label>
+            <label class="rc-label"><span class="rc-dot"></span>Акцент и произношение беспокоят меня</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Слабые навыки -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">6</div>
+          <div><div class="ps-title">Сложные места</div><div class="ps-sub">Где требуется больше всего работы</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Какие навыки даются труднее всего? (можно несколько)</span>
+          <div class="check-pills">
+            <label class="cp-label">Грамматика</label>
+            <label class="cp-label">Произношение</label>
+            <label class="cp-label">Словарный запас</label>
+            <label class="cp-label">Аудирование (понять на слух)</label>
+            <label class="cp-label">Говорение (не знаю что сказать)</label>
+            <label class="cp-label">Чтение сложных текстов</label>
+            <label class="cp-label">Письмо — официальные тексты</label>
+            <label class="cp-label">Беглость речи (темп)</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Когда носитель говорит в нормальном темпе, я...</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Практически ничего не понимаю</label>
+            <label class="rc-label"><span class="rc-dot"></span>Улавливаю отдельные слова</label>
+            <label class="rc-label"><span class="rc-dot"></span>Понимаю примерно половину</label>
+            <label class="rc-label"><span class="rc-dot"></span>В основном понимаю</label>
+            <label class="rc-label"><span class="rc-dot"></span>Понимаю хорошо</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Телефонные звонки по-немецки (Behörde, врач)...</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Стараюсь избегать любой ценой</label>
+            <label class="rc-label"><span class="rc-dot"></span>Делаю, но с большим трудом</label>
+            <label class="rc-label"><span class="rc-dot"></span>Справляюсь, хотя не уверенно</label>
+            <label class="rc-label"><span class="rc-dot"></span>Звоню без проблем</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">«Правила знаю — в разговоре теряюсь и не могу применить»?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Да, это моя главная проблема</label>
+            <label class="rc-label"><span class="rc-dot"></span>Иногда бывает</label>
+            <label class="rc-label"><span class="rc-dot"></span>Нет, правила и разговор у меня связаны</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Опыт обучения -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">7</div>
+          <div><div class="ps-title">Опыт обучения</div><div class="ps-sub">Что уже пробовали — что работает, что нет</div></div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Что уже пробовали для изучения немецкого? (можно несколько)</span>
+          <div class="check-pills">
+            <label class="cp-label">Duolingo / Babbel</label>
+            <label class="cp-label">Онлайн-курс</label>
+            <label class="cp-label">Языковые курсы (группа)</label>
+            <label class="cp-label">Интеграционный курс</label>
+            <label class="cp-label">Репетитор (частно)</label>
+            <label class="cp-label">Учебники самостоятельно</label>
+            <label class="cp-label">YouTube / подкасты</label>
+            <label class="cp-label">Anki / карточки</label>
+            <label class="cp-label">Общение с носителями</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Что помогло больше всего? (или что нравилось в процессе)</label>
+          <textarea class="profile-input" rows="2" placeholder="Например: «разговорная практика живьём» или «повторение карточек по утрам»"></textarea>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Что точно не работает для вас?</label>
+          <textarea class="profile-input" rows="2" placeholder="Например: «скучные грамматические таблицы» или «зазубривание слов списком»"></textarea>
+        </div>
+      </div>
+
+      <!-- 8. Желаемый результат -->
+      <div class="profile-section">
+        <div class="ps-head">
+          <div class="ps-num">8</div>
+          <div><div class="ps-title">Желаемый результат</div><div class="ps-sub">Каким вы хотите видеть свой немецкий</div></div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Через 3 месяца я хочу уметь...</label>
+          <textarea class="profile-input" rows="3" placeholder="Опишите своими словами — какую конкретную ситуацию хотите решать без проблем?"></textarea>
+        </div>
+        <div class="q-group">
+          <span class="q-label">«Хороший немецкий» для меня — это прежде всего...</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Говорить без долгих пауз и словаря</label>
+            <label class="rc-label"><span class="rc-dot"></span>Понимать носителей в любой ситуации</label>
+            <label class="rc-label"><span class="rc-dot"></span>Сдать нужный экзамен (Goethe, telc...)</label>
+            <label class="rc-label"><span class="rc-dot"></span>Не чувствовать тревогу при разговоре</label>
+            <label class="rc-label"><span class="rc-dot"></span>Самостоятельно справляться с документами</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <span class="q-label">Как вы хотите отслеживать свой прогресс?</span>
+          <div class="radio-cards">
+            <label class="rc-label"><span class="rc-dot"></span>Тест или оценка каждый месяц</label>
+            <label class="rc-label"><span class="rc-dot"></span>Видеть список нового, что узнал(а)</label>
+            <label class="rc-label"><span class="rc-dot"></span>Подробный фидбек от преподавателя</label>
+            <label class="rc-label"><span class="rc-dot"></span>Чувствовать уверенность в реальных ситуациях</label>
+          </div>
+        </div>
+        <div class="q-group">
+          <label class="q-label">Что ещё важно знать преподавателю о вас?</label>
+          <textarea class="profile-input" rows="3" placeholder="Любая информация, которая поможет сделать обучение именно под вас"></textarea>
+        </div>
+      </div>
+
+      <div class="profile-save">
+        <button class="profile-save-btn" onclick="saveProfile()">Отправить анкету преподавателю</button>
+        <div class="profile-saved-msg" id="profileSavedMsg">
+          <strong>Готово — анкета отправлена!</strong>
+          <p>Преподаватель изучит её до вашего первого урока и составит личный план обучения.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /.main -->
+</div><!-- /.layout -->
+
+<script>
+/* ── Навигация ── */
+function showView(name, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  el.classList.add('active');
+  if (window.innerWidth <= 700) closeSidebar();
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('open');
+}
+
+/* ── Открыть выполненный блок ── */
+function toggleDoneBlock(name) {
+  const block = document.getElementById('block-' + name);
+  block.classList.toggle('expanded');
+}
+
+/* ── Счётчик слов + авто-чек ── */
+function updateWordCount() {
+  const text = document.getElementById('responseArea').value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const el = document.getElementById('wordCount');
+  el.textContent = words + ' слов';
+  el.className = 'word-count' + (words >= 50 ? ' ok' : '');
+  if (words >= 50) autoCheck('check-write');
+}
+
+/* ── Подсказки ── */
+function toggleHints() {
+  const block = document.getElementById('hintBlock');
+  const btn = document.getElementById('hintBtn');
+  block.classList.toggle('open');
+  btn.textContent = block.classList.contains('open') ? '✕ Закрыть подсказки' : '💡 Мне нужна подсказка';
+}
+
+/* ── Аудиоплеер ── */
+let isPlaying = false, audioPos = 0, audioTimer = null;
+function togglePlay() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('playBtn');
+  btn.textContent = isPlaying ? '⏸' : '▶';
+  if (isPlaying) {
+    audioTimer = setInterval(() => {
+      audioPos = Math.min(100, audioPos + 0.4);
+      document.getElementById('audioFill').style.width = audioPos + '%';
+      if (audioPos >= 100) {
+        isPlaying = false; btn.textContent = '▶'; clearInterval(audioTimer);
+        autoCheck('check-listen');
+      }
+    }, 100);
+  } else { clearInterval(audioTimer); }
+}
+function resetAudio() {
+  isPlaying = false; audioPos = 0; clearInterval(audioTimer);
+  document.getElementById('playBtn').textContent = '▶';
+  document.getElementById('audioFill').style.width = '0%';
+}
+
+/* ── Чеклист: авто-чек обязательных, ручной для бонусных ── */
+function autoCheck(id) {
+  const el = document.getElementById(id);
+  if (!el || el.classList.contains('checked')) return;
+  el.classList.add('checked');
+  el.querySelector('.tcl-box').textContent = '✓';
+}
+function toggleCheck(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('checked');
+  el.querySelector('.tcl-box').textContent = el.classList.contains('checked') ? '✓' : '';
+}
+
+/* ── Подтверждение отправки ── */
+function showSubmitConfirm() {
+  const text = document.getElementById('responseArea').value.trim();
+  if (!text || text.split(/\s+/).length < 10) {
+    const ta = document.getElementById('responseArea');
+    ta.classList.add('warn'); ta.focus();
+    setTimeout(() => ta.classList.remove('warn'), 1500);
+    return;
+  }
+  const words = text.split(/\s+/).length;
+  document.getElementById('sc-words').textContent = words;
+  const confirm = document.getElementById('submitConfirm');
+  confirm.classList.add('open');
+  confirm.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+function cancelSubmit() {
+  document.getElementById('submitConfirm').classList.remove('open');
+}
+function confirmSubmit() {
+  document.getElementById('submitConfirm').classList.remove('open');
+  autoCheck('check-listen'); autoCheck('check-write');
+  const bh = document.getElementById('block-hoeren');
+  bh.classList.remove('active'); bh.classList.add('done');
+  bh.querySelector('.block-num').className = 'block-num done';
+  bh.querySelector('.block-num').textContent = '✓';
+  bh.querySelector('.block-sub').textContent = 'Отправлено Анне · ожидайте ответа';
+  bh.querySelector('.block-body').style.display = 'none';
+  bh.querySelector('.block-right').innerHTML = '<div class="block-status-done">Готово</div><div class="block-chevron">▼</div>';
+  bh.querySelector('.block-header').onclick = () => toggleDoneBlock('hoeren');
+  unlockBlock('grammatik', 3, 'dp3', 'dl2');
+}
+
+/* ── Снек-карточки: переключить перевод ── */
+function toggleSnackRu(btn) {
+  const ru = btn.nextElementSibling;
+  const open = ru.classList.toggle('open');
+  btn.textContent = open ? '🇷🇺 Скрыть' : '🇷🇺 Перевод';
+}
+
+/* ── Грамматика — выбор слов ── */
+let selectedTile = null;
+let blanks = { 1: '', 2: '', 3: '' };
+const answers = { 1: 'müssen', 2: 'dürfen', 3: 'sollen' };
+
+function selectTile(word, id) {
+  // Снять выделение с предыдущего
+  document.querySelectorAll('.word-tile:not(.used)').forEach(t => t.style.background = '');
+  selectedTile = word;
+  const el = document.getElementById('tile-' + id);
+  if (!el.classList.contains('used')) el.style.background = '#D1F0E1';
+}
+function fillBlank(n) {
+  if (!selectedTile) return;
+  const el = document.getElementById('blank' + n);
+  blanks[n] = selectedTile;
+  el.textContent = selectedTile;
+  el.classList.remove('empty');
+  selectedTile = null;
+  document.querySelectorAll('.word-tile').forEach(t => t.style.background = '');
+}
+function checkGrammar() {
+  let allCorrect = true;
+  for (let i = 1; i <= 3; i++) {
+    const res = document.getElementById('result' + i);
+    if (blanks[i] === answers[i]) {
+      res.textContent = '✓ Правильно'; res.className = 'fill-result correct';
+    } else if (blanks[i]) {
+      res.textContent = '→ Почти. Попробуйте ' + answers[i]; res.className = 'fill-result wrong';
+      allCorrect = false;
+    } else {
+      res.textContent = '→ Заполните это поле'; res.className = 'fill-result wrong';
+      allCorrect = false;
+    }
+  }
+  if (allCorrect) {
+    setTimeout(() => {
+      const bg = document.getElementById('block-grammatik');
+      bg.classList.remove('active'); bg.classList.add('done');
+      bg.querySelector('.block-num').className = 'block-num done';
+      bg.querySelector('.block-num').textContent = '✓';
+      bg.querySelector('.block-body').style.display = 'none';
+      bg.querySelector('.block-right').innerHTML = '<div class="block-status-done">Готово</div><div class="block-chevron">▼</div>';
+      bg.querySelector('.block-header').onclick = () => toggleDoneBlock('grammatik');
+      unlockBlock('reflexion', 4, 'dp4', 'dl3');
+    }, 800);
+  }
+}
+
+/* ── Разблокировать следующий блок ── */
+function unlockBlock(name, dpNum, dpId, dlId) {
+  const block = document.getElementById('block-' + name);
+  block.classList.remove('locked'); block.classList.add('active');
+  block.querySelector('.block-num').className = 'block-num active';
+  block.querySelector('.block-num').textContent = dpNum;
+  block.querySelector('.block-body').style.display = 'block';
+  // Обновить прогресс
+  const prevDp = document.getElementById('dp' + (dpNum - 1));
+  if (prevDp) { prevDp.className = 'dp-circle done'; prevDp.textContent = '✓'; }
+  const prevLabel = prevDp ? prevDp.parentElement.querySelector('.dp-label') : null;
+  if (prevLabel) prevLabel.classList.add('done');
+  const dp = document.getElementById(dpId);
+  if (dp) { dp.className = 'dp-circle active'; }
+  const dpLabel = dp ? dp.parentElement.querySelector('.dp-label') : null;
+  if (dpLabel) { dpLabel.classList.remove('done'); dpLabel.classList.add('active'); }
+  const dl = document.getElementById(dlId);
+  if (dl) dl.classList.add('done');
+  // Прокрутить к блоку
+  setTimeout(() => block.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+/* ── Завершить день ── */
+function finishDay() {
+  const br = document.getElementById('block-reflexion');
+  br.classList.remove('active'); br.classList.add('done');
+  br.querySelector('.block-num').className = 'block-num done';
+  br.querySelector('.block-num').textContent = '✓';
+  br.querySelector('.block-body').style.display = 'none';
+  br.querySelector('.block-right').innerHTML = '<div class="block-status-done">Готово</div>';
+  // Финальный прогресс
+  const dp4 = document.getElementById('dp4');
+  if (dp4) { dp4.className = 'dp-circle done'; dp4.textContent = '✓'; }
+  const dp4label = dp4 ? dp4.parentElement.querySelector('.dp-label') : null;
+  if (dp4label) { dp4label.classList.add('done'); dp4label.classList.remove('active'); }
+  document.getElementById('dl3').classList.add('done');
+  // Показать завершение
+  document.getElementById('dayComplete').classList.add('open');
+  document.getElementById('streakBadge').textContent = '🔥 13 дней';
+  document.getElementById('todayBadge').style.display = 'none';
+  setTimeout(() => document.getElementById('dayComplete').scrollIntoView({ behavior:'smooth' }), 200);
+}
+
+/* ── Аккордеон фидбека ── */
+function toggleFb(item) { item.classList.toggle('open'); }
+
+/* ── Профиль студента ── */
+(function() {
+  function initProfile() {
+    // Radio cards: каждый .radio-cards — своя независимая группа
+    document.querySelectorAll('.radio-cards').forEach(function(row) {
+      row.querySelectorAll('.rc-label').forEach(function(label) {
+        label.addEventListener('click', function() {
+          row.querySelectorAll('.rc-label').forEach(function(l) { l.classList.remove('checked'); });
+          label.classList.add('checked');
+        });
+      });
+    });
+    // Checkbox pills: переключаем каждый независимо
+    document.querySelectorAll('.cp-label').forEach(function(label) {
+      label.addEventListener('click', function() { label.classList.toggle('checked'); });
+    });
+    // Рейтинговая шкала: заливаем до выбранного
+    document.querySelectorAll('.rating-dots').forEach(function(group) {
+      var labels = Array.prototype.slice.call(group.querySelectorAll('.rd-label'));
+      labels.forEach(function(label, idx) {
+        label.addEventListener('click', function() {
+          labels.forEach(function(l, i) { l.classList.toggle('checked', i <= idx); });
+        });
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', initProfile);
+})();
+
+function saveProfile() {
+  var btn = document.querySelector('.profile-save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Отправлено ✓';
+  document.getElementById('profileSavedMsg').classList.add('open');
+  setTimeout(function() {
+    document.getElementById('profileSavedMsg').scrollIntoView({ behavior:'smooth' });
+  }, 100);
+}
+</script>
+</body>
+</html>
