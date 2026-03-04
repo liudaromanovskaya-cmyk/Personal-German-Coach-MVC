@@ -2850,6 +2850,1411 @@ It is NOT routine. It is a ritual. Teacher prepares for it — it is NOT improvi
 
 ---
 
+---
+
+## PART 19 — GRAMMAR TEACHING METHODOLOGY 🔴 HIGH PRIORITY
+
+*The single largest gap in the original file. Grammar is mentioned throughout
+but never given its own methodological framework. This part fixes that.*
+
+---
+
+### 19.1 Explicit vs. Implicit Grammar Instruction
+
+```
+EXPLICIT INSTRUCTION       IMPLICIT INSTRUCTION
+──────────────────────────────────────────────────
+Rule stated → examples     Examples first → rule emerges
+Deductive                  Inductive
+Fast awareness             Slow but durable
+Good for: adults,          Good for: fluency, automatization,
+analytical learners,       chunks, formulaic sequences
+complex L1–L2 contrasts
+```
+
+**When to use explicit:**
+- Structures where German and Russian differ fundamentally (V2, article system)
+- Errors that have fossilized
+- Learners who explicitly ask "why?"
+- CEFR B1+ when metalinguistic awareness becomes a resource
+
+**When to use implicit:**
+- Chunks and formulaic language (Lewis — teach as units, not rules)
+- Fluency-focused tasks (grammar explanation kills flow)
+- A1–A2 stage for high-frequency patterns (let exposure build the trace)
+
+**Platform rule:** Tag every grammar task with mode: `explicit` / `implicit`.
+Avoid mixing modes in one task — cognitive interference results.
+
+---
+
+### 19.2 Inductive vs. Deductive Presentation
+
+**Deductive (rule first):**
+```
+Teacher explains: "In German, the verb always comes second in a main clause."
+→ Student applies rule to examples
+→ Good for: analytical students, complex rules, time pressure
+```
+
+**Inductive (examples first — more effective for long-term retention):**
+```
+Teacher shows 6 sentences with verb in second position.
+"Was fällt Ihnen auf? What do you notice about the verb position?"
+Student discovers the rule → stronger encoding, higher ownership
+→ Good for: engaged learners, pattern-based rules, spiral curriculum
+```
+
+**Platform rule:** Default to inductive for motivated adult learners.
+Deductive as fallback when student is time-pressured or explicitly asks for rules.
+Always ask: "Was haben Sie bemerkt?" before explaining — activates noticing.
+
+---
+
+### 19.3 Focus on Form / FormS / Meaning (Long & Robinson, 2001)
+
+```
+FOCUS ON MEANING (FonM)
+  Pure communication. Teacher does not intervene on language form.
+  "Just say what you mean — any way you can."
+  When: fluency tasks, first attempts, warm-up, speaking practice
+  Risk: errors fossilize if never addressed
+
+FOCUS ON FORM (FonF)
+  Attention to form WITHIN communicative task — at the moment it arises.
+  "You just said 'Ich gehe gestern' — notice: past tense = Ich BIN gegangen."
+  When: naturally occurring errors during real communication
+  Research: most effective grammar instruction type (Long, 1991–2023)
+  Key: REACTIVE, not pre-planned
+
+FOCUS ON FORMS (FonFs)
+  Pre-planned grammar lessons. Isolated rules out of communicative context.
+  "Today we study Dativ."
+  When: declarative knowledge building (DeKeyser Stage 1)
+  Risk: doesn't transfer to spontaneous speech without practice
+```
+
+**Platform default:** FonF (reactive, embedded in communicative tasks).
+FonFs for B1+ metalinguistic review sessions only.
+FonM for first-attempt output and fluency tasks.
+
+---
+
+### 19.4 Processability Theory — German Developmental Sequence (Pienemann, 1998/2015)
+
+**Critical principle: students CANNOT skip developmental stages.
+Teaching a structure before the student is processable = wasted effort.**
+
+German morphosyntax develops in a fixed sequence:
+
+```
+STAGE 1: FORMULAIC SPEECH
+  Memorized chunks. No internal grammar. "Ich heiße Anna." "Guten Morgen."
+  → A1: build chunk repertoire. Do not yet analyze structure.
+
+STAGE 2: CANONICAL SVO ORDER
+  Subject-Verb-Object as default. No variation.
+  "Ich gehe heute nach Hause." (correct)
+  "Heute ich gehe nach Hause." (typical Stage 2 error — adverb fronted, SVO kept)
+  → A1–A2: accept SVO as foundation. Do not push V2 yet.
+
+STAGE 3: ADVERB FRONTING — V2 emerges
+  Adverb/time expression moves to front → verb must move to position 2.
+  "Heute GEHE ich nach Hause." (V2 with inversion)
+  → A2: this is the critical V2 moment. Teach and drill with fronted adverbs.
+  → Most Russian speakers struggle here. Patient, repeated exposure required.
+
+STAGE 4: VERB SEPARATION (trennbare Verben, Perfekt)
+  "Er MACHT die Tür AUF." — verb splits, second part moves to end.
+  "Ich HABE das gemacht." — auxiliary + participle separated.
+  → A2–B1: separable verbs and Perfekt formation.
+
+STAGE 5: VERB-FINAL IN SUBORDINATE CLAUSES
+  "Ich weiß, dass er heute nach Hause GEHT."
+  "Ich komme, weil ich müde BIN."
+  → B1: this is the hardest stage for Russian speakers.
+  → Working memory load is extreme (hold all words, verb comes last).
+  → Do NOT teach Nebensatz until Stages 1–4 are solid.
+
+STAGE 6: COMPLEX MORPHOLOGY
+  Konjunktiv II, Passiv, extended adjectival constructions
+  → B2–C1 only.
+```
+
+**Diagnostic protocol:** Identify which stage student is currently in
+from spontaneous speech sample. Teach only Stage N+1.
+If student is at Stage 2 and you're teaching Stage 5 structures → ineffective.
+
+---
+
+### 19.5 German Grammar Priority Sequence (for platform curriculum)
+
+```
+BLOCK 1 (A1): Foundation
+  Personal pronouns + verb conjugation (ich/du/er/wir/ihr/sie)
+  Present tense (Präsens) — top 20 verbs
+  Nominative articles (der/die/das + ein/eine)
+  Basic SVO sentences
+  Greeting + introducing formulaic chunks
+
+BLOCK 2 (A2): Core Cases
+  Akkusativ (den/einen) — most frequent after Nominativ
+  Dativ after set prepositions (mit, nach, bei, von, zu, aus, seit, gegenüber)
+  Separable verbs (aufmachen, anrufen, mitkommen)
+  Perfekt (haben/sein + Partizip II) — spoken past tense
+  Modal verbs (können, müssen, wollen, dürfen, sollen, mögen)
+  V2 rule with adverb fronting
+  Negation (kein/nicht)
+
+BLOCK 3 (B1): Grammar in Action
+  Dativ/Akkusativ two-way prepositions (in/an/auf/unter/über/neben/zwischen/vor/hinter)
+  Subordinate clauses: weil, dass, wenn, ob, als (verb-final)
+  Relative clauses (der/die/das + relative pronoun)
+  Adjective endings (attributive — der große Mann)
+  Konjunktiv II for politeness (ich würde, ich hätte, ich wäre)
+  Präteritum for written/narrative contexts (war, hatte, ging)
+
+BLOCK 4 (B2): Complexity
+  Genitive (des Mannes, wegen des Wetters)
+  Passiv (wird gemacht, wurde gemacht)
+  Infinitivkonstruktionen (um...zu, ohne...zu, anstatt...zu)
+  Extended adjectival constructions
+  Konjunktiv I (reported speech — newspapers, formal text)
+
+BLOCK 5 (C1): Mastery
+  Complex subordination (je...desto, obwohl, obgleich)
+  Nominalization (das Verstehen, die Durchführung)
+  Academic register grammar
+  Regional variation awareness
+```
+
+**Platform rule:** Every assignment is tagged with Grammar Block (1–5).
+Do NOT assign Block 3 structures to a student still consolidating Block 1–2.
+
+---
+
+### 19.6 German-Specific Structural Challenges for Russian Speakers
+
+```
+CHALLENGE 1: V2 (Verb-Second)
+  German: Verb ALWAYS in position 2 in main clause.
+  Russian: Relatively free word order.
+  Training: fronted-adverb drills. "Gestern... Morgen... Heute... Letzte Woche..."
+  Each followed by inverted verb: "Gestern BIN ich..."
+  Frequency needed: 200+ correct productions before automatization (DeKeyser)
+
+CHALLENGE 2: Verb-Final in Nebensatz
+  German: "Ich weiß, dass er morgen KOMMT."
+  Russian speaker produces: "Ich weiß, dass er kommt morgen."
+  Training: chunk-learning the frame "dass... [V-FINAL]" as a single unit.
+  Working memory drill: hold sentence → wait → verb at end.
+  Use Scriptorium (PART 2D) specifically for Nebensatz practice.
+
+CHALLENGE 3: Article System (der/die/das/den/dem/des)
+  No equivalent in Russian. Must be built from zero.
+  Strategy: Learn noun + article as ONE unit ("das Fenster" not "Fenster")
+  Never teach a noun without its article. Ever.
+  Color coding: blue=der, red=die, green=das (visual encoding — Mayer PART 8.4)
+  Chunk-first: learn "in der Küche", "mit dem Bus" as units before analyzing why.
+
+CHALLENGE 4: Separable Verbs (Trennbare Verben)
+  "aufmachen" → "Er MACHT die Tür AUF."
+  Russian speakers lose the prefix or misplace it.
+  Training: always learn separable verb with frame sentence, never in isolation.
+  "aufmachen: Er macht die Tür auf. Sie macht das Fenster auf."
+  Tag: every separable verb lesson notes: PREFIX goes to END of main clause.
+
+CHALLENGE 5: Two Past Tenses
+  Perfekt → spoken language ("Ich habe geschlafen")
+  Präteritum → written/narrative ("Ich schlief")
+  Russian: one past tense for both contexts.
+  Training: register awareness — "at the café / in a letter" distinction.
+  Modals + sein/haben always use Präteritum even in speech ("war, hatte, musste")
+```
+
+---
+
+### 19.7 Noticing Protocol (Schmidt, 1990/2001) 🔴
+
+**Core principle: Students only acquire what they CONSCIOUSLY NOTICE in input.**
+Passive exposure without noticing = negligible acquisition.
+
+**Every assignment must contain an explicit noticing moment:**
+
+```
+NOTICING TYPES:
+
+Type 1 — TEXTUAL NOTICING
+  Teacher underlines/bolds target structure in authentic text.
+  "Лook at the highlighted verbs. What position are they in?"
+
+Type 2 — CONTRASTIVE NOTICING
+  Student version vs. native version side by side.
+  "Here is what you wrote. Here is how a native speaker said it.
+   What is different? Why?"
+
+Type 3 — INPUT ENHANCEMENT
+  Target structure appears repeatedly in reading/listening task
+  (naturally or artificially) → student cannot miss it.
+  "Read this text. Every time you see 'weil', underline it.
+   What do you notice about the verb that follows?"
+
+Type 4 — SELF-NOTICING
+  Student records themselves → listens back → spots own errors.
+  "Listen to your recording. At what point did you hesitate?
+   What were you trying to say?"
+```
+
+**Platform rule:** Every grammar task includes 1 noticing prompt.
+The Noticing step is added to PART 11 learning cycle between ASSIGN and ATTEMPT.
+
+---
+
+## PART 20 — READING METHODOLOGY 🔴 HIGH PRIORITY
+
+*The most significant structural gap in the original file. Reading is a skill
+that must be explicitly taught — especially in German, which has unique
+text-level challenges for Russian speakers.*
+
+---
+
+### 20.1 Why German Reading Needs Its Own Methodology
+
+German text presents challenges that do not exist in Russian reading:
+
+```
+1. COMPOUND WORDS ("Donaudampfschifffahrtsgesellschaftskapitän")
+   Strategy: split at morpheme boundaries from right to left.
+   "Dampfschiff + Fahrt + Gesellschaft + Kapitän" = Steamship Navigation Company Captain.
+   Once morpheme analysis is learned → unknown compounds become decodable.
+
+2. VERB-FINAL in subordinate clauses
+   "Er sagte, dass er gestern sehr müde gewesen sei, weil er die ganze Nacht
+   gearbeitet hatte." — reader must hold the subject + 8 words → then gets the verb.
+   Strategy: active prediction ("what will the verb be?") while reading.
+
+3. PARTICIPIAL PHRASES before the noun (erweiterte Attribute)
+   "Der von seinem Lehrer sehr gelobte Schüler..." → "The by his teacher highly praised student"
+   B2+ challenge. Requires left-to-right parsing strategy specific to German.
+
+4. LONG SENTENCES (Schachtelsätze)
+   German academic and legal text embeds many clauses within clauses.
+   Strategy: bracket analysis — find main verb first, then work outward.
+```
+
+---
+
+### 20.2 Reading Strategies (explicit instruction required)
+
+```
+GLOBAL STRATEGIES (top-down):
+
+Skimming   → read first + last sentence of each paragraph for gist
+             "Was ist das Hauptthema?" (30 seconds per page)
+
+Scanning   → search for specific information (number, name, date)
+             Eyes move over text until target appears
+
+Prediction → use title, image, genre context to predict content
+             "Was wird in diesem Artikel wohl stehen?"
+
+DETAILED STRATEGIES (bottom-up):
+
+Chunking      → read in phrase units, not word by word
+               "in der Küche / steht / ein großer Tisch"
+
+Inferencing   → guess meaning of unknown words from:
+               (a) morphology: "unverständlich" = un + versteh + lich = incomprehensible
+               (b) context: sentence meaning constrains word meaning
+               (c) cognates: "interessant", "Strategie", "Kommunikation"
+
+METACOGNITIVE:
+
+Monitoring    → "Am I understanding this?" → if no, re-read or use strategy
+Summarizing   → after each paragraph: 1 sentence in own words
+Self-testing  → cover text, recall main points
+```
+
+**Platform rule:** Teach reading strategies EXPLICITLY in A2–B1.
+Never just assign "read this text and answer questions" without strategy instruction.
+
+---
+
+### 20.3 Intensive vs. Extensive Reading
+
+```
+INTENSIVE READING                   EXTENSIVE READING
+────────────────────────────────────────────────────────
+Short text (1 page max)             Long text (book, many articles)
+Every word attended to              95%+ words must be known
+Deep comprehension required         Pleasure + flow priority
+Vocabulary analysis                 NO dictionary use
+Grammar focus                       NO comprehension testing
+Teacher-assigned text               Student-chosen text
+2–3 times per week                  15–20 min daily
+```
+
+**The 95% Rule (Krashen/Nation — critical):**
+If student encounters more than 1 unknown word per 20 words → text too hard.
+NOT for studying. For reading for acquisition.
+
+**Platform rule:**
+- Intensive reading: teacher-selected, difficulty i+1, 1–2 tasks per week
+- Extensive reading: student-selected graded reader (PART 15), daily, no grading
+- Never apply intensive reading techniques to extensive reading — kills the joy
+
+---
+
+### 20.4 Reading-Writing-Vocabulary Integration 🔴
+
+```
+Reading FEEDS Writing:
+  Students who read extensively write with richer vocabulary and better
+  sentence structure — even without explicit instruction (Krashen, 1984/2004).
+  Platform: recommend reading in the GENRE the student is learning to write.
+  Writing Bewerbungsschreiben? → Read 3 authentic Bewerbungsschreiben first.
+
+Reading FEEDS Vocabulary:
+  Extensive reading = most efficient passive vocabulary builder.
+  Nation (2001): 15–20 min/day reading at 95% level = ~10,000 word exposures/month.
+  This is how vocabulary grows beyond the top 2,000 frequency words.
+
+Writing FEEDS Reading:
+  Students who write actively notice structure in their reading that
+  passive readers miss. Production sensitizes perception (Swain, reversed).
+
+Platform integration task (monthly at B1+):
+  Step 1: Read text (genre: journalistic / formal letter / narrative)
+  Step 2: Identify 5 interesting phrases/structures
+  Step 3: Use 3 of them in own writing on related topic
+  Step 4: Teacher compares student text with source text
+```
+
+---
+
+### 20.5 Text Selection Protocol
+
+```
+LEVEL CRITERIA:
+  A1:   Texts with pictures, max 5 lines, high-frequency vocabulary only
+        Sources: Bildwörterbuch, DW Top-Thema A1, simple menus/forms
+  A2:   Short continuous text (10–15 lines), predictable genre, known vocabulary
+        Sources: DW A2 articles, simple recipes, informal emails
+  B1:   Standard newspaper paragraph, 200–300 words, some unknown vocabulary
+        Sources: DW B1, Spiegel-Leicht, local newspaper articles
+  B2:   Authentic text without simplification, 400–600 words
+        Sources: Zeit Online, Spiegel, Der Standard (Austrian), authentic letters
+  C1:   Complex academic/legal/literary text, extended length
+        Sources: FAZ, academic papers, original literature
+
+GENRE ALIGNMENT (always match reading genre to writing/speaking goal):
+  Student writing formal letter → reads formal letters
+  Student preparing job interview → reads Stellenanzeigen, company websites
+  Student dealing with Behörde → reads Amtsbriefe, official notices
+```
+
+---
+
+## PART 21 — SKILL INTEGRATION: HOW THE FOUR SKILLS FEED EACH OTHER 🔴 HIGH PRIORITY
+
+*Each skill (listening, speaking, reading, writing) is addressed in separate
+PARTS. This section shows how they form one interconnected system — and how
+to design tasks that develop multiple skills simultaneously.*
+
+---
+
+### 21.1 The Skill Integration Map
+
+```
+         LISTENING ──────────────────────► SPEAKING
+              │    (shadowing, echo, repeat)     │
+              │                                  │
+        (schema,    ◄─────────────────────  (self-monitoring:
+        phonology)    (production clarifies       production aids
+              │         perception)              perception)
+              │                                  │
+              ▼                                  ▼
+         READING  ◄──────────────────────► WRITING
+                    (reading feeds writing    (writing
+                     vocabulary + structure;  consolidates
+                     writing → noticing in    grammar)
+                     reading)
+```
+
+**Key research finding:** Skills are not separate compartments.
+They share underlying processing systems and mutually accelerate each other.
+The most efficient teaching is INTEGRATED — one task develops 2–3 skills.
+
+---
+
+### 21.2 How Each Skill Feeds the Others
+
+**Listening → Speaking:**
+- Shadowing (PART 2D): direct listening-to-speaking pipeline
+- Extensive listening builds phonological representations that speaking draws from
+- Students who listen extensively produce more native-like prosody
+
+**Speaking → Listening:**
+- Production forces attention to sound distinctions the ear had ignored
+- After producing "ü" correctly, student begins hearing it accurately in input
+- Output Hypothesis (Swain): speaking reveals gaps → makes student listen for solutions
+
+**Reading → Vocabulary → Writing:**
+- Extensive reading is the single most efficient vocabulary builder (Nation)
+- Rich passive vocabulary from reading becomes available for writing over time
+- Genre reading before genre writing: reading a Beschwerde → writing a Beschwerde
+
+**Writing → Grammar:**
+- Written production forces grammatical decision-making under reflection
+- Writing is the only skill where student has TIME to apply rules consciously
+- This conscious application (DeKeyser Stage 1→2) is the bridge to automatization
+
+**Listening → Grammar (Comprehension-based grammar learning):**
+- Repeated exposure to correct forms in listening input builds implicit grammar
+- Input floods (10+ examples of target form in one audio/text) accelerate acquisition
+
+---
+
+### 21.3 Integrated Task Design (Monthly Minimum)
+
+**INTEGRATED TASK TYPE 1: Listen → Speak → Write**
+```
+Step 1 (10 min): Listen to authentic dialogue on topic student knows
+                 → answer 2 comprehension questions
+Step 2 (10 min): Student speaks: retell the dialogue in own words (recorded)
+Step 3 (15 min): Student writes: email/message based on the dialogue topic
+Teacher reviews: vocabulary chain from listening → speaking → writing
+```
+
+**INTEGRATED TASK TYPE 2: Read → Discuss → Write**
+```
+Step 1 (10 min): Read short authentic text (genre = target writing genre)
+                 → identify 3 useful phrases
+Step 2 (10 min): Speak: summarize the text + own opinion (recorded)
+Step 3 (20 min): Write: own text in same genre using (some of) the phrases
+Teacher compares: vocabulary overlap reading→writing (measures transfer)
+```
+
+**INTEGRATED TASK TYPE 3: Write → Record → Self-Assess**
+```
+Step 1 (20 min): Student writes a text
+Step 2 (5 min):  Student reads their own text aloud (recorded)
+Step 3 (5 min):  Student listens to their recording → notes 2 things to improve
+Teacher feedback: both on written text AND on oral reading quality
+```
+
+**Platform rule:** At least 1 integrated task per month from B1+.
+Tag integrated tasks in system with all skill types activated: [L] [S] [R] [W]
+
+---
+
+### 21.4 The Transfer Protocol (from lesson to real life)
+
+*The most underaddressed step in the entire methodology.*
+
+Students complete tasks. They read feedback. Then the knowledge stays in the lesson.
+The transfer to real life does NOT happen automatically. It must be designed.
+
+```
+AFTER EVERY TASK — teacher assigns a TRANSFER MISSION:
+
+Format: "Nutzen Sie [target structure/vocabulary] einmal
+         in einer echten Situation diese Woche."
+
+Examples:
+  "Ask one question in German at a shop or office this week.
+   Report back: what did you say? What happened?"
+
+  "Use 'weil' in a real conversation or message this week —
+   to your boss, neighbor, or colleague. Note the exact sentence."
+
+  "Next time you call a German number, use the telephone script
+   from today's task. Take notes on what the other person said."
+
+Student reports at next session: "Mein Transferbericht:"
+  → What situation? What did you say? What worked? What failed?
+
+Teacher uses transfer report as warm-up and next task material.
+```
+
+**Platform rule:** Transfer Mission field is mandatory in every Task Card (PART 17.2).
+Transfer reports become language diary entries (PART 15).
+
+---
+
+## PART 22 — LESSON STRUCTURE TEMPLATES 🔴 HIGH PRIORITY
+
+*PART 11 describes the macro-cycle across many lessons.
+This part describes the micro-structure of a SINGLE session.*
+
+---
+
+### 22.1 Standard Working Session (45–60 min)
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 1: CHECK-IN (5 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"Wie geht es Ihnen heute?" (genuine, not ritual)
+Emotional check: note any stress/fatigue → adjust session if needed
+Transfer report: "Was haben Sie diese Woche auf Deutsch gemacht?"
+→ Warm language, no judgment. Opens the session.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 2: REVIEW (10 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Brief retrieval practice from last session (NOT re-explanation).
+"Wissen Sie noch — was war unser Fokus letzte Woche?"
+"Können Sie mir einen Satz mit [target structure] sagen — spontan?"
+→ Ebbinghaus: retrieval before new input activates memory consolidation.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 3: NEW INPUT (10–15 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Today's focus: 1 grammar structure OR 1 skill OR 1 chunk set
+→ Noticing task first: "Was bemerken Sie?" before explanation
+→ Input before production (Krashen)
+→ Maximum: 1–2 new concepts (Cognitive Load — PART 8.2)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 4: CONTROLLED PRACTICE (10 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Accuracy focus. Student applies today's structure in scaffolded context.
+Teacher can correct (FonF) — this is the moment for targeted correction.
+→ Not fluency. Not communication. FORM is the focus here.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 5: COMMUNICATIVE PRACTICE (10–15 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Real communicative task: speaking, role-play, discussion, writing.
+Today's structure appears in context — but focus shifts to MEANING.
+Teacher does NOT correct every error — chooses 1–2 FonF moments.
+→ Flow state goal. Student experiences feeling of real communication.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE 6: CLOSE + ASSIGNMENT (5 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"Was haben Sie heute gelernt?" (student summarizes — metacognition)
+Transfer Mission assigned (PART 21.4)
+Between-session task from Weekly Load Selector (PART 17.6)
+Preview: "Nächste Woche..."
+Warm close: acknowledge effort genuinely.
+```
+
+---
+
+### 22.2 First Session Template (60–75 min)
+
+```
+PHASE 1: GENUINE WELCOME (10 min)
+  Human connection before language.
+  "Wie lange sind Sie schon in Deutschland?"
+  "Was hat Sie hierher gebracht?"
+  → Listen. Note: acculturation phase (Oberg), emotional state (Horwitz),
+    life context (Freire).
+
+PHASE 2: DIAGNOSTIC (20 min)
+  Collect spontaneous German sample — ask student to describe their week in German.
+  DO NOT correct. Listen for:
+  → Which Pienemann stage are they at? (V2? Nebensatz?)
+  → Which error types? (Transfer? Developmental? Fossilized?)
+  → WTC level? (Do they attempt speech or freeze?)
+  → Pronunciation baseline (ü, ö, ch, r, V2 prosody)
+
+PHASE 3: IDEAL L2 SELF (10 min)
+  "Beschreiben Sie sich in einem Jahr — auf Deutsch, wenn Sie können,
+   oder auf Russisch. Wo sind Sie? Was tun Sie? Wie fühlen Sie sich?"
+  → Record answer. This becomes the motivational north star.
+
+PHASE 4: PROFILE DIAGNOSIS (15 min)
+  Acculturation phase (Oberg): which phase?
+  Berry strategy: integration / assimilation / separation / marginalization?
+  Life scenario (PART 16): which profile?
+  Learning history: what has worked before? What hasn't?
+  Fixed mindset signals: listen for "kein Talent", "zu alt", "schlechtes Gedächtnis"
+
+PHASE 5: WELCOME PACKAGE + PLAN (10 min)
+  Explain platform: one task at a time, 24h response, hints available
+  Set first 3 Can-Do goals (student chooses from teacher's 5 options)
+  Weekly Load Selector: first 2–3 tracks chosen together
+  Transfer Mission for week 1: ultra-low stakes ("say one German word out loud today")
+
+PHASE 6: MINI LESSON (10 min)
+  One tiny, achievable thing from today's diagnostic.
+  Student leaves having learned and succeeded at something specific.
+  → First win. Critical for motivation continuity.
+```
+
+---
+
+### 22.3 Review Session (45 min) — every 4 weeks
+
+```
+PHASE 1: BACKWARD LOOK (15 min)
+  Show student their work from 4 weeks ago.
+  "Lesen Sie das. Was denken Sie?"
+  Student compares own past and present work — without teacher prompting.
+  → Growth becomes visible. Most powerful motivation tool available.
+
+PHASE 2: CAN-DO INVENTORY (15 min)
+  Student completes Can-Do checklist (CEFR descriptors for their level).
+  "Was können Sie jetzt, was Sie vor 4 Wochen noch nicht konnten?"
+  Teacher calibrates student's self-assessment accuracy.
+  → Metacognitive awareness + dynamic assessment in action.
+
+PHASE 3: ERROR PATTERN REVIEW (10 min)
+  Teacher presents top 3 recurring error patterns from the month.
+  NOT as failure — as data: "Hier ist was Ihr Lernersystem produziert."
+  Student identifies: which are fossilized? Which are improving?
+  Plan for next 4 weeks: focus areas based on patterns.
+
+PHASE 4: GOAL REFRESH (5 min)
+  Original Ideal L2 Self — is it still the goal?
+  Any life changes that shift priorities? (new job? upcoming Behörde appointment?)
+  Set 3 new Can-Do targets for next 4 weeks.
+```
+
+---
+
+### 22.4 Milestone Session (Level-Up) — PART 18.5 extended
+
+This is covered in PART 18.5. Additional structural guidance:
+
+```
+DO: Prepare 3 specific examples of growth (student's own words, from past tasks).
+DO: Ask the student to name what changed — before you tell them.
+DO: Connect the level-up to the Ideal L2 Self ("remember you said you wanted to...")
+DO: Give student choice in next curriculum direction (SDT — Autonomy).
+DON'T: Use test scores or numbers as the evidence.
+DON'T: Improvise — this session is prepared like a presentation.
+DON'T: Skip it — no milestone passes in silence.
+```
+
+---
+
+## ADDITIONS TO EXISTING PARTS
+
+---
+
+### PART 2 ADDITION — 2.11 Interaction Hypothesis (Long, 1996) 🟠 MEDIUM PRIORITY
+
+Input alone is not enough. **Modified input through interaction** is the most
+powerful acquisition trigger — more effective than unmodified input alone.
+
+**Negotiation of Meaning** — when communication breaks down and interlocutors
+work together to restore understanding — creates ideal conditions for acquisition:
+
+```
+Student: "Ich habe... wie sagt man... gegessen... nein... gekauft... das Brot?"
+Teacher: "Sie haben Brot GEKAUFT? Im Supermarkt?"
+Student: "Ja, genau — Brot gekauft."
+```
+
+In this exchange:
+- Student notices their gap (keine Vokabel)
+- Teacher provides modified input (correct form in context)
+- Student immediately uses it (uptake)
+
+**This is why 1:1 tutoring is measurably more effective than group classes.**
+The negotiation density in 1:1 = 10× more than in a group of 20.
+
+**Platform rule:** Design tasks that create productive breakdown moments.
+Information gaps, opinion questions, open-ended prompts — not display questions
+with known answers. "What's 2+2?" ≠ negotiation. "What did you do yesterday?" = negotiation potential.
+
+---
+
+### PART 2 ADDITION — 2.12 Wortbildung — German Word Formation 🔴 HIGH PRIORITY
+
+**The most underused leverage point in German vocabulary learning.**
+
+German creates words through systematic combination of morphemes.
+A student who learns 400 morphemes can decode tens of thousands of words.
+
+```
+COMPOUNDING (Komposition) — most productive:
+  fahren + Rad = Fahrrad (bicycle)
+  Arbeit + geben = Arbeitgeber (employer)
+  Arbeit + nehmen = Arbeitnehmer (employee)
+  Haus + Arzt = Hausarzt (family doctor)
+  Haus + halt = Haushalt (household)
+
+DERIVATION WITH PREFIXES:
+  ver-: verändern (change), verlieren (lose), verstehen (understand)
+  be-: beginnen, besuchen, bezahlen
+  ent-: entscheiden, entwickeln, entlassen
+  er-: erklären, erlauben, erfahren
+  un-: unmöglich, unbekannt, unglücklich
+
+DERIVATION WITH SUFFIXES:
+  -ung (noun, f.): Wohnung, Meinung, Übung, Erfahrung, Entwicklung
+  -keit/-heit (noun, f.): Möglichkeit, Freiheit, Schwierigkeit
+  -er (agent noun, m.): Lehrer, Arbeiter, Fahrer, Käufer
+  -lich (adjective): möglich, freundlich, natürlich, täglich
+  -los (adjective): arbeitslos, hoffnungslos, kostenlos
+  -ig (adjective): fertig, ruhig, wichtig, hungrig
+```
+
+**Morpheme Analysis Protocol (for unknown words in text):**
+```
+Step 1: Is it a compound? Split from RIGHT to LEFT.
+  "Krankenversicherungskarte" → Kranken + Versicherung + s + Karte
+  = sick + insurance + connector + card = health insurance card
+
+Step 2: Identify prefix + root + suffix.
+  "Unverständlich" → un + versteh + lich
+  = not + understand + adjective suffix = incomprehensible
+
+Step 3: Connect to known words.
+  "Ausbildung" → aus + Bildung. Know "Bildung" (education)?
+  → Ausbildung = vocational training
+```
+
+**Platform rule:** Introduce morpheme analysis from A2+.
+Monthly "Word Family" task: student maps 1 root word + 5 derivatives in a mind-map.
+This is the most efficient vocabulary expansion strategy for German specifically.
+
+---
+
+### PART 2B ADDITION — Connected Speech (Phonological Competence) 🟠 MEDIUM PRIORITY
+
+**The gap between understanding slow/clear German and real spoken German.**
+
+Real spoken German differs radically from textbook German through:
+
+```
+REDUCTION (Abschwächung):
+  "haben wir" → [haːbmvɪɐ]
+  "es gibt"   → [sgɪpt]
+  "und er"    → [ʔʊndɐ]
+
+ASSIMILATION (Assimilation):
+  "hab ich"   → [haːpɪç]  (b → p before voiceless)
+  "ist das"   → [ɪzdas]
+
+ELISION (Elision):
+  "ich habe"  → [ɪxhab] (final -e dropped in fast speech)
+  "ein bisschen" → [ɛmbɪsçn]
+
+LINKING (Silbenschnitt):
+  "in Österreich" → spoken without gap: [ɪnʔøːstɐraiç]
+```
+
+**Training Protocol:**
+```
+Step 1: Slow recording — student understands fully
+Step 2: Fast authentic recording — same content — student's comprehension drops
+Step 3: Identify exact point of confusion ("er hat es gesagt" → sounds like "erhattsgsagt")
+Step 4: Analyze the phonological process (reduction, elision, assimilation)
+Step 5: Re-listen knowing the process → comprehension recovers
+```
+
+**Auditory Discrimination Before Production (critical principle):**
+Student must be able to HEAR the difference before being asked to PRODUCE it.
+Test: "Hören Sie ein 'ü' oder ein 'u'?" before asking student to say "ü".
+If student cannot discriminate on input → production training is premature.
+
+---
+
+### PART 2H ADDITION — Repair Strategies & Turn Management 🟠 MEDIUM PRIORITY
+
+**Repair Strategies (when communication breaks down):**
+```
+When you don't understand what was said:
+  "Entschuldigung, wie bitte?"
+  "Könnten Sie das bitte wiederholen?"
+  "Könnten Sie etwas langsamer sprechen?"
+  "Was bedeutet...?" / "Wie meinen Sie das?"
+
+When you don't know a word:
+  "Wie sagt man auf Deutsch...?" (asking for German word)
+  "Ich meine das... Ding, womit man..." (circumlocution)
+  "Das ist wie... aber auf Russisch heißt es..." (L1 resource)
+  "Ich weiß das Wort nicht — ich versuche es zu beschreiben"
+
+When you've said something wrong:
+  "Ich meine eigentlich..."
+  "Was ich sagen wollte, ist..."
+  "Entschuldigung — ich meine..." (self-correction)
+
+When you need time to think:
+  "Einen Moment..."
+  "Wie soll ich sagen..."
+  "Also..." (filler — natural in German)
+  "Das ist eine gute Frage." (time buyer — very German!)
+```
+
+**Turn Management (taking, holding, yielding the floor):**
+```
+Taking the floor:
+  "Darf ich da kurz einhaken?"
+  "Ich wollte noch kurz sagen..."
+  "Entschuldigung, wenn ich kurz unterbrechen darf..."
+
+Holding the floor:
+  "Warten Sie kurz — ich bin gleich fertig."
+  "Ich wollte noch ergänzen..."
+
+Yielding the floor:
+  "Was meinen Sie dazu?"
+  "Stimmt das so für Sie?"
+  "Haben Sie ähnliche Erfahrungen gemacht?"
+
+Back-channeling (showing you're listening):
+  "Ach so." / "Stimmt." / "Genau." / "Interessant."
+  "Wirklich?" / "Das glaube ich Ihnen." / "Mmh."
+  Russian speakers systematically underuse these — perceived as cold.
+```
+
+**Platform rule:** Monthly repair + turn-management task from B1+.
+Role-play a breakdown scenario — student must use repair strategy, not freeze.
+
+---
+
+### PART 2F ADDITION — Reformulation & Focused WCF 🟠 MEDIUM PRIORITY
+
+**Reformulation (most effective writing feedback type — rarely used):**
+Teacher rewrites the student's text in natural German, keeping the student's
+content and ideas intact — only changing language. Student then:
+1. Reads both versions side by side
+2. Underlines 5 differences they find most interesting
+3. Explains in their own words WHY the reformulated version differs
+
+Research (Cohen & Robbins; Levenston): reformulation leads to measurably
+higher uptake than traditional error marking because student engages
+deeply with the contrast.
+
+**Focused vs. Unfocused Written Corrective Feedback:**
+```
+UNFOCUSED WCF (avoid):
+  Teacher marks every error in the text with red pen.
+  Research (Truscott, 1996/2007; meta-analysis Kang & Han, 2015):
+  → No measurable long-term grammar improvement
+  → High anxiety, discourages writing
+  → Student cannot process all corrections simultaneously (Cognitive Load)
+
+FOCUSED WCF (use):
+  Teacher marks ONLY the pre-selected target structure (1–2 per session).
+  All other errors ignored in this feedback round.
+  Research: measurable grammar improvement for the targeted structure.
+  → Combine with Revision Card (PART 17.5) for maximum retention
+```
+
+**Platform rule:** Every written feedback session targets maximum 2 structures.
+AI draft flags all errors → teacher selects 2 to focus on → ignores the rest.
+
+---
+
+### PART 4 ADDITION — 4.10 Attribution Theory (Weiner, 1985) 🟠 MEDIUM PRIORITY
+
+How students explain their successes and failures determines future motivation
+and persistence. Weiner identified 3 dimensions of attribution:
+
+```
+LOCUS:      Internal ("я") vs. External ("обстоятельства")
+STABILITY:  Stable (permanent) vs. Unstable (changeable)
+CONTROL:    Controllable vs. Uncontrollable
+```
+
+**Most damaging attribution (language learning):**
+"У меня нет способностей к языкам."
+→ Internal + Stable + Uncontrollable = helplessness. Nothing can help.
+
+**Most useful attribution:**
+"В этот раз я не достаточно практиковался."
+→ Internal + Unstable + Controllable = I can change this next time.
+
+**Teacher response protocol when student shows damaging attribution:**
+```
+Student: "Ich bin nicht gut in Sprachen."
+Teacher: "Was genau war schwierig bei dieser Aufgabe?"
+         → Move from global to specific (break up stable attribution)
+
+Student: "Ich verstehe das einfach nicht."
+Teacher: "Welche Strategie haben Sie versucht? Sollen wir eine andere ausprobieren?"
+         → Move from uncontrollable to controllable (strategy = tool)
+
+Student: "Andere lernen schneller als ich."
+Teacher: "Sie vergleichen sich mit wem? Ihr Fortschritt ist nicht linear —
+          schauen wir auf Ihre eigene Kurve."
+         → Remove external social comparison locus
+```
+
+---
+
+### PART 4 ADDITION — 4.11 Boredom in Language Learning (Pawlak, 2020) 🟠 MEDIUM PRIORITY
+
+Boredom is the mirror of anxiety — equally damaging, less discussed.
+
+**Signs of boredom:**
+- Mechanical, minimal responses ("Ja.", "Gut.", "Keine Ahnung.")
+- Rushing through tasks without engagement
+- Requesting harder material but not engaging with current
+- Dropping out without explanation (often misread as "life got in the way")
+
+**Boredom triggers in language learning:**
+```
+Task too easy (i-0) → boredom (just like i+3 → anxiety)
+Repetitive format → habituation → disengagement
+Perceived irrelevance → "Warum brauche ich das?"
+Lack of novelty → same task types every week
+```
+
+**Platform rules against boredom:**
+- Monitor Flow calibration (PART 2.6) — "слишком легко" signal = boredom warning
+- Rotate task formats: never same format 2 weeks in a row for motivated students
+- For bored advanced students: increase complexity, add creative freedom, add authentic challenge
+- Offer "challenge mode" — student voluntarily takes harder version of task
+
+---
+
+### PART 4 ADDITION — 4.12 Self-Efficacy (Bandura, 1977/1997) 🟠 MEDIUM PRIORITY
+
+Self-efficacy = belief in one's ability to succeed at a **specific task**.
+Distinct from Growth Mindset (global) and WTC (situational readiness to speak).
+
+```
+Low self-efficacy:    "Ich kann diese Aufgabe nicht schaffen."
+High self-efficacy:   "Diese Aufgabe ist schwer aber ich versuche es."
+```
+
+**The 4 sources of self-efficacy (Bandura) — all must be activated:**
+
+```
+1. MASTERY EXPERIENCES (strongest source)
+   Student succeeds at a task → self-efficacy increases for similar tasks.
+   Platform: ensure first tasks are achievable wins (not easy, but achievable).
+   "Sie haben das geschafft — und das war eine echte Herausforderung."
+
+2. VICARIOUS EXPERIENCES (observation)
+   Seeing someone similar succeed → "if they can, maybe I can."
+   Platform: share (anonymized) success stories from similar student profiles.
+   "Другая студентка в вашей ситуации смогла за 3 месяца..."
+
+3. VERBAL PERSUASION (encouragement — weakest but still useful)
+   "Ich glaube, Sie können das." — teacher belief expressed genuinely.
+   NOT: empty praise. Students detect inauthenticity immediately.
+   YES: specific evidence-based encouragement: "Sie haben [X] bereits gelernt —
+        das war auch schwierig. Das hier ist vergleichbar."
+
+4. PHYSIOLOGICAL STATES (managing anxiety and energy)
+   "Nervousness = readiness" reframe (PART 4.12 / Horwitz)
+   Pre-task breathing, physical warm-up, positive state induction.
+```
+
+---
+
+### PART 7 ADDITION — Learning Strategies Taxonomy 🟡 DESIRABLE
+
+(Oxford SILL adapted for German learning — O'Malley & Chamot, 1990)
+
+```
+COGNITIVE STRATEGIES:
+  - Note-taking: keywords, mind-maps, pattern tables
+  - Summarizing: own words after reading/listening
+  - Elaboration: connect new grammar to known German pattern
+  - Deduction: apply grammar rule consciously
+  - Imagery: mental image for vocabulary (Dual Coding — PART 2G)
+
+METACOGNITIVE STRATEGIES:
+  - Planning: SRL Phase 1 — set goal before task (PART 7)
+  - Monitoring: SRL Phase 2 — check understanding during task
+  - Evaluating: SRL Phase 3 — assess own performance after task
+  - Selective attention: decide what to focus on in input
+
+SOCIAL STRATEGIES:
+  - Cooperation: tandem partner, language exchange
+  - Question for clarification: "Wie sagt man...?"
+  - Empathy development: understanding German cultural perspective
+
+AFFECTIVE STRATEGIES:
+  - Anxiety reduction: breathing, reframing (PART 18.2)
+  - Self-encouragement: growth mindset self-talk
+  - Emotional tracking: mood log, energy rating
+
+COMPENSATION STRATEGIES:
+  - Circumlocution: describe a word you don't know
+  - Approximation: use a related word when exact word unknown
+  - Code-switching: use Russian word when German not available
+  - Body language / gesture: complement speech
+
+MEMORY STRATEGIES:
+  - Grouping: semantic fields (PART 2G)
+  - Keyword mnemonic (PART 2G Method 1)
+  - Structured review: spaced repetition schedule
+```
+
+**Platform onboarding:** Include a 5-minute learning strategy inventory.
+Identify which strategies student already uses → expand toolkit systematically.
+
+---
+
+### PART 9 ADDITION — Timing and Mode of Feedback 🟠 MEDIUM PRIORITY
+
+**When to give feedback (timing):**
+```
+IMMEDIATE feedback (same session):
+  Best for: Speaking fluency, pronunciation, classroom interaction
+  Mechanism: student can immediately revise and re-produce
+  Risk: interrupts flow state if overused
+
+DELAYED feedback (next session / async):
+  Best for: Written tasks, complex grammar analysis
+  Mechanism: student has time to reflect before receiving correction
+  Research (Ferris 2002): delayed feedback on writing → higher uptake than immediate
+  Platform default: 24h feedback cycle = natural delayed feedback
+```
+
+**Audio feedback (over written feedback):**
+```
+Research (Stannard 2007; Ice et al. 2007):
+→ Students perceive audio feedback as more personal and caring
+→ Better recalled than written comments
+→ Teacher can convey nuance (tone, emphasis) impossible in text
+→ Reduces student anxiety (voice = human connection)
+
+When to use audio:
+  - Complex pronunciation feedback (say it correctly → student hears the target)
+  - Emotional situations (anxiety, frustration) — tone matters
+  - Speaking tasks where written feedback feels disconnected
+  - When student has not responded to written feedback on same point 2+ times
+
+Platform rule: Encourage teachers to send 30-60 second audio notes
+for at least 1 feedback component per week.
+```
+
+---
+
+### PART 12 ADDITION — Maintenance Phase & Exit Protocol 🟡 DESIRABLE
+
+**Exit Assessment Protocol (when student reaches their target level):**
+```
+Step 1: CAN-DO PORTFOLIO REVIEW
+  Student selects 5 pieces of work (their choice) that best show their growth.
+  Student writes a 1-page reflection: "Was habe ich gelernt? Was kann ich jetzt?"
+
+Step 2: LIVE PERFORMANCE TASK
+  Student completes the Can-Do scenario they named at onboarding.
+  (Job interview in German? Behörde conversation? Business email?)
+  This is the Kirkpatrick Level 4 proof.
+
+Step 3: AUTONOMOUS LEARNER CERTIFICATION
+  Student demonstrates they can:
+  → Select appropriate learning resources independently
+  → Identify own error patterns
+  → Set realistic language goals for the next 6 months
+```
+
+**Maintenance Phase (after graduation):**
+```
+Month 1–3 after exit: monthly check-in (15 min)
+  "Wie läuft es mit dem Deutschen? Wo brauchen Sie noch Unterstützung?"
+
+Month 4–6: quarterly check-in
+  Optional booster session if specific challenge emerged.
+
+Platform rule: Graduates join a "maintenance" track —
+  lightweight weekly email with 1 German challenge/observation.
+  Keeps neural pathways active without full tutoring commitment.
+```
+
+---
+
+### PART 13 ADDITION — Embodied Cognition (2022–2024) 🟡 DESIRABLE
+
+Physical movement improves language memory encoding.
+Not a metaphor — measurable neurological effect.
+
+```
+Evidence base (2022–2024 meta-analyses):
+  - Gesture during vocabulary learning: +40% retention vs. no gesture
+  - Walking while listening (shadowing): prosody automatization accelerates
+  - Acting out verb meanings: retention superior to written practice
+  - Writing by hand vs. typing: deeper encoding (van der Meer 2023)
+```
+
+**Platform applications:**
+```
+Vocabulary learning: student gestures the meaning while saying word
+  → "zeigen" = pointing gesture; "gehen" = walking gesture in place
+
+Grammar: student physically builds sentence with word cards on desk
+  → V2 rule: move the verb card to position 2 after fronting adverb
+
+Shadowing (PART 2D): walk while shadowing → research confirms this works
+  → "Er geht normalerweise..." — student walks while repeating
+
+Writing: encourage handwritten first draft for complex grammar tasks
+  → Slower = deeper processing = better encoding
+```
+
+---
+
+### PART 15 ADDITION — Habit Loop Design (Fogg/Clear) 🟠 MEDIUM PRIORITY
+
+Between-session practice fails because habits are not designed. They are hoped for.
+BJ Fogg (2019) and James Clear (2018) give the mechanism:
+
+```
+CUE → ROUTINE → REWARD
+
+Good habit design for German practice:
+
+EXAMPLE 1: Morning Coffee German
+  Cue:    Coffee machine starts (existing habit)
+  Routine: 5 minutes Anki review while coffee brews
+  Reward:  Coffee tastes the same + progress marker checked off
+
+EXAMPLE 2: Commute Immersion
+  Cue:    Put on headphones (existing habit for commute)
+  Routine: German podcast plays automatically (set as default)
+  Reward:  Commute feels productive (not wasted)
+
+EXAMPLE 3: Evening SRS
+  Cue:    Phone plugged in for charging (every night)
+  Routine: 3 Anki cards before plugging in
+  Reward:  Phone charges only after 3 cards (gentle gate)
+```
+
+**Implementation Protocol (Session 1–2 with student):**
+```
+Step 1: Identify 3 existing daily habits (student names them)
+Step 2: Attach German micro-task to EACH habit (student designs, teacher guides)
+Step 3: Make it tiny enough that it takes less willpower than it saves satisfaction
+Step 4: Track for 2 weeks → review what stuck → keep what worked
+```
+
+**Platform rule:** Habit design is a teacher task, not student's burden alone.
+Students who fail between-session practice need HABIT REDESIGN, not motivation lectures.
+
+---
+
+### PART 16 ADDITION — Scenario 7: Professional in German Workplace 🟠 MEDIUM PRIORITY
+
+*The most common and highest-stakes scenario. Absent from original file.*
+
+**Profile:** Any level, works in German-speaking environment, urgent professional integration need.
+
+**Core needs:**
+```
+Meetings auf Deutsch → speaking: following fast speech, taking turns, contributing
+E-Mail-Kultur        → writing: formal register, Betreff conventions, correct formulas
+Telefonate           → PART 2J, but professional context adds specifics
+Smalltalk            → PART 2H interactional, but German workplace small talk = specific
+Präsentationen       → monologic speaking with professional register
+Dokumentation        → writing: concise, clear, German bureaucratic style
+Feedback geben/nehmen → PART 2I pragmatics in professional hierarchy
+```
+
+**Professional German priorities (priority order for curriculum):**
+```
+1. Email formulas: Sehr geehrte/r..., Mit freundlichen Grüßen, Betreff-line format
+2. Meeting participation: "Ich wollte kurz einhaken", "Ich sehe das anders, weil..."
+3. Telephone at work: sich krankmelden, Terminvereinbarung, Rückruf bitten
+4. Giving feedback professionally: sachlich, nicht emotional, konstruktiv
+5. Receiving feedback without defensive response: "Danke für das Feedback. Ich werde..."
+6. Writing concise German: one idea per sentence, no Russian sentence length
+7. Job interview German: competency-based answers, self-presentation
+```
+
+**Daily schedule:**
+```
+Before work (30 min): vocabulary review for that day's likely situations
+During work:          Transfer mission — use target language in real meeting/email
+After work (15 min):  Language diary: what German happened today? What was unclear?
+Weekly (weekend):     Intensive task: write full German email or prepare presentation
+```
+
+---
+
+### PART 16 ADDITION — Scenario 8: First 90 Days (Emergency Language Kit) 🟠 MEDIUM PRIORITY
+
+*Students in the first 3 months need survival language before systematic learning.*
+
+**Profile:** Just arrived. Overwhelmed. Has urgent real-world German needs NOW.
+Everything else is secondary.
+
+**The Emergency 30 (first 30 days — absolute priority phrases):**
+```
+SURVIVAL PHRASES (memorize as chunks, no grammar analysis):
+  "Entschuldigung, sprechen Sie Englisch?" (exit strategy)
+  "Ich verstehe das nicht." / "Können Sie das wiederholen?"
+  "Wo ist...?" / "Wie komme ich zu...?"
+  "Ich hätte gerne..." (restaurant, shop)
+  "Was kostet das?"
+  "Ich muss einen Termin vereinbaren." (doctor, Behörde)
+  "Ich bin neu hier." (context setter — triggers more patience from Germans)
+  "Ich lerne noch Deutsch." (realistic expectation setter)
+  Numbers 1–100, days, months (PART 15 Numerical Literacy)
+  Emergency phrases: "Ich brauche Hilfe." / "Notarzt bitte!"
+```
+
+**Emergency Kit Protocol (teacher delivers in session 1–2):**
+```
+Session 1: 10 survival chunks → recorded by teacher → student listens 5x
+Session 2: Student practices each in simulated situation with teacher
+Between sessions: Student must use minimum 1 phrase in real life (Transfer Mission)
+Week 3: Real situation debrief → what worked? what failed? → adjust kit
+Month 2: Transition to systematic learning (platform onboarding)
+```
+
+**Platform rule:** Students in first 90 days get a "Survival First" flag in profile.
+Curriculum sequence adjusted: functional chunks before grammar theory.
+Acculturation support prioritized (Phase 1/2 Oberg — PART 4.8).
+
+---
+
+### PART 17 ADDITION — Onboarding Flow & Error State Design 🟡 DESIRABLE
+
+**Onboarding Flow (first 5 minutes on platform):**
+```
+Screen 1: Warm welcome (name + photo of teacher + 1 personal line)
+  NOT: "Welcome to the platform. Please complete your profile."
+  YES: "Hallo [Name]! Ich bin [Teacher]. Wir fangen zusammen an."
+
+Screen 2: ONE action only
+  "Klicken Sie hier, um Ihr erstes Mini-Aufgabe zu sehen."
+  (Not: fill out profile, set preferences, read terms — NO)
+
+Screen 3: First task — ultra-low stakes (5 min max)
+  "Schreiben Sie 3 Sätze: Wer sind Sie? Warum lernen Sie Deutsch?"
+  Russian or German allowed. No wrong answer. Just begin.
+
+Screen 4: Confirmation + what comes next
+  "Gut gemacht. Ihr/e Lehrer/in antwortet in 24 Stunden."
+  "Bis dahin — hier ist Ihre erste Tagesaufgabe: [micro-task]"
+```
+
+**Error State Design (what student sees when something goes wrong):**
+```
+Task not loading:
+  NOT: "Error 404" or technical message
+  YES: "Einen Moment — wir laden Ihre Aufgabe. Falls das zu lange dauert,
+        schreiben Sie uns kurz." [contact button]
+
+Late feedback (>24h):
+  NOT: silence
+  YES: Automatic message at 20h: "Ihr/e Lehrer/in schaut sich Ihre Aufgabe
+        gerade an. Antwort kommt bald. Bis dahin — [micro-bridge task]"
+
+Student submits empty task:
+  NOT: Error message
+  YES: "Keine Sorge — passiert. Schreiben Sie einfach was Ihnen einfällt.
+        Auch auf Russisch ist okay als Anfang."
+```
+
+---
+
+### PART 18 ADDITION — Life Event Protocol 🟠 MEDIUM PRIORITY
+
+**When student reports a major life event (job loss, illness, bereavement, family crisis):**
+
+```
+TEACHER IMMEDIATE RESPONSE:
+  1. Acknowledge first — 100% human, 0% task.
+     "Das klingt wirklich schwer. Wie geht es Ihnen gerade?"
+  2. Offer explicit pause option:
+     "Wir können jederzeit eine Pause einlegen — keine Erklärung nötig.
+      Wenn Sie bereit sind, bin ich da."
+  3. If student wants to continue: REDUCE load dramatically.
+     Active assignments → passive micro-tasks only (listen, read — no production)
+     30 minutes → 5 minutes max
+     New grammar → review only (familiar = safe)
+  4. Never frame it as "falling behind."
+     "Sie kommen wieder an Bord wenn Sie bereit sind — alles bleibt wo es war."
+
+RETURN-TO-LEARNING PROTOCOL:
+  Do NOT resume where left off. Use Re-Engagement Protocol (PART 18.4).
+  First session back: 80% check-in, 20% language. No new material.
+  "Wie ist es Ihnen gegangen? Was hat sich verändert?"
+```
+
+---
+
+### PART 1 ADDITION — Heritage Learner Profile 🟡 DESIRABLE
+
+**Heritage learner:** Student who had childhood exposure to German (grandparents,
+emigration, school in German-speaking country) but has not used it for 10–30+ years.
+
+```
+PROFILE DIFFERENCES from standard adult learner:
+  + Strong listening comprehension baseline (phonology largely intact)
+  + Formulaic chunks preserved (greetings, basic expressions)
+  + Emotional connection to German (positive or negative)
+  - Fossilized errors from childhood (different from adult learner errors)
+  - Vocabulary gaps (age-appropriate vs. adult needs)
+  - Possible shame around "forgetting" — strong fixed mindset risk
+  - Mismatch between perceived and actual level (feels B1, performs A2)
+
+DIAGNOSTIC ADAPTATION:
+  Longer spontaneous speech sample (heritage learner produces more than A1 adult)
+  Listen for: childhood-era errors (formal archaisms, colloquial shortcuts)
+  Assess productive vs. receptive gap (likely larger than standard learner)
+
+CURRICULUM ADAPTATION:
+  First 4 weeks: receptive activation (listening, reading — reconnecting)
+  Avoid explicit grammar instruction initially (can trigger shame)
+  Build on existing chunks rather than treating as complete beginner
+  Address the "gap shame" directly: "Das vergisst man nicht wirklich — es kommt zurück."
+```
+
+---
+
+## UPDATED PART 14 — EXTENDED QUALITY CHECKLIST
+
+**Grammar Methodology (PART 19):**
+- [ ] Grammar instruction mode tagged: explicit / implicit
+- [ ] Presentation approach: inductive (default) or deductive (justified)
+- [ ] FonF opportunity built into communicative task
+- [ ] Student's Pienemann stage checked — task targets Stage N+1 only
+- [ ] German structural challenge identified: V2 / verb-final / articles / separable / tenses
+- [ ] Noticing prompt included in task (PART 19.7)
+
+**Reading (PART 20):**
+- [ ] Text difficulty at 95% known words (extensive) or i+1 (intensive)
+- [ ] Reading strategy named for student before task begins
+- [ ] Text genre matches student's writing/speaking goal
+- [ ] Morpheme analysis offered for unknown compound words
+
+**Skill Integration (PART 21):**
+- [ ] Transfer Mission assigned after every task
+- [ ] At least 1 integrated task (2+ skills) per month from B1+
+- [ ] Skill chain noted: how does this task feed the next skill?
+
+**Lesson Structure (PART 22):**
+- [ ] Session type identified: standard / first / review / milestone
+- [ ] Session follows phase structure appropriate to type
+- [ ] Each phase within time limit (Microlearning — PART 8.3)
+- [ ] Close includes student self-summary of today's learning
+
+**Wortbildung (PART 2.12):**
+- [ ] New vocabulary item analyzed for morpheme structure when applicable
+- [ ] Word family mapped if student is B1+ and word has productive derivations
+
+**Interaction (PART 2.11):**
+- [ ] Task creates conditions for negotiation of meaning (not display Q&A)
+- [ ] Information gap or genuine opinion prompt included
+
+**Feedback (PART 9 additions):**
+- [ ] WCF is focused: maximum 2 target structures marked in this feedback round
+- [ ] Audio component considered for complex/emotional feedback
+- [ ] Reformulation used if student has received same written correction 3+ times
+
+**Habit Design (PART 15 addition):**
+- [ ] Student's between-session habits reviewed this month
+- [ ] At least 1 German practice anchored to an existing daily routine
+- [ ] Habit that failed: root cause diagnosed (cue? routine? reward?)
+
+**Attribution (PART 4.10):**
+- [ ] If student used fixed/helpless attribution language → reframing applied
+- [ ] Feedback language builds controllable, unstable attribution
+
+**Life Scenarios (PART 16):**
+- [ ] If student is in first 90 days: Survival First flag active, Emergency Kit delivered
+- [ ] If student is a professional: workplace scenario module active
+
+---
+
 *This skill file is the methodological foundation of the Personal German Coach platform.
 Every feature, task, feedback template, and design decision should be evaluated
 against this framework. When in doubt: ask "Does this serve the student's real-life
