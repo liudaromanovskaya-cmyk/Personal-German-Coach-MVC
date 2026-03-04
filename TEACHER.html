@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кабинет преподавателя — Людмила Романовская</title>
+<style>
+:root {
+  --bg:       #f5ede0;
+  --bg-card:  #fdf8f2;
+  --petrol:   #1b4d6a;
+  --petrol-h: #1e5d82;
+  --petrol-l: rgba(27,77,106,.08);
+  --gold:     #8b6215;
+  --gold-a:   rgba(139,98,21,.18);
+  --gold-l:   rgba(139,98,21,.08);
+  --green:    #4A8C6E;
+  --green-l:  #EDF7F1;
+  --green-b:  #C6E8D7;
+  --amber:    #D97706;
+  --ink:      #1c2830;
+  --muted:    rgba(28,40,48,.45);
+  --border:   rgba(139,98,21,.2);
+  --border-c: #e8ddd0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--ink); }
+
+/* ── НАВ ── */
+nav {
+  background:var(--petrol); height:54px; padding:0 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:200;
+}
+.nav-left { display:flex; align-items:center; gap:14px; }
+.nav-logo { color:#e4d0ae; font-family:Georgia,'Times New Roman',serif; font-size:15px; font-weight:400; letter-spacing:.02em; }
+.nav-logo em { font-style:italic; color:#c9a96e; }
+.nav-tag { font-size:11px; color:rgba(228,208,174,.4); letter-spacing:.08em; text-transform:uppercase; }
+.nav-right { display:flex; align-items:center; gap:10px; }
+.nav-name { font-size:12px; color:rgba(228,208,174,.7); }
+.nav-avatar { width:32px; height:32px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; font-family:Georgia,serif; }
+.hamburger { background:none; border:none; color:rgba(228,208,174,.6); font-size:20px; cursor:pointer; padding:6px; display:none; }
+
+/* ── LAYOUT ── */
+.layout { display:flex; min-height:calc(100vh - 54px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:220px; min-width:220px; background:var(--petrol); display:flex; flex-direction:column;
+  height:calc(100vh - 54px); position:sticky; top:54px; overflow-y:auto;
+  transition:transform .25s;
+}
+.sb-head { padding:20px 18px 16px; border-bottom:1px solid rgba(228,208,174,.1); }
+.sb-name { color:#e4d0ae; font-family:Georgia,serif; font-size:14px; margin-bottom:2px; }
+.sb-role { font-size:11px; color:rgba(228,208,174,.45); letter-spacing:.06em; }
+.sb-stat { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+.sb-stat-pill { background:rgba(228,208,174,.08); border:1px solid rgba(228,208,174,.12); border-radius:6px; padding:5px 10px; text-align:center; flex:1; min-width:52px; }
+.sb-stat-val { font-size:16px; font-weight:700; color:#e4d0ae; display:block; }
+.sb-stat-lbl { font-size:9px; color:rgba(228,208,174,.4); text-transform:uppercase; letter-spacing:.06em; display:block; margin-top:1px; }
+.sb-menu { padding:10px 0; flex:1; }
+.sb-item {
+  display:flex; align-items:center; gap:10px; padding:10px 18px; cursor:pointer;
+  color:rgba(228,208,174,.5); font-size:13px; font-weight:500;
+  border-left:3px solid transparent; transition:all .15s;
+}
+.sb-item:hover { color:rgba(228,208,174,.85); background:rgba(228,208,174,.04); }
+.sb-item.active { color:#e4d0ae; border-left-color:#c9a96e; background:rgba(201,169,110,.1); }
+.sb-item .badge { margin-left:auto; background:var(--amber); color:#fff; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; }
+.sb-item .badge-gold { margin-left:auto; background:var(--gold); color:#fff; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; }
+.sb-footer { margin:12px; background:rgba(228,208,174,.06); border-radius:8px; padding:12px 14px; border:1px solid rgba(228,208,174,.1); }
+.sb-footer-lbl { font-size:10px; color:rgba(228,208,174,.3); margin-bottom:4px; }
+.sb-footer-val { font-size:12px; color:#c9a96e; }
+
+/* ── MAIN ── */
+.main { flex:1; overflow-y:auto; }
+.view { display:none; padding:28px 32px 60px; }
+.view.active { display:block; }
+.view-title { font-family:Georgia,serif; font-size:22px; font-weight:400; color:var(--petrol); margin-bottom:4px; }
+.view-sub { font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
+
+/* ── КАРТОЧКИ СТАТИСТИКИ ── */
+.stat-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:24px; }
+.stat-box { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:12px; padding:18px; }
+.stat-box.urgent { border-color:var(--amber); background:#fffbf4; }
+.stat-box.good { border-color:var(--green-b); background:var(--green-l); }
+.stat-box.petrol { background:var(--petrol); border-color:var(--petrol); }
+.stat-box-icon { font-size:20px; margin-bottom:8px; }
+.stat-box-val { font-size:28px; font-weight:700; color:var(--petrol); margin-bottom:3px; }
+.stat-box.urgent .stat-box-val { color:var(--amber); }
+.stat-box.good .stat-box-val { color:var(--green); }
+.stat-box.petrol .stat-box-val { color:#e4d0ae; }
+.stat-box-lbl { font-size:12px; color:var(--muted); line-height:1.4; }
+.stat-box.petrol .stat-box-lbl { color:rgba(228,208,174,.6); }
+
+/* ── СРОЧНЫЕ ДЕЙСТВИЯ ── */
+.actions-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:12px; }
+.action-cards { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+.action-card {
+  background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px;
+  padding:14px 18px; display:flex; align-items:center; gap:16px;
+}
+.action-card.urgent { border-color:var(--amber); background:#fffbf4; }
+.action-card.absent { border-color:#fdd9a0; background:#fffbf4; }
+.action-icon { font-size:22px; flex-shrink:0; }
+.action-body { flex:1; }
+.action-name { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.action-desc { font-size:12px; color:var(--muted); line-height:1.5; }
+.action-btn {
+  background:var(--petrol); color:#e4d0ae; border:none; border-radius:8px;
+  padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;
+  font-family:inherit; min-height:36px; white-space:nowrap; transition:background .15s;
+}
+.action-btn:hover { background:var(--petrol-h); }
+.action-btn.gold { background:var(--gold); color:#fff; }
+.action-btn.gold:hover { background:#a07218; }
+
+/* ── РАСПИСАНИЕ ── */
+.schedule-block { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:12px; padding:20px 22px; }
+.schedule-title { font-family:Georgia,serif; font-size:15px; color:var(--petrol); margin-bottom:16px; }
+.sched-item { display:flex; align-items:center; gap:14px; padding:10px 0; border-bottom:1px solid var(--border-c); }
+.sched-item:last-child { border:none; padding-bottom:0; }
+.sched-time { font-size:14px; font-weight:700; color:var(--petrol); min-width:50px; }
+.sched-student { font-size:14px; font-weight:600; color:var(--ink); flex:1; }
+.sched-level { font-size:11px; color:var(--green); background:var(--green-l); border:1px solid var(--green-b); padding:2px 8px; border-radius:20px; }
+.sched-topic { font-size:12px; color:var(--muted); }
+
+/* ── СПИСОК СТУДЕНТОВ ── */
+.student-cards { display:flex; flex-direction:column; gap:12px; }
+.student-card {
+  background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:12px;
+  padding:18px 20px; display:flex; align-items:center; gap:16px;
+  cursor:pointer; transition:border-color .15s, box-shadow .15s;
+}
+.student-card:hover { border-color:var(--petrol); box-shadow:0 2px 12px rgba(27,77,106,.1); }
+.st-avatar {
+  width:44px; height:44px; border-radius:50%; background:var(--petrol);
+  display:flex; align-items:center; justify-content:center;
+  color:#e4d0ae; font-size:14px; font-weight:700; font-family:Georgia,serif; flex-shrink:0;
+}
+.st-avatar.gold { background:var(--gold); }
+.st-avatar.green { background:var(--green); }
+.st-info { flex:1; }
+.st-name { font-size:15px; font-weight:700; color:var(--ink); margin-bottom:3px; }
+.st-meta { font-size:12px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.st-level { font-size:11px; font-weight:700; color:var(--petrol); background:var(--petrol-l); border:1px solid rgba(27,77,106,.15); padding:2px 8px; border-radius:20px; }
+.st-streak { font-size:12px; color:var(--amber); }
+.st-last { font-size:11px; color:var(--muted); }
+.st-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.st-next { font-size:11px; color:var(--petrol); font-weight:600; }
+.st-badge { font-size:10px; background:var(--amber); color:#fff; padding:2px 8px; border-radius:20px; font-weight:700; }
+.st-badge.done { background:var(--green); }
+
+/* ── КАРТОЧКА СТУДЕНТА (детально) ── */
+.student-detail-header {
+  background:var(--petrol); border-radius:12px; padding:22px 24px;
+  display:flex; align-items:center; gap:18px; margin-bottom:20px;
+}
+.sdh-avatar {
+  width:54px; height:54px; border-radius:50%; background:rgba(228,208,174,.15);
+  border:2px solid rgba(228,208,174,.3); display:flex; align-items:center;
+  justify-content:center; color:#e4d0ae; font-size:18px; font-weight:700;
+  font-family:Georgia,serif; flex-shrink:0;
+}
+.sdh-name { color:#e4d0ae; font-family:Georgia,serif; font-size:18px; margin-bottom:4px; }
+.sdh-meta { display:flex; gap:10px; flex-wrap:wrap; }
+.sdh-pill { font-size:11px; background:rgba(228,208,174,.12); border:1px solid rgba(228,208,174,.2); color:rgba(228,208,174,.8); padding:3px 10px; border-radius:20px; }
+.sdh-pill.gold { background:rgba(201,169,110,.2); border-color:rgba(201,169,110,.35); color:#c9a96e; }
+.sdh-actions { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+
+/* Табы */
+.tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border-c); padding-bottom:0; }
+.tab {
+  padding:10px 18px; font-size:13px; font-weight:600; cursor:pointer;
+  color:var(--muted); border-bottom:2px solid transparent; margin-bottom:-2px;
+  transition:all .15s;
+}
+.tab:hover { color:var(--petrol); }
+.tab.active { color:var(--petrol); border-bottom-color:var(--petrol); }
+
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* Профиль студента */
+.profile-section { margin-bottom:16px; }
+.prof-block { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px; padding:16px 18px; margin-bottom:10px; }
+.prof-block-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--gold); margin-bottom:12px; }
+.prof-row { display:flex; gap:8px; padding:6px 0; border-bottom:1px solid var(--border-c); align-items:flex-start; }
+.prof-row:last-child { border:none; padding-bottom:0; }
+.prof-key { font-size:12px; color:var(--muted); min-width:160px; flex-shrink:0; }
+.prof-val { font-size:13px; color:var(--ink); font-weight:500; line-height:1.5; }
+
+/* CEFR матрица */
+.cefr-matrix { display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+.cefr-item { background:var(--petrol-l); border:1px solid rgba(27,77,106,.15); border-radius:8px; padding:8px 12px; text-align:center; flex:1; min-width:60px; }
+.cefr-skill { font-size:10px; color:var(--muted); margin-bottom:3px; }
+.cefr-level { font-size:16px; font-weight:700; color:var(--petrol); }
+
+/* ── КОНСТРУКТОР ЗАДАНИЯ ── */
+.assignment-form { max-width:640px; }
+.af-group { margin-bottom:20px; }
+.af-label { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:8px; display:block; }
+.af-input {
+  width:100%; padding:10px 14px; border:1.5px solid var(--border-c); border-radius:8px;
+  font-family:inherit; font-size:13px; color:var(--ink); background:var(--bg-card);
+  outline:none; transition:border-color .15s;
+}
+.af-input:focus { border-color:var(--petrol); background:#fff; }
+.af-input::placeholder { color:rgba(28,40,48,.3); }
+.af-select {
+  width:100%; padding:10px 14px; border:1.5px solid var(--border-c); border-radius:8px;
+  font-family:inherit; font-size:13px; color:var(--ink); background:var(--bg-card);
+  outline:none; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231b4d6a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center;
+}
+
+/* День задания */
+.day-builder { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+.day-builder-head { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:var(--petrol-l); border-bottom:1px solid var(--border-c); }
+.day-builder-lbl { font-size:13px; font-weight:700; color:var(--petrol); }
+.day-builder-body { padding:14px 18px; display:flex; flex-direction:column; gap:8px; }
+.block-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.block-type { flex:2; min-width:130px; }
+.block-desc { flex:3; min-width:160px; }
+.block-time-inp { flex:1; min-width:70px; max-width:80px; }
+.block-del { background:none; border:none; color:rgba(28,40,48,.3); cursor:pointer; font-size:16px; padding:4px; transition:color .15s; }
+.block-del:hover { color:#c53030; }
+.add-block-btn {
+  background:none; border:1.5px dashed var(--border-c); color:var(--muted);
+  border-radius:8px; padding:8px 14px; font-size:12px; cursor:pointer;
+  font-family:inherit; width:100%; text-align:center; transition:all .15s;
+}
+.add-block-btn:hover { border-color:var(--petrol); color:var(--petrol); }
+
+/* ── НАПИСАТЬ ФИДБЕК ── */
+.fb-pending { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+.fb-pend-card {
+  background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px;
+  padding:16px 20px; display:flex; align-items:center; gap:14px; cursor:pointer;
+  transition:border-color .15s;
+}
+.fb-pend-card:hover { border-color:var(--petrol); }
+.fb-pend-card.selected { border-color:var(--petrol); background:var(--petrol-l); }
+.fb-pend-avatar {
+  width:38px; height:38px; border-radius:50%; background:var(--petrol);
+  display:flex; align-items:center; justify-content:center;
+  color:#e4d0ae; font-size:12px; font-weight:700; flex-shrink:0;
+}
+.fb-pend-info { flex:1; }
+.fb-pend-name { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.fb-pend-task { font-size:12px; color:var(--muted); }
+.fb-pend-date { font-size:11px; color:var(--muted); }
+.fb-pend-skill { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; background:var(--petrol-l); color:var(--petrol); padding:2px 8px; border-radius:20px; }
+
+/* Composer */
+.feedback-composer { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:12px; padding:22px 24px; }
+.fc-student-bar { display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border-c); }
+.fc-student-name { font-size:15px; font-weight:700; color:var(--petrol); }
+.fc-task-name { font-size:13px; color:var(--muted); }
+.fc-submission { background:var(--petrol-l); border-radius:8px; padding:14px 16px; margin-bottom:20px; border-left:3px solid var(--petrol); }
+.fc-sub-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--petrol); margin-bottom:8px; }
+.fc-sub-text { font-size:13px; color:var(--ink); line-height:1.65; }
+.fc-field { margin-bottom:16px; }
+.fc-field-lbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.fc-field-lbl.good { color:var(--green); }
+.fc-field-lbl.nuance { color:var(--amber); }
+.fc-field-lbl.step { color:var(--muted); }
+.fc-textarea {
+  width:100%; padding:12px 14px; border:1.5px solid var(--border-c); border-radius:8px;
+  font-family:inherit; font-size:13px; color:var(--ink); background:#fff;
+  outline:none; resize:vertical; min-height:80px; line-height:1.6;
+  transition:border-color .15s;
+}
+.fc-textarea:focus { border-color:var(--petrol); }
+.fc-textarea::placeholder { color:rgba(28,40,48,.3); }
+.fc-correction { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.fc-corr-inp { flex:1; min-width:140px; }
+.fc-draft-btn {
+  background:var(--gold-l); border:1.5px solid var(--gold-a); color:var(--gold);
+  border-radius:8px; padding:8px 14px; font-size:12px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:all .15s;
+}
+.fc-draft-btn:hover { background:var(--gold-a); }
+.fc-draft-tag { font-size:10px; background:#FFF9F0; color:var(--amber); border:1px solid #FDE68A; padding:1px 7px; border-radius:20px; font-weight:700; margin-left:6px; }
+.fc-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.btn-send {
+  background:var(--petrol); color:#e4d0ae; border:none; border-radius:8px;
+  padding:12px 28px; font-size:14px; font-weight:600; cursor:pointer;
+  font-family:inherit; min-height:44px; transition:background .15s; flex:1;
+}
+.btn-send:hover { background:var(--petrol-h); }
+.btn-cancel-fb { background:none; color:var(--muted); border:1.5px solid var(--border-c); border-radius:8px; padding:12px 18px; font-size:13px; cursor:pointer; font-family:inherit; min-height:44px; }
+.btn-cancel-fb:hover { border-color:var(--petrol); color:var(--petrol); }
+
+/* ── ОБЩИЕ КНОПКИ ── */
+.btn-primary {
+  background:var(--petrol); color:#e4d0ae; border:none; border-radius:8px;
+  padding:11px 24px; font-size:13px; font-weight:600; cursor:pointer;
+  font-family:inherit; min-height:44px; transition:background .15s;
+}
+.btn-primary:hover { background:var(--petrol-h); }
+.btn-secondary {
+  background:none; color:var(--petrol); border:1.5px solid rgba(27,77,106,.3);
+  border-radius:8px; padding:10px 18px; font-size:13px; font-weight:600;
+  cursor:pointer; font-family:inherit; min-height:44px; transition:all .15s;
+}
+.btn-secondary:hover { border-color:var(--petrol); background:var(--petrol-l); }
+.btn-back { background:none; border:none; color:var(--petrol); font-size:13px; cursor:pointer; font-family:inherit; padding:0 0 16px; display:flex; align-items:center; gap:6px; }
+.btn-back:hover { text-decoration:underline; }
+
+/* ── ПЛАН СТУДЕНТА (в карточке) ── */
+.plan-week { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+.plan-day { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px; padding:14px 16px; }
+.plan-day.today { border-color:var(--petrol); }
+.plan-day-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:10px; }
+.plan-day.today .plan-day-lbl { color:var(--petrol); }
+.plan-ex { display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px solid var(--border-c); }
+.plan-ex:last-child { border:none; }
+.plan-check { width:18px; height:18px; border-radius:4px; border:1.5px solid var(--border-c); display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; flex-shrink:0; margin-top:1px; }
+.plan-check.done { background:var(--green); border-color:var(--green); }
+.plan-check.pending { border-color:var(--petrol); color:var(--petrol); }
+.plan-ex-name { font-size:12px; color:var(--ink); flex:1; line-height:1.4; }
+.plan-ex-time { font-size:11px; color:var(--muted); flex-shrink:0; }
+
+/* ── УВЕДОМЛЕНИЕ ── */
+.notif {
+  background:var(--green-l); border:1.5px solid var(--green-b); border-radius:10px;
+  padding:14px 18px; display:flex; gap:12px; align-items:flex-start;
+  margin-bottom:20px; position:relative;
+}
+.notif.amber { background:#fffbf4; border-color:#fdd9a0; }
+.notif-icon { font-size:20px; flex-shrink:0; }
+.notif-text { font-size:13px; color:var(--ink); line-height:1.6; }
+.notif-text strong { color:var(--petrol); }
+.notif-close { position:absolute; right:10px; top:8px; background:none; border:none; font-size:16px; color:var(--muted); cursor:pointer; }
+
+/* ── МОБИЛЬНЫЙ ── */
+@media(max-width:700px){
+  .hamburger { display:block; }
+  .sidebar { position:fixed; left:0; top:54px; z-index:150; transform:translateX(-100%); height:calc(100vh - 54px); box-shadow:4px 0 20px rgba(0,0,0,.25); }
+  .sidebar.open { transform:translateX(0); }
+  .sb-overlay { display:none; position:fixed; inset:0; top:54px; background:rgba(0,0,0,.4); z-index:149; }
+  .sb-overlay.open { display:block; }
+  .view { padding:20px 16px 60px; }
+  .stat-row { grid-template-columns:1fr 1fr; }
+  .plan-week { grid-template-columns:1fr; }
+  .nav-name { display:none; }
+  .student-card { flex-wrap:wrap; }
+  .sdh-actions { margin-left:0; margin-top:12px; }
+  .student-detail-header { flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="nav-logo">Personal <em>German</em> Coach</div>
+    <div class="nav-tag">Кабинет преподавателя</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-name">Людмила Романовская</div>
+    <div class="nav-avatar">ЛР</div>
+  </div>
+</nav>
+
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-name">Людмила Романовская</div>
+      <div class="sb-role">Репетитор · Немецкий без хаоса</div>
+      <div class="sb-stat">
+        <div class="sb-stat-pill">
+          <span class="sb-stat-val">3</span>
+          <span class="sb-stat-lbl">студента</span>
+        </div>
+        <div class="sb-stat-pill">
+          <span class="sb-stat-val">2</span>
+          <span class="sb-stat-lbl">фидбека</span>
+        </div>
+        <div class="sb-stat-pill">
+          <span class="sb-stat-val">1</span>
+          <span class="sb-stat-lbl">урок</span>
+        </div>
+      </div>
+    </div>
+    <div class="sb-menu">
+      <div class="sb-item active" onclick="showView('overview',this)"><span>📊</span> Обзор <span class="badge">2</span></div>
+      <div class="sb-item" onclick="showView('students',this)"><span>👥</span> Студенты</div>
+      <div class="sb-item" onclick="showView('new-task',this)"><span>✍️</span> Новое задание</div>
+      <div class="sb-item" onclick="showView('feedback-write',this)"><span>💬</span> Фидбек <span class="badge">2</span></div>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-footer-lbl">Ваш Telegram</div>
+      <div class="sb-footer-val">@mila_konstanz</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ══════════ ОБЗОР ══════════ -->
+    <div class="view active" id="view-overview">
+
+      <div class="view-title">Добрый день, Людмила</div>
+      <div class="view-sub">Среда, 4 марта · вот что требует внимания сегодня</div>
+
+      <div class="notif">
+        <div class="notif-icon">✅</div>
+        <div class="notif-text"><strong>Мария Соколова</strong> отправила задание по аудированию — ждёт вашего фидбека</div>
+        <button class="notif-close" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+      <div class="notif amber">
+        <div class="notif-icon">⏰</div>
+        <div class="notif-text"><strong>Иван Петров</strong> не заходил в кабинет 4 дня — возможно нужен контакт</div>
+        <button class="notif-close" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box good">
+          <div class="stat-box-icon">👥</div>
+          <div class="stat-box-val">3</div>
+          <div class="stat-box-lbl">активных студента</div>
+        </div>
+        <div class="stat-box urgent">
+          <div class="stat-box-icon">💬</div>
+          <div class="stat-box-val">2</div>
+          <div class="stat-box-lbl">задания ждут фидбека</div>
+        </div>
+        <div class="stat-box petrol">
+          <div class="stat-box-icon">📅</div>
+          <div class="stat-box-val">1</div>
+          <div class="stat-box-lbl">урок сегодня</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-icon">🔥</div>
+          <div class="stat-box-val">18</div>
+          <div class="stat-box-lbl">заданий выдано в этом месяце</div>
+        </div>
+      </div>
+
+      <p class="actions-title">Срочные действия</p>
+      <div class="action-cards">
+        <div class="action-card urgent">
+          <div class="action-icon">📝</div>
+          <div class="action-body">
+            <div class="action-name">Мария Соколова — Hören «Beim Arzt»</div>
+            <div class="action-desc">Сдала сегодня в 9:14 · 187 слов · Sprechen B1</div>
+          </div>
+          <button class="action-btn gold" onclick="showView('feedback-write',document.querySelector('[onclick*=feedback]'))">Написать фидбек</button>
+        </div>
+        <div class="action-card urgent">
+          <div class="action-icon">📝</div>
+          <div class="action-body">
+            <div class="action-name">Елена Краузе — Schreiben «Письмо в страховую»</div>
+            <div class="action-desc">Сдала вчера в 22:30 · 134 слова · Schreiben B2</div>
+          </div>
+          <button class="action-btn gold" onclick="showView('feedback-write',document.querySelector('[onclick*=feedback]'))">Написать фидбек</button>
+        </div>
+        <div class="action-card absent">
+          <div class="action-icon">💤</div>
+          <div class="action-body">
+            <div class="action-name">Иван Петров — не заходил 4 дня</div>
+            <div class="action-desc">Последний визит — суббота · задание не выполнено</div>
+          </div>
+          <button class="action-btn" onclick="alert('Написать в Telegram: @ivan_petrov')">Написать</button>
+        </div>
+      </div>
+
+      <div class="schedule-block">
+        <div class="schedule-title">Расписание на сегодня</div>
+        <div class="sched-item">
+          <div class="sched-time">10:00</div>
+          <div class="sched-student">Мария Соколова</div>
+          <div class="sched-level">B1</div>
+          <div class="sched-topic">Beim Arzt · Говорение</div>
+        </div>
+        <div class="sched-item">
+          <div class="sched-time">15:00</div>
+          <div class="sched-student">Иван Петров</div>
+          <div class="sched-level">A2</div>
+          <div class="sched-topic">Einkaufen · Грамматика Akkusativ</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════ СТУДЕНТЫ ══════════ -->
+    <div class="view" id="view-students">
+      <div class="view-title">Мои студенты</div>
+      <div class="view-sub">Нажмите на карточку, чтобы открыть профиль и план студента</div>
+
+      <div class="student-cards">
+
+        <div class="student-card" onclick="showStudentDetail('maria')">
+          <div class="st-avatar">МС</div>
+          <div class="st-info">
+            <div class="st-name">Мария Соколова</div>
+            <div class="st-meta">
+              <span class="st-level">B1</span>
+              <span class="st-streak">🔥 12 дней</span>
+              <span class="st-last">Сегодня в 9:14</span>
+            </div>
+          </div>
+          <div class="st-right">
+            <div class="st-next">пт 10:00</div>
+            <div class="st-badge">Ждёт фидбека</div>
+          </div>
+        </div>
+
+        <div class="student-card" onclick="showStudentDetail('ivan')">
+          <div class="st-avatar gold">ИП</div>
+          <div class="st-info">
+            <div class="st-name">Иван Петров</div>
+            <div class="st-meta">
+              <span class="st-level">A2</span>
+              <span class="st-last">4 дня назад</span>
+            </div>
+          </div>
+          <div class="st-right">
+            <div class="st-next">ср 15:00</div>
+            <div class="st-badge">Не заходил</div>
+          </div>
+        </div>
+
+        <div class="student-card" onclick="showStudentDetail('elena')">
+          <div class="st-avatar green">ЕК</div>
+          <div class="st-info">
+            <div class="st-name">Елена Краузе</div>
+            <div class="st-meta">
+              <span class="st-level">B2</span>
+              <span class="st-streak">🔥 7 дней</span>
+              <span class="st-last">Вчера в 22:30</span>
+            </div>
+          </div>
+          <div class="st-right">
+            <div class="st-next">чт 18:00</div>
+            <div class="st-badge">Ждёт фидбека</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ КАРТОЧКА СТУДЕНТА ══════════ -->
+    <div class="view" id="view-student-detail">
+      <button class="btn-back" onclick="showView('students',document.querySelector('[onclick*=students]'))">← Все студенты</button>
+
+      <div class="student-detail-header">
+        <div class="sdh-avatar">МС</div>
+        <div>
+          <div class="sdh-name">Мария Соколова</div>
+          <div class="sdh-meta">
+            <span class="sdh-pill gold">B1 · Немецкий</span>
+            <span class="sdh-pill">🔥 12 дней</span>
+            <span class="sdh-pill">18 заданий</span>
+            <span class="sdh-pill">С нами с января 2025</span>
+          </div>
+        </div>
+        <div class="sdh-actions">
+          <button class="btn-secondary" onclick="showView('new-task',document.querySelector('[onclick*=new-task]'))">+ Задание</button>
+          <button class="btn-primary" onclick="showView('feedback-write',document.querySelector('[onclick*=feedback]'))">Фидбек</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('profile',this)">Профиль</div>
+        <div class="tab" onclick="switchTab('current-plan',this)">Текущий план</div>
+        <div class="tab" onclick="switchTab('history',this)">История</div>
+      </div>
+
+      <!-- Профиль -->
+      <div class="tab-panel active" id="tab-profile">
+        <div class="prof-block">
+          <div class="prof-block-title">Базовые данные</div>
+          <div class="prof-row"><div class="prof-key">Местонахождение</div><div class="prof-val">Мюнхен, Германия · 2 года</div></div>
+          <div class="prof-row"><div class="prof-key">Профессия</div><div class="prof-val">Финансовый аналитик</div></div>
+          <div class="prof-row"><div class="prof-key">Рабочий язык</div><div class="prof-val">Смесь немецкого и русского</div></div>
+          <div class="prof-row"><div class="prof-key">Родной язык</div><div class="prof-val">Русский</div></div>
+        </div>
+        <div class="prof-block">
+          <div class="prof-block-title">Уровень по навыкам (самооценка)</div>
+          <div class="cefr-matrix">
+            <div class="cefr-item"><div class="cefr-skill">Hören</div><div class="cefr-level">B1</div></div>
+            <div class="cefr-item"><div class="cefr-skill">Sprechen</div><div class="cefr-level">A2</div></div>
+            <div class="cefr-item"><div class="cefr-skill">Lesen</div><div class="cefr-level">B1</div></div>
+            <div class="cefr-item"><div class="cefr-skill">Schreiben</div><div class="cefr-level">B1</div></div>
+          </div>
+        </div>
+        <div class="prof-block">
+          <div class="prof-block-title">Мотивация и цели</div>
+          <div class="prof-row"><div class="prof-key">Главная мотивация</div><div class="prof-val">Работа — карьерный рост в немецкой компании</div></div>
+          <div class="prof-row"><div class="prof-key">Срочная ситуация</div><div class="prof-val">«Через 3 месяца ревью с немецким руководством — хочу говорить уверенно»</div></div>
+          <div class="prof-row"><div class="prof-key">Нужные ситуации</div><div class="prof-val">Работа с коллегами, телефонные звонки, документы</div></div>
+        </div>
+        <div class="prof-block">
+          <div class="prof-block-title">Стиль обучения и аффективный профиль</div>
+          <div class="prof-row"><div class="prof-key">Стиль усвоения</div><div class="prof-val">Читатель — нужно понять логику и конспектировать</div></div>
+          <div class="prof-row"><div class="prof-key">Порядок подачи</div><div class="prof-val">Сначала объяснение правила — потом практика</div></div>
+          <div class="prof-row"><div class="prof-key">Тревога при говорении</div><div class="prof-val">2 из 5 — умеренная тревога</div></div>
+          <div class="prof-row"><div class="prof-key">Реакция на ошибки</div><div class="prof-val">Немного смущается, но продолжает</div></div>
+          <div class="prof-row"><div class="prof-key">Предпочтение коррекции</div><div class="prof-val">После высказывания, не прерывая</div></div>
+          <div class="prof-row"><div class="prof-key">Главный барьер</div><div class="prof-val">Знает правила, но в разговоре теряется</div></div>
+        </div>
+        <div class="prof-block">
+          <div class="prof-block-title">Время и ритм</div>
+          <div class="prof-row"><div class="prof-key">Минут в день</div><div class="prof-val">30–45 минут</div></div>
+          <div class="prof-row"><div class="prof-key">Удобные дни</div><div class="prof-val">Пн, Вт, Ср, Пт</div></div>
+          <div class="prof-row"><div class="prof-key">Лучшее время</div><div class="prof-val">Вечером</div></div>
+        </div>
+      </div>
+
+      <!-- Текущий план -->
+      <div class="tab-panel" id="tab-current-plan">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--petrol)">Тема недели: Beim Arzt · Gesundheit</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">3–7 марта · B1 · ~30 мин/день</div>
+          </div>
+          <button class="btn-secondary" onclick="showView('new-task',document.querySelector('[onclick*=new-task]'))">Изменить план</button>
+        </div>
+        <div class="plan-week">
+          <div class="plan-day">
+            <div class="plan-day-lbl">Понедельник</div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter + Hören: диалог у врача</div><div class="plan-ex-time">22 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Dativ nach «in»</div><div class="plan-ex-time">5 мин</div></div>
+          </div>
+          <div class="plan-day">
+            <div class="plan-day-lbl">Вторник</div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter + Lesen: выписка врача</div><div class="plan-ex-time">22 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: weil-Stellung</div><div class="plan-ex-time">5 мин</div></div>
+          </div>
+          <div class="plan-day today">
+            <div class="plan-day-lbl">Среда (сегодня)</div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter + Hören: диктоглосс</div><div class="plan-ex-time">19 мин</div></div>
+            <div class="plan-ex"><div class="plan-check pending">→</div><div class="plan-ex-name">Grammatik: Modalverben</div><div class="plan-ex-time">5 мин</div></div>
+          </div>
+          <div class="plan-day">
+            <div class="plan-day-lbl">Четверг</div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Sprechen: Rollenspiel</div><div class="plan-ex-time">20 мин</div></div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Aussprache: ch-Laut</div><div class="plan-ex-time">5 мин</div></div>
+          </div>
+          <div class="plan-day">
+            <div class="plan-day-lbl">Пятница</div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Урок с Людмилой (10:00)</div><div class="plan-ex-time">60 мин</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- История -->
+      <div class="tab-panel" id="tab-history">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="prof-block">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <span style="font-size:11px;color:var(--muted)">3 мар</span>
+              <span style="font-size:13px;font-weight:700">Hören — диктоглосс</span>
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid var(--green-b);padding:2px 8px;border-radius:20px;">Оценено</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted)">Фидбек отправлен · 187 слов · Dativ-ошибка исправлена</div>
+          </div>
+          <div class="prof-block">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <span style="font-size:11px;color:var(--muted)">28 фев</span>
+              <span style="font-size:13px;font-weight:700">Schreiben — письмо в страховую</span>
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid var(--green-b);padding:2px 8px;border-radius:20px;">Оценено</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted)">Фидбек отправлен · Хорошая структура, ошибка Wortstellung</div>
+          </div>
+          <div class="prof-block">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <span style="font-size:11px;color:var(--muted)">24 фев</span>
+              <span style="font-size:13px;font-weight:700">Sprechen — Rollenspiel Arzt</span>
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid var(--green-b);padding:2px 8px;border-radius:20px;">Оценено</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted)">Фидбек отправлен · Прогресс в беглости речи</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ НОВОЕ ЗАДАНИЕ ══════════ -->
+    <div class="view" id="view-new-task">
+      <div class="view-title">Составить задание</div>
+      <div class="view-sub">Укажите тему, дни и блоки — студент увидит это в своём кабинете</div>
+
+      <div class="assignment-form">
+        <div class="af-group">
+          <label class="af-label">Студент</label>
+          <select class="af-select af-input">
+            <option>Мария Соколова — B1</option>
+            <option>Иван Петров — A2</option>
+            <option>Елена Краузе — B2</option>
+          </select>
+        </div>
+        <div class="af-group">
+          <label class="af-label">Тема недели</label>
+          <input class="af-input" type="text" placeholder="Например: Beim Arzt · Gesundheit">
+        </div>
+        <div class="af-group">
+          <label class="af-label">Неделя</label>
+          <input class="af-input" type="text" placeholder="Например: 10–14 марта 2025">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;">Задания по дням</div>
+
+          <div class="day-builder">
+            <div class="day-builder-head">
+              <span class="day-builder-lbl">Понедельник</span>
+            </div>
+            <div class="day-builder-body">
+              <div class="block-row">
+                <select class="af-select block-type">
+                  <option>Wörter</option><option selected>Hören</option><option>Sprechen</option>
+                  <option>Lesen</option><option>Grammatik</option><option>Schreiben</option>
+                  <option>Aussprache</option><option>Reflexion</option>
+                </select>
+                <input class="af-input block-desc" type="text" placeholder="Описание задания..." value="Диалог у врача — аудиозапись">
+                <input class="af-input block-time-inp" type="text" placeholder="мин" value="22 мин">
+                <button class="block-del" title="Удалить блок">✕</button>
+              </div>
+              <div class="block-row">
+                <select class="af-select block-type">
+                  <option>Wörter</option><option>Hören</option><option>Sprechen</option>
+                  <option>Lesen</option><option selected>Grammatik</option><option>Schreiben</option>
+                  <option>Aussprache</option><option>Reflexion</option>
+                </select>
+                <input class="af-input block-desc" type="text" placeholder="Описание задания..." value="Dativ nach «in» — упражнения">
+                <input class="af-input block-time-inp" type="text" placeholder="мин" value="5 мин">
+                <button class="block-del" title="Удалить блок">✕</button>
+              </div>
+              <button class="add-block-btn" onclick="addBlockRow(this.previousElementSibling)">+ добавить блок</button>
+            </div>
+          </div>
+
+          <div class="day-builder">
+            <div class="day-builder-head">
+              <span class="day-builder-lbl">Вторник</span>
+            </div>
+            <div class="day-builder-body">
+              <div class="block-row">
+                <select class="af-select block-type">
+                  <option>Wörter</option><option>Hören</option><option>Sprechen</option>
+                  <option selected>Lesen</option><option>Grammatik</option><option>Schreiben</option>
+                  <option>Aussprache</option><option>Reflexion</option>
+                </select>
+                <input class="af-input block-desc" type="text" placeholder="Описание задания..." value="Выписка врача — читаем и переводим">
+                <input class="af-input block-time-inp" type="text" placeholder="мин" value="22 мин">
+                <button class="block-del">✕</button>
+              </div>
+              <button class="add-block-btn" onclick="addBlockRow(this.previousElementSibling)">+ добавить блок</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" style="flex:1" onclick="alert('Задание сохранено! Студент увидит его в своём кабинете.')">Сохранить и отправить студенту</button>
+          <button class="btn-secondary" onclick="alert('Черновик сохранён.')">Сохранить черновик</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ НАПИСАТЬ ФИДБЕК ══════════ -->
+    <div class="view" id="view-feedback-write">
+      <div class="view-title">Фидбек студентам</div>
+      <div class="view-sub">Выберите задание — и напишите комментарий. Студент увидит его в своём кабинете.</div>
+
+      <p class="actions-title" style="margin-bottom:10px;">Ждут вашего фидбека</p>
+      <div class="fb-pending">
+
+        <div class="fb-pend-card selected" onclick="selectSubmission(this)">
+          <div class="fb-pend-avatar">МС</div>
+          <div class="fb-pend-info">
+            <div class="fb-pend-name">Мария Соколова</div>
+            <div class="fb-pend-task">Hören — диктоглосс «Beim Arzt»</div>
+          </div>
+          <div class="fb-pend-date">сегодня 9:14</div>
+          <div class="fb-pend-skill">Hören</div>
+        </div>
+
+        <div class="fb-pend-card" onclick="selectSubmission(this)">
+          <div class="fb-pend-avatar" style="background:var(--green)">ЕК</div>
+          <div class="fb-pend-info">
+            <div class="fb-pend-name">Елена Краузе</div>
+            <div class="fb-pend-task">Schreiben — письмо в страховую</div>
+          </div>
+          <div class="fb-pend-date">вчера 22:30</div>
+          <div class="fb-pend-skill">Schreiben</div>
+        </div>
+
+      </div>
+
+      <div class="feedback-composer">
+        <div class="fc-student-bar">
+          <div class="fc-student-name">Мария Соколова</div>
+          <div class="fc-task-name">— Hören: диктоглосс «Beim Arzt»</div>
+        </div>
+
+        <div class="fc-submission">
+          <div class="fc-sub-lbl">Ответ студента</div>
+          <div class="fc-sub-text">«В диалоге врач спросил пациента о симптомах. Пациент сказал что у него болит живот уже три дня. Врач назначил анализы и сказал прийти через неделю. Важно было что пациент попросил больничный лист, weil er nicht arbeiten konnte...»</div>
+        </div>
+
+        <div class="fc-field">
+          <div class="fc-field-lbl good">✅ Что вышло хорошо</div>
+          <textarea class="fc-textarea" placeholder="Напишите что студент сделал правильно — даже маленькое достижение важно..."></textarea>
+          <button class="fc-draft-btn" onclick="fillDraft('good')" style="margin-top:8px;">✦ AI-черновик <span class="fc-draft-tag">DRAFT</span></button>
+        </div>
+
+        <div class="fc-field">
+          <div class="fc-field-lbl nuance">⚠️ Один нюанс</div>
+          <textarea class="fc-textarea" placeholder="Одна ключевая ошибка — не перегружайте, одна за раз..."></textarea>
+          <div class="fc-correction" style="margin-top:8px;">
+            <input class="af-input fc-corr-inp" type="text" placeholder="❌ Было...">
+            <input class="af-input fc-corr-inp" type="text" placeholder="✅ Правильно...">
+          </div>
+          <input class="af-input" type="text" placeholder="Правило одним предложением..." style="margin-top:8px;">
+        </div>
+
+        <div class="fc-field">
+          <div class="fc-field-lbl step">→ Следующий шаг</div>
+          <textarea class="fc-textarea" placeholder="Что конкретно сделать после этого задания — добавить в Anki, написать 5 предложений..."></textarea>
+          <button class="fc-draft-btn" onclick="fillDraft('step')" style="margin-top:8px;">✦ AI-черновик <span class="fc-draft-tag">DRAFT</span></button>
+        </div>
+
+        <div class="fc-actions">
+          <button class="btn-send" onclick="sendFeedback()">Отправить фидбек студенту</button>
+          <button class="btn-cancel-fb">Отложить</button>
+        </div>
+
+        <div id="feedbackSent" style="display:none;margin-top:14px;background:var(--green-l);border:1.5px solid var(--green-b);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--green);">
+          ✅ Фидбек отправлен — Мария увидит его в своём кабинете
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+/* ── Навигация ── */
+function showView(name, el) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('.sb-item').forEach(function(i) { i.classList.remove('active'); });
+  document.getElementById('view-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  if (window.innerWidth <= 700) closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('open');
+}
+
+/* ── Табы в карточке студента ── */
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+/* ── Открыть студента ── */
+function showStudentDetail(id) {
+  showView('student-detail', null);
+  document.querySelector('[onclick*=students]').classList.remove('active');
+}
+
+/* ── Удалить блок задания ── */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('block-del')) {
+    var row = e.target.closest('.block-row');
+    if (row) row.remove();
+  }
+});
+
+/* ── Добавить блок задания ── */
+function addBlockRow(before) {
+  var row = document.createElement('div');
+  row.className = 'block-row';
+  row.innerHTML = '<select class="af-select block-type"><option>Wörter</option><option>Hören</option><option>Sprechen</option><option>Lesen</option><option>Grammatik</option><option>Schreiben</option><option>Aussprache</option><option>Reflexion</option></select><input class="af-input block-desc" type="text" placeholder="Описание задания..."><input class="af-input block-time-inp" type="text" placeholder="мин"><button class="block-del">✕</button>';
+  before.parentNode.insertBefore(row, before);
+}
+
+/* ── Выбор задания для фидбека ── */
+function selectSubmission(card) {
+  document.querySelectorAll('.fb-pend-card').forEach(function(c) { c.classList.remove('selected'); });
+  card.classList.add('selected');
+}
+
+/* ── AI черновик (заглушка) ── */
+function fillDraft(type) {
+  var drafts = {
+    good: 'Вы уверенно восстановили основную идею текста и корректно использовали придаточные с «weil» — это B1-уровень. Особенно понравилось «weil er nicht arbeiten konnte» — точная конструкция.',
+    step: 'Добавьте в Anki: «Schmerzen im Bauch» — как готовую фразу целиком. Затем напишите 3 предложения с Dativ после «in» о своей работе.'
+  };
+  var textareas = document.querySelectorAll('.fc-textarea');
+  if (type === 'good') textareas[0].value = drafts.good;
+  if (type === 'step') textareas[2].value = drafts.step;
+}
+
+/* ── Отправить фидбек ── */
+function sendFeedback() {
+  document.getElementById('feedbackSent').style.display = 'block';
+  document.querySelector('.btn-send').disabled = true;
+  document.querySelector('.btn-send').textContent = 'Отправлено ✓';
+  setTimeout(function() {
+    document.getElementById('feedbackSent').scrollIntoView({ behavior:'smooth' });
+  }, 100);
+}
+</script>
+</body>
+</html>
