@@ -26,6 +26,7 @@
 - [Redewendungen / Phraseologie / Umgangssprache](#redewendungen--phraseologie--umgangssprache)
 - [Berufsdeutsch — специализированный](#berufsdeutsch--специализированный)
 - [Downloads — учебные материалы](#downloads--учебные-материалы)
+- [Методологический анализ: издательства, конкуренты, пробелы](#методологический-анализ-издательства-конкуренты-пробелы)
 
 ---
 
@@ -930,6 +931,241 @@
 | WAU_Diagnostik_A2B1_Guide.pdf | Гид по диагностике |
 | WAU_Diagnostik_A2B1_Kit.zip | Полный комплект диагностики |
 | deutsch-perfekt_sprachtest-a2-c1.pdf | Тест уровня |
+
+---
+
+## Методологический анализ: издательства, конкуренты, пробелы
+
+---
+
+### 1. Откуда берут материалы онлайн-платформы
+
+**Конкурирующие платформы и их источники:**
+
+| Платформа | Модель | Откуда берут контент |
+|---|---|---|
+| **Goethe-Institut Online** | Официальный провайдер, экзамены | Собственный контент + открытые материалы (CC) |
+| **Deutsche Welle (DW Lernen)** | Аутентичный + новостной | Редакционные тексты DW, подкасты, видео |
+| **Lingoda** | Живые групповые уроки | Лицензированные учебники + собственные разработки |
+| **Babbel** | Приложение, геймификация | Proprietary — лингвисты создают с нуля |
+| **Duolingo** | Геймификация + AI | Proprietary + AI-генерация вариантов |
+| **Busuu** | Комм. метод + носители | Собственные + обратная связь от native speakers |
+| **Berlitz** | Прямой метод (с 1878) | Проприетарная методология, никаких учебников |
+| **Preply / iTalki** | Маркетплейс репетиторов | Каждый учитель сам — как вы |
+| **Deutsch-Akademie** | Бесплатные упражнения онлайн | Собственная база (грамматика, тесты) |
+| **Sprachcaffe / DeutschAkademie Wien** | Офлайн-школы + онлайн | Лицензированные курсы (Hueber, Klett) |
+
+**Что конкретно используют (5 главных источников):**
+
+1. **Лицензированные учебники** — платят роялти Hueber, Klett, Cornelsen. Берут PDF-версии для LMS.
+2. **Аутентичные материалы** — статьи DW, ARD, Spiegel, Stern, FAZ (fair use в образовании).
+3. **Собственный контент** — штатные методисты создают задания под свою аудиторию.
+4. **Открытые материалы** — Goethe-Institut (CC), Schubert-Verlag (бесплатно), CEFR-документы.
+5. **AI-генерация** — Babbel, Duolingo используют GPT для вариантов ответов, диалогов, упражнений.
+
+> **Вывод для вас:** У вас уже есть то, что лицензируют платформы. Разница — в структуре подачи и в аутентичном медиаконтенте (подкасты, видео), которого пока мало.
+
+---
+
+### 2. Все крупные DaF-издательства — что есть, чего нет
+
+#### HUEBER VERLAG — крупнейший DaF-издатель мира
+
+| Серия | Уровень | Есть в библиотеке? |
+|---|---|---|
+| **Schritte plus Neu** (интеграционный курс №1 в Германии) | A1–B1 | ❌ НЕТ |
+| **Menschen** (компактный, много картинок) | A1–B1 | ❌ НЕТ |
+| **Momente** (новейшая серия, 2021) | A1–B1 | ❌ НЕТ |
+| **Motive** (один том A1–B2) | A1–B2 | ❌ НЕТ |
+| **Studio 21** (совместно с Cornelsen, видео) | A1–B2 | ❌ НЕТ |
+| **Sicher!** (старший уровень) | B2–C2 | ⚠️ частично (только Wortliste + Grammatik C1) |
+| **em Neu** / Hauptkurs | B1–C1 | ❌ НЕТ |
+| **Deutsch üben** (рабочие тетради навыков) | A1–C1 | ✅ ЕСТЬ (Grammatik A1-A2, Briefe, Wortschatz) |
+| **Lesen & Schreiben** серия | A1–B2 | ✅ ЕСТЬ (A1/A2/B1/B2) |
+| **Hören & Sprechen** серия | A1–B2 | ✅ ЕСТЬ (A1/B1/B2) |
+| **Grammatik Aktiv** | A1–B1, B2–C1 | ✅ ЕСТЬ |
+| **DaZ** (Deutsch als Zweitsprache) | A1–B1 | ✅ ЕСТЬ (тетради 1–5) |
+| **Lesemagazin** (graded readers) | A1–C1 | ❌ НЕТ |
+
+#### KLETT SPRACHEN
+
+| Серия | Уровень | Есть в библиотеке? |
+|---|---|---|
+| **Netzwerk Neu** (популярна в VHS/Volkshochschule) | A1–B1 | ⚠️ частично (только B1 Leseaufgaben) |
+| **Berliner Platz Neu** (фокус на интеграцию) | A1–B2 | ❌ НЕТ |
+| **Linie 1** (быт + профессия с A1) | A1–B2 | ❌ НЕТ |
+| **Kurs DaF** (новейший, 2022, с AI) | A1–B1 | ❌ НЕТ |
+| **Aspekte Neu** (B1+, B2) | B1+–B2 | ❌ НЕТ (только C1 Beruf) |
+| **Kontext** (B1+, B2) | B1+–B2 | ❌ НЕТ (только C1) |
+| **Mittelpunkt Neu** (полный) | B1+–C1 | ⚠️ только B2 Lektionstests |
+| **Kompass DaF** (TestDaF/DSH подготовка) | B2–C1 | ❌ НЕТ |
+| **DaF kompakt** | A1–B1 | ✅ ЕСТЬ (полный комплект) |
+| **Aspekte Beruf C1** | C1 | ✅ ЕСТЬ |
+| **Kontext C1** | C1 | ✅ ЕСТЬ |
+| **Werkstatt C1** | C1 | ✅ ЕСТЬ |
+| **Projekt C1** | C1 | ✅ ЕСТЬ |
+| **Mit Erfolg** серия (экзамены) | A1–C1 | ✅ ЕСТЬ |
+| **Lesen und üben** (graded readers) | A1–C2 | ❌ НЕТ |
+
+#### CORNELSEN VERLAG
+
+| Серия | Уровень | Есть в библиотеке? |
+|---|---|---|
+| **Studio 21** (с видео) | A1–B2 | ❌ НЕТ |
+| **Pluspunkt Deutsch Neu** (DaZ фокус) | A1–B1 | ❌ НЕТ |
+| **Ja genau!** | A1–B2 | ❌ НЕТ |
+| **B-Grammatik** | B1–B2 | ❌ НЕТ |
+| **Prüfungstraining DaF** серия | A2–C1 | ✅ ЕСТЬ (частично) |
+
+#### LANGENSCHEIDT / PONS (в составе Klett Group)
+
+| Материал | Уровень | Есть? |
+|---|---|---|
+| Wörterbücher и словари | все | ✅ ЕСТЬ (PONS, Duden, Synonyme) |
+| **Grammatik Intensivtrainer** | A1–B1 | ✅ ЕСТЬ |
+| **Power Deutsch** | A2–B1 | ❌ НЕТ |
+| **Langenscheidt Lektüren** (graded readers) | A1–C1 | ❌ НЕТ |
+| **PONS Übungsbücher** | A1–C1 | ⚠️ частично |
+
+#### DUDEN VERLAG
+
+| Материал | Есть? |
+|---|---|
+| Die Grammatik (normativная) | ✅ ЕСТЬ |
+| Stilwörterbuch | ❌ НЕТ |
+| Synonymwörterbuch | ✅ ЕСТЬ (аналог) |
+| 150 Diktate | ✅ ЕСТЬ |
+| Rechtschreibung + Zeichensetzung | ✅ ЕСТЬ |
+| Übungsbuch extra (Grammatik) | ✅ ЕСТЬ |
+
+#### SCHUBERT-VERLAG — всё бесплатно онлайн
+→ https://www.schubert-verlag.de — грамматика, тексты, тесты (A1–C2). Использовать напрямую с сайта.
+
+#### GOETHE-INSTITUT
+| Материал | Есть? |
+|---|---|
+| Экзамены A1–C2 (официальные) | ✅ ЕСТЬ (отличная коллекция) |
+| Nicos Weg A1–B1 (Arbeitsbuch) | ✅ ЕСТЬ |
+| DLL (Deutsch Lehren Lernen) — методика | ✅ ЕСТЬ (Einheit 6) |
+| Freie Lernmaterialien (сайт) | ❌ — использовать онлайн |
+
+---
+
+### 3. Сводная таблица пробелов: что нужно, что есть, чего не хватает
+
+#### 🔴 КРИТИЧЕСКИЕ ПРОБЕЛЫ — нет ни одного основного курса A1–B2
+
+| Что нужно | Почему важно | Где взять бесплатно |
+|---|---|---|
+| **Основной курс A1–B1** (Schritte/Menschen/Netzwerk) | Каждый новый студент начинает именно с него. Без него структура занятий строится с нуля | Telegram-каналы DaF (t.me/DaF_materials и похожие), Z-library |
+| **Berliner Platz Neu или Pluspunkt** | Лучшие курсы для интеграции — реальные ситуации из жизни в Германии | Telegram-каналы |
+| **Linie 1 B1–B2** | Связывает быт и профессию — идеально для взрослых иммигрантов | Telegram-каналы |
+| **Aspekte Neu B1+ и B2** | Есть только C1 — разрыв в середине | Telegram-каналы |
+| **Mittelpunkt Neu** полный | Только тесты, а не учебник | Telegram-каналы |
+| **Kompass DaF B2–C1** | TestDaF/DSH — популярный запрос у студентов | Telegram-каналы |
+
+#### 🟠 ВАЖНЫЕ ПРОБЕЛЫ — навыки и форматы
+
+| Чего нет | Что закрывает | Где взять |
+|---|---|---|
+| **Graded Readers** (Hueber Lesemagazin / Klett Lesen und üben) | Домашнее чтение с заданиями по уровням | Telegram, Libgen |
+| **Aussprachetraining** (фонетика, интонация) | Русскоязычным студентам критически нужна фонетика | Hueber Phonetik супер, DW аудио |
+| **Landeskundekurs** (интегрированный) | Культура + язык вместе, не отдельно | Tatsachen über Deutschland (✅ есть) + DW |
+| **Behördendeutsch** (язык инстанций) | Аренда, Finanzamt, Krankenversicherung | Schubert-Verlag, VHS-Materialien |
+| **Wohnungssuche** специальный блок | Самый актуальный запрос для иммигрантов | Создать самостоятельно из аутентичных объявлений |
+| **Подкасты с транскриптами** | Развитие аудирования с опорой | DW Top-Thema ✅ (онлайн), Slow German (бесплатно) |
+| **Landeskundliche Lektüre** | Чтение о современной Германии | Deutsch Perfekt (✅ есть), Tatsachen (✅ есть) |
+
+#### 🟡 ЖЕЛАТЕЛЬНО — расширение
+
+| Чего нет | Зачем | Где взять |
+|---|---|---|
+| **B-Grammatik (Cornelsen)** | Системная грамматика B1–B2 в одной книге | Telegram |
+| **Sicher! B2 и C1** (полный учебник) | Есть только словарь + грамматика-конспект | Telegram |
+| **em Neu / Hauptkurs B1** | Академический стиль, хорош для подготовки к университету | Telegram |
+| **Schachnovelle + Vorleser** — аудиокниги | Аудирование на C1 с оригинальным текстом | Librivox (бесплатно), Spotify |
+| **Рабочие листы по Alltagssituationen** | Почта, банк, врач, школа — готовые сценарии | Klett Dies&DaF, Schubert (бесплатно) |
+
+---
+
+### 4. Методика полного погружения — что нужно для интеграции
+
+> Цель: студент живёт в Германии/Швейцарии и хочет не просто «знать язык», а **функционировать в обществе**. Это другой уровень задачи, чем просто CEFR B2.
+
+#### БЛОК 1 — Повседневный немецкий (Alltagsdeutsch)
+
+| Ситуация | Что нужно отработать | Материал из библиотеки |
+|---|---|---|
+| Знакомство, small talk | Фразы, регистры (ты/вы), темы-табу | Treffpunkt Dialog ✅ |
+| Телефонный разговор | Открытие/закрытие, удержание, переспрос | Redemittel Telefon ✅, DaF kompakt ✅ |
+| Покупки, рынок | Цены, возврат, жалоба | HörenSprechen Bei der Bank ✅ |
+| Врач/Apotheke | Симптомы, рецепт, страховка | Deutsch für Mediziner ✅, Telc Pflege ✅ |
+| Банк/Versicherung | Счёт, перевод, договор | Banktraining ✅, dl_b_banken ✅ |
+| Amt/Behörde | Анкеты, термины, формальный регистр | **❌ НЕТ — нужно добавить** |
+| Wohnungssuche | Объявления, Besichtigung, Mietvertrag | **❌ НЕТ — нужно добавить** |
+| Kindergarten/Schule | Общение с учителями, собрания | Schulmaterialien ✅ частично |
+| Arbeit/Vorstellungsgespräch | CV, собеседование, Probezeit | Schreibtraining Beruf ✅, Alex_ Vorstellungsgesprä ✅ |
+
+#### БЛОК 2 — Medien-Immersion (погружение через медиа)
+
+| Медиа | Уровень | Что делать | Ресурс |
+|---|---|---|---|
+| **Slow German** (подкаст) | B1–B2 | Слушать + читать транскрипт | slowgerman.com (бесплатно) |
+| **DW Top-Thema** | B1–B2 | Текст + аудио + словарь | learngerman.dw.com ✅ |
+| **Easy German** (YouTube) | A2–B2 | Субтитры DE + EN | youtube.com/easygerman |
+| **Deutsch mit Herrmann** | B1–C1 | Объяснения грамматики | YouTube |
+| **ARD Mediathek** | B2–C1 | Сериалы с субтитрами | ardmediathek.de |
+| **Deutsch Perfekt** (журнал) | B1–C1 | Статьи с глоссариями | ✅ ЕСТЬ в библиотеке |
+| **Zeit / Spiegel** | C1 | Чтение без адаптации | онлайн бесплатно |
+| **Tatort** (детектив ARD) | B2–C1 | Региональные диалекты, живая речь | ARD Mediathek |
+
+#### БЛОК 3 — Kulturelle Integration (культурное погружение)
+
+| Тема | Что важно знать | Материал |
+|---|---|---|
+| Немецкий юмор и ирония | Буквальность vs. ирония, Witze | Bock auf echtes Deutsch ✅ |
+| Праздники и традиции | Weihnachten, Karneval, Oktoberfest | Landeskunde ✅ |
+| Региональные различия | Бавария ≠ Берлин ≠ Швейцария | Wienerisch ✅, Schweizer Hochdeutsch ✅ |
+| Немецкая пунктуальность и прямота | Культурный шок для русскоязычных | ❌ нужен текст/разбор |
+| Политическая система | Bundestag, Länder, Koalition | Tatsachen über Deutschland ✅ |
+| Система образования | Schule, Ausbildung, Studium | Schulmaterialien ✅ частично |
+| Здравоохранение | GKV/PKV, Hausarzt, Überweisung | Deutsch für Mediziner ✅ |
+
+#### БЛОК 4 — Языковые навыки для интеграции (приоритеты)
+
+```
+ПРИОРИТЕТ 1 — без этого не выжить:
+  ✅ Говорение (Alltagsgespräche A1–B1)
+  ✅ Аудирование (реальная скорость речи)
+  ❌ Behördendeutsch (язык официальных писем)
+
+ПРИОРИТЕТ 2 — для полноценной жизни:
+  ✅ Чтение аутентичных текстов (B1+)
+  ✅ Письмо (деловые письма, заявления)
+  ❌ Telefon-Kompetenz (звонки в инстанции)
+
+ПРИОРИТЕТ 3 — для карьеры и комфорта:
+  ✅ Berufsdeutsch (профессиональный)
+  ✅ Академический немецкий (C1+)
+  ❌ Медиакомпетенция (смотреть ТВ и понимать)
+```
+
+---
+
+### 5. Что найти и куда сложить — план действий
+
+| Приоритет | Что найти | Где искать | Куда положить |
+|---|---|---|---|
+| 🔴 1 | Schritte plus Neu A1–B2 (полный комплект) | Telegram t.me/DaF_materials, Z-library | `daf/0. Hauptkurs/Schritte/` |
+| 🔴 2 | Berliner Platz Neu или Pluspunkt Deutsch | Telegram | `daf/0. Hauptkurs/BerlinerPlatz/` |
+| 🔴 3 | Netzwerk Neu A1–B1 (полный, не только B1 читалка) | Telegram | `daf/0. Hauptkurs/Netzwerk/` |
+| 🟠 4 | Aspekte Neu B1+ и B2 (Lehr- + Arbeitsbuch) | Telegram | `daf/0. Hauptkurs/Aspekte/` |
+| 🟠 5 | Hueber Phonetik супер A1–C1 | Telegram | `daf/5. Sprechen/Phonetik/` |
+| 🟠 6 | Graded Readers (Klett Lesen und üben A1–C1) | Telegram | `daf/3. Lesen/GradedReaders/` |
+| 🟡 7 | Behördendeutsch рабочие листы | Schubert-Verlag (бесплатно) | `daf/16. Behoerdendeutsch/` |
+| 🟡 8 | Wohnungssuche материал | VHS-Arbeitsblätter, Schubert | `daf/16. Behoerdendeutsch/` |
+| 🟡 9 | Slow German транскрипты (сезоны 1–3) | slowgerman.com | `daf/14. Hoeren/Podcasts/` |
+| 🟡 10 | Mittelpunkt Neu полный (не только тесты) | Telegram | `daf/0. Hauptkurs/Mittelpunkt/` |
 
 ---
 
