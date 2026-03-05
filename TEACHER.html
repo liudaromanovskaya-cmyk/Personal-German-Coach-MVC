@@ -335,6 +335,67 @@ nav {
 .notif-text strong { color:var(--petrol); }
 .notif-close { position:absolute; right:10px; top:8px; background:none; border:none; font-size:16px; color:var(--muted); cursor:pointer; }
 
+/* ── ПРОГРАММА / CURRICULUM ── */
+.prog-top { display:flex; gap:12px; align-items:center; margin-bottom:20px; flex-wrap:wrap; }
+.prog-student-sel { padding:9px 14px; border:1.5px solid var(--border-c); border-radius:8px; font-family:inherit; font-size:13px; color:var(--ink); background:var(--bg-card); outline:none; cursor:pointer; min-width:200px; }
+.prog-student-sel:focus { border-color:var(--petrol); }
+.prog-level-tabs { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
+.prog-level-tab { padding:8px 18px; border:1.5px solid var(--border-c); border-radius:8px; font-size:13px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .15s; background:var(--bg-card); letter-spacing:.04em; }
+.prog-level-tab:hover { border-color:var(--petrol); color:var(--petrol); }
+.prog-level-tab.active { background:var(--petrol); border-color:var(--petrol); color:#e4d0ae; }
+.prog-overview { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:20px; }
+.prog-ov-card { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px; padding:14px 16px; }
+.prog-ov-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:6px; }
+.prog-ov-pct { font-size:24px; font-weight:700; color:var(--petrol); margin-bottom:6px; }
+.prog-ov-bar-bg { background:var(--border-c); height:4px; border-radius:2px; }
+.prog-ov-bar-fg { height:100%; border-radius:2px; background:var(--green); transition:width .4s; }
+.prog-ov-bar-fg.amber { background:var(--amber); }
+.prog-ov-bar-fg.low { background:#c53030; }
+.prog-gaps { background:#fffbf4; border:1.5px solid #fdd9a0; border-radius:10px; padding:16px 18px; margin-bottom:20px; }
+.prog-gaps-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--amber); margin-bottom:12px; }
+.prog-gap-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #fde9b0; }
+.prog-gap-item:last-child { border:none; padding-bottom:0; }
+.prog-gap-cat { font-size:10px; background:var(--petrol-l); color:var(--petrol); padding:2px 8px; border-radius:20px; font-weight:700; flex-shrink:0; white-space:nowrap; }
+.prog-gap-text { font-size:12px; color:var(--ink); flex:1; line-height:1.4; }
+.prog-gap-plan { background:none; border:1.5px solid var(--amber); color:var(--amber); border-radius:6px; padding:4px 10px; font-size:11px; cursor:pointer; font-family:inherit; transition:all .15s; white-space:nowrap; flex-shrink:0; }
+.prog-gap-plan:hover { background:var(--amber); color:#fff; }
+.prog-section { background:var(--bg-card); border:1.5px solid var(--border-c); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+.prog-section-head { display:flex; align-items:center; gap:12px; padding:14px 18px; cursor:pointer; transition:background .15s; user-select:none; }
+.prog-section-head:hover { background:rgba(27,77,106,.03); }
+.prog-sec-tag { width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+.prog-sec-tag.g { background:var(--petrol-l); color:var(--petrol); }
+.prog-sec-tag.w { background:var(--green-l); color:var(--green); }
+.prog-sec-tag.k { background:var(--gold-l); color:var(--gold); }
+.prog-sec-tag.e { background:#fff8f0; color:var(--amber); }
+.prog-section-title { font-size:14px; font-weight:700; color:var(--petrol); flex:1; }
+.prog-section-bar-wrap { flex:1; max-width:70px; }
+.prog-section-bar-bg { background:var(--border-c); height:4px; border-radius:2px; }
+.prog-section-bar-fg { height:100%; border-radius:2px; background:var(--green); transition:width .4s; }
+.prog-section-bar-fg.amber { background:var(--amber); }
+.prog-section-bar-fg.low { background:#c53030; }
+.prog-section-pct { font-size:12px; font-weight:700; color:var(--green); min-width:38px; text-align:right; }
+.prog-section-pct.warn { color:var(--amber); }
+.prog-section-pct.low { color:#c53030; }
+.prog-section-chev { color:var(--muted); font-size:11px; transition:transform .2s; flex-shrink:0; }
+.prog-section.open .prog-section-chev { transform:rotate(180deg); }
+.prog-section-body { display:none; border-top:1px solid var(--border-c); }
+.prog-section.open .prog-section-body { display:block; }
+.prog-item { display:flex; align-items:flex-start; gap:12px; padding:11px 18px; border-bottom:1px solid var(--border-c); transition:background .1s; }
+.prog-item:last-child { border:none; }
+.prog-item.covered { background:rgba(74,140,110,.04); }
+.prog-item.needs-work { background:#fffbf4; }
+.prog-cb { width:20px; height:20px; min-width:20px; border:2px solid var(--border-c); border-radius:5px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; font-size:11px; color:#fff; margin-top:1px; }
+.prog-item.covered .prog-cb { background:var(--green); border-color:var(--green); }
+.prog-item.needs-work .prog-cb { background:var(--amber); border-color:var(--amber); }
+.prog-item-text { font-size:13px; color:var(--ink); flex:1; line-height:1.5; }
+.prog-item.covered .prog-item-text { color:var(--muted); text-decoration:line-through; text-decoration-color:rgba(74,140,110,.4); }
+.prog-item-actions { display:flex; gap:6px; flex-shrink:0; margin-top:1px; }
+.prog-btn-flag { background:none; border:1.5px solid var(--border-c); color:var(--muted); border-radius:6px; padding:3px 9px; font-size:11px; cursor:pointer; transition:all .15s; font-family:inherit; }
+.prog-btn-flag:hover { border-color:var(--amber); color:var(--amber); }
+.prog-item.needs-work .prog-btn-flag { border-color:var(--amber); color:var(--amber); background:#fff8f0; }
+.prog-level-info { font-size:12px; color:var(--muted); background:var(--bg-card); border:1px solid var(--border-c); border-radius:8px; padding:10px 16px; margin-bottom:20px; line-height:1.6; }
+.prog-level-info strong { color:var(--petrol); }
+
 /* ── МОБИЛЬНЫЙ ── */
 @media(max-width:700px){
   .hamburger { display:block; }
@@ -395,6 +456,7 @@ nav {
       <div class="sb-item" onclick="showView('students',this)"><span>👥</span> Студенты</div>
       <div class="sb-item" onclick="showView('new-task',this)"><span>✍️</span> Новое задание</div>
       <div class="sb-item" onclick="showView('feedback-write',this)"><span>💬</span> Фидбек <span class="badge">2</span></div>
+      <div class="sb-item" onclick="showView('program',this)"><span>📚</span> Программа</div>
     </div>
     <div class="sb-footer">
       <div class="sb-footer-lbl">Ваш Telegram</div>
@@ -841,10 +903,407 @@ nav {
 
     </div>
 
+    <!-- ══════════ ПРОГРАММА ══════════ -->
+    <div class="view" id="view-program">
+      <div class="view-title">Учебная программа</div>
+      <div class="view-sub">Чеклист CEFR A1→C1 · на основе Goethe-Institut, telc, ÖSD, TestDaF · прогресс сохраняется автоматически</div>
+
+      <div class="prog-top">
+        <select class="prog-student-sel" id="progStudentSel" onchange="renderProgram()">
+          <option value="maria">Мария Соколова — B2</option>
+          <option value="ivan">Иван Петров — A2</option>
+          <option value="elena">Елена Краузе — B2</option>
+        </select>
+        <div style="font-size:12px;color:var(--muted)">✓ = пройдено · ⚠ = нужно доработать</div>
+      </div>
+
+      <div class="prog-level-tabs" id="progLevelTabs">
+        <div class="prog-level-tab" onclick="selectProgLevel('A1',this)">A1</div>
+        <div class="prog-level-tab" onclick="selectProgLevel('A2',this)">A2</div>
+        <div class="prog-level-tab" onclick="selectProgLevel('B1',this)">B1</div>
+        <div class="prog-level-tab active" onclick="selectProgLevel('B2',this)">B2</div>
+        <div class="prog-level-tab" onclick="selectProgLevel('C1',this)">C1</div>
+      </div>
+
+      <div class="prog-level-info" id="progLevelInfo"></div>
+      <div class="prog-overview" id="progOverview"></div>
+      <div class="prog-gaps" id="progGaps" style="display:none">
+        <div class="prog-gaps-title">⚠ Требует отработки — включить в ближайший план</div>
+        <div id="progGapsList"></div>
+      </div>
+      <div id="progSections"></div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /layout -->
 
 <script>
+/* ══════════════════════════════════════════
+   ПРОГРАММА — CEFR CURRICULUM DATA
+   Источники: Goethe-Institut, telc, ÖSD, TestDaF, CEFR 2001/2020
+══════════════════════════════════════════ */
+var CURRICULUM = {
+  A1: {
+    grammar: [
+      'Глаголы Präsens — правильные: spielen, machen, arbeiten',
+      'Глаголы Präsens — неправильные: sein, haben, werden',
+      'Артикли: der/die/das · ein/eine/— · kein/keine',
+      'Личные местоимения: ich, du, er/sie/es, wir, ihr, sie/Sie',
+      'Именительный (Nominativ) и Винительный (Akkusativ) падежи',
+      'Притяжательные местоимения: mein/meine, dein/deine...',
+      'Отрицание: nicht и kein',
+      'Модальные глаголы: können, müssen, möchten',
+      'Разделяемые глаголы: aufstehen, einkaufen, anrufen',
+      'Perfekt базовый: haben/sein + Partizip II (правильные глаголы)',
+      'W-Fragen и Ja/Nein-Fragen — порядок слов',
+      'Imperativ базовый: формы Sie и du'
+    ],
+    vocabulary: [
+      'Личные данные: имя, возраст, профессия, страна (~80 слов)',
+      'Семья и ближнее окружение: родители, дети, партнёр (~50 слов)',
+      'Числа, даты, время суток, дни недели, месяцы (~60 слов)',
+      'Еда, напитки, ресторан: заказать, оплатить (~70 слов)',
+      'Жильё, мебель, комнаты: описать квартиру (~60 слов)',
+      'Транспорт и ориентация: как добраться, где находится (~50 слов)',
+      'Тело, одежда, цвета: описание внешности (~55 слов)',
+      'Ежедневные действия — базовые глаголы движения и быта (~80 слов)'
+    ],
+    skills: [
+      'Представиться и рассказать о себе: имя, возраст, профессия, страна',
+      'Задать простые вопросы и ответить на них в знакомой ситуации',
+      'Понять простые объявления, надписи, расписание',
+      'Описать своё жильё и распорядок дня',
+      'Заполнить простую анкету на немецком языке'
+    ],
+    exam: [
+      'Goethe-Zertifikat A1 / Start Deutsch 1 — формат, время, критерии',
+      'Hören A1: понять ключевые факты из коротких диалогов',
+      'Lesen A1: прочитать и понять очень простые тексты (открытки, объявления)',
+      'Schreiben A1: написать простое сообщение или открытку (3–5 предложений)',
+      'Sprechen A1: представиться, провести простой диалог в бытовой ситуации'
+    ]
+  },
+  A2: {
+    grammar: [
+      'Дательный падеж (Dativ) — формы и предлоги: mit, bei, nach, von, zu, aus, seit',
+      'Родительный падеж (Genitiv) — базовый: des Mannes, der Frau',
+      'Склонение прилагательных во всех трёх падежах',
+      'Präteritum: sein, haben и все модальные глаголы',
+      'Все модальные глаголы: dürfen, sollen, mögen + können, müssen, wollen',
+      'Возвратные глаголы: sich freuen, sich waschen, sich interessieren für...',
+      'Двунаправленные предлоги (Wechselpräpositionen): in, an, auf, über, unter...',
+      'Придаточные предложения: weil, dass, wenn',
+      'Сравнительная и превосходная степень: schöner als, am schönsten',
+      'Futur I: werden + Infinitiv',
+      'Konjunktiv II базовый: wäre, hätte, würde + Infinitiv',
+      'Zweiteilige Konnektoren: entweder...oder, nicht nur...sondern auch, sowohl...als auch'
+    ],
+    vocabulary: [
+      'Работа, профессии, рабочий день, карьера (~80 слов)',
+      'Здоровье, тело, симптомы, поход к врачу (~70 слов)',
+      'Погода и времена года: прогноз, описание (~50 слов)',
+      'Покупки, магазины, деньги, цены, реклама (~70 слов)',
+      'Путешествия, отпуск, отель, транспорт (~80 слов)',
+      'Хобби, спорт, свободное время, культурные события (~70 слов)',
+      'Школа, учёба, профессиональное образование (~60 слов)',
+      'Чувства и эмоции: выразить состояние, настроение (~50 слов)'
+    ],
+    skills: [
+      'Рассказать о своей работе и типичном рабочем дне',
+      'Описать прошлые события (Perfekt и Präteritum)',
+      'Высказать простое мнение и кратко обосновать его',
+      'Понять основное содержание несложных текстов и инструкций',
+      'Написать личный e-mail или открытку другу (50–80 слов)',
+      'Провести диалог: в магазине, ресторане, у врача, на вокзале'
+    ],
+    exam: [
+      'Goethe-Zertifikat A2 / telc A2 — формат, время, критерии',
+      'Hören A2: понять основное из коротких радиосообщений и объявлений',
+      'Lesen A2: понять рекламу, объявления, простые инструкции',
+      'Schreiben A2: личное письмо с ответом на вопросы (50–80 слов)',
+      'Sprechen A2: описать картинку, вести диалог в бытовой ситуации'
+    ]
+  },
+  B1: {
+    grammar: [
+      'Пассивный залог (Passiv) — Präsens и Präteritum',
+      'Konjunktiv II — условные предложения: Wenn ich Zeit hätte, würde ich...',
+      'Инфинитивные конструкции: um...zu, ohne...zu, statt...zu, (an)statt...zu',
+      'Относительные придаточные (Relativsätze) в Nom., Akk., Dat.',
+      'Временные придаточные: als (однократное прошлое), wenn (повторяющееся)',
+      'Временные придаточные: während, seit, bevor, nachdem, bis, sobald',
+      'Причинные (weil, da) и уступительные (obwohl, obgleich) придаточные',
+      'Plusquamperfekt — действие до другого в прошлом',
+      'Partizip I и Partizip II как определения-прилагательные',
+      'Косвенная речь — базовый Konjunktiv I: Er sagt, er habe / sei...',
+      'Базовые Nomen-Verb-Verbindungen: Angst haben vor, einen Fehler machen',
+      'Многочленные союзы: sowohl...als auch, weder...noch, je...desto',
+      'Связующие слова: trotzdem, dennoch, jedoch, allerdings (вводные)',
+      'Косвенный вопрос: Ich weiß nicht, ob/wer/warum/wie...',
+      'Порядок слов в сложных предложениях — Inversion и Nachstellung'
+    ],
+    vocabulary: [
+      'Окружающая среда, экология, изменение климата (~70 слов)',
+      'СМИ, Интернет, социальные сети, технологии (~70 слов)',
+      'Политика и общество — базовый уровень: выборы, права, закон (~70 слов)',
+      'Культура и искусство: кино, театр, литература, музыка (~60 слов)',
+      'Жизнь в Германии: интеграция, бюрократия, Behörden (~80 слов)',
+      'Образование и карьера — расширенный словарь (~80 слов)',
+      'Психология, черты личности, характер, отношения (~60 слов)'
+    ],
+    skills: [
+      'Описать и сравнить ситуации прошлого и настоящего',
+      'Написать структурированный текст с аргументами (150–200 слов)',
+      'Рассказать о книге или фильме, выразить и обосновать мнение',
+      'Вести беседу: соглашаться, возражать, уточнять, резюмировать',
+      'Понять основное содержание аутентичных радио- и ТВ-текстов',
+      'Написать официальное письмо: жалоба, просьба, запрос'
+    ],
+    exam: [
+      'Goethe B1 / telc B1 / ÖSD B1 — формат, время, критерии',
+      'Hören B1: 3 части — диалоги, интервью, объявления (понять детали)',
+      'Lesen B1: газетные статьи, объявления, деловые тексты',
+      'Schreiben B1: письмо-реакция на объявление/ситуацию (80–100 слов)',
+      'Sprechen B1: монолог на тему + совместная коммуникативная задача'
+    ]
+  },
+  B2: {
+    grammar: [
+      'Passiv с модальными глаголами: Das muss/kann/darf getan werden',
+      'Partizipialkonstruktionen как замена придаточных: das zu lösende Problem',
+      'Konjunktiv I — косвенная речь в газетных и публицистических текстах',
+      'Relativsätze с предлогами: das Haus, in dem...; die Idee, über die...',
+      'Relativsätze с was и wo: alles, was...; der Ort, wo...',
+      'Продвинутые Nomen-Verb-Verbindungen: zur Verfügung stellen, in Betracht kommen',
+      'Modalpartikeln: doch, eben, eigentlich, ja, halt, wohl, bloß, ruhig',
+      'Konnektoren (продвинутые): trotzdem, dennoch, hingegen, allerdings, zwar...aber',
+      'Einerseits...andererseits, zum einen...zum anderen — структура эссе',
+      'Infinitivkonstruktionen: scheinen/drohen/pflegen zu + Infinitiv',
+      'Doppelter Infinitiv: Er hat nicht kommen können/wollen',
+      'Субъективное значение модальных глаголов: soll/will/mag + Infinitiv',
+      'Nominalisierung: das Durchführen ↔ die Durchführung',
+      'Schwache Substantive: der Herr/des Herrn, der Mensch/des Menschen',
+      'Steigerung и Graduierung: weitaus, bei weitem, umso mehr, je länger desto mehr',
+      'Регистры речи: официальный / разговорный / письменный — различия',
+      'Все падежные предлоги — систематизация (trotz, wegen, aufgrund, infolge...)',
+      'Komplexe Komposita — чтение и образование сложных существительных'
+    ],
+    vocabulary: [
+      'Академический и профессиональный язык: термины, конструкции (~150 слов)',
+      'Политика и экономика: кризис, бюджет, реформа, партия (~100 слов)',
+      'Наука и технологии: исследования, инновации, цифровизация (~100 слов)',
+      'Философия, этика, ценности: справедливость, права, идентичность (~80 слов)',
+      'Литература, искусство и кино на немецком языке (~80 слов)',
+      'Межкультурные темы, социальные проблемы, дискриминация (~100 слов)',
+      'Коллокации и устойчивые выражения B2 (~120 словосочетаний)',
+      'Синонимы, антонимы и паронимы уровня B2 (~80 пар)'
+    ],
+    skills: [
+      'Написать аргументативное эссе со структурой (250–300 слов)',
+      'Понять позицию автора и имплицитное значение в аутентичном тексте',
+      'Читать научно-популярные статьи, анализировать логику аргументации',
+      'Вести дискуссию: аргументировать, возражать, корректно перебивать',
+      'Провести формальную презентацию: тезис + аргументы + примеры',
+      'Написать официальное письмо или заявление в формальном регистре',
+      'Понять фильмы и телепередачи на стандартном немецком',
+      'Перефразировать и резюмировать чужую точку зрения'
+    ],
+    exam: [
+      'Goethe-Zertifikat B2 / telc B2 — формат, критерии, шкала оценки',
+      'Hören B2: отличить факты от мнений, понять позицию говорящего',
+      'Lesen B2: структура аргументации в статье, понять авторскую позицию',
+      'Schreiben B2: эссе + официальное письмо — критерии и типичные ошибки',
+      'Sprechen B2: дискуссия по тезису + комментарий к диаграмме/статистике',
+      'TestDaF TDN 3–4: Wissenschaftssprache, академический формат заданий',
+      'ÖSD B2 — особенности австрийского экзамена'
+    ]
+  },
+  C1: {
+    grammar: [
+      'Все виды Passiv: Vorgangspassiv, Zustandspassiv, Passiv ohne Agens',
+      'Сложные Partizipialkonstruktionen (многоуровневые)',
+      'Номинальный стиль (Nominalstil) vs глагольный (Verbalstil) — трансформации',
+      'Konjunktiv I в публицистике — все временные формы и их значения',
+      'Сложные многоуровневые предложения (Satzgefüge mit mehreren Gliedsätzen)',
+      'Все Modalpartikeln + контекстуальные и стилистические значения',
+      'Redewendungen и идиомы — продвинутый уровень',
+      'Verben mit festen Präpositionen — полная система (все распространённые)',
+      'Komplexe Komposita — образование, интерпретация, разбор',
+      'Академический и научный дискурс: маркеры, структура, логика',
+      'Diskurspartikeln — маркеры связности и переходов в тексте',
+      'Stilkunde: деловой / академический / публицистический / литературный стиль'
+    ],
+    vocabulary: [
+      'Академический язык — продвинутый уровень (~200 слов и конструкций)',
+      'Юридическая и деловая лексика (~120 слов)',
+      'Медицинская и научная терминология (~100 слов)',
+      'Историческая и политическая лексика (~120 слов)',
+      'Литературоведческие и философские термины (~100 слов)'
+    ],
+    skills: [
+      'Понять имплицитный смысл, иронию, подтекст и аллюзии в тексте',
+      'Написать академическое эссе: тезис + развёрнутая аргументация + вывод',
+      'Провести официальную презентацию или деловые переговоры',
+      'Читать и понимать сложные тексты по специальности',
+      'Понять разные диалекты, региональные акценты и неформальную речь'
+    ],
+    exam: [
+      'Goethe C1 / telc C1 / ÖSD C1 — формат, критерии, шкала',
+      'DSH — специфика для поступления в немецкий университет',
+      'TestDaF TDN 4–5: академические навыки, структура заданий',
+      'Kritisches Lesen C1: позиция автора, логика, аргументация',
+      'Schreiben C1: аргументативное эссе + реакция на тезис — критерии'
+    ]
+  }
+};
+
+var LEVEL_INFO = {
+  A1: '<strong>A1 — Breakthrough.</strong> Около 500 слов. Студент понимает и использует знакомые выражения для удовлетворения конкретных потребностей. Экзамены: Goethe A1, Start Deutsch 1.',
+  A2: '<strong>A2 — Waystage.</strong> Около 1000 слов. Студент понимает часто употребляемые выражения в знакомых ситуациях. Экзамены: Goethe A2, telc A2, ÖSD A2.',
+  B1: '<strong>B1 — Threshold.</strong> Около 2000 слов. Студент понимает основное в стандартной ситуации. Может описать опыт, события, желания. Экзамены: Goethe B1, telc B1, ÖSD B1.',
+  B2: '<strong>B2 — Vantage.</strong> Около 4000 слов. Студент понимает сложные тексты, общается спонтанно. Может аргументировать свою позицию. Экзамены: Goethe B2, telc B2, TestDaF, ÖSD B2.',
+  C1: '<strong>C1 — Effective Operational Proficiency.</strong> Около 8000 слов. Студент свободно и гибко использует язык для профессиональных и академических целей. Экзамены: Goethe C1, telc C1, DSH, TestDaF TDN 4–5.'
+};
+
+var SECTION_META = {
+  grammar:    { tag: 'G', tagClass: 'g', label: 'Грамматика' },
+  vocabulary: { tag: 'W', tagClass: 'w', label: 'Словарный запас' },
+  skills:     { tag: 'К', tagClass: 'k', label: 'Навыки и умения' },
+  exam:       { tag: 'Э', tagClass: 'e', label: 'Экзаменационная подготовка' }
+};
+
+var currentProgLevel = 'B2';
+
+function getProgKey(studentId, level, section, index) {
+  return 'pgc_' + studentId + '_' + level + '_' + section + '_' + index;
+}
+function getItemState(studentId, level, section, index) {
+  return localStorage.getItem(getProgKey(studentId, level, section, index)) || 'none';
+}
+function setItemState(studentId, level, section, index, state) {
+  localStorage.setItem(getProgKey(studentId, level, section, index), state);
+}
+function getCoverage(studentId, level) {
+  var result = {};
+  Object.keys(CURRICULUM[level]).forEach(function(sec) {
+    var items = CURRICULUM[level][sec];
+    var covered = 0, needsWork = 0;
+    items.forEach(function(_, i) {
+      var s = getItemState(studentId, level, sec, i);
+      if (s === 'covered') covered++;
+      if (s === 'needs-work') needsWork++;
+    });
+    result[sec] = { total: items.length, covered: covered, needsWork: needsWork };
+  });
+  return result;
+}
+
+function renderProgram() {
+  var studentId = document.getElementById('progStudentSel').value;
+  document.getElementById('progLevelInfo').innerHTML = LEVEL_INFO[currentProgLevel];
+  renderProgOverview(studentId);
+  renderProgGaps(studentId);
+  renderProgSections(studentId);
+}
+function renderProgOverview(studentId) {
+  var cov = getCoverage(studentId, currentProgLevel);
+  var html = '';
+  Object.keys(cov).forEach(function(sec) {
+    var c = cov[sec];
+    var pct = c.total ? Math.round(c.covered / c.total * 100) : 0;
+    var barClass = pct >= 70 ? '' : pct >= 40 ? ' amber' : ' low';
+    html += '<div class="prog-ov-card">' +
+      '<div class="prog-ov-label">' + SECTION_META[sec].label + '</div>' +
+      '<div class="prog-ov-pct">' + pct + '%</div>' +
+      '<div class="prog-ov-bar-bg"><div class="prog-ov-bar-fg' + barClass + '" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+  });
+  document.getElementById('progOverview').innerHTML = html;
+}
+function renderProgGaps(studentId) {
+  var gaps = [];
+  Object.keys(CURRICULUM[currentProgLevel]).forEach(function(sec) {
+    CURRICULUM[currentProgLevel][sec].forEach(function(text, i) {
+      if (getItemState(studentId, currentProgLevel, sec, i) === 'needs-work') {
+        gaps.push({ sec: sec, text: text, index: i });
+      }
+    });
+  });
+  var gapsEl = document.getElementById('progGaps');
+  if (gaps.length === 0) { gapsEl.style.display = 'none'; return; }
+  gapsEl.style.display = 'block';
+  document.getElementById('progGapsList').innerHTML = gaps.map(function(g) {
+    return '<div class="prog-gap-item">' +
+      '<span class="prog-gap-cat">' + SECTION_META[g.sec].label + '</span>' +
+      '<span class="prog-gap-text">' + g.text + '</span>' +
+      '<button class="prog-gap-plan" onclick="progNotifyPlan(\'' + g.text.substring(0,40) + '\')">+ В план</button>' +
+      '</div>';
+  }).join('');
+}
+function renderProgSections(studentId) {
+  var html = '';
+  Object.keys(CURRICULUM[currentProgLevel]).forEach(function(sec) {
+    var items = CURRICULUM[currentProgLevel][sec];
+    var meta = SECTION_META[sec];
+    var covered = items.filter(function(_, i) { return getItemState(studentId, currentProgLevel, sec, i) === 'covered'; }).length;
+    var pct = items.length ? Math.round(covered / items.length * 100) : 0;
+    var pctClass = pct >= 70 ? '' : pct >= 40 ? ' warn' : ' low';
+    var barClass = pct >= 70 ? '' : pct >= 40 ? ' amber' : ' low';
+    html += '<div class="prog-section" id="prog-sec-' + sec + '">' +
+      '<div class="prog-section-head" onclick="toggleProgSection(\'' + sec + '\')">' +
+      '<span class="prog-sec-tag ' + meta.tagClass + '">' + meta.tag + '</span>' +
+      '<span class="prog-section-title">' + meta.label + '</span>' +
+      '<span class="prog-section-bar-wrap"><div class="prog-section-bar-bg"><div class="prog-section-bar-fg' + barClass + '" style="width:' + pct + '%"></div></div></span>' +
+      '<span class="prog-section-pct' + pctClass + '">' + covered + '/' + items.length + '</span>' +
+      '<span class="prog-section-chev">▼</span>' +
+      '</div>' +
+      '<div class="prog-section-body" id="prog-body-' + sec + '">';
+    items.forEach(function(text, i) {
+      var state = getItemState(studentId, currentProgLevel, sec, i);
+      var itemClass = state === 'covered' ? ' covered' : state === 'needs-work' ? ' needs-work' : '';
+      var cbText = state === 'covered' ? '✓' : state === 'needs-work' ? '!' : '';
+      var flagLabel = state === 'needs-work' ? '⚠ отмечено' : '⚠ Ошибка';
+      html += '<div class="prog-item' + itemClass + '" id="prog-item-' + sec + '-' + i + '">' +
+        '<div class="prog-cb" onclick="toggleProgCovered(\'' + sec + '\',' + i + ')" title="Отметить как пройденное">' + cbText + '</div>' +
+        '<div class="prog-item-text">' + text + '</div>' +
+        '<div class="prog-item-actions">' +
+        '<button class="prog-btn-flag" onclick="toggleProgFlag(\'' + sec + '\',' + i + ')" title="Ошибка — нужно отработать">' + flagLabel + '</button>' +
+        '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('progSections').innerHTML = html;
+}
+function toggleProgSection(sec) {
+  document.getElementById('prog-sec-' + sec).classList.toggle('open');
+}
+function toggleProgCovered(sec, index) {
+  var studentId = document.getElementById('progStudentSel').value;
+  var cur = getItemState(studentId, currentProgLevel, sec, index);
+  setItemState(studentId, currentProgLevel, sec, index, cur === 'covered' ? 'none' : 'covered');
+  renderProgram();
+  // сохранить открытые секции
+  document.getElementById('prog-sec-' + sec).classList.add('open');
+  document.getElementById('prog-body-' + sec).style.display = 'block';
+}
+function toggleProgFlag(sec, index) {
+  var studentId = document.getElementById('progStudentSel').value;
+  var cur = getItemState(studentId, currentProgLevel, sec, index);
+  setItemState(studentId, currentProgLevel, sec, index, cur === 'needs-work' ? 'none' : 'needs-work');
+  renderProgram();
+  document.getElementById('prog-sec-' + sec).classList.add('open');
+  document.getElementById('prog-body-' + sec).style.display = 'block';
+}
+function selectProgLevel(level, el) {
+  currentProgLevel = level;
+  document.querySelectorAll('.prog-level-tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  renderProgram();
+}
+function progNotifyPlan(text) {
+  alert('Тема "' + text + '..." добавлена в заметки.\nОткройте "Новое задание" и включите её в ближайший план студентки.');
+}
+
 /* ── Навигация ── */
 function showView(name, el) {
   document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
@@ -852,6 +1311,7 @@ function showView(name, el) {
   document.getElementById('view-' + name).classList.add('active');
   if (el) el.classList.add('active');
   if (window.innerWidth <= 700) closeSidebar();
+  if (name === 'program') renderProgram();
 }
 
 function toggleSidebar() {
