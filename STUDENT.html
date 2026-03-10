@@ -468,6 +468,64 @@ nav {
 .snack-ru { display:none; margin-top:8px; font-size:12px; color:#718096; background:#f9f4ed; border-radius:6px; padding:8px 10px; line-height:1.6; border:1px solid #e8ddd0; }
 .snack-ru.open { display:block; }
 
+/* ── WORTSCHATZ VIEW ── */
+.lex-header { margin-bottom:20px; }
+.lex-header h2 { font-size:18px; font-weight:700; color:#1A1A1A; margin-bottom:4px; }
+.lex-header p { font-size:13px; color:#718096; }
+.lex-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+.lex-tab { padding:6px 14px; border-radius:20px; border:1.5px solid #E2E8F0; background:#fff; font-size:12px; font-weight:600; cursor:pointer; color:#718096; transition:all .15s; }
+.lex-tab.active { background:#4A8C6E; color:#fff; border-color:#4A8C6E; }
+.lex-part { display:none; }
+.lex-part.active { display:block; }
+.lex-part-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#4A8C6E; margin-bottom:12px; padding-bottom:6px; border-bottom:2px solid #EDF7F1; }
+.lex-row { display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid #F0F4F8; padding:10px 0; align-items:start; }
+.lex-row:last-child { border-bottom:none; }
+.lex-de { font-size:13px; font-weight:600; color:#1A1A1A; }
+.lex-art { font-size:11px; color:#7CC8A0; font-weight:700; margin-right:4px; }
+.lex-pl { font-size:11px; color:#A0AEC0; }
+.lex-ru { font-size:13px; color:#4A5568; }
+.lex-ex { font-size:11px; color:#718096; font-style:italic; margin-top:3px; grid-column:1/-1; }
+.lex-colloc { font-size:11px; color:#4A8C6E; margin-top:2px; }
+.expr-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:10px; padding:14px 16px; margin-bottom:10px; }
+.expr-de { font-size:14px; font-weight:700; color:#1A1A1A; margin-bottom:2px; }
+.expr-meaning { font-size:12px; color:#4A8C6E; font-style:italic; margin-bottom:6px; }
+.expr-example { font-size:12px; color:#718096; }
+.expr-ru { font-size:12px; color:#A0AEC0; margin-top:3px; }
+.lex-count-badge { display:inline-block; background:#EDF7F1; color:#4A8C6E; font-size:11px; font-weight:700; padding:2px 10px; border-radius:20px; margin-left:8px; }
+
+/* ── GRAMMATIK VIEW ── */
+.grm-hero { background:#2D3748; border-radius:12px; padding:20px 22px; margin-bottom:20px; }
+.grm-hero-title { font-size:17px; font-weight:700; color:#fff; margin-bottom:4px; }
+.grm-hero-sub { font-size:13px; color:rgba(255,255,255,.5); }
+.grm-quick-table { width:100%; border-collapse:collapse; margin-bottom:24px; font-size:12px; }
+.grm-quick-table th { background:#F7FAFC; text-align:left; padding:8px 12px; font-weight:700; color:#4A5568; border-bottom:2px solid #E2E8F0; }
+.grm-quick-table td { padding:8px 12px; border-bottom:1px solid #F0F4F8; vertical-align:top; }
+.grm-quick-table tr:hover td { background:#F9FAFB; }
+.conj-chip { display:inline-block; background:#2D3748; color:#7CC8A0; font-size:12px; font-weight:700; padding:2px 10px; border-radius:20px; }
+.conj-chip.past { background:#553C1E; color:#F6AD55; }
+.conj-chip.sim { background:#1A365D; color:#90CDF4; }
+.conj-chip.seq { background:#1C4532; color:#68D391; }
+.conj-chip.other { background:#44337A; color:#D6BCFA; }
+.grm-card { background:#fff; border:1.5px solid #E2E8F0; border-radius:12px; padding:18px 20px; margin-bottom:14px; }
+.grm-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.grm-card-conj { font-size:20px; font-weight:800; color:#1A1A1A; }
+.grm-card-tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.grm-card-tag.past { background:#FFF3CD; color:#92400E; }
+.grm-card-tag.sim { background:#DBEAFE; color:#1E40AF; }
+.grm-card-tag.seq { background:#D1FAE5; color:#065F46; }
+.grm-card-tag.other { background:#EDE9FE; color:#5B21B6; }
+.grm-rule { font-size:13px; color:#4A5568; line-height:1.7; margin-bottom:10px; }
+.grm-rule strong { color:#1A1A1A; }
+.grm-examples { background:#F7FAFC; border-radius:8px; padding:12px 14px; }
+.grm-ex-item { font-size:13px; color:#1A1A1A; margin-bottom:6px; }
+.grm-ex-item:last-child { margin-bottom:0; }
+.grm-ex-ru { font-size:11px; color:#718096; }
+.grm-mistake { background:#FFF5F5; border:1.5px solid #FED7D7; border-radius:10px; padding:14px 16px; margin-bottom:10px; }
+.grm-mistake-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:#C53030; margin-bottom:8px; }
+.grm-m-wrong { color:#C53030; text-decoration:line-through; font-size:13px; }
+.grm-m-right { color:#2F855A; font-weight:600; font-size:13px; }
+.grm-m-note { font-size:12px; color:#718096; margin-top:4px; }
+
 /* ── MOBILE ── */
 @media(max-width:700px){
   .hamburger { display:block; }
@@ -568,6 +626,8 @@ textarea.profile-input { min-height:72px; line-height:1.5; }
       <div class="sb-item" onclick="showView('progress',this)"><span>📈</span> Прогресс</div>
       <div class="sb-item" onclick="showView('feedback',this)"><span>💬</span> Обратная связь <span class="dot-badge">2</span></div>
       <div class="sb-item" onclick="showView('plan',this)"><span>🗓</span> Мой план</div>
+      <div class="sb-item" onclick="showView('wortschatz',this)"><span>📖</span> Wortschatz</div>
+      <div class="sb-item" onclick="showView('grammatik',this)"><span>📐</span> Grammatik</div>
     </div>
     <div class="sb-coach">
       <div class="sb-coach-lbl">Ваш преподаватель</div>
@@ -1462,6 +1522,350 @@ Zum Beispiel: „In der Diskussion geht es um... Die Expertin sagt, dass... Auß
 
     </div>
 
+    <!-- ══════════════ WORTSCHATZ ══════════════ -->
+    <div class="view" id="view-wortschatz">
+      <div class="lex-header">
+        <h2>Wortschatz — Lektion 2 «Schönheit»<span class="lex-count-badge">96 слов</span></h2>
+        <p>Mittelpunkt neu B2 · Все части A–F · Нажмите на вкладку чтобы перейти к разделу</p>
+      </div>
+
+      <!-- Вкладки по частям -->
+      <div class="lex-tabs">
+        <div class="lex-tab active" onclick="switchLexTab('all',this)">Все слова</div>
+        <div class="lex-tab" onclick="switchLexTab('a',this)">Teil A</div>
+        <div class="lex-tab" onclick="switchLexTab('b',this)">Teil B</div>
+        <div class="lex-tab" onclick="switchLexTab('c',this)">Teil C</div>
+        <div class="lex-tab" onclick="switchLexTab('d',this)">Teil D</div>
+        <div class="lex-tab" onclick="switchLexTab('e',this)">Teil E</div>
+        <div class="lex-tab" onclick="switchLexTab('f',this)">Teil F</div>
+        <div class="lex-tab" onclick="switchLexTab('expr',this)">Ausdrücke</div>
+      </div>
+
+      <!-- ─── TEIL A — Einfach schön ─── -->
+      <div class="lex-part active" id="lex-all">
+
+        <div class="lex-part-title" id="lex-sec-a">Teil A — Einfach schön &nbsp;(15 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Aussehen</span> <span class="lex-pl">–s (nur Sg.)</span></div><div class="lex-ru">внешний вид, внешность</div><div class="lex-ex">„Das Aussehen spielt in der Gesellschaft eine wichtige Rolle."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Erscheinung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">внешний облик, образ</div><div class="lex-ex">„Sie hat eine elegante Erscheinung."</div></div>
+        <div class="lex-row"><div><span class="lex-de">attraktiv</span></div><div class="lex-ru">привлекательный</div><div class="lex-ex">„Attraktive Menschen werden oft bevorzugt."</div></div>
+        <div class="lex-row"><div><span class="lex-de">wunderschön</span></div><div class="lex-ru">восхитительно красивый</div><div class="lex-ex">„Die Stadt sieht im Herbst wunderschön aus."</div></div>
+        <div class="lex-row"><div><span class="lex-de">umwerfend</span></div><div class="lex-ru">потрясающий, сногсшибательный</div><div class="lex-ex">„Sie sieht heute Abend umwerfend aus!"</div></div>
+        <div class="lex-row"><div><span class="lex-de">äußerlich</span></div><div class="lex-ru">внешний, поверхностный</div><div class="lex-ex">„Äußerlich wirkt er ruhig, aber innerlich ist er nervös."</div></div>
+        <div class="lex-row"><div><span class="lex-de">gepflegt</span></div><div class="lex-ru">ухоженный, опрятный</div><div class="lex-ex">„Ein gepflegtes Äußeres hinterlässt einen guten Eindruck."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Stil</span> <span class="lex-pl">–e</span></div><div class="lex-ru">стиль</div><div class="lex-ex">„Jeder Mensch entwickelt im Laufe der Zeit seinen eigenen Stil."</div></div>
+        <div class="lex-row"><div><span class="lex-de">modisch</span></div><div class="lex-ru">модный, стильный</div><div class="lex-ex">„Modische Kleidung muss nicht teuer sein."</div></div>
+        <div class="lex-row"><div><span class="lex-de">sich schminken</span></div><div class="lex-ru">краситься, делать макияж</div><div class="lex-ex">„Sie schminkt sich nur für besondere Anlässe."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Make-up</span> <span class="lex-pl">–s</span></div><div class="lex-ru">макияж</div><div class="lex-ex">„Natürliches Make-up ist gerade sehr im Trend."</div></div>
+        <div class="lex-row"><div><span class="lex-de">natürlich</span></div><div class="lex-ru">естественный, природный</div><div class="lex-ex">„Viele Männer bevorzugen ein natürliches Aussehen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Trend</span> <span class="lex-pl">–s</span></div><div class="lex-ru">тренд, модное направление</div><div class="lex-ex">„Dieser Trend kommt aus Südkorea."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Schönheitspflege</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">уход за красотой</div><div class="lex-ex">„Schönheitspflege ist für viele Menschen ein Ritual."</div></div>
+        <div class="lex-row"><div><span class="lex-de">strahlen</span></div><div class="lex-ru">сиять, излучать</div><div class="lex-ex">„Sie strahlt vor Glück — man sieht es sofort."</div></div>
+
+        <div class="lex-part-title" id="lex-sec-b" style="margin-top:22px">Teil B — Schön leicht? &nbsp;(15 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Diät</span> <span class="lex-pl">–en</span></div><div class="lex-ru">диета</div><div class="lex-ex">„Eine strenge Diät kann der Gesundheit schaden."</div></div>
+        <div class="lex-row"><div><span class="lex-de">abnehmen</span> <span class="lex-pl">(nimmt ab)</span></div><div class="lex-ru">худеть, сбрасывать вес</div><div class="lex-ex">„Nach dem Urlaub möchte sie abnehmen."</div></div>
+        <div class="lex-row"><div><span class="lex-de">zunehmen</span> <span class="lex-pl">(nimmt zu)</span></div><div class="lex-ru">набирать вес</div><div class="lex-ex">„Im Winter neigt man dazu zuzunehmen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Körpergewicht</span> <span class="lex-pl">–e</span></div><div class="lex-ru">масса тела, вес</div><div class="lex-ex">„Das Körpergewicht ist kein Maß für Gesundheit."</div></div>
+        <div class="lex-row"><div><span class="lex-de">schlank</span></div><div class="lex-ru">стройный, худощавый</div><div class="lex-ex">„Schlanke Models prägen unser Schönheitsideal."</div></div>
+        <div class="lex-row"><div><span class="lex-de">übergewichtig</span></div><div class="lex-ru">с лишним весом</div><div class="lex-ex">„In Deutschland gilt fast ein Drittel der Bevölkerung als übergewichtig."</div></div>
+        <div class="lex-row"><div><span class="lex-de">sportlich</span></div><div class="lex-ru">спортивный, подтянутый</div><div class="lex-ex">„Ein sportliches Aussehen wird oft mit Erfolg verbunden."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Fitnessstudio</span> <span class="lex-pl">–s</span></div><div class="lex-ru">фитнес-зал, спортзал</div><div class="lex-ex">„Seit Jahren geht er dreimal pro Woche ins Fitnessstudio."</div></div>
+        <div class="lex-row"><div><span class="lex-de">trainieren</span></div><div class="lex-ru">тренироваться</div><div class="lex-ex">„Regelmäßig trainieren ist wichtiger als eine strenge Diät."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Ernährung</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">питание, рацион</div><div class="lex-ex">„Ausgewogene Ernährung beeinflusst das Wohlbefinden."</div></div>
+        <div class="lex-row"><div><span class="lex-de">sich gesund ernähren</span></div><div class="lex-ru">питаться здорово</div><div class="lex-ex">„Sie versucht, sich gesund zu ernähren — mehr Gemüse, weniger Zucker."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Körper</span> <span class="lex-pl">–</span></div><div class="lex-ru">тело</div><div class="lex-ex">„Viele Menschen sind mit ihrem Körper unzufrieden."</div></div>
+        <div class="lex-row"><div><span class="lex-de">fit</span></div><div class="lex-ru">в форме, бодрый</div><div class="lex-ex">„Mit 50 fühlt sie sich fitter als mit 30."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Idealgewicht</span> <span class="lex-pl">–e</span></div><div class="lex-ru">идеальный вес</div><div class="lex-ex">„Das Idealgewicht ist ein Konstrukt — nicht für jeden gleich."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Selbstdisziplin</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">самодисциплина</div><div class="lex-ex">„Selbstdisziplin ist wichtiger als Motivation — sie trägt dich weiter."</div></div>
+
+        <div class="lex-part-title" id="lex-sec-c" style="margin-top:22px">Teil C — Die Macht der Schönheit &nbsp;(18 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Benachteiligung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">ущемление, дискриминация</div><div class="lex-ex">„Weniger attraktive Bewerber erfahren auf dem Arbeitsmarkt Benachteiligungen."</div></div>
+        <div class="lex-row"><div><span class="lex-de">bevorzugen</span></div><div class="lex-ru">отдавать предпочтение</div><div class="lex-ex">„Personalchefs bevorzugen oft unbewusst attraktive Kandidaten."</div></div>
+        <div class="lex-row"><div><span class="lex-de">beeinflussen</span></div><div class="lex-ru">влиять на</div><div class="lex-ex">„Werbung beeinflusst unser Bild von Schönheit."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Vorteil</span> <span class="lex-pl">–e</span></div><div class="lex-ru">преимущество</div><div class="lex-ex">„Attraktivität bringt im Beruf oft Vorteile."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Nachteil</span> <span class="lex-pl">–e</span></div><div class="lex-ru">недостаток, минус</div><div class="lex-ex">„Zu viel Fokus auf Äußerlichkeiten hat auch Nachteile."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Chancengleichheit</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">равенство возможностей</div><div class="lex-ex">„Chancengleichheit bedeutet, dass alle die gleichen Möglichkeiten haben — unabhängig vom Aussehen."</div></div>
+        <div class="lex-row"><div><span class="lex-de">diskriminieren</span></div><div class="lex-ru">дискриминировать</div><div class="lex-ex">„Es ist verboten, jemanden aufgrund seiner Herkunft zu diskriminieren."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Studie</span> <span class="lex-pl">–n</span></div><div class="lex-ru">исследование</div><div class="lex-ex">„Eine aktuelle Studie belegt: attraktive Menschen verdienen mehr."</div></div>
+        <div class="lex-row"><div><span class="lex-de">belegen</span></div><div class="lex-ru">подтверждать, доказывать</div><div class="lex-ex">„Die Daten belegen eindeutig einen Zusammenhang."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Zusammenhang</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">связь, взаимосвязь</div><div class="lex-ex">„Es gibt einen klaren Zusammenhang zwischen Aussehen und Gehalt."</div></div>
+        <div class="lex-row"><div><span class="lex-de">nachweisen</span></div><div class="lex-ru">доказывать, устанавливать</div><div class="lex-ex">„Der Effekt lässt sich wissenschaftlich nachweisen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Attraktivität</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">привлекательность</div><div class="lex-ex">„Attraktivität ist subjektiv — was schön ist, entscheidet die Kultur."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Erfolg</span> <span class="lex-pl">–e</span></div><div class="lex-ru">успех</div><div class="lex-ex">„Beruflicher Erfolg hängt nicht nur von Wissen ab."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Einfluss</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">влияние</div><div class="lex-ex">„Soziale Medien haben großen Einfluss auf das Körperbild."</div></div>
+        <div class="lex-row"><div><span class="lex-de">sich bewerben</span> <span class="lex-pl">(um + Akk.)</span></div><div class="lex-ru">подавать заявку, претендовать</div><div class="lex-ex">„Sie bewirbt sich um eine Stelle als Managerin."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Bewerbung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">заявка, резюме, заявление</div><div class="lex-ex">„In Deutschland gehört oft ein Foto zur Bewerbung."</div></div>
+        <div class="lex-row"><div><span class="lex-de">überzeugen</span></div><div class="lex-ru">убеждать</div><div class="lex-ex">„Ein gutes Auftreten überzeugt im Vorstellungsgespräch."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Eindruck</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">впечатление</div><div class="lex-ex">„Einen guten Eindruck zu machen ist beim ersten Treffen entscheidend."</div></div>
+
+        <div class="lex-part-title" id="lex-sec-d" style="margin-top:22px">Teil D — Schönheitskult &nbsp;(18 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Schönheitskult</span> <span class="lex-pl">–e</span></div><div class="lex-ru">культ красоты</div><div class="lex-ex">„Der Schönheitskult in sozialen Medien nimmt zu."</div><div class="lex-colloc">dem Schönheitskult <strong>verfallen</strong> · dem Schönheitskult <strong>unterliegen</strong></div></div>
+        <div class="lex-row"><div><span class="lex-de">verfallen</span> <span class="lex-pl">(ist verfallen, + Dat.)</span></div><div class="lex-ru">поддаться, впасть в</div><div class="lex-ex">„Viele Menschen verfallen dem Druck, perfekt aussehen zu müssen."</div></div>
+        <div class="lex-row"><div><span class="lex-de">unterliegen</span> <span class="lex-pl">(+ Dat.)</span></div><div class="lex-ru">подчиняться, быть подверженным</div><div class="lex-ex">„Wir alle unterliegen gesellschaftlichen Schönheitsidealen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Schönheitseingriff</span> <span class="lex-pl">–e</span></div><div class="lex-ru">косметическая процедура / операция</div><div class="lex-ex">„Jährlich werden in Deutschland 900 000 Schönheitseingriffe durchgeführt."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Schönheitsoperation</span> <span class="lex-pl">–en</span></div><div class="lex-ru">пластическая операция</div><div class="lex-ex">„Schönheitsoperationen sind legal, aber nicht ohne Risiken."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Schönheitsideal</span> <span class="lex-pl">–e</span></div><div class="lex-ru">идеал красоты</div><div class="lex-ex">„Schönheitsideale ändern sich je nach Epoche und Kultur."</div></div>
+        <div class="lex-row"><div><span class="lex-de">kritisieren</span></div><div class="lex-ru">критиковать</div><div class="lex-ex">„Viele Aktivistinnen kritisieren unrealistische Körperbilder in der Werbung."</div></div>
+        <div class="lex-row"><div><span class="lex-de">hinterfragen</span></div><div class="lex-ru">ставить под сомнение, анализировать</div><div class="lex-ex">„Es ist wichtig, gesellschaftliche Normen zu hinterfragen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Selbstwahrnehmung</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">самовосприятие</div><div class="lex-ex">„Soziale Medien können die Selbstwahrnehmung negativ beeinflussen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Selbstbewusstsein</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">уверенность в себе, самооценка</div><div class="lex-ex">„Ein gesundes Selbstbewusstsein hängt nicht vom Aussehen ab."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Druck</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">давление</div><div class="lex-ex">„Viele Jugendliche stehen unter Druck, einem Ideal zu entsprechen."</div><div class="lex-colloc">unter Druck <strong>stehen</strong> · unter Druck <strong>geraten</strong></div></div>
+        <div class="lex-row"><div><span class="lex-de">gesellschaftlich</span></div><div class="lex-ru">общественный, социальный</div><div class="lex-ex">„Das ist ein gesellschaftliches Problem, kein persönliches."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Körperkult</span> <span class="lex-pl">–e</span></div><div class="lex-ru">культ тела</div><div class="lex-ex">„Fitnessstudios profitieren vom wachsenden Körperkult."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Selbstdarstellung</span> <span class="lex-pl">(nur Sg.)</span></div><div class="lex-ru">самопрезентация</div><div class="lex-ex">„Instagram ist eine Plattform für Selbstdarstellung."</div></div>
+        <div class="lex-row"><div><span class="lex-de">beurteilen</span></div><div class="lex-ru">оценивать, судить</div><div class="lex-ex">„Man sollte Menschen nicht nach ihrer Kleidung beurteilen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Schönheitsmittel</span> <span class="lex-pl">–</span></div><div class="lex-ru">косметическое средство</div><div class="lex-ex">„Der Markt für Schönheitsmittel wächst jedes Jahr."</div></div>
+        <div class="lex-row"><div><span class="lex-de">dem Zeitgeist entsprechen</span></div><div class="lex-ru">соответствовать духу времени</div><div class="lex-ex">„Schönheitsideale entsprechen immer dem Zeitgeist."</div></div>
+        <div class="lex-row"><div><span class="lex-de">Wert legen auf</span> <span class="lex-pl">(+ Akk.)</span></div><div class="lex-ru">придавать значение чему-то</div><div class="lex-ex">„Sie legt großen Wert auf ihr Erscheinungsbild."</div></div>
+
+        <div class="lex-part-title" id="lex-sec-e" style="margin-top:22px">Teil E — Schöne Diskussionen &nbsp;(15 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Argument</span> <span class="lex-pl">–e</span></div><div class="lex-ru">аргумент</div><div class="lex-ex">„Ein starkes Argument braucht Beispiele und Belege."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">These</span> <span class="lex-pl">–n</span></div><div class="lex-ru">тезис, утверждение</div><div class="lex-ex">„Die These des Artikels: Schönheit ist nicht nur Glück, sondern Arbeit."</div></div>
+        <div class="lex-row"><div><span class="lex-de">widersprechen</span> <span class="lex-pl">(+ Dat.)</span></div><div class="lex-ru">возражать, противоречить</div><div class="lex-ex">„Ich muss Ihrer Meinung widersprechen — die Daten zeigen etwas anderes."</div></div>
+        <div class="lex-row"><div><span class="lex-de">zustimmen</span> <span class="lex-pl">(+ Dat.)</span></div><div class="lex-ru">соглашаться</div><div class="lex-ex">„Ich stimme Ihnen zu — das Aussehen beeinflusst die Karriere."</div></div>
+        <div class="lex-row"><div><span class="lex-de">behaupten</span></div><div class="lex-ru">утверждать</div><div class="lex-ex">„Manche behaupten, Schönheit sei angeboren."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Behauptung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">утверждение</div><div class="lex-ex">„Diese Behauptung ist ohne Belege nicht überzeugend."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Gegenargument</span> <span class="lex-pl">–e</span></div><div class="lex-ru">контраргумент</div><div class="lex-ex">„Das stärkste Gegenargument ist die Frage der Chancengleichheit."</div></div>
+        <div class="lex-row"><div><span class="lex-de">zum Ausdruck bringen</span></div><div class="lex-ru">выражать (мнение, чувство)</div><div class="lex-ex">„Er brachte seine Kritik deutlich zum Ausdruck."</div></div>
+        <div class="lex-row"><div><span class="lex-de">im Gegensatz zu</span> <span class="lex-pl">(+ Dat.)</span></div><div class="lex-ru">в противоположность, в отличие от</div><div class="lex-ex">„Im Gegensatz zu früher zeigen Medien heute mehr Vielfalt."</div></div>
+        <div class="lex-row"><div><span class="lex-de">Stellung nehmen</span> <span class="lex-pl">(zu + Dat.)</span></div><div class="lex-ru">высказываться (о чём-то), занять позицию</div><div class="lex-ex">„Die Politikerin nahm klar Stellung zur Frage der Körpernormen."</div></div>
+        <div class="lex-row"><div><span class="lex-de">ablehnen</span></div><div class="lex-ru">отвергать, отклонять</div><div class="lex-ex">„Ich lehne die Idee ab, dass Schönheit über Kompetenz geht."</div></div>
+        <div class="lex-row"><div><span class="lex-de">befürworten</span></div><div class="lex-ru">поддерживать, одобрять</div><div class="lex-ex">„Viele befürworten ein Verbot von übermäßig retuschierter Werbung."</div></div>
+        <div class="lex-row"><div><span class="lex-de">begründen</span></div><div class="lex-ru">обосновывать</div><div class="lex-ex">„Bitte begründen Sie Ihre Meinung mit konkreten Beispielen."</div></div>
+        <div class="lex-art"><span class="lex-de">die</span><span class="lex-de">Begründung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">обоснование</div>
+        <div class="lex-row"><div><span class="lex-de">überzeugend</span></div><div class="lex-ru">убедительный</div><div class="lex-ex">„Ihr Vortrag war sehr überzeugend — klare Struktur und gute Beispiele."</div></div>
+
+        <div class="lex-part-title" id="lex-sec-f" style="margin-top:22px">Teil F — (Un)schöne Momente &nbsp;(15 слов)</div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Forumsbeitrag</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">пост на форуме</div><div class="lex-ex">„Schreiben Sie einen sachlichen Forumsbeitrag zu diesem Thema."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Beitrag</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">вклад, статья, пост, взнос</div><div class="lex-ex">„Ihr Beitrag zur Diskussion war sehr wertvoll."</div></div>
+        <div class="lex-row"><div><span class="lex-de">zusammenfassen</span></div><div class="lex-ru">обобщать, подводить итог</div><div class="lex-ex">„Fassen Sie die wichtigsten Punkte kurz zusammen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">das</span><span class="lex-de">Fazit</span> <span class="lex-pl">–s</span></div><div class="lex-ru">итог, вывод</div><div class="lex-ex">„Das Fazit: Schönheit hat Einfluss — aber er darf nicht überbewertet werden."</div></div>
+        <div class="lex-row"><div><span class="lex-de">schildern</span></div><div class="lex-ru">описывать, изображать</div><div class="lex-ex">„Schildern Sie eine persönliche Erfahrung mit Schönheitsidealen."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Standpunkt</span> <span class="lex-pl">–e</span></div><div class="lex-ru">точка зрения, позиция</div><div class="lex-ex">„Jeder hat das Recht auf seinen eigenen Standpunkt."</div></div>
+        <div class="lex-row"><div><span class="lex-de">einen Standpunkt vertreten</span></div><div class="lex-ru">придерживаться точки зрения</div><div class="lex-ex">„Sie vertritt den Standpunkt, dass Schönheit keine Rolle spielen sollte."</div></div>
+        <div class="lex-row"><div><span class="lex-de">angemessen</span></div><div class="lex-ru">подходящий, уместный</div><div class="lex-ex">„Ein angemessener Ton ist im Forumsbeitrag besonders wichtig."</div></div>
+        <div class="lex-row"><div><span class="lex-art">der</span><span class="lex-de">Ton</span> <span class="lex-pl">–¨e</span></div><div class="lex-ru">тон, манера (общения)</div><div class="lex-ex">„Der Ton in Online-Diskussionen ist oft zu aggressiv."</div></div>
+        <div class="lex-row"><div><span class="lex-de">sachlich</span></div><div class="lex-ru">объективный, деловой</div><div class="lex-ex">„Bleiben Sie sachlich — auch wenn das Thema emotional ist."</div></div>
+        <div class="lex-row"><div><span class="lex-de">ausgewogen</span></div><div class="lex-ru">сбалансированный</div><div class="lex-ex">„Ein guter Forumsbeitrag ist ausgewogen und berücksichtigt verschiedene Sichten."</div></div>
+        <div class="lex-row"><div><span class="lex-art">die</span><span class="lex-de">Schlussfolgerung</span> <span class="lex-pl">–en</span></div><div class="lex-ru">вывод, заключение</div><div class="lex-ex">„Die Schlussfolgerung des Artikels ist überzeugend."</div></div>
+        <div class="lex-row"><div><span class="lex-de">kritisch</span></div><div class="lex-ru">критический</div><div class="lex-ex">„Ein kritischer Umgang mit Medien ist heute unerlässlich."</div></div>
+        <div class="lex-row"><div><span class="lex-de">reflektieren</span></div><div class="lex-ru">размышлять, анализировать</div><div class="lex-ex">„Reflektieren Sie über Ihre eigene Einstellung zu Schönheit."</div></div>
+        <div class="lex-row"><div><span class="lex-de">überarbeiten</span></div><div class="lex-ru">переработать, пересмотреть</div><div class="lex-ex">„Überarbeiten Sie Ihren Text — der Schluss braucht mehr Kraft."</div></div>
+
+        <!-- Ausdrücke в режиме «все слова» -->
+        <div class="lex-part-title" id="lex-sec-expr" style="margin-top:22px">Feste Ausdrücke &amp; Redewendungen &nbsp;(18 выражений)</div>
+        <div class="expr-card"><div class="expr-de">sich in Schale werfen</div><div class="expr-meaning">принарядиться, одеться с иголочки</div><div class="expr-example">„Für das Vorstellungsgespräch habe ich mich richtig in Schale geworfen."</div></div>
+        <div class="expr-card"><div class="expr-de">gut in Form sein</div><div class="expr-meaning">быть в хорошей форме</div><div class="expr-example">„Nach dem Urlaub bist du wirklich gut in Form — man sieht's dir an!"</div></div>
+        <div class="expr-card"><div class="expr-de">auf den ersten Blick</div><div class="expr-meaning">с первого взгляда</div><div class="expr-example">„Auf den ersten Blick wirkt er streng, aber er ist sehr freundlich."</div></div>
+        <div class="expr-card"><div class="expr-de">Schönheit liegt im Auge des Betrachters</div><div class="expr-meaning">красота в глазах смотрящего</div><div class="expr-example">„Über Geschmack lässt sich streiten — Schönheit liegt im Auge des Betrachters."</div></div>
+        <div class="expr-card"><div class="expr-de">jemanden nach dem Äußeren beurteilen</div><div class="expr-meaning">судить кого-то по внешности</div><div class="expr-example">„Es ist unfair, Menschen nur nach dem Äußeren zu beurteilen."</div></div>
+        <div class="expr-card"><div class="expr-de">dem Schönheitskult verfallen sein</div><div class="expr-meaning">стать жертвой культа красоты</div><div class="expr-example">„Wer täglich Stunden vor dem Spiegel verbringt, ist vielleicht dem Schönheitskult verfallen."</div></div>
+        <div class="expr-card"><div class="expr-de">unter Druck stehen</div><div class="expr-meaning">быть под давлением</div><div class="expr-example">„Viele Teenager stehen unter enormem Druck, einem Schönheitsideal zu entsprechen."</div></div>
+        <div class="expr-card"><div class="expr-de">mit sich im Reinen sein</div><div class="expr-meaning">быть в ладу с собой, принимать себя</div><div class="expr-example">„Wahre Schönheit kommt, wenn man mit sich im Reinen ist."</div></div>
+        <div class="expr-card"><div class="expr-de">wie aus dem Ei gepellt</div><div class="expr-meaning">как с иголочки, идеально одетый</div><div class="expr-example">„Er kommt immer wie aus dem Ei gepellt ins Büro."</div></div>
+        <div class="expr-card"><div class="expr-de">einen guten Eindruck machen</div><div class="expr-meaning">производить хорошее впечатление</div><div class="expr-example">„Beim ersten Gespräch ist es wichtig, einen guten Eindruck zu machen."</div></div>
+        <div class="expr-card"><div class="expr-de">auf seine äußere Erscheinung achten</div><div class="expr-meaning">следить за своей внешностью</div><div class="expr-example">„Im Beruf lohnt es sich, auf seine äußere Erscheinung zu achten."</div></div>
+        <div class="expr-card"><div class="expr-de">etwas in Frage stellen</div><div class="expr-meaning">ставить что-то под сомнение</div><div class="expr-example">„Wir sollten unrealistische Schönheitsideale in Frage stellen."</div></div>
+        <div class="expr-card"><div class="expr-de">vor Schönheit strahlen</div><div class="expr-meaning">сиять красотой, быть очень красивым</div><div class="expr-example">„Die Braut strahlte vor Schönheit — alle drehten sich um."</div></div>
+        <div class="expr-card"><div class="expr-de">sich keine Gedanken über etwas machen</div><div class="expr-meaning">не беспокоиться, не думать о чём-то</div><div class="expr-example">„Kinder machen sich keine Gedanken über ihr Aussehen — das lernen sie erst später."</div></div>
+        <div class="expr-card"><div class="expr-de">Wert legen auf (+ Akk.)</div><div class="expr-meaning">придавать значение чему-то</div><div class="expr-example">„Sie legt großen Wert auf gepflegtes Auftreten bei der Arbeit."</div></div>
+        <div class="expr-card"><div class="expr-de">nach außen hin wirken</div><div class="expr-meaning">производить впечатление, казаться</div><div class="expr-example">„Nach außen hin wirkt er selbstsicher, aber innerlich zweifelt er."</div></div>
+        <div class="expr-card"><div class="expr-de">dem Zeitgeist entsprechen</div><div class="expr-meaning">соответствовать духу времени</div><div class="expr-example">„Schönheitsideale spiegeln immer wider, welchem Zeitgeist eine Gesellschaft folgt."</div></div>
+        <div class="expr-card"><div class="expr-de">das Äußere über das Innere stellen</div><div class="expr-meaning">ставить внешнее выше внутреннего</div><div class="expr-example">„Eine Gesellschaft, die das Äußere über das Innere stellt, verliert etwas Wichtiges."</div></div>
+
+      </div><!-- /lex-all -->
+
+
+    </div><!-- /view-wortschatz -->
+
+    <!-- ══════════════ GRAMMATIK ══════════════ -->
+    <div class="view" id="view-grammatik">
+      <div class="grm-hero">
+        <div class="grm-hero-title">Temporale Nebensätze — Придаточные времени</div>
+        <div class="grm-hero-sub">Mittelpunkt B2 · Lektion 2 · Vollständige Erklärung mit Beispielen</div>
+      </div>
+
+      <!-- Быстрая таблица союзов -->
+      <table class="grm-quick-table">
+        <thead><tr><th>Союз</th><th>Значение</th><th>Время</th><th>Ключевой вопрос</th></tr></thead>
+        <tbody>
+          <tr><td><span class="conj-chip past">als</span></td><td>Однократное событие в прошлом</td><td>Vergangenheit</td><td>Что произошло один раз в прошлом?</td></tr>
+          <tr><td><span class="conj-chip past">wenn</span></td><td>Повторяющееся (любое время) или будущее</td><td>Präsens / Zukunft / Verg.</td><td>Что происходило всегда / что будет?</td></tr>
+          <tr><td><span class="conj-chip sim">während</span></td><td>Одновременность двух действий</td><td>Любое</td><td>Что происходило в то же время?</td></tr>
+          <tr><td><span class="conj-chip seq">nachdem</span></td><td>Сначала — придаточное, потом — главное</td><td>Plusq. → Prät./Perf.</td><td>Что было сначала?</td></tr>
+          <tr><td><span class="conj-chip seq">bevor</span></td><td>Сначала — главное, потом — придаточное</td><td>Любое</td><td>Что произойдёт / произошло потом?</td></tr>
+          <tr><td><span class="conj-chip other">seit / seitdem</span></td><td>С тех пор как — непрерывное действие</td><td>Präsens (продолжается)</td><td>С какого момента это продолжается?</td></tr>
+          <tr><td><span class="conj-chip other">bis</span></td><td>До тех пор пока (не)</td><td>Любое</td><td>До какого момента?</td></tr>
+          <tr><td><span class="conj-chip other">sobald</span></td><td>Как только — немедленно после</td><td>Любое</td><td>Сразу после чего?</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ALS -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">als</div>
+          <div class="grm-card-tag past">однократное прошлое</div>
+        </div>
+        <div class="grm-rule">
+          Используется для <strong>однократного, завершённого события в прошлом</strong>. Только прошедшее время — никогда настоящее или будущее.<br>
+          <strong>Правило слова:</strong> «als» = «когда» только для ПРОШЛОГО + ОДНОГО РАЗА.
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Als ich ein Kind war, hatten wir kein Internet." <div class="grm-ex-ru">Когда я была ребёнком, у нас не было интернета.</div></div>
+          <div class="grm-ex-item">„Als die Diskussion begann, schaltete jeder den Ton ein." <div class="grm-ex-ru">Когда дискуссия началась, все включили звук.</div></div>
+          <div class="grm-ex-item">„Als sie die Studie las, verstand sie das Problem sofort." <div class="grm-ex-ru">Когда она прочитала исследование, она сразу поняла проблему.</div></div>
+        </div>
+      </div>
+
+      <!-- WENN -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">wenn</div>
+          <div class="grm-card-tag past">повторяющееся / будущее</div>
+        </div>
+        <div class="grm-rule">
+          Используется для <strong>повторяющихся ситуаций</strong> (в любом времени) и для <strong>однократного события в будущем или условного</strong>.<br>
+          <strong>Сигнал:</strong> «immer wenn» (всегда когда), «jedes Mal wenn» (каждый раз когда), или будущее время.
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Wenn ich jung war, ging ich jeden Sommer an den See." <div class="grm-ex-ru">Когда я была молодой, я каждое лето ехала на озеро. (повторяющееся в прошлом)</div></div>
+          <div class="grm-ex-item">„Wenn sie schön ist, bekommt sie mehr Chancen, sagt man." <div class="grm-ex-ru">Говорят: когда человек красив, у него больше возможностей. (общее)</div></div>
+          <div class="grm-ex-item">„Wenn wir uns das nächste Mal treffen, zeige ich dir die Studie." <div class="grm-ex-ru">Когда мы встретимся в следующий раз, я покажу тебе исследование. (будущее)</div></div>
+        </div>
+      </div>
+
+      <!-- WÄHREND -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">während</div>
+          <div class="grm-card-tag sim">одновременность</div>
+        </div>
+        <div class="grm-rule">
+          Оба действия происходят <strong>одновременно, параллельно</strong>. Придаточное с «während» описывает фоновое действие, главное — действие на переднем плане.<br>
+          <strong>Важно:</strong> после вводного придаточного — инверсия в главном предложении.
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Während sie sprach, machte er sich Notizen." <div class="grm-ex-ru">Пока она говорила, он делал заметки.</div></div>
+          <div class="grm-ex-item">„Während ich trainiere, höre ich Podcasts auf Deutsch." <div class="grm-ex-ru">Пока я тренируюсь, я слушаю подкасты на немецком.</div></div>
+          <div class="grm-ex-item">„Während die Schönheitsindustrie wächst, steigt auch der Druck auf Jugendliche." <div class="grm-ex-ru">Пока индустрия красоты растёт, давление на молодёжь тоже увеличивается.</div></div>
+        </div>
+      </div>
+
+      <!-- NACHDEM -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">nachdem</div>
+          <div class="grm-card-tag seq">последовательность: сначала придаточное</div>
+        </div>
+        <div class="grm-rule">
+          Действие придаточного <strong>завершилось раньше</strong>, чем действие главного.<br>
+          <strong>Правило времён:</strong><br>
+          → Придаточное: <strong>Plusquamperfekt</strong> (hatte/war + Part. II)<br>
+          → Главное: <strong>Präteritum</strong> или <strong>Perfekt</strong><br>
+          Или: Придаточное: Perfekt → Главное: Präsens (разговорная речь)
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Nachdem sie die Studie gelesen <strong>hatte</strong>, verstand sie das Problem." <div class="grm-ex-ru">После того как она прочитала исследование, она поняла проблему.</div></div>
+          <div class="grm-ex-item">„Nachdem der Schönheitskult analysiert worden <strong>war</strong>, gab es viele Reaktionen." <div class="grm-ex-ru">После того как культ красоты был проанализирован, последовало много реакций.</div></div>
+          <div class="grm-ex-item">„Nachdem ich trainiert <strong>habe</strong>, fühle ich mich viel besser." <div class="grm-ex-ru">После того как я потренировалась, я чувствую себя намного лучше. (Perf. + Präs.)</div></div>
+        </div>
+      </div>
+
+      <!-- BEVOR -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">bevor</div>
+          <div class="grm-card-tag seq">последовательность: сначала главное</div>
+        </div>
+        <div class="grm-rule">
+          Противоположность «nachdem»: действие главного предложения происходит <strong>раньше</strong> придаточного. В придаточном описывается то, что будет потом.<br>
+          <strong>Времена</strong> обычно одинаковые в обоих предложениях.
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Bevor sie zum Arzt geht, trinkt sie immer einen Tee." <div class="grm-ex-ru">Прежде чем идти к врачу, она всегда пьёт чай.</div></div>
+          <div class="grm-ex-item">„Er hat sich geschminkt, bevor er auf die Party ging." <div class="grm-ex-ru">Он накрасился, прежде чем пойти на вечеринку.</div></div>
+          <div class="grm-ex-item">„Bevor du Schönheitsideale kritisierst, solltest du sie erst verstehen." <div class="grm-ex-ru">Прежде чем критиковать идеалы красоты, нужно сначала их понять.</div></div>
+        </div>
+      </div>
+
+      <!-- SEIT / SEITDEM -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">seit / seitdem</div>
+          <div class="grm-card-tag other">с тех пор как (продолжается)</div>
+        </div>
+        <div class="grm-rule">
+          Действие <strong>началось в прошлом и продолжается до сих пор</strong>. В главном предложении — Präsens, в придаточном — Präsens (если процесс идёт) или Präteritum (с момента прошлого события).
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Seitdem sie Yoga macht, fühlt sie sich ausgeglichener." <div class="grm-ex-ru">С тех пор как она занимается йогой, она чувствует себя уравновешеннее.</div></div>
+          <div class="grm-ex-item">„Seit er dort wohnt, achtet er mehr auf seine Ernährung." <div class="grm-ex-ru">С тех пор как он там живёт, он больше следит за питанием.</div></div>
+        </div>
+      </div>
+
+      <!-- BIS -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">bis</div>
+          <div class="grm-card-tag other">до тех пор пока (не)</div>
+        </div>
+        <div class="grm-rule">
+          Главное действие продолжается <strong>до момента</strong>, описанного в придаточном. По-русски переводится «пока не» — но в немецком отрицания нет!
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Sie wartete, bis er zurückkam." <div class="grm-ex-ru">Она ждала, пока он не вернулся.</div></div>
+          <div class="grm-ex-item">„Ich lerne Deutsch, bis ich fließend spreche." <div class="grm-ex-ru">Я учу немецкий, пока не заговорю свободно.</div></div>
+        </div>
+      </div>
+
+      <!-- SOBALD -->
+      <div class="grm-card">
+        <div class="grm-card-head">
+          <div class="grm-card-conj">sobald</div>
+          <div class="grm-card-tag other">как только (немедленно)</div>
+        </div>
+        <div class="grm-rule">
+          Главное действие начинается <strong>немедленно</strong> после придаточного. Подчёркивает мгновенность реакции. В отличие от «wenn» — акцент на быстроте.
+        </div>
+        <div class="grm-examples">
+          <div class="grm-ex-item">„Sobald die Ergebnisse der Studie kommen, rufe ich dich an." <div class="grm-ex-ru">Как только придут результаты исследования, я тебе позвоню.</div></div>
+          <div class="grm-ex-item">„Sobald sie ihn sah, erkannte sie ihn sofort." <div class="grm-ex-ru">Как только она его увидела, она сразу его узнала.</div></div>
+        </div>
+      </div>
+
+      <!-- Типичные ошибки -->
+      <div style="margin-top:24px; margin-bottom:8px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#C53030;">Типичные ошибки — запомнить раз и навсегда</div>
+
+      <div class="grm-mistake">
+        <div class="grm-mistake-title">❌ Ошибка 1 — «als» вместо «wenn» для повторяющегося</div>
+        <div class="grm-m-wrong">Als ich jung war, ging ich <em>jedes Sommer</em> schwimmen.</div>
+        <div class="grm-m-right">Wenn ich jung war, ging ich jeden Sommer schwimmen.</div>
+        <div class="grm-m-note">Ключевое слово «jedes Mal», «immer», «jeden…» → это повторяющееся → нужен «wenn».</div>
+      </div>
+
+      <div class="grm-mistake">
+        <div class="grm-mistake-title">❌ Ошибка 2 — нет инверсии после вводного придаточного</div>
+        <div class="grm-m-wrong">Während ich arbeite, <em>ich denke</em> oft an das Aussehen.</div>
+        <div class="grm-m-right">Während ich arbeite, <strong>denke ich</strong> oft an das Aussehen.</div>
+        <div class="grm-m-note">Придаточное в начале занимает 1-ю позицию → главное начинается с глагола (2-я позиция).</div>
+      </div>
+
+      <div class="grm-mistake">
+        <div class="grm-mistake-title">❌ Ошибка 3 — неверные времена с «nachdem»</div>
+        <div class="grm-m-wrong">Nachdem sie die Studie <em>gelesen hat</em>, verstand sie das Problem.</div>
+        <div class="grm-m-right">Nachdem sie die Studie <strong>gelesen hatte</strong>, verstand sie das Problem.</div>
+        <div class="grm-m-note">«Nachdem» + Prät. в главном → нужен Plusquamperfekt в придаточном (hatte/war + Part. II).</div>
+      </div>
+
+      <div class="grm-mistake">
+        <div class="grm-mistake-title">❌ Ошибка 4 — глагол не в конце придаточного</div>
+        <div class="grm-m-wrong">Bevor sie <em>geht zum Arzt</em>, trinkt sie Tee.</div>
+        <div class="grm-m-right">Bevor sie <strong>zum Arzt geht</strong>, trinkt sie Tee.</div>
+        <div class="grm-m-note">В любом Nebensatz (als/wenn/während/nachdem/bevor…) глагол ВСЕГДА в конце.</div>
+      </div>
+
+    </div><!-- /view-grammatik -->
+
   </div><!-- /.main -->
 </div><!-- /.layout -->
 
@@ -1705,6 +2109,14 @@ function toggleFb(item) { item.classList.toggle('open'); }
   }
   document.addEventListener('DOMContentLoaded', initProfile);
 })();
+
+/* ── Вкладки Wortschatz ── */
+function switchLexTab(part, el) {
+  document.querySelectorAll('.lex-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  var sec = document.getElementById('lex-sec-' + part);
+  if (sec) { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
 
 function saveProfile() {
   var btn = document.querySelector('.profile-save-btn');
