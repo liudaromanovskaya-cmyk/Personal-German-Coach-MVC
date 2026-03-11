@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal German Coach</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f5ede0;
+  color: #1A1A1A;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.app-header {
+  background: #1b4d6a;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-header-title {
+  color: #e4d0ae;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* HOME */
+.home-hero {
+  background: #1b4d6a;
+  padding: 28px 24px 32px;
+  text-align: center;
+}
+.teacher-photo {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  border: 3px solid #c9a96e;
+  background: #2a6b8a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 14px;
+}
+.home-title { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+.home-sub { color: #c9a96e; font-size: 13px; }
+
+.benefits { padding: 20px 20px 0; }
+.benefit-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid #e8ddd0;
+}
+.benefit-item:last-child { border: none; }
+.benefit-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.benefit-text strong { display: block; font-size: 14px; color: #1A1A1A; margin-bottom: 2px; }
+.benefit-text span { font-size: 12px; color: #718096; line-height: 1.4; }
+
+.testimonial {
+  margin: 16px 20px 0;
+  background: #fff; border-radius: 12px;
+  padding: 14px 16px; border-left: 3px solid #c9a96e;
+}
+.testimonial-text { font-size: 13px; color: #374151; line-height: 1.5; margin-bottom: 6px; font-style: italic; }
+.testimonial-author { font-size: 11px; color: #718096; font-weight: 600; }
+
+/* Кнопка для браузера (вне Telegram) */
+.cta-btn {
+  display: block;
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: #4A8C6E;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  min-height: 52px;
+}
+
+/* SERVICES */
+.screen-title { padding: 20px 20px 8px; font-size: 18px; font-weight: 700; color: #1A1A1A; }
+.screen-sub { padding: 0 20px 16px; font-size: 13px; color: #718096; }
+
+.package-card {
+  margin: 0 16px 12px;
+  background: #fff; border-radius: 14px;
+  padding: 18px; border: 2px solid #e8ddd0;
+  cursor: pointer; position: relative;
+  transition: border-color .15s, box-shadow .15s;
+}
+.package-card:hover, .package-card.selected {
+  border-color: #4A8C6E;
+  box-shadow: 0 2px 12px rgba(74,140,110,.15);
+}
+.popular-badge {
+  position: absolute; top: -10px; left: 18px;
+  background: #c9a96e; color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.package-name { font-size: 16px; font-weight: 700; color: #1A1A1A; margin-bottom: 12px; margin-top: 4px; }
+.package-features { list-style: none; margin-bottom: 14px; }
+.package-features li {
+  font-size: 13px; color: #374151;
+  padding: 4px 0; display: flex; align-items: center; gap: 8px;
+}
+.package-features li::before { content: '✓'; color: #4A8C6E; font-weight: 700; flex-shrink: 0; }
+.package-footer { display: flex; align-items: center; justify-content: space-between; }
+.package-price { font-size: 22px; font-weight: 800; color: #1b4d6a; }
+.package-select-btn {
+  background: #4A8C6E; color: #fff; border: none;
+  border-radius: 8px; padding: 10px 20px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  min-height: 44px; transition: background .15s;
+}
+.package-select-btn:hover { background: #2E6B4F; }
+.package-card.popular { border-color: #c9a96e; }
+
+/* BOOKING */
+.selected-package-bar {
+  margin: 0 16px 16px;
+  background: #EDF7F1; border-radius: 10px;
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.selected-package-name { font-size: 13px; font-weight: 700; color: #2E6B4F; }
+.selected-package-price { font-size: 16px; font-weight: 800; color: #1b4d6a; }
+
+.form-section { padding: 0 16px; }
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+  color: #718096; margin-bottom: 6px;
+}
+.form-input {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid #e8ddd0; border-radius: 10px;
+  font-size: 15px; font-family: inherit;
+  background: #fff; color: #1A1A1A;
+  outline: none; transition: border-color .15s; min-height: 48px;
+}
+.form-input:focus { border-color: #4A8C6E; }
+textarea.form-input { min-height: 80px; resize: vertical; }
+
+.time-options { display: flex; flex-direction: column; gap: 8px; }
+.time-option {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; background: #fff;
+  border: 1.5px solid #e8ddd0; border-radius: 10px;
+  cursor: pointer; transition: border-color .15s, background .15s; min-height: 48px;
+}
+.time-option.checked { border-color: #4A8C6E; background: #EDF7F1; }
+.time-checkbox {
+  width: 20px; height: 20px;
+  border: 2px solid #e8ddd0; border-radius: 5px;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #fff; transition: all .15s;
+}
+.time-option.checked .time-checkbox { background: #4A8C6E; border-color: #4A8C6E; }
+.time-label { font-size: 14px; color: #374151; }
+
+.submit-btn {
+  display: block; width: calc(100% - 32px); margin: 20px 16px 0;
+  padding: 16px; background: #4A8C6E; color: #fff;
+  font-size: 15px; font-weight: 700; border: none;
+  border-radius: 14px; cursor: pointer; min-height: 52px;
+}
+
+/* CONFIRM */
+.confirm-hero { padding: 40px 24px 24px; text-align: center; }
+.confirm-icon { font-size: 56px; margin-bottom: 16px; }
+.confirm-title { font-size: 22px; font-weight: 800; color: #2E6B4F; margin-bottom: 8px; }
+.confirm-sub { font-size: 14px; color: #718096; line-height: 1.6; }
+
+.confirm-steps {
+  margin: 0 16px 16px;
+  background: #fff; border-radius: 14px; padding: 18px;
+}
+.confirm-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 10px 0; border-bottom: 1px solid #f2ebe0;
+}
+.confirm-step:last-child { border: none; padding-bottom: 0; }
+.step-num {
+  width: 28px; height: 28px;
+  background: #1b4d6a; color: #c9a96e;
+  border-radius: 50%; font-size: 13px; font-weight: 700;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+}
+.step-text { font-size: 14px; color: #374151; line-height: 1.5; padding-top: 3px; }
+
+.confirm-summary {
+  margin: 0 16px 16px;
+  background: #EDF7F1; border-radius: 12px; padding: 14px 16px;
+}
+.confirm-summary-label { font-size: 12px; color: #4A8C6E; font-weight: 600; }
+.confirm-summary-value { font-size: 14px; font-weight: 700; color: #1A1A1A; }
+
+.chat-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 0 16px; padding: 14px;
+  background: #fff; border: 1.5px solid #1b4d6a;
+  border-radius: 12px; color: #1b4d6a;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  min-height: 48px; text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <span class="app-header-title">Personal <em>German</em> Coach</span>
+</div>
+
+<!-- SCREEN 1: HOME -->
+<div class="screen active" id="screen-home">
+  <div class="home-hero">
+    <div class="teacher-photo">👩‍🏫</div>
+    <div class="home-title">Немецкий для русскоязычных<br>в Германии</div>
+    <div class="home-sub">Личный трек · AI-фидбек · Реальный результат</div>
+  </div>
+  <div class="benefits">
+    <div class="benefit-item">
+      <div class="benefit-icon">🎯</div>
+      <div class="benefit-text">
+        <strong>Диагностика и личный план</strong>
+        <span>Точный уровень CEFR и маршрут под вашу цель</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">🤖</div>
+      <div class="benefit-text">
+        <strong>AI-фидбек после каждого урока</strong>
+        <span>Разбор ошибок и конкретные упражнения для роста</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">📈</div>
+      <div class="benefit-text">
+        <strong>Результат за 8–12 недель</strong>
+        <span>Прогресс, который вы видите каждую неделю</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">💬</div>
+      <div class="benefit-text">
+        <strong>Всё в Telegram</strong>
+        <span>Задания, фидбек, записи — без лишних приложений</span>
+      </div>
+    </div>
+  </div>
+  <div class="testimonial">
+    <div class="testimonial-text">«Занималась на курсах 2 года — ничего. За 3 месяца здесь прошла с A2 до B2 и сдала Goethe с первого раза.»</div>
+    <div class="testimonial-author">— Мария К., Мюнхен</div>
+  </div>
+  <button class="cta-btn" onclick="haptic('light'); goToServices();">Записаться на диагностику — 29€</button>
+</div>
+
+<!-- SCREEN 2: SERVICES -->
+<div class="screen" id="screen-services">
+  <div class="screen-title">Выберите план</div>
+  <div class="screen-sub">Все планы включают личный трек и AI-фидбек</div>
+  <div id="packages-list"></div>
+</div>
+
+<!-- SCREEN 3: BOOKING -->
+<div class="screen" id="screen-booking">
+  <div class="screen-title">Запись</div>
+  <div class="selected-package-bar">
+    <div class="selected-package-name" id="selected-pkg-name">—</div>
+    <div class="selected-package-price" id="selected-pkg-price">—</div>
+  </div>
+  <div class="form-section">
+    <div class="form-group">
+      <label class="form-label">Ваше имя</label>
+      <input type="text" id="input-name" class="form-input" placeholder="Имя и фамилия">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="input-email" class="form-input" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Удобное время (выберите 1–2)</label>
+      <div class="time-options">
+        <div class="time-option" data-time="Пн/Ср/Пт утро 9–12">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — утро (9:00–12:00)</div>
+        </div>
+        <div class="time-option" data-time="Пн/Ср/Пт вечер 18–21">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — вечер (18:00–21:00)</div>
+        </div>
+        <div class="time-option" data-time="Сб/Вс любое время">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Суббота / Воскресенье — любое время</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Комментарий (необязательно)</label>
+      <textarea id="input-comment" class="form-input" placeholder="Расскажите о вашей цели или ситуации…"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitBooking()">Подтвердить запись →</button>
+  </div>
+</div>
+
+<!-- SCREEN 4: CONFIRM -->
+<div class="screen" id="screen-confirm">
+  <div class="confirm-hero">
+    <div class="confirm-icon">✅</div>
+    <div class="confirm-title" id="confirm-name">Заявка принята!</div>
+    <div class="confirm-sub">Я уже вижу вашу заявку и скоро напишу</div>
+  </div>
+  <div class="confirm-steps">
+    <div class="confirm-step">
+      <div class="step-num">1</div>
+      <div class="step-text">Напишу вам сегодня до 18:00 и подтвержу время</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">2</div>
+      <div class="step-text">Вышлю ссылку на видеозвонок (Zoom или Google Meet)</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">3</div>
+      <div class="step-text">После первой встречи — оплата и старт личного трека</div>
+    </div>
+  </div>
+  <div class="confirm-summary">
+    <div class="confirm-summary-label">Выбранный план</div>
+    <div class="confirm-summary-value" id="confirm-pkg">—</div>
+  </div>
+  <!-- ⚠️ Замените YOUR_USERNAME на ваш Telegram username -->
+  <a href="https://t.me/YOUR_USERNAME" class="chat-btn" target="_blank">
+    💬 Написать напрямую в Telegram
+  </a>
+</div>
+
+<script>
+// ── Telegram WebApp init ──
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.expand(); tg.ready(); }
+
+let selectedPackage = null;
+const user = tg?.initDataUnsafe?.user || {};
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id)?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setMainButton(text, onClick) {
+  if (!tg) return;
+  tg.MainButton.setText(text);
+  tg.MainButton.show();
+  tg.MainButton.offClick();
+  tg.MainButton.onClick(onClick);
+}
+function hideMainButton() { if (tg) tg.MainButton.hide(); }
+
+function setBackButton(onClick) {
+  if (!tg) return;
+  tg.BackButton.show();
+  tg.BackButton.offClick();
+  tg.BackButton.onClick(onClick);
+}
+function hideBackButton() { if (tg) tg.BackButton.hide(); }
+
+function haptic(type) {
+  if (tg?.HapticFeedback) {
+    if (type === 'light') tg.HapticFeedback.impactOccurred('light');
+    if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
+    if (type === 'select') tg.HapticFeedback.selectionChanged();
+  }
+}
+
+function initHome() {
+  hideBackButton();
+  setMainButton('Записаться на диагностику — 29€', () => {
+    haptic('light');
+    goToServices();
+  });
+}
+
+const packages = [
+  {
+    id: 'diagnostics', name: 'Диагностика', price: '29€', popular: false,
+    features: ['60 мин с преподавателем','Точный уровень CEFR (A1–C1)','Личный план на 3 месяца','Разбор ваших главных пробелов'],
+  },
+  {
+    id: 'month', name: 'Месяц занятий', price: '149€', popular: true,
+    features: ['4 урока по 60 мин','Домашние задания + AI-фидбек','Доступ к материалам и словарям','2 встречи в неделю по расписанию'],
+  },
+  {
+    id: 'track', name: 'Стратегический трек 3 мес', price: '349€', popular: false,
+    features: ['12 уроков + AI-сопровождение','Еженедельный отчёт о прогрессе','Подготовка к экзамену (Goethe, TestDaF)','Приоритетная связь с преподавателем'],
+  },
+];
+
+function goToServices() {
+  showScreen('services');
+  const list = document.getElementById('packages-list');
+  list.innerHTML = '';
+  packages.forEach(pkg => {
+    const card = document.createElement('div');
+    card.className = 'package-card' + (pkg.popular ? ' popular' : '');
+    card.dataset.id = pkg.id;
+    card.innerHTML = `
+      ${pkg.popular ? '<div class="popular-badge">★ Популярный</div>' : ''}
+      <div class="package-name">${pkg.name}</div>
+      <ul class="package-features">${pkg.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      <div class="package-footer">
+        <div class="package-price">${pkg.price}</div>
+        <button class="package-select-btn" onclick="selectPackage('${pkg.id}')">Выбрать</button>
+      </div>`;
+    list.appendChild(card);
+  });
+  hideMainButton();
+  setBackButton(() => { haptic('light'); initHome(); showScreen('home'); });
+}
+
+function selectPackage(id) {
+  haptic('select');
+  selectedPackage = packages.find(p => p.id === id);
+  document.querySelectorAll('.package-card').forEach(c => c.classList.toggle('selected', c.dataset.id === id));
+  setMainButton(`Выбрать: ${selectedPackage.name} — ${selectedPackage.price}`, () => { haptic('light'); goToBooking(); });
+}
+
+function goToBooking() {
+  showScreen('booking');
+  const nameInput = document.getElementById('input-name');
+  if (nameInput && user.first_name) nameInput.value = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+  document.getElementById('selected-pkg-name').textContent = selectedPackage.name;
+  document.getElementById('selected-pkg-price').textContent = selectedPackage.price;
+  document.querySelectorAll('.time-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      haptic('select');
+      opt.classList.toggle('checked');
+      opt.querySelector('.time-checkbox').textContent = opt.classList.contains('checked') ? '✓' : '';
+    });
+  });
+  setMainButton('Подтвердить запись →', () => { haptic('light'); submitBooking(); });
+  setBackButton(() => { haptic('light'); goToServices(); });
+}
+
+function submitBooking() {
+  const name = document.getElementById('input-name').value.trim();
+  const email = document.getElementById('input-email').value.trim();
+  const times = [...document.querySelectorAll('.time-option.checked')].map(o => o.dataset.time).join(', ');
+  if (!name) { alert('Пожалуйста, введите ваше имя.'); return; }
+  if (!email || !email.includes('@')) { alert('Пожалуйста, введите корректный email.'); return; }
+  if (!times) { alert('Выберите хотя бы один удобный интервал.'); return; }
+
+  const MAKE_WEBHOOK = 'https://hook.eu1.make.com/ВСТАВЬТЕ_СВОЙ_ВЕБХУК';
+  const payload = {
+    name, email,
+    package: selectedPackage.name, price: selectedPackage.price, times,
+    comment: document.getElementById('input-comment').value.trim(),
+    telegram_username: user.username || '', telegram_id: user.id || '',
+  };
+
+  if (tg) tg.MainButton.showProgress();
+  fetch(MAKE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    .then(() => { haptic('success'); goToConfirm(name); })
+    .catch(() => { haptic('success'); goToConfirm(name); })
+    .finally(() => { if (tg) tg.MainButton.hideProgress(); });
+}
+
+function goToConfirm(name) {
+  showScreen('confirm');
+  document.getElementById('confirm-name').textContent = name.split(' ')[0] + ', заявка принята!';
+  document.getElementById('confirm-pkg').textContent = selectedPackage.name + ' — ' + selectedPackage.price;
+  hideBackButton();
+  setMainButton('Закрыть', () => { haptic('light'); if (tg) tg.close(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => { initHome(); });
+</script>
+</body>
+</html>
