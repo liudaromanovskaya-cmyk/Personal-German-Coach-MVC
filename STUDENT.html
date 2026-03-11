@@ -1951,6 +1951,25 @@ function goToToday() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ── Галочки в плане ── */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.plan-exercises .plan-ex').forEach(function(ex) {
+    ex.style.cursor = 'pointer';
+    ex.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var check = ex.querySelector('.plan-check');
+      if (check.classList.contains('done')) {
+        check.classList.remove('done');
+        check.textContent = '·';
+      } else {
+        check.classList.add('done');
+        check.classList.remove('current');
+        check.textContent = '✓';
+      }
+    });
+  });
+});
+
 /* ── Счётчик слов + авто-чек ── */
 function updateWordCount() {
   const text = document.getElementById('responseArea').value.trim();
