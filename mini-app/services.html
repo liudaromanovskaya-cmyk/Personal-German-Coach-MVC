@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выберите план</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-header">
+  <span class="app-header-title">Personal <em>German</em> Coach</span>
+</div>
+
+<div class="screen active" id="screen-services">
+  <div class="screen-title">Выберите план</div>
+  <div class="screen-sub">Все планы включают личный трек и AI-фидбек</div>
+  <div id="packages-list"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    goToServices();
+  });
+</script>
+</body>
+</html>

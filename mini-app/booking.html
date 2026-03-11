@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Запись</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-header">
+  <span class="app-header-title">Personal <em>German</em> Coach</span>
+</div>
+
+<div class="screen active" id="screen-booking">
+
+  <div class="screen-title">Запись</div>
+
+  <div class="selected-package-bar">
+    <div class="selected-package-name" id="selected-pkg-name">Диагностика</div>
+    <div class="selected-package-price" id="selected-pkg-price">29€</div>
+  </div>
+
+  <div class="form-section">
+
+    <div class="form-group">
+      <label class="form-label">Ваше имя</label>
+      <input type="text" id="input-name" class="form-input" placeholder="Имя и фамилия">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="input-email" class="form-input" placeholder="your@email.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Удобное время (выберите 1–2)</label>
+      <div class="time-options">
+        <div class="time-option" data-time="Пн/Ср/Пт утро 9–12">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — утро (9:00–12:00)</div>
+        </div>
+        <div class="time-option" data-time="Пн/Ср/Пт вечер 18–21">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — вечер (18:00–21:00)</div>
+        </div>
+        <div class="time-option" data-time="Сб/Вс любое время">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Суббота / Воскресенье — любое время</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Комментарий (необязательно)</label>
+      <textarea id="input-comment" class="form-input" placeholder="Расскажите о вашей цели или ситуации…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

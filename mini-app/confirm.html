@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заявка принята</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-header">
+  <span class="app-header-title">Personal <em>German</em> Coach</span>
+</div>
+
+<div class="screen active" id="screen-confirm">
+
+  <div class="confirm-hero">
+    <div class="confirm-icon">✅</div>
+    <div class="confirm-title" id="confirm-name">Заявка принята!</div>
+    <div class="confirm-sub">Я уже вижу вашу заявку и скоро напишу</div>
+  </div>
+
+  <div class="confirm-steps">
+    <div class="confirm-step">
+      <div class="step-num">1</div>
+      <div class="step-text">Напишу вам сегодня до 18:00 и подтвержу время</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">2</div>
+      <div class="step-text">Вышлю ссылку на видеозвонок (Zoom или Google Meet)</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">3</div>
+      <div class="step-text">После первой встречи — оплата и старт личного трека</div>
+    </div>
+  </div>
+
+  <div class="confirm-summary">
+    <div>
+      <div class="confirm-summary-label">Выбранный план</div>
+      <div class="confirm-summary-value" id="confirm-pkg">Диагностика — 29€</div>
+    </div>
+  </div>
+
+  <a href="https://t.me/ВСТАВЬТЕ_ВАШ_USERNAME" class="chat-btn" target="_blank">
+    💬 Написать напрямую в Telegram
+  </a>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initHome(); // init MainButton as "Закрыть"
+    setMainButton('Закрыть', () => {
+      if (window.Telegram?.WebApp) window.Telegram.WebApp.close();
+    });
+    hideBackButton();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal German Coach</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+  <span class="app-header-title">Personal <em>German</em> Coach</span>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SCREEN 1: HOME                      -->
+<!-- ═══════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+
+  <div class="home-hero">
+    <div class="teacher-photo">👩‍🏫</div>
+    <div class="home-title">Немецкий для русскоязычных<br>в Германии</div>
+    <div class="home-sub">Личный трек · AI-фидбек · Реальный результат</div>
+  </div>
+
+  <div class="benefits">
+    <div class="benefit-item">
+      <div class="benefit-icon">🎯</div>
+      <div class="benefit-text">
+        <strong>Диагностика и личный план</strong>
+        <span>Точный уровень CEFR и маршрут под вашу цель</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">🤖</div>
+      <div class="benefit-text">
+        <strong>AI-фидбек после каждого урока</strong>
+        <span>Разбор ошибок и конкретные упражнения для роста</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">📈</div>
+      <div class="benefit-text">
+        <strong>Результат за 8–12 недель</strong>
+        <span>Прогресс, который вы видите каждую неделю</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">💬</div>
+      <div class="benefit-text">
+        <strong>Всё в Telegram</strong>
+        <span>Задания, фидбек, записи — без лишних приложений</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonial">
+    <div class="testimonial-text">«Занималась на курсах 2 года — ничего. За 3 месяца здесь прошла с A2 до B2 и сдала Goethe с первого раза.»</div>
+    <div class="testimonial-author">— Мария К., Мюнхен</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SCREEN 2: SERVICES                  -->
+<!-- ═══════════════════════════════════ -->
+<div class="screen" id="screen-services">
+  <div class="screen-title">Выберите план</div>
+  <div class="screen-sub">Все планы включают личный трек и AI-фидбек</div>
+  <div id="packages-list"></div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SCREEN 3: BOOKING                   -->
+<!-- ═══════════════════════════════════ -->
+<div class="screen" id="screen-booking">
+
+  <div class="screen-title">Запись</div>
+
+  <div class="selected-package-bar">
+    <div class="selected-package-name" id="selected-pkg-name">—</div>
+    <div class="selected-package-price" id="selected-pkg-price">—</div>
+  </div>
+
+  <div class="form-section">
+
+    <div class="form-group">
+      <label class="form-label">Ваше имя</label>
+      <input type="text" id="input-name" class="form-input" placeholder="Имя и фамилия">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="input-email" class="form-input" placeholder="your@email.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Удобное время (выберите 1–2)</label>
+      <div class="time-options">
+        <div class="time-option" data-time="Пн/Ср/Пт утро 9–12">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — утро (9:00–12:00)</div>
+        </div>
+        <div class="time-option" data-time="Пн/Ср/Пт вечер 18–21">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Пн / Ср / Пт — вечер (18:00–21:00)</div>
+        </div>
+        <div class="time-option" data-time="Сб/Вс любое время">
+          <div class="time-checkbox"></div>
+          <div class="time-label">Суббота / Воскресенье — любое время</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Комментарий (необязательно)</label>
+      <textarea id="input-comment" class="form-input" placeholder="Расскажите о вашей цели или ситуации…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SCREEN 4: CONFIRM                   -->
+<!-- ═══════════════════════════════════ -->
+<div class="screen" id="screen-confirm">
+
+  <div class="confirm-hero">
+    <div class="confirm-icon">✅</div>
+    <div class="confirm-title" id="confirm-name">Заявка принята!</div>
+    <div class="confirm-sub">Я уже вижу вашу заявку и скоро напишу</div>
+  </div>
+
+  <div class="confirm-steps">
+    <div class="confirm-step">
+      <div class="step-num">1</div>
+      <div class="step-text">Напишу вам сегодня до 18:00 и подтвержу время</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">2</div>
+      <div class="step-text">Вышлю ссылку на видеозвонок (Zoom или Google Meet)</div>
+    </div>
+    <div class="confirm-step">
+      <div class="step-num">3</div>
+      <div class="step-text">После первой встречи — оплата и старт личного трека</div>
+    </div>
+  </div>
+
+  <div class="confirm-summary">
+    <div>
+      <div class="confirm-summary-label">Выбранный план</div>
+      <div class="confirm-summary-value" id="confirm-pkg">—</div>
+    </div>
+  </div>
+
+  <!-- ⚠️ Замените YOUR_USERNAME на ваш Telegram username -->
+  <a href="https://t.me/YOUR_USERNAME" class="chat-btn" target="_blank">
+    💬 Написать напрямую в Telegram
+  </a>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
