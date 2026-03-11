@@ -115,7 +115,8 @@ nav {
   display:flex; align-items:center; gap:14px; padding:16px 20px;
   cursor:pointer; transition:background .15s;
 }
-.day-block.locked .block-header { cursor:default; }
+.day-block.locked .block-header { cursor:pointer; }
+.day-block.locked .block-header:hover { background:#f9f4ed; }
 .day-block.done .block-header:hover { background:#f9f4ed; }
 .block-num {
   width:32px; height:32px; border-radius:50%; border:2px solid #e8ddd0;
@@ -400,10 +401,19 @@ nav {
 
 /* ── PLAN VIEW ── */
 .plan-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-bottom:20px; }
-.plan-day { background:#fff; border:1.5px solid #e8ddd0; border-radius:12px; padding:18px; }
+.plan-day { background:#fff; border:1.5px solid #e8ddd0; border-radius:12px; padding:0; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+.plan-day:hover { border-color:#c9a96e; box-shadow:0 2px 8px rgba(0,0,0,.07); }
 .plan-day.today-day { border-color:#4A8C6E; }
-.plan-day-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#718096; margin-bottom:12px; }
+.plan-day-head { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; }
+.plan-day-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#718096; }
 .plan-day.today-day .plan-day-lbl { color:#4A8C6E; }
+.plan-day-chevron { font-size:16px; color:#c9a96e; transition:transform .2s; line-height:1; }
+.plan-day.expanded .plan-day-chevron { transform:rotate(90deg); }
+.plan-exercises { display:none; padding:0 18px 14px; border-top:1px solid #f2ebe0; }
+.plan-day.expanded .plan-exercises { display:block; }
+.plan-day.today-day .plan-exercises { display:block; }
+.plan-day-goto { display:block; margin-top:12px; text-align:center; background:#4A8C6E; color:#fff; font-size:12px; font-weight:700; padding:8px 16px; border-radius:8px; border:none; cursor:pointer; width:100%; }
+.plan-day-goto:hover { background:#2E6B4F; }
 .plan-ex { display:flex; align-items:center; gap:9px; padding:7px 0; border-bottom:1px solid #f2ebe0; }
 .plan-ex:last-child { border:none; padding-bottom:0; }
 .plan-check { width:20px; height:20px; border-radius:5px; border:1.5px solid #e8ddd0; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; color:#fff; }
@@ -830,7 +840,7 @@ Zum Beispiel: „In der Diskussion geht es um... Die Expertin sagt, dass... Auß
 
       <!-- ─── БЛОК 3: GRAMMATIK (заблокирован) ─── -->
       <div class="day-block locked" id="block-grammatik">
-        <div class="block-header">
+        <div class="block-header" onclick="toggleDoneBlock('grammatik')" title="Нажмите чтобы открыть">
           <div class="block-num locked">🔒</div>
           <div class="block-info">
             <div class="block-title">Grammatik — Грамматика</div>
@@ -878,7 +888,7 @@ Zum Beispiel: „In der Diskussion geht es um... Die Expertin sagt, dass... Auß
 
       <!-- ─── БЛОК 4: REFLEXION (заблокирован) ─── -->
       <div class="day-block locked" id="block-reflexion">
-        <div class="block-header">
+        <div class="block-header" onclick="toggleDoneBlock('reflexion')" title="Нажмите чтобы открыть">
           <div class="block-num locked">🔒</div>
           <div class="block-info">
             <div class="block-title">Reflexion — Итог дня</div>
@@ -1118,40 +1128,71 @@ Zum Beispiel: „In der Diskussion geht es um... Die Expertin sagt, dass... Auß
       </div>
 
       <div class="plan-grid">
-        <div class="plan-day">
-          <div class="plan-day-lbl">Понедельник — Teil A</div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter: Adjektive der Schönheit — Mittelpunkt B2 L2A S.24</div><div class="plan-ex-time">15 мин</div></div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Lesen: «Einfach schön» — Kurztext + Aufgaben (Mittelpunkt B2 L2A)</div><div class="plan-ex-time">15 мин</div></div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Adjektivdeklination — Deutsch aber Hallo B2, S.45–47</div><div class="plan-ex-time">10 мин</div></div>
+        <div class="plan-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Понедельник — Teil A</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter: Adjektive der Schönheit — Mittelpunkt B2 L2A S.24</div><div class="plan-ex-time">15 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Lesen: «Einfach schön» — Kurztext + Aufgaben (Mittelpunkt B2 L2A)</div><div class="plan-ex-time">15 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Adjektivdeklination — Deutsch aber Hallo B2, S.45–47</div><div class="plan-ex-time">10 мин</div></div>
+          </div>
         </div>
-        <div class="plan-day">
-          <div class="plan-day-lbl">Вторник — Teil B &amp; C</div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter: Wortschatz Arbeit &amp; Aussehen — Deutsch Intensiv Wortschatz B2</div><div class="plan-ex-time">12 мин</div></div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Hören: «Schön leicht?» — Hören &amp; Sprechen B2, Einheit 5</div><div class="plan-ex-time">15 мин</div></div>
-          <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Relativsätze — Grammatik Aktiv B2–C1, S.62–65</div><div class="plan-ex-time">10 мин</div></div>
+        <div class="plan-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Вторник — Teil B &amp; C</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Wörter: Wortschatz Arbeit &amp; Aussehen — Deutsch Intensiv Wortschatz B2</div><div class="plan-ex-time">12 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Hören: «Schön leicht?» — Hören &amp; Sprechen B2, Einheit 5</div><div class="plan-ex-time">15 мин</div></div>
+            <div class="plan-ex"><div class="plan-check done">✓</div><div class="plan-ex-name">Grammatik: Relativsätze — Grammatik Aktiv B2–C1, S.62–65</div><div class="plan-ex-time">10 мин</div></div>
+          </div>
         </div>
-        <div class="plan-day today-day">
-          <div class="plan-day-lbl">Сегодня — Teil D</div>
-          <div class="plan-ex"><div class="plan-check current" id="planCheck1">→</div><div class="plan-ex-name">Wörter: Schönheitskult, Benachteiligung + Anki</div><div class="plan-ex-time">10 мин</div></div>
-          <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Hören: Diktogloss «Schönheitsideale» — Hören &amp; Sprechen B2</div><div class="plan-ex-time">15 мин</div></div>
-          <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Grammatik: Temporale Nebensätze — Übungsgrammatik Mittelstufe B2</div><div class="plan-ex-time">8 мин</div></div>
-          <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Reflexion — 5 минут</div><div class="plan-ex-time">5 мин</div></div>
+        <div class="plan-day today-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Сегодня — Teil D</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check current" id="planCheck1">→</div><div class="plan-ex-name">Wörter: Schönheitskult, Benachteiligung + Anki</div><div class="plan-ex-time">10 мин</div></div>
+            <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Hören: Diktogloss «Schönheitsideale» — Hören &amp; Sprechen B2</div><div class="plan-ex-time">15 мин</div></div>
+            <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Grammatik: Temporale Nebensätze — Übungsgrammatik Mittelstufe B2</div><div class="plan-ex-time">8 мин</div></div>
+            <div class="plan-ex"><div class="plan-check current">→</div><div class="plan-ex-name">Reflexion — 5 минут</div><div class="plan-ex-time">5 мин</div></div>
+            <button class="plan-day-goto" onclick="event.stopPropagation();goToToday()">Открыть задание →</button>
+          </div>
         </div>
-        <div class="plan-day">
-          <div class="plan-day-lbl">Четверг — Teil E</div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Sprechen: Diskussion «Schönheit und Berufserfolg» — Mittelpunkt B2 L2E</div><div class="plan-ex-time">15 мин</div></div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Redemittel: Diskussion — Redemittelsammlung Mittelpunkt B2/C1</div><div class="plan-ex-time">10 мин</div></div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Grammatik: Infinitivsätze — Grammatik Aktiv B2–C1, S.58</div><div class="plan-ex-time">8 мин</div></div>
+        <div class="plan-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Четверг — Teil E</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Sprechen: Diskussion «Schönheit und Berufserfolg» — Mittelpunkt B2 L2E</div><div class="plan-ex-time">15 мин</div></div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Redemittel: Diskussion — Redemittelsammlung Mittelpunkt B2/C1</div><div class="plan-ex-time">10 мин</div></div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Grammatik: Infinitivsätze — Grammatik Aktiv B2–C1, S.58</div><div class="plan-ex-time">8 мин</div></div>
+          </div>
         </div>
-        <div class="plan-day">
-          <div class="plan-day-lbl">Пятница — урок с Анной</div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Урок с Анной — 10:00, Rollenspiel Teil E</div><div class="plan-ex-time">60 мин</div></div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Lesen: Die Macht der Schönheit (Teil C) — самостоятельно</div><div class="plan-ex-time">15 мин</div></div>
+        <div class="plan-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Пятница — урок с Анной</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Урок с Анной — 10:00, Rollenspiel Teil E</div><div class="plan-ex-time">60 мин</div></div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Lesen: Die Macht der Schönheit (Teil C) — самостоятельно</div><div class="plan-ex-time">15 мин</div></div>
+          </div>
         </div>
-        <div class="plan-day">
-          <div class="plan-day-lbl">Суббота — Teil F</div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Schreiben: Forumsbeitrag «Schönheit &amp; Gesellschaft» — Schreiben B2, S.38 + Redemittel Forumsbeitrag</div><div class="plan-ex-time">25 мин</div></div>
-          <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Extensives Lesen: «Gut gegen Nordwind» — Kapitel 1–2</div><div class="plan-ex-time">15 мин</div></div>
+        <div class="plan-day" onclick="togglePlanDay(this)">
+          <div class="plan-day-head">
+            <div class="plan-day-lbl">Суббота — Teil F</div>
+            <div class="plan-day-chevron">›</div>
+          </div>
+          <div class="plan-exercises">
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Schreiben: Forumsbeitrag «Schönheit &amp; Gesellschaft» — Schreiben B2, S.38 + Redemittel Forumsbeitrag</div><div class="plan-ex-time">25 мин</div></div>
+            <div class="plan-ex"><div class="plan-check">·</div><div class="plan-ex-name">Extensives Lesen: «Gut gegen Nordwind» — Kapitel 1–2</div><div class="plan-ex-time">15 мин</div></div>
+          </div>
         </div>
       </div>
       <div class="principle-block">
@@ -1898,6 +1939,16 @@ function closeSidebar() {
 function toggleDoneBlock(name) {
   const block = document.getElementById('block-' + name);
   block.classList.toggle('expanded');
+}
+
+/* ── Карточки дней в плане ── */
+function togglePlanDay(el) {
+  el.classList.toggle('expanded');
+}
+function goToToday() {
+  const todayBtn = document.querySelector('.sb-item[onclick*="today"]');
+  showView('today', todayBtn);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ── Счётчик слов + авто-чек ── */
