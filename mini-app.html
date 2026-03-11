@@ -29,6 +29,18 @@ body {
   font-size: 15px;
   font-style: italic;
 }
+.back-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.75);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 8px 0 0;
+  line-height: 1;
+  flex-shrink: 0;
+  display: none;
+}
+.back-btn.visible { display: block; }
 
 .screen { display: none; }
 .screen.active { display: block; }
@@ -219,6 +231,7 @@ textarea.form-input { min-height: 80px; resize: vertical; }
 <body>
 
 <div class="app-header">
+  <button class="back-btn" id="back-btn" onclick="goBack()">←</button>
   <span class="app-header-title">Personal <em>German</em> Coach</span>
 </div>
 
@@ -368,13 +381,21 @@ function setMainButton(text, onClick) {
 }
 function hideMainButton() { if (tg) tg.MainButton.hide(); }
 
+let _backFn = null;
 function setBackButton(onClick) {
+  _backFn = onClick;
+  document.getElementById('back-btn').classList.add('visible');
   if (!tg) return;
   tg.BackButton.show();
   tg.BackButton.offClick();
   tg.BackButton.onClick(onClick);
 }
-function hideBackButton() { if (tg) tg.BackButton.hide(); }
+function hideBackButton() {
+  _backFn = null;
+  document.getElementById('back-btn').classList.remove('visible');
+  if (tg) tg.BackButton.hide();
+}
+function goBack() { if (_backFn) _backFn(); }
 
 function haptic(type) {
   if (tg?.HapticFeedback) {
