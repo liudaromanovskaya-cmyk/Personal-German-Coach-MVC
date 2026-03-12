@@ -1061,6 +1061,150 @@ body {
   line-height: 1.6;
 }
 
+/* KULTUR SCREEN */
+.kultur-header {
+  padding: 22px 20px 10px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.kultur-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.kultur-day-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  color: var(--muted);
+}
+.kultur-day-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.kultur-headline {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
+.kultur-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.kultur-card {
+  margin: 12px 16px 0;
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.kultur-card.open { border-color: var(--accent); }
+
+.kultur-card-wort      { border-left: 4px solid #7CC8A0; }
+.kultur-card-sprichwort{ border-left: 4px solid #F6AD55; }
+.kultur-card-redewendung{ border-left: 4px solid #76E4F7; }
+.kultur-card-wussten   { border-left: 4px solid #B794F4; }
+.kultur-card-warum     { border-left: 4px solid #FC8181; }
+
+.kultur-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  min-height: 56px;
+}
+.kultur-emoji { font-size: 22px; flex-shrink: 0; line-height: 1; }
+.kultur-toggle-text { flex: 1; min-width: 0; }
+.kultur-type {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.kultur-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kultur-teaser {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 1px;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kultur-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.kultur-card.open .kultur-arrow { transform: rotate(180deg); }
+
+.kultur-body {
+  display: none;
+  padding: 0 18px 16px 18px;
+  border-top: 1px solid var(--border);
+}
+.kultur-body.visible { display: block; }
+.kultur-body-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  padding-top: 14px;
+}
+.kultur-body-text strong { color: var(--accent); }
+.kultur-body-example {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--accent-light);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.kultur-body-example em { color: var(--muted); font-style: normal; font-size: 12px; }
+.kultur-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 9px 14px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+.kultur-spacer { height: 16px; }
+
 /* NOT FOUND */
 .not-found {
   padding: 60px 24px;
@@ -1716,6 +1860,10 @@ function render() {
     <div id="gaps-content"></div>
   </div>
 
+  <div class="screen" id="screen-kultur">
+    <div id="kultur-content"></div>
+  </div>
+
   <div class="tab-bar">
     <button class="tab-btn active" id="tab-task" onclick="showTab('task')">
       <div class="tab-icon">📌</div>Aufgabe
@@ -1729,11 +1877,15 @@ function render() {
     <button class="tab-btn" id="tab-gaps" onclick="showTab('gaps')">
       <div class="tab-icon">🔎</div>Lücken
     </button>
+    <button class="tab-btn" id="tab-kultur" onclick="showTab('kultur')">
+      <div class="tab-icon">🌍</div>Kultur
+    </button>
   </div>
 
   `;
 
   renderGapsScreen();
+  renderKulturScreen();
 
   // Telegram MainButton
   if (tg) {
@@ -1743,6 +1895,130 @@ function render() {
       tg.openTelegramLink('https://t.me/mila_konstanz');
     });
   }
+}
+
+// ── KULTUR DATA ───────────────────────────────────────────────────────────────
+const KULTUR_WORT = [
+  { title: 'der Feierabend', teaser: 'Kein direktes Äquivalent in anderen Sprachen!', body: '<strong>Feierabend</strong> ist der Moment nach der Arbeit, wenn der Tag "gefeiert" wird — Zeit zum Abschalten und Genießen. Deutsche nehmen Feierabend sehr ernst: nach 18 Uhr schreibt man in der Regel keine beruflichen E-Mails mehr.', example: '„Na dann, schönen Feierabend!" — Tschüss und erhol dich gut!\n<em>Sagen Sie das am Ende jedes Arbeitstages — alle werden es mögen.</em>' },
+  { title: 'die Wurst', teaser: '„Das ist mir Wurst" — egal, völlig egal', body: 'Mit <strong>Wurst</strong> verbinden Deutsche viel mehr als Essen. „Das ist mir Wurst" bedeutet: Das ist mir völlig egal. Über 1.500 Wurstarten gibt es in Deutschland — sie sind echter Kulturgut.', example: '„Magst du Mustafa oder Tim?" — „Ach, das ist mir Wurst."\n<em>Vorsicht: Nicht bei wichtigen Themen sagen — wirkt unhöflich.</em>' },
+  { title: 'verschlimmbessern', teaser: 'Etwas verbessern wollen, aber es schlimmer machen', body: '<strong>Verschlimmbessern</strong> kombiniert „verschlimmern" und „verbessern". Dieses Wort existiert nur auf Deutsch und beschreibt präzise, was passiert, wenn gut gemeinte Korrekturen das Problem vergrößern.', example: '„Ich habe den Code repariert..." — „Du hast ihn verschlimmbessert!"\n<em>Sehr nützlich in Diskussionen über Projekte und Renovierungen.</em>' },
+  { title: 'gemütlich', teaser: 'Mehr als nur "gemütlich" — ein ganzer Lebensstil', body: '<strong>Gemütlich</strong> bedeutet eine Atmosphäre, die gleichzeitig warm, einladend, entspannend und behaglich ist. Die Engländer haben kein Wort dafür — sie sagen einfach "cozy", aber das ist nicht dasselbe.', example: '„Es war so gemütlich bei dir — das Kaminfeuer, der Tee, die Decken..."\n<em>Sagen Sie das nach einem Besuch: Ihr Gastgeber wird strahlen.</em>' },
+  { title: 'der Kummerspeck', teaser: 'Wortwörtlich: Speck aus Kummer', body: '<strong>Kummerspeck</strong> = Gewichtszunahme durch emotionales Essen — wenn man Stress, Trauer oder Liebeskummer mit Essen kompensiert. Dieses Wort kennen Psychologen weltweit, aber nur Deutsche haben einen Namen dafür.', example: '„Nach der Trennung habe ich fünf Kilo Kummerspeck bekommen."\n<em>Gut zu kennen — man hört es oft in echten Gesprächen.</em>' },
+  { title: 'doch', teaser: 'Das mächtigste Ein-Wort-Gegenmittel', body: '<strong>Doch</strong> ist eine Partikel ohne direktes Äquivalent. Es widerspricht einer Verneinung: „Das stimmt nicht" → „Doch!" (= nein, doch!) Außerdem kann es Aussagen verstärken: „Komm doch!" = Komm schon!', example: '„Du sprichst kein Deutsch!" — „Doch, ich spreche Deutsch!"\n<em>Eines der ersten Wörter, die echte Kommunikation möglich machen.</em>' },
+  { title: 'tja', teaser: 'Sagt alles, ohne etwas zu sagen', body: '<strong>Tja</strong> ist eine Interjektion der Resignation, des Mitgefühls oder der stillen Zustimmung. Je nach Intonation bedeutet es: „Was soll man machen", „Das ist tragisch", „Ich hatte Recht" oder einfach Stille teilen.', example: '„Der Zug hatte wieder Verspätung." — „Tja... Deutsche Bahn."\n<em>Tiefe, leichte Aussprache mit einem Seufzer — und alle verstehen Sie.</em>' },
+  { title: 'der Weltschmerz', teaser: 'Schmerz über den Zustand der Welt', body: '<strong>Weltschmerz</strong> beschreibt das Gefühl, dass die Welt nie so gut sein kann, wie sie sein sollte. Erfunden von Jean Paul (1827) — heute in der Psychologie und in der Weltliteratur bekannt.', example: '„Ich kann keine Nachrichten mehr lesen. Dieser Weltschmerz macht mich krank."\n<em>Zeigt Tiefe und Bildung — perfekt für ernstere Gespräche.</em>' },
+  { title: 'das Fingerspitzengefühl', teaser: 'Feingefühl an den Fingerspitzen', body: '<strong>Fingerspitzengefühl</strong> = Taktgefühl, Einfühlungsvermögen, die Fähigkeit, sensibel und geschickt mit schwierigen Situationen umzugehen. Wörtlich: Gefühl an den Fingerspitzen.', example: '„Mit kranken Patienten braucht man viel Fingerspitzengefühl."\n<em>Im Beruf (Medizin, HR, Führung) sehr oft zu hören.</em>' },
+  { title: 'na', teaser: 'Das vielseitigste Wort Deutschlands', body: '<strong>Na</strong> kann Begrüßung sein ("Na?"), Bestätigung ("Na also!"), Zweifel ("Na, na..."), Ermutigung ("Na, dann mal los!") oder Zufriedenheit ("Na bitte!"). Kontext ist alles.', example: '„Na?" — „Na!" (= Hallo, wie geht\'s? / Gut, danke, und dir?)\n<em>Deutsche begrüßen sich oft nur mit „Na" — das reicht völlig.</em>' },
+];
+
+const KULTUR_SPRICHWORT = [
+  { title: 'Übung macht den Meister', teaser: 'Lernmotivation seit dem Mittelalter', body: 'Ein Sprichwort aus dem 16. Jahrhundert. Die Deutschen glauben fest daran, dass Talent weniger wichtig ist als Ausdauer. Studien bestätigen dies: Deliberate Practice schlägt natürliche Begabung langfristig.', example: '„Ich kann das noch nicht perfekt." — „Macht nichts — Übung macht den Meister!"\n<em>Perfekt als Selbstmotivation beim Deutschlernen.</em>' },
+  { title: 'Morgenstund hat Gold im Mund', teaser: 'Der frühe Morgen ist die beste Zeit', body: 'Deutsche sind bekannt für frühe Arbeitszeiten und frühe Meetings. Dieses Sprichwort erklärt viel über die Kultur: Wer früh aufsteht, hat mehr Energie, Klarheit und Erfolg. Produktivität vor 9 Uhr ist Pflicht.', example: '„Warum um 7 Uhr? Das ist zu früh!" — „Morgenstund hat Gold im Mund!"\n<em>Erwartet: pünktlicher Beginn, aktive Teilnahme, keine Schlaftrunkenheit.</em>' },
+  { title: 'Ohne Fleiß kein Preis', teaser: 'Arbeit kommt vor Belohnung — immer', body: 'Die deutsche Arbeitskultur basiert auf diesem Prinzip. Ergebnisse ohne Aufwand werden mit Skepsis betrachtet. Fleiß und Ernsthaftigkeit werden hoch geschätzt — mehr als schnelle Kreativlösungen.', example: '„Wie hat er so schnell die Prüfung bestanden?" — „Ohne Fleiß kein Preis — er hat drei Monate täglich gelernt."\n<em>Sagen Sie das und Sie klingen wie ein echter Deutscher.</em>' },
+  { title: 'Aller Anfang ist schwer', teaser: 'Jeder Anfang braucht Mut', body: 'Dieses Sprichwort ist Trost und Realismus zugleich. Deutsche erwarten nicht, dass Neues sofort funktioniert — aber sie erwarten, dass man trotzdem weitermacht. Perfektionismus und Ausdauer gehen Hand in Hand.', example: '„Ich mache so viele Fehler auf Deutsch!" — „Aller Anfang ist schwer — das ist völlig normal."\n<em>Jede Lehrerin sagt das — jetzt können Sie es auch sagen.</em>' },
+  { title: 'Was Hänschen nicht lernt, lernt Hans nimmermehr', teaser: 'Lernen hat die beste Zeit', body: 'Dieses Sprichwort wurde durch Studien zur Neuroplastizität teilweise relativiert — Erwachsene können sehr gut lernen. Trotzdem zeigt es, wie ernst Deutsche Bildung im frühen Alter nehmen. Kindergärten und Grundschulen sind entsprechend anspruchsvoll.', example: '„Soll ich mit 40 noch Deutsch lernen?" — „Natürlich! Was Hänschen nicht lernt... aber Hänschen sind Sie noch lange!"\n<em>Gutes Gesprächsthema über deutsches Bildungssystem.</em>' },
+  { title: 'Wer rastet, der rostet', teaser: 'Stillstand ist Rückschritt', body: 'Deutsche Kultur bewertet kontinuierliche Weiterentwicklung. Stagnation — beruflich oder persönlich — wird als Fehler gesehen. Lebenslanges Lernen (lebenslanges Lernen) ist kein Modewort, sondern echter gesellschaftlicher Wert.', example: '„Ich habe drei Wochen nicht geübt." — „Vorsicht — wer rastet, der rostet!"\n<em>Ideal für Gespräche über Sport, Beruf oder Sprachen.</em>' },
+  { title: 'Kleider machen Leute', teaser: 'Der erste Eindruck zählt wirklich', body: 'In Deutschland ist gepflegtes Äußeres wichtig — besonders im Beruf. Casual ist erlaubt, aber ungepflegt nie. Das Sprichwort stammt von Gottfried Keller (1874) und ist heute so aktuell wie damals.', example: '„Muss ich mich für das Interview wirklich so anziehen?" — „Kleider machen Leute — unbedingt!"\n<em>In Kliniken, Büros und Behörden: Erscheinung zählt.</em>' },
+  { title: 'Viele Köche verderben den Brei', teaser: 'Zu viele Meinungen — kein Ergebnis', body: 'Deutsche lieben Struktur und klare Verantwortlichkeiten. Wenn zu viele Menschen entscheiden, leidet die Qualität. Deswegen gibt es in deutschen Firmen klare Hierarchien und Entscheidungsprozesse.', example: '„Warum dauert das Projekt so lange?" — „Viele Köche verderben den Brei — jeder hat eine andere Meinung."\n<em>Nützlich in Team-Diskussionen und Meetings.</em>' },
+  { title: 'Andere Länder, andere Sitten', teaser: 'Respekt vor kulturellen Unterschieden', body: 'Deutsche sind sich bewusst, dass ihre Direktheit, Pünktlichkeit und Regelorientierung nicht überall selbstverständlich ist. Dieses Sprichwort wird oft genutzt, um Kulturunterschiede anzuerkennen — ohne zu urteilen.', example: '„Warum stehen hier alle in der Schlange ohne zu reden?" — „Andere Länder, andere Sitten — hier ist das Normalität."\n<em>Perfekt, um Kulturschock zu beschreiben.</em>' },
+  { title: 'Man soll den Tag nicht vor dem Abend loben', teaser: 'Vorsicht mit voreiligem Optimismus', body: 'Deutsche Nüchternheit zeigt sich in diesem Sprichwort. Erfolg wird erst anerkannt, wenn er tatsächlich eingetreten ist. Übertriebener Optimismus gilt als naiv — realistische Einschätzung als Stärke.', example: '„Ich denke, ich bestehe die Prüfung!" — „Man soll den Tag nicht vor dem Abend loben."\n<em>Hören Sie das oft — jetzt können Sie es einordnen.</em>' },
+];
+
+const KULTUR_REDEWENDUNG = [
+  { title: 'Daumen drücken', teaser: 'Deutsche drücken Daumen, keine Finger', body: 'Wo Angelsachsen „fingers crossed" sagen, drücken Deutsche den <strong>Daumen</strong>. Der Daumen war im antiken Rom das Symbol für Überleben in der Gladiatorenküche. Diese Geste kam durch die Römer zu uns.', example: '„Morgen habe ich mein Vorstellungsgespräch." — „Ich drücke dir die Daumen!"\n<em>Sagen Sie das auf Deutsch — und machen Sie die Geste dazu.</em>' },
+  { title: 'Ich verstehe nur Bahnhof', teaser: 'Nichts kapieren — der Bahnhof erklärt warum', body: 'Nach dem Ersten Weltkrieg wollten müde Soldaten nur noch den Heimatbahnhof sehen — nichts anderes verstand ihr Gehirn. Heute bedeutet es: Ich verstehe gar nichts von dem, was gesagt wird.', example: '„Die Anleitung war auf Technisch-Deutsch..." — „Ich habe nur Bahnhof verstanden!"\n<em>Perfekt, wenn der Arzt, Anwalt oder Techniker zu kompliziert spricht.</em>' },
+  { title: 'Hals- und Beinbruch!', teaser: 'Viel Erfolg — wörtlich: brich dir Hals und Bein', body: 'Aus dem Jiddischen: „hazlokhe un brókhe" (Glück und Segen) klingt im Deutschen wie Hals und Beinbruch. Schauspieler sagten: Damit das Böse nicht kommt, sagen wir das Schlimmste. Heute einfach: Viel Erfolg!', example: '„Ich habe gleich meine Prüfung!" — „Hals- und Beinbruch!"\n<em>Nur bei wichtigen Momenten sagen — Prüfung, Auftritt, Bewerbung.</em>' },
+  { title: 'auf dem Holzweg sein', teaser: 'Auf dem falschen Weg — aber woher kommt Holz?', body: 'Im Mittelalter führten Holzwege tief in den Wald — und endeten einfach dort, wo das Holz gefällt wurde. Wer diesen Weg folgte, kam nirgends hin. Heute: eine falsche Annahme haben.', example: '„Ich denke, der Chef mag meinen Plan nicht." — „Da bist du auf dem Holzweg — er war begeistert!"\n<em>Sehr häufig in Gesprächen, wenn jemand falsch liegt.</em>' },
+  { title: 'ins Fettnäpfchen treten', teaser: 'Ein peinlicher Fehler — wortwörtlich ins Fett', body: 'Früher stellten Schuster Fett auf den Boden, um Leder zu pflegen. Wer hineintrat, machte Schmutz und Chaos. Heute: aus Unwissenheit etwas Unangebrachtes sagen oder tun.', example: '„Wann kommt das Baby?" — (Stille) „Sie ist nicht schwanger..." — „Oh, ich bin ins Fettnäpfchen getreten!"\n<em>Sehr nützlich, um peinliche Situationen zu beschreiben.</em>' },
+  { title: 'Das ist nicht mein Bier', teaser: 'Das ist nicht mein Problem', body: 'Bier ist in Deutschland Kulturgut. Wenn Bier nicht deins ist — kümmert es dich nicht. Diese Redewendung zeigt die direkte deutsche Art, Verantwortung abzugrenzen — ohne unhöflich zu sein.', example: '„Was sagst du zum Streit zwischen Kollegen?" — „Das ist nicht mein Bier — sollen sie es selbst klären."\n<em>Respektvoll, aber klar: Ich halte mich raus.</em>' },
+  { title: 'Schwein haben', teaser: 'Glück haben — aber warum das Schwein?', body: 'Im Mittelalter gewann der letzte Platz beim Schützenfest ein Schwein — ein wertvolles Trost-Preis. Wer also Schwein hatte, gewann trotz schlechter Leistung. Heute einfach: großes Glück haben.', example: '„Du hast die letzte freie Wohnung bekommen!" — „Ja, ich hatte Schwein!"\n<em>Sagen Sie das locker — kein negativer Unterton, nur Freude.</em>' },
+  { title: 'jemandem auf den Zahn fühlen', teaser: 'Jemanden genau befragen', body: 'Mittelalterliche Ärzte prüften den Gesundheitszustand durch Anfassen der Zähne. Heute: jemanden kritisch befragen, testen oder prüfen — ob er wirklich das weiß, was er behauptet zu wissen.', example: '„Der neue Mitarbeiter sagt, er spricht fließend Deutsch." — „Ich werde ihm auf den Zahn fühlen."\n<em>Oft in Bewerbungsgesprächen und Prüfungen zu hören.</em>' },
+  { title: 'auf großem Fuß leben', teaser: 'Luxuriös leben — der Fuß als Statussymbol', body: 'Im Mittelalter zeigten lange Schuhspitzen hohen sozialen Status (je länger, desto reicher). Heute: über seine Verhältnisse leben, Luxus genießen, mehr ausgeben als man hat.', example: '„Wie kann er sich das alles leisten?" — „Er lebt auf großem Fuß — und macht Schulden."\n<em>Nützlich in Gesprächen über Finanzen und Lebensstil.</em>' },
+  { title: 'den Nagel auf den Kopf treffen', teaser: 'Genau das Richtige sagen', body: 'Aus dem Handwerk: Ein guter Schlag trifft den Nagel genau auf den Kopf. Kein Danebenschlagen, kein zweiter Versuch. Heute: etwas präzise und genau formulieren, den Kern einer Sache treffen.', example: '„Die Analyse war brilliant — du hast den Nagel auf den Kopf getroffen!"\n<em>Echtes Kompliment — zeigt, dass man den Deutschen wirklich zugehört hat.</em>' },
+];
+
+const KULTUR_WUSSTEN = [
+  { title: 'Aspirin wurde in Deutschland erfunden', teaser: 'Bayer AG, 1897 — das meistverkaufte Medikament der Welt', body: 'Felix Hoffmann, Chemiker bei <strong>Bayer</strong> in Wuppertal, synthetisierte 1897 die Acetylsalicylsäure. Ursprünglich, um seinem Vater bei Rheuma zu helfen. Heute nehmen Menschen weltweit täglich 40.000 Tonnen Aspirin.', example: '🏥 Für angehende Mediziner: Aspirin blockiert COX-Enzyme und hemmt Prostaglandine — Standardwissen in deutschen Kliniken.\n<em>Nächstes Mal beim Arzt: ein tolles Gesprächsthema.</em>' },
+  { title: 'Das Automobil wurde in Deutschland erfunden', teaser: 'Carl Benz, 1885 — Patent-Motorwagen Nummer 1', body: '<strong>Carl Benz</strong> fuhr 1885 in Mannheim die erste motorisierte Fahrt der Geschichte. Seine Frau Bertha fuhr 1888 eigenmächtig 104 km nach Pforzheim — die erste Überlandfahrt und die erste Marketingaktion der Automobilgeschichte.', example: '🚗 Deutschland hat heute 41 Autos pro 100 Einwohner. BMW, Mercedes, Volkswagen, Porsche, Audi — alle made in Germany.\n<em>Autofahren ist in Deutschland Kulturidentität, nicht nur Transport.</em>' },
+  { title: 'MP3 wurde in Deutschland entwickelt', teaser: 'Fraunhofer Institut, 1987 — die Musikrevolution', body: 'Das <strong>Fraunhofer Institut für Integrierte Schaltungen</strong> in Erlangen entwickelte das MP3-Format. Es verkleinerte Musikdateien um das 10-fache — und veränderte damit die gesamte Musikindustrie, Napster, iTunes und Streaming.', example: '🎵 Deutschland hat heute über 70 Fraunhofer-Institute — größte Organisation für angewandte Forschung weltweit.\n<em>Die nächste Mal, wenn Sie Musik hören: ein kleines Dankeschön nach Bayern.</em>' },
+  { title: 'Das Oktoberfest findet hauptsächlich im September statt', teaser: 'Warum September? Das hat historische Gründe', body: 'Das erste Oktoberfest war am <strong>17. Oktober 1810</strong> — zu Ehren der Hochzeit von Kronprinz Ludwig. Im Laufe der Zeit wurde es vorverlegt, um besseres Wetter zu haben. Die letzten Tage fallen noch in den Oktober — daher der Name.', example: '🍺 Fakten: 6 Millionen Besucher jährlich. 7,7 Millionen Liter Bier. 500.000 Hendl (Hähnchen). Eintritt zur Wiesn ist gratis — nur Bier und Essen kosten.\n<em>Das Wort „Wiesn" ist Münchner Dialekt für Theresienwiese.</em>' },
+  { title: 'Deutschland ist Weltmeister im Recycling', teaser: '67% aller Abfälle werden recycelt', body: 'Deutschland hat das komplexeste Abfallsystem der Welt: <strong>gelbe Tonne</strong> (Plastik/Metall), <strong>blaue Tonne</strong> (Papier), <strong>braune Tonne</strong> (Bio), <strong>schwarze Tonne</strong> (Restmüll), Glascontainer (weiß/grün/braun) und Pfandflaschen. Fehler haben soziale Konsequenzen.', example: '♻️ Pfand-System: 0,25€ pro Plastikflasche zurückbekommen. Supermärkte haben Automaten dafür.\n<em>Mülltrennung ist keine Empfehlung — es ist soziale Pflicht und manchmal Nachbarschaftsthema.</em>' },
+  { title: 'Die Berliner Mauer fiel am 9. November 1989', teaser: 'Und ein Missverständnis löste alles aus', body: 'Günter Schabowski, DDR-Sprecher, verkündete die neuen Reiseregeln in einer Pressekonferenz — ohne zu wissen, wann sie gelten sollten. Auf die Frage „Ab wann?" sagte er: <strong>„Unverzüglich, sofort."</strong> Tausende gingen zur Mauer. Der Rest ist Geschichte.', example: '🧱 Die Mauer stand 28 Jahre, 2 Monate und 27 Tage. 171 Menschen starben beim Versuch, sie zu überqueren.\n<em>9. November ist auch Tag der Reichspogromnacht (1938) — ein komplexes Datum in Deutschland.</em>' },
+  { title: 'Currywurst wurde 1949 in Berlin erfunden', teaser: 'Herta Heuwer, 4. September 1949 — eine Wurst verändert Deutschland', body: '<strong>Herta Heuwer</strong> tauschte Alkohol gegen Ketchup und Currypulver von britischen Soldaten. Sie kombinierte das mit Brühwurst und verkaufte sie an ihrem Imbissstand. Heute werden in Deutschland 800 Millionen Currywürste pro Jahr gegessen.', example: '🌭 Das Currywurst Museum in Berlin (1,6 Mio. Besucher bis 2018) war dem Gericht gewidmet. VW hatte Currywurst im Speiseplan als eigenes Menü.\n<em>Bestellen Sie: „Einmal Currywurst mit Pommes, bitte" — damit sind Sie ein Berliner.</em>' },
+  { title: 'Das Röntgen wurde in Würzburg entdeckt', teaser: 'Wilhelm Röntgen, 8. November 1895 — ein Unfall verändert die Medizin', body: 'Wilhelm Röntgen arbeitete spät im Labor, als er bemerkte, dass ein fluoreszierender Schirm aufglühte — obwohl er abgedeckt war. Er hatte <strong>X-Strahlen</strong> entdeckt. Sechs Wochen später fotografierte er die Hand seiner Frau. Erster Nobelpreis für Physik (1901).', example: '🏥 Röntgen wollte sein Verfahren nicht patentieren: „Meine Entdeckungen gehören der Menschheit."\n<em>In deutschen Kliniken ist Röntgen Alltag — jetzt kennen Sie den Mann dahinter.</em>' },
+  { title: 'Deutsche trinken mehr Kaffee als Bier', teaser: '162 Liter Kaffee vs. 95 Liter Bier pro Person/Jahr', body: 'Das Kaffeepausen-System (<strong>Kaffeepause</strong>) ist in deutschen Büros heilig: 10–11 Uhr und 15 Uhr. Kaffee wird oft mit Kuchen kombiniert — besonders am Freitagnachmittag (<strong>Freitagskuchen</strong>). Filterkaffee dominiert, nicht Espresso.', example: '☕ „Darf ich Ihnen einen Kaffee anbieten?" ist der erste Satz bei jedem offiziellen Gespräch.\n<em>Bringen Sie Kuchen ins Büro an Ihrem Geburtstag — das ist Tradition.</em>' },
+  { title: 'Es gibt über 1.500 Biersorten in Deutschland', teaser: 'Und das Reinheitsgebot von 1516 erklärt warum', body: 'Das <strong>Reinheitsgebot</strong> (1516) erlaubt nur Wasser, Gerste, Hopfen (und später Hefe) für Bier. Es ist das älteste noch gültige Lebensmittelgesetz der Welt. Deutsche Brauereien: über 1.300. Bier ist offiziell kein Alkohol in Bayern — es gilt als Grundnahrungsmittel.', example: '🍺 Wichtige Sorten: Weißbier (Bayern), Kölsch (Köln, nur in Köln!), Alt (Düsseldorf), Pils (überall).\n<em>In Köln Kölsch zu bestellen und in München Weißbier — das respektiert die Regionalstolz.</em>' },
+];
+
+const KULTUR_WARUM = [
+  { title: 'Deutsch ist die meistgesprochene Muttersprache Europas', teaser: '130 Millionen Muttersprachler in 8 Ländern', body: 'Mehr Menschen in Europa sprechen Deutsch als Muttersprache als Englisch oder Französisch. <strong>Deutschland, Österreich, Schweiz, Luxemburg, Liechtenstein, Belgien, Südtirol, Ostbelgien</strong> — Deutsch verbindet eine riesige Region.', example: '🌍 Mit Deutschkenntnissen bewegen Sie sich in einem Wirtschaftsraum von über 400 Millionen Menschen.\n<em>C1-Deutsch öffnet nicht nur Deutschland — es öffnet Europa.</em>' },
+  { title: 'Deutschland sucht dringend Fachkräfte', teaser: 'Über 630.000 offene Stellen — der Markt wartet', body: 'Deutschland hat den größten Fachkräftemangel der Nachkriegsgeschichte. <strong>Pflege, Medizin, IT, Ingenieurwesen, Handwerk</strong> — überall fehlen qualifizierte Menschen. Mit B2/C1-Deutsch sind Sie sofort vermittelbar.', example: '📋 Durchschnittliches Gehalt Krankenpflege: 2.800–3.800€ brutto. Mit Zusatzqualifikation bis 4.500€.\n<em>Sprache ist Ihr Schlüssel — nicht nur zum Job, sondern zur Gehaltsklasse.</em>' },
+  { title: 'Deutschland ist die 3. größte Volkswirtschaft der Welt', teaser: '4,4 Billionen Euro BIP — Stabilität und Chancen', body: 'Nach den USA und China ist Deutschland die stärkste Wirtschaft der Welt. Deutsche Unternehmen sind Weltmarktführer in Maschinenbau, Chemie, Automobil und Medizintechnik. Mittelstand = 99% der Unternehmen, aber 60% der Beschäftigung.', example: '💼 Durchschnittslohn in Deutschland: 4.100€ brutto (2024). Mit akademischem Abschluss: 5.200€+.\n<em>Sprachkompetenz erhöht das Gehalt nachweislich um 15–30%.</em>' },
+  { title: 'Das Gesundheitssystem ist eines der besten der Welt', teaser: 'Universelle Versicherung, kurze Wartezeiten, hohe Qualität', body: 'Deutschland hat ein <strong>duales Krankenversicherungssystem</strong>: gesetzlich (GKV) und privat (PKV). Alle Einwohner sind versichert. Deutsche Kliniken sind technologisch führend — besonders in Onkologie, Kardiologie und Neurologie.', example: '🏥 Universitätskliniken (Unikliniken) sind oft Arbeitgeber und Forschungszentrum in einem.\n<em>Für Mediziner: Deutschland braucht 5.000+ ausländische Ärzte jährlich.</em>' },
+  { title: 'Deutschlands Bildungssystem ist kostenlos', teaser: 'Studiengebühren: 0€ — auch für Ausländer', body: 'An den meisten deutschen Universitäten zahlen auch internationale Studierende keine Studiengebühren — nur einen <strong>Semesterbeitrag</strong> (ca. 200–350€ pro Semester). Inklusive Semesterticket für öffentliche Verkehrsmittel.', example: '🎓 Rangliste: LMU München, TU München, Heidelberg, Humboldt-Universität — weltweit unter Top 100.\n<em>Sprache = Zugang zu kostenloser Weltklasse-Bildung.</em>' },
+  { title: 'Deutsche Arbeitnehmer haben 20–30 Urlaubstage', teaser: 'Plus 10–13 Feiertage — Erholung ist Recht, nicht Privileg', body: 'Das deutsche Arbeitsrecht garantiert <strong>mindestens 20 Urlaubstage</strong> bei 5-Tage-Woche. Die meisten Tarifverträge geben 25–30 Tage. Überstunden müssen ausgeglichen werden. Burnout ist ernst genommen — Krankenstand wird nicht bestraft.', example: '⚖️ Mutterschutz: 14 Wochen. Elternzeit: bis 3 Jahre (bei vollem Kündigungsschutz).\n<em>Arbeitnehmerrechte sind in Deutschland Verfassungsrecht — nicht nur guter Wille.</em>' },
+];
+
+function renderKulturScreen() {
+  const el = document.getElementById('kultur-content');
+  if (!el) return;
+
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 864e5);
+  const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const now = new Date();
+  const dateStr = `${days[now.getDay()]}, ${now.getDate()}. ${months[now.getMonth()]}`;
+
+  const wort       = KULTUR_WORT[dayOfYear % KULTUR_WORT.length];
+  const sprich     = KULTUR_SPRICHWORT[dayOfYear % KULTUR_SPRICHWORT.length];
+  const rede       = KULTUR_REDEWENDUNG[dayOfYear % KULTUR_REDEWENDUNG.length];
+  const wussten    = KULTUR_WUSSTEN[dayOfYear % KULTUR_WUSSTEN.length];
+  const warum      = KULTUR_WARUM[dayOfYear % KULTUR_WARUM.length];
+
+  const cards = [
+    { type:'wort',       emoji:'🔤', label:'Wort des Tages',    data: wort,    open: true  },
+    { type:'sprichwort', emoji:'📖', label:'Sprichwort',        data: sprich,  open: false },
+    { type:'redewendung',emoji:'🎭', label:'Redewendung',       data: rede,    open: false },
+    { type:'wussten',    emoji:'🗺️', label:'Wussten Sie schon?',data: wussten, open: false },
+    { type:'warum',      emoji:'🎯', label:'Warum Deutsch?',    data: warum,   open: false },
+  ];
+
+  el.innerHTML = `
+    <div class="kultur-header">
+      <div class="kultur-header-top">
+        <div class="kultur-day-label">Ihr tägliches Stück Deutschland</div>
+        <div class="kultur-day-badge">${dateStr}</div>
+      </div>
+      <div class="kultur-headline">Was Deutschland ausmacht 🇩🇪</div>
+      <div class="kultur-sub">Sprache, Kultur, Mentalität — jeden Tag ein bisschen tiefer.</div>
+    </div>
+    ${cards.map((c, i) => `
+    <div class="kultur-card kultur-card-${c.type}${c.open ? ' open' : ''}" id="kc-${i}">
+      <button class="kultur-toggle" onclick="toggleKultur(${i})">
+        <div class="kultur-emoji">${c.emoji}</div>
+        <div class="kultur-toggle-text">
+          <div class="kultur-type">${c.label}</div>
+          <div class="kultur-title">${c.data.title}</div>
+          <div class="kultur-teaser">${c.data.teaser}</div>
+        </div>
+        <div class="kultur-arrow">⌄</div>
+      </button>
+      <div class="kultur-body${c.open ? ' visible' : ''}" id="kb-${i}">
+        <div class="kultur-body-text">${c.data.body}</div>
+        ${c.data.example ? `<div class="kultur-body-example">${c.data.example.replace(/\n/g,'<br>')}</div>` : ''}
+      </div>
+    </div>`).join('')}
+    <div style="height:16px"></div>
+  `;
+}
+
+function toggleKultur(i) {
+  const card = document.getElementById('kc-' + i);
+  const body = document.getElementById('kb-' + i);
+  if (!card || !body) return;
+  const open = body.classList.toggle('visible');
+  card.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
 function showTab(tab) {
