@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мой кабинет</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:           #FAF9F6;
+  --nav:          #2D3748;
+  --accent:       #4A8C6E;
+  --accent-light: #EDF7F1;
+  --highlight:    #7CC8A0;
+  --urgent:       #D97706;
+  --text:         #1A1A1A;
+  --muted:        #718096;
+  --border:       #E2E8F0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 80px; /* место для таб-бара */
+}
+
+/* BOTTOM TAB BAR */
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 100;
+  height: 60px;
+}
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  transition: color .15s;
+  min-height: 44px;
+}
+.tab-btn.active { color: var(--accent); }
+.tab-icon { font-size: 20px; line-height: 1; }
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* GRAMMAR SCREEN */
+.grammar-group-title {
+  padding: 20px 20px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+}
+.grammar-card {
+  margin: 0 16px 10px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.grammar-card.current { border-color: var(--accent); }
+.grammar-card.upcoming { opacity: .6; }
+.grammar-toggle {
+  width: 100%;
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  min-height: 52px;
+}
+.grammar-status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.grammar-card.done .grammar-status-dot { background: var(--accent); }
+.grammar-card.current .grammar-status-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(74,140,110,.2); }
+.grammar-card.upcoming .grammar-status-dot { background: var(--border); }
+.grammar-toggle-label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.grammar-topic-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.grammar-topic-level {
+  font-size: 11px;
+  color: var(--muted);
+}
+.grammar-arrow {
+  font-size: 16px;
+  color: var(--muted);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.grammar-toggle.open .grammar-arrow { transform: rotate(180deg); }
+.grammar-body {
+  display: none;
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.grammar-body.visible { display: block; }
+.grammar-summary {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.grammar-example {
+  background: var(--accent-light);
+  border-left: 3px solid var(--highlight);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #2E6B4F;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* HEADER */
+.header {
+  background: var(--nav);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-title {
+  color: rgba(255,255,255,.9);
+  font-size: 15px;
+  font-weight: 600;
+}
+.header-level {
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .3px;
+}
+
+/* GREETING */
+.greeting {
+  padding: 24px 20px 0;
+}
+.greeting-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.greeting-date {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* TASK CARD */
+.task-card {
+  margin: 20px 16px 0;
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.task-card-header {
+  background: var(--accent);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.task-card-label {
+  color: rgba(255,255,255,.85);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+.task-card-topic {
+  padding: 16px 18px 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.task-card-body {
+  padding: 0 18px 16px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.65;
+}
+.task-meta {
+  display: flex;
+  gap: 16px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  background: #FAFAFA;
+}
+.task-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.task-meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+}
+.task-meta-value {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+}
+.task-meta-value.urgent {
+  color: var(--urgent);
+}
+
+/* HINT */
+.hint-toggle {
+  margin: 0 18px 16px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: calc(100% - 36px);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  transition: border-color .15s, color .15s;
+}
+.hint-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.hint-toggle.open { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.hint-body {
+  display: none;
+  margin: 0 18px 16px;
+  padding: 12px 14px;
+  background: var(--accent-light);
+  border-radius: 10px;
+  font-size: 13px;
+  color: #2E6B4F;
+  line-height: 1.6;
+  border-left: 3px solid var(--highlight);
+}
+.hint-body.visible { display: block; }
+
+/* ACTION BUTTON */
+.action-btn {
+  display: block;
+  margin: 20px 16px 0;
+  padding: 15px 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  min-height: 52px;
+  text-decoration: none;
+  font-family: inherit;
+  width: calc(100% - 32px);
+  transition: background .15s;
+}
+.action-btn:hover { background: #2E6B4F; }
+
+/* LEVEL BADGES */
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.badge-pflicht { background: var(--accent); color: #fff; }
+.badge-optional { background: var(--border); color: var(--muted); }
+
+/* REVIEW CARD (level 0) */
+.review-card {
+  margin: 16px 16px 0;
+  border: 1.5px dashed var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.review-toggle {
+  width: 100%;
+  padding: 13px 18px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 48px;
+}
+.review-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.review-toggle-arrow {
+  font-size: 16px;
+  color: var(--muted);
+  transition: transform .2s;
+}
+.review-toggle.open .review-toggle-arrow { transform: rotate(180deg); }
+.review-body {
+  display: none;
+  padding: 0 18px 14px;
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+}
+.review-body.visible { display: block; }
+.review-topic {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.review-text {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* OPTIONAL LEVEL CARDS (level 2 & 3) */
+.optional-card {
+  margin: 12px 16px 0;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.optional-card:hover { border-color: var(--accent); }
+.optional-toggle {
+  width: 100%;
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 52px;
+  text-align: left;
+}
+.optional-toggle-left { display: flex; flex-direction: column; gap: 2px; }
+.optional-toggle-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.optional-toggle-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+.optional-toggle-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.optional-toggle.open .optional-toggle-arrow { transform: rotate(180deg); }
+.optional-body {
+  display: none;
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.optional-body.visible { display: block; }
+.optional-topic {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.optional-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.65;
+}
+.optional-send-btn {
+  display: block;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  border: 1.5px solid var(--accent);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-family: inherit;
+  min-height: 44px;
+}
+
+/* FEEDBACK */
+.section-title {
+  padding: 28px 20px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+}
+
+.feedback-toggle {
+  margin: 0 16px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  font-family: inherit;
+  width: calc(100% - 32px);
+  transition: border-color .15s;
+}
+.feedback-toggle:hover { border-color: var(--accent); }
+.feedback-toggle.open { border-radius: 14px 14px 0 0; border-color: var(--accent); }
+.feedback-toggle-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.feedback-toggle-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.feedback-toggle-date {
+  font-size: 12px;
+  color: var(--muted);
+}
+.feedback-toggle-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: transform .2s;
+}
+.feedback-toggle.open .feedback-toggle-arrow { transform: rotate(180deg); }
+
+.feedback-body {
+  display: none;
+  margin: 0 16px;
+  background: #fff;
+  border: 1.5px solid var(--accent);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 14px 18px;
+}
+.feedback-body.visible { display: block; }
+.feedback-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+.feedback-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* GOAL */
+.goal-card {
+  margin: 0 16px;
+  background: var(--nav);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.goal-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+.goal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.goal-deadline {
+  font-size: 12px;
+  color: var(--highlight);
+  font-weight: 600;
+}
+
+/* MILESTONES */
+.milestones {
+  margin: 0 16px;
+  padding: 4px 0 4px 20px;
+  position: relative;
+}
+.milestones::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.milestone {
+  position: relative;
+  padding: 10px 0 10px 22px;
+}
+.milestone-dot {
+  position: absolute;
+  left: -11px;
+  top: 13px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 1;
+  background: var(--bg);
+}
+.milestone.done .milestone-dot {
+  background: var(--accent);
+  color: #fff;
+}
+.milestone.active .milestone-dot {
+  background: var(--nav);
+  color: var(--highlight);
+  border: 2px solid var(--highlight);
+}
+.milestone.upcoming .milestone-dot {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  color: var(--border);
+}
+.milestone-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.milestone.done .milestone-text { color: var(--muted); text-decoration: line-through; }
+.milestone.active .milestone-text {
+  color: var(--text);
+  font-weight: 700;
+}
+.milestone.active {
+  background: var(--accent-light);
+  border-radius: 10px;
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  margin-left: -3px;
+}
+.milestone.active .milestone-dot { left: -14px; }
+
+.milestone-sub {
+  font-size: 12px;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+/* PROGRESS NOTE */
+.progress-note {
+  margin: 0 16px;
+  padding: 14px 18px;
+  background: var(--accent-light);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2E6B4F;
+  border-left: 3px solid var(--highlight);
+}
+
+/* PROGRESS SCREEN */
+.progress-section-title {
+  padding: 24px 20px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+}
+
+.skill-card {
+  margin: 0 16px 10px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.skill-card.open { border-color: var(--accent); }
+
+.skill-header {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 14px 18px;
+  display: block;
+}
+
+.skill-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.skill-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-icon { font-size: 18px; }
+
+.skill-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.skill-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skill-arrow {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+.skill-arrow.up    { color: var(--accent); }
+.skill-arrow.stable { color: var(--muted); }
+.skill-arrow.down  { color: var(--urgent); }
+
+.skill-expand-arrow {
+  font-size: 16px;
+  color: var(--muted);
+  transition: transform .2s;
+}
+.skill-card.open .skill-expand-arrow { transform: rotate(180deg); }
+
+.skill-bar-wrap {
+  background: var(--border);
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--highlight) 100%);
+  transition: width .6s ease;
+}
+
+.skill-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.skill-goal-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.skill-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* FUNDAMENT SECTION */
+.fundament-bridge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 16px 12px;
+}
+.fundament-bridge-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.fundament-bridge-text {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.fundament-wrapper {
+  margin: 0 16px 10px;
+  border-radius: 16px;
+  border: 2px solid var(--accent);
+  overflow: hidden;
+}
+
+.fundament-label {
+  padding: 11px 18px 9px;
+  background: var(--accent-light);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--accent);
+}
+
+.fundament-wrapper .skill-card {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+.fundament-wrapper .skill-card.open { border-color: transparent; }
+
+/* CRITERIA ACCORDION */
+.skill-criteria {
+  display: none;
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.skill-criteria.visible { display: block; }
+
+.skill-criteria-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.criterion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background .1s;
+  min-height: 44px;
+}
+.criterion-item:hover { background: var(--bg); }
+.criterion-item:active { background: var(--accent-light); }
+.criterion-item.done { color: var(--text); }
+
+.criterion-dot {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.criterion-item.done .criterion-dot {
+  background: var(--accent);
+  color: #fff;
+}
+.criterion-item:not(.done) .criterion-dot {
+  border: 2px solid var(--border);
+  color: var(--border);
+}
+
+.growth-legend {
+  margin: 0 16px 16px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.legend-arrow {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* LÜCKEN SCREEN */
+.gap-section-title {
+  padding: 20px 20px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+}
+
+.gap-card {
+  margin: 0 16px 10px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  padding: 13px 16px;
+  cursor: pointer;
+  transition: border-color .15s, opacity .15s;
+}
+.gap-card.sos   { border: 2px solid #E53E3E; }
+.gap-card.aktiv { border-color: var(--urgent); }
+.gap-card.geloest { opacity: .5; }
+
+.gap-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.gap-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.gap-level {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px;
+  background: var(--border); color: var(--muted);
+}
+
+.gap-category {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px;
+  background: var(--accent-light); color: var(--accent);
+}
+
+.gap-status-icon { font-size: 18px; line-height: 1; }
+
+.gap-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.gap-card.geloest .gap-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.gap-meta { font-size: 11px; color: var(--muted); }
+
+.add-gap-btn {
+  display: block;
+  margin: 8px 16px 4px;
+  padding: 14px 20px;
+  background: none;
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  min-height: 52px;
+  width: calc(100% - 32px);
+  transition: border-color .15s, color .15s;
+}
+.add-gap-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.add-gap-form {
+  display: none;
+  margin: 0 16px 12px;
+  background: #fff;
+  border: 1.5px solid var(--accent);
+  border-radius: 14px;
+  padding: 16px;
+}
+.add-gap-form.visible { display: block; }
+
+.add-gap-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.add-gap-textarea {
+  width: 100%;
+  min-height: 80px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  resize: vertical;
+  margin-bottom: 10px;
+}
+.add-gap-textarea:focus { outline: none; border-color: var(--accent); }
+
+.add-gap-select {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: #fff;
+  margin-bottom: 12px;
+  appearance: none;
+  cursor: pointer;
+}
+.add-gap-select:focus { outline: none; border-color: var(--accent); }
+
+.add-gap-submit {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.gaps-who-section {
+  margin: 12px 0 0;
+}
+.gaps-who-section.student {
+  margin-top: 4px;
+  padding-bottom: 8px;
+  background: var(--accent-light);
+  border-bottom: 2px solid var(--accent);
+}
+.gaps-who-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px 6px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.gaps-who-section.student .gaps-who-header {
+  background: var(--accent-light);
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  margin-bottom: 4px;
+}
+.gaps-who-section.geloest .gaps-who-header {
+  opacity: .6;
+}
+.gaps-who-icon { font-size: 18px; line-height: 1; }
+.gaps-who-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+}
+.gaps-who-section.student .gaps-who-title {
+  color: var(--accent);
+}
+
+.gaps-empty-small {
+  margin: 4px 16px 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  background: #fff;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border);
+}
+
+.gaps-empty {
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* NOT FOUND */
+.not-found {
+  padding: 60px 24px;
+  text-align: center;
+}
+.not-found-icon { font-size: 48px; margin-bottom: 16px; }
+.not-found-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.not-found-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.expand(); tg.ready(); }
+
+// ── Studentendaten ────────────────────────────────────────────────────────
+// Aufgabe aktualisieren: Felder in task: { ... } für den jeweiligen Studenten ändern.
+const STUDENTS = {
+  artem: {
+    name: 'Artem',
+    level: 'B2/C1',
+    progressText: 'Deutlich präziser geworden — besonders in schriftlichen Texten',
+    goal: { title: 'Goethe-Zertifikat C1 bestehen', deadline: 'Dezember 2026' },
+    milestones: [
+      { label: 'Grammatik stabilisieren',    status: 'done' },
+      { label: 'Schreiben auf C1-Niveau',    status: 'active', sub: 'Sie sind hier' },
+      { label: 'Mündlicher Ausdruck C1',     status: 'upcoming' },
+    ],
+    review: {
+      topic: 'Nominalisierung — kurze Wiederholung',
+      text: 'Erinnern Sie sich: Verben werden zu Substantiven. «entscheiden» → «die Entscheidung». Schauen Sie sich Ihre Aufgabe vom 11. März an — haben Sie die Korrekturen notiert?',
+    },
+    task: {
+      topic: 'Passiv — Stellung im Nebensatz',
+      text: 'Schreiben Sie 5 Sätze aus dem Text im Passiv um. Achten Sie besonders auf die Stellung des Hilfsverbs im Nebensatz.',
+      estimate: '20–25 Minuten',
+      deadline: '15. März',
+      hint: 'Im Nebensatz steht das Hilfsverb „werden" immer an letzter Stelle: «..., dass das Projekt abgeschlossen wird.» — nicht «wird abgeschlossen».',
+    },
+    deepen: {
+      topic: 'Passiv im eigenen Text',
+      text: 'Schreiben Sie einen kurzen Absatz (5–7 Sätze) über ein Projekt bei der Arbeit oder aus dem Alltag — im Passiv. Mindestens 2 Nebensätze mit Passiv.',
+    },
+    immerse: {
+      topic: 'Passiv in echten Texten finden',
+      text: 'Lesen Sie einen kurzen Artikel auf tagesschau.de oder spiegel.de (3–5 Minuten). Unterstreichen Sie alle Passiv-Konstruktionen. Wie viele haben Sie gefunden? Schicken Sie mir die interessantesten 3.',
+    },
+    feedback: {
+      date: '11. März',
+      text: 'Artem, gute Arbeit mit der Nominalisierung — man sieht, dass die Regel automatischer geworden ist. In Satz 3 der Artikel: «der Beschluss», nicht «die». Typische Fossilisierung — wir erkennen sie und üben weiter zusammen.',
+      score: 'Guter Fortschritt 📈',
+    },
+    // Lücken: status 'sos' | 'aktiv' | 'geloest'  by: 'lehrerin' | 'student'
+    gaps: [
+      { id: 'a1', level: 'B1', category: 'Grammatik', text: 'Dativ-Artikel im schnellen Sprechen — «dem» / «den» verwechselt', status: 'sos', by: 'lehrerin', date: '11. März' },
+      { id: 'a2', level: 'B2', category: 'Grammatik', text: 'Reflexive Verben im Nebensatz — Position von «sich» nicht automatisch', status: 'sos', by: 'lehrerin', date: '11. März' },
+      { id: 'a3', level: 'B1', category: 'Wortschatz', text: 'Präpositionen mit Dativ / Akkusativ — Unsicherheit in echten Gesprächen', status: 'aktiv', by: 'lehrerin', date: '5. März' },
+      { id: 'a4', level: 'B2', category: 'Sprechen', text: 'Übergang zwischen Themen im Monolog — stockt, sucht Redemittel', status: 'aktiv', by: 'lehrerin', date: '5. März' },
+    ],
+    // personal: 'up' | 'stable' | 'down' — Sie setzen das nach dem Unterricht
+    // done: true/false — Sie haken ab wenn der Student das Thema beherrscht
+    // pct wird automatisch berechnet: done/total * 100
+    skills: [
+      { name: 'Hören', icon: '🎧', personal: 'up', note: 'Längere Texte werden deutlich leichter', criteria: [
+        { label: 'Vorträge und Reden (20+ Min.) verstehen', done: true },
+        { label: 'Verschiedene Akzente und Sprechtempo', done: true },
+        { label: 'Implizite Bedeutungen und Ironie erkennen', done: false },
+        { label: 'Authentische Medientexte (Radio, TV)', done: true },
+        { label: 'Prüfung: Radiobeiträge / Interviews (Aufgabe 1–3)', done: false },
+      ]},
+      { name: 'Sprechen', icon: '🗣️', personal: 'stable', note: 'Tempo ist gut — Spontaneität üben', criteria: [
+        { label: 'Spontan und fließend zu Themen sprechen', done: false },
+        { label: 'Ideen präzise und nuanciert ausdrücken', done: false },
+        { label: 'Prüfung: Monolog (3–4 Min.) — ein Thema entwickeln', done: false },
+        { label: 'Prüfung: Diskussion mit Gesprächspartner', done: false },
+        { label: 'Redemittel zur Argumentation aktiv nutzen', done: false },
+      ]},
+      { name: 'Lesen', icon: '📖', personal: 'up', note: 'C1-Texte sind spürbar leichter geworden', criteria: [
+        { label: 'Lange, komplexe Texte (Fachartikel, Essays)', done: true },
+        { label: 'Implizite Bedeutungen und Autorenabsicht erfassen', done: true },
+        { label: 'Literarische Texte und Prosa verstehen', done: false },
+        { label: 'Prüfung: Lückentexte / Satzteile zuordnen', done: true },
+        { label: 'Prüfung: Multiple Choice zu langen Texten', done: false },
+      ]},
+      { name: 'Schreiben', icon: '✍️', personal: 'up', note: 'Struktur und Präzision wachsen sichtbar', criteria: [
+        { label: 'Klare Textstruktur (Einleitung – Hauptteil – Schluss)', done: true },
+        { label: 'Erörterung / Stellungnahme (Prüfungsteil)', done: false },
+        { label: 'Formeller Brief oder E-Mail auf C1-Niveau', done: false },
+        { label: 'Komplexe Satzkonstruktionen aktiv einsetzen', done: false },
+        { label: 'Stilsicherheit: Register und Ton anpassen', done: false },
+      ]},
+      { name: 'Grammatik', icon: '🔧', personal: 'up', note: 'Passiv und Nebensätze werden sicherer', criteria: [
+        { label: 'Passiv (alle Formen und Zeiten)', done: true },
+        { label: 'Nominalisierung von Verben und Adjektiven', done: true },
+        { label: 'Konjunktiv II (inkl. indirekte Rede)', done: false },
+        { label: 'Partizipialkonstruktionen', done: false },
+        { label: 'Infinitivkonstruktionen (statt dass-Sätze)', done: false },
+        { label: 'Erweitertes Attribut', done: false },
+      ]},
+      { name: 'Wortschatz', icon: '📝', personal: 'stable', note: 'Neues Vokabular — noch mehr aktivieren', criteria: [
+        { label: 'Thema: Beruf & Karriere', done: true },
+        { label: 'Thema: Gesellschaft & Politik', done: false },
+        { label: 'Thema: Wissenschaft & Forschung', done: false },
+        { label: 'Thema: Kultur & Medien', done: false },
+        { label: 'Bildungssprache: Synonyme & Umschreibungen aktiv', done: false },
+        { label: 'Idiomatische Ausdrücke (20+ im aktiven Gebrauch)', done: false },
+      ]},
+    ],
+    grammar: [
+      {
+        status: 'done',
+        topic: 'Nominalisierung',
+        level: 'C1',
+        summary: 'Verben und Adjektive werden zu Substantiven umgewandelt. Typisch für formelle Texte, Berichte, C1-Prüfungen.',
+        example: '«entscheiden» → «die Entscheidung treffen»\n«untersuchen» → «die Untersuchung durchführen»',
+      },
+      {
+        status: 'current',
+        topic: 'Passiv im Nebensatz',
+        level: 'C1',
+        summary: 'Im Nebensatz steht das Hilfsverb „werden" immer am Ende — nach dem Partizip II. Diese Position ist fest, egal wie lang der Satz ist.',
+        example: '✓ «..., dass das Projekt abgeschlossen wird.»\n✗ «..., dass wird das Projekt abgeschlossen.»',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Konjunktivformen C1',
+        level: 'C1',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Mündlicher Ausdruck — Stellungnahme',
+        level: 'C1',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+    ],
+  },
+
+  olga: {
+    name: 'Olga',
+    level: 'B1 → B2',
+    progressText: 'Toller Start — die Systematik ist schon zu erkennen',
+    goal: { title: 'Sicheres B2 — flüssig und automatisch sprechen', deadline: 'Herbst 2026' },
+    milestones: [
+      { label: 'Grundstrukturen aktivieren',  status: 'active', sub: 'Sie sind hier' },
+      { label: 'Automatisierung im Sprechen', status: 'upcoming' },
+      { label: 'B2-Prüfung ablegen',          status: 'upcoming' },
+    ],
+    review: null,
+    task: {
+      topic: 'Konjunktiv II — berufliche Situationen',
+      text: 'Bilden Sie 6 Sätze mit Konjunktiv II zum Thema Arbeit. Verwenden Sie: könnten, würden, sollten. Denken Sie nicht ans Regelwerk — sprechen Sie einfach so, wie man höflich auf Deutsch spricht.',
+      estimate: '15–20 Minuten',
+      deadline: '15. März',
+      hint: 'Beispiel: «Könnten Sie mir bitte helfen?» — klingt höflich und professionell. «Können Sie» klingt direkter. Der Unterschied ist klein, aber Deutsche spüren ihn.',
+    },
+    deepen: {
+      topic: 'Ein Gespräch simulieren',
+      text: 'Schreiben Sie einen kurzen Dialog (6–8 Zeilen): Sie bitten Ihren Kollegen um Hilfe bei einer Aufgabe. Nutzen Sie Konjunktiv II so natürlich wie möglich.',
+    },
+    immerse: {
+      topic: 'Konjunktiv II im Alltag hören',
+      text: 'Schauen Sie sich ein kurzes YouTube-Video auf Deutsch an (Alltag, Kochen, Reisen — egal was). Notieren Sie 3 Sätze, die Sie mit Konjunktiv II reformulieren könnten.',
+    },
+    gaps: [
+      { id: 'o1', level: 'A2', category: 'Grammatik', text: 'Verbendungen in der 3. Person — «sie hat» / «er haben» Fehler unter Druck', status: 'sos', by: 'lehrerin', date: '11. März' },
+      { id: 'o2', level: 'B1', category: 'Wortschatz', text: 'Konnektoren fehlen — Sätze werden nicht verbunden, alles in Einzelsätzen', status: 'aktiv', by: 'lehrerin', date: '5. März' },
+    ],
+    skills: [
+      { name: 'Hören', icon: '🎧', personal: 'up', note: 'Alltagsgespräche gut verständlich', criteria: [
+        { label: 'Alltagsgespräche und Diskussionen verstehen', done: true },
+        { label: 'Berichte und Interviews im Radio', done: false },
+        { label: 'Hauptaussagen in längeren Vorträgen', done: false },
+        { label: 'Prüfung: Dialog / Diskussion hören (Aufgabe)', done: false },
+      ]},
+      { name: 'Sprechen', icon: '🗣️', personal: 'up', note: 'Erste Sätze fließender — gut!', criteria: [
+        { label: 'Zu vertrauten Themen flüssig sprechen', done: true },
+        { label: 'Meinung ausdrücken und begründen', done: false },
+        { label: 'An Gesprächen und Diskussionen teilnehmen', done: false },
+        { label: 'Prüfung: Bild beschreiben + Diskussion', done: false },
+      ]},
+      { name: 'Lesen', icon: '📖', personal: 'stable', note: 'B1-Texte sicher, B2 in Arbeit', criteria: [
+        { label: 'Alltagstexte und einfache Fachartikel', done: true },
+        { label: 'Zeitungsartikel zu aktuellen Themen', done: false },
+        { label: 'Prüfung: Textabschnitte zuordnen', done: false },
+        { label: 'Detailverständnis in längeren Texten', done: false },
+      ]},
+      { name: 'Schreiben', icon: '✍️', personal: 'up', note: 'Struktur wird klarer — weiter so', criteria: [
+        { label: 'Einfache Texte strukturiert schreiben', done: true },
+        { label: 'Formeller Brief / E-Mail (beruflich)', done: false },
+        { label: 'Stellungnahme zu einem Thema', done: false },
+        { label: 'Prüfung: Brief oder Erörterung (250 Wörter)', done: false },
+      ]},
+      { name: 'Grammatik', icon: '🔧', personal: 'up', note: 'Konjunktiv II — aktiv in Übung', criteria: [
+        { label: 'Grundstrukturen sicher (Verb Pos. 2, Nebensätze)', done: true },
+        { label: 'Konjunktiv II für höfliche Kommunikation', done: false },
+        { label: 'Relativsätze (Nom., Akk., Dat.)', done: false },
+        { label: 'Zweiteilige Konnektoren (sowohl... als auch...)', done: false },
+      ]},
+      { name: 'Wortschatz', icon: '📝', personal: 'stable', note: 'Berufswortschatz aufbauen', criteria: [
+        { label: 'Thema: Alltag & Familie', done: true },
+        { label: 'Thema: Beruf & Büro', done: false },
+        { label: 'Thema: Gesundheit & Freizeit', done: false },
+        { label: 'Feste Ausdrücke & Redewendungen (10+ aktiv)', done: false },
+      ]},
+    ],
+    feedback: null,
+    grammar: [
+      {
+        status: 'current',
+        topic: 'Konjunktiv II',
+        level: 'B2',
+        summary: 'Wird für höfliche Bitten, Wünsche und irreale Situationen verwendet. Wichtig im Berufsleben.',
+        example: '«Könnten Sie mir helfen?» — höflich ✓\n«Ich würde gern... / Das sollte man...»',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Relativsätze',
+        level: 'B2',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Zweiteilige Konnektoren',
+        level: 'B2',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+    ],
+  },
+
+  julia: {
+    name: 'Julia',
+    level: 'B1/B2',
+    progressText: 'Guter Start — wir kommen gut voran',
+    goal: { title: 'Selbstsicher auf Deutsch im Berufsalltag sprechen', deadline: 'Sommer 2026' },
+    milestones: [
+      { label: 'Satzstruktur sicher machen',  status: 'active', sub: 'Sie sind hier' },
+      { label: 'Sprechen ohne Angst',          status: 'upcoming' },
+      { label: 'Frei kommunizieren bei der Arbeit', status: 'upcoming' },
+    ],
+    review: null,
+    task: {
+      topic: 'Wortstellung — Ihr Arbeitstag',
+      text: 'Schreiben Sie 5 Sätze über Ihren Arbeitstag in der Ausbildung. Beginnen Sie jeden Satz mit einer Zeitangabe (heute, morgens, um 8 Uhr). Keine Angst vor Fehlern — das ist eine Übung, keine Prüfung.',
+      estimate: '15 Minuten',
+      deadline: '15. März',
+      hint: 'Wenn der Satz mit «Heute» beginnt, kommt das Verb direkt danach: «Heute arbeite ich bis 17 Uhr.» Das Subjekt rückt auf Stelle drei.',
+    },
+    deepen: {
+      topic: 'Wortstellung mit Nebensatz',
+      text: 'Verbinden Sie je 2 Ihrer Sätze mit „weil", „obwohl" oder „wenn". Achten Sie auf die Verbposition im Nebensatz. 3 kombinierte Sätze reichen.',
+    },
+    immerse: {
+      topic: 'Einen echten Satz aus der Arbeit beschreiben',
+      text: 'Denken Sie an eine Situation von dieser Woche bei der Ausbildung. Beschreiben Sie sie in 4–5 Sätzen auf Deutsch. Schicken Sie mir den Text — ich gebe Ihnen Feedback.',
+    },
+    gaps: [
+      { id: 'j1', level: 'A2', category: 'Grammatik', text: 'Verb auf Position 2 vergessen wenn Satz mit Zeitangabe beginnt', status: 'sos', by: 'lehrerin', date: '11. März' },
+      { id: 'j2', level: 'A2', category: 'Sprechen', text: 'Stockt beim Antworten auf Kolleginnen — braucht zu viel Zeit zum Formulieren', status: 'aktiv', by: 'lehrerin', date: '5. März' },
+    ],
+    skills: [
+      { name: 'Hören', icon: '🎧', personal: 'stable', note: 'Kolleginnen gut verstehen — super', criteria: [
+        { label: 'Kolleginnen im Alltag verstehen', done: true },
+        { label: 'Anweisungen in der Ausbildung', done: true },
+        { label: 'Telefongespräche und Ansagen', done: false },
+        { label: 'Besprechungen und Erklärungen folgen', done: false },
+      ]},
+      { name: 'Sprechen', icon: '🗣️', personal: 'up', note: 'Weniger Pausen — Mut wächst', criteria: [
+        { label: 'Einfache Fragen und Antworten bei der Arbeit', done: true },
+        { label: 'Situation erklären und um Hilfe bitten', done: false },
+        { label: 'Eigene Meinung kurz sagen', done: false },
+        { label: 'Frei über den Arbeitstag erzählen', done: false },
+      ]},
+      { name: 'Lesen', icon: '📖', personal: 'stable', note: 'Berufliche Texte gut verständlich', criteria: [
+        { label: 'E-Mails und Nachrichten von Kollegen', done: true },
+        { label: 'Arbeitsanweisungen und Protokolle', done: true },
+        { label: 'Formulare und offizielle Briefe', done: false },
+        { label: 'Kurze Artikel zu Berufsthemen', done: false },
+      ]},
+      { name: 'Schreiben', icon: '✍️', personal: 'up', note: 'Satzstellung üben — guter Anfang', criteria: [
+        { label: 'Kurze Nachrichten an Kolleginnen', done: true },
+        { label: 'Einfache E-Mail schreiben', done: false },
+        { label: 'Sätze mit korrekter Wortstellung', done: false },
+        { label: 'Kurzer Bericht über eine Situation', done: false },
+      ]},
+      { name: 'Grammatik', icon: '🔧', personal: 'up', note: 'Verb auf Pos. 2 — wird sicherer', criteria: [
+        { label: 'Verb auf Position 2 (Hauptsatz)', done: false },
+        { label: 'Verb am Ende (Nebensatz mit weil / dass)', done: false },
+        { label: 'Modalverben im Alltag (müssen, können, dürfen)', done: false },
+        { label: 'Vergangenheit: Perfekt im Gespräch', done: false },
+      ]},
+      { name: 'Wortschatz', icon: '📝', personal: 'stable', note: 'Ausbildungs-Vokabular aufbauen', criteria: [
+        { label: 'Thema: Ausbildungsalltag & Abläufe', done: true },
+        { label: 'Thema: Kolleginnen & Kommunikation', done: false },
+        { label: 'Thema: Zahlen, Zeiten, Pläne beschreiben', done: false },
+        { label: 'Höfliche Formulierungen im Beruf (10+ aktiv)', done: false },
+      ]},
+    ],
+    feedback: null,
+    grammar: [
+      {
+        status: 'current',
+        topic: 'Wortstellung im Hauptsatz',
+        level: 'B1',
+        summary: 'Das Verb steht immer auf Position 2. Egal was vorne steht — das Verb bleibt auf Platz 2, das Subjekt geht dahinter.',
+        example: '«Heute arbeite ich bis 17 Uhr.» ✓\n«Morgens trinke ich Kaffee.» ✓\n«Um 8 Uhr beginnt die Arbeit.» ✓',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Nebensätze mit weil / obwohl',
+        level: 'B1',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Modalverben im Alltag',
+        level: 'B1',
+        summary: 'Kommt als nächstes.',
+        example: '',
+      },
+    ],
+  },
+};
+
+// ── LocalStorage: Fortschritt speichern ───────────────────────────────────
+function loadProgress(studentId) {
+  try { return JSON.parse(localStorage.getItem('pgc_' + studentId) || '{}'); }
+  catch { return {}; }
+}
+function saveProgress(studentId, data) {
+  localStorage.setItem('pgc_' + studentId, JSON.stringify(data));
+}
+function applyProgress(student, id) {
+  const saved = loadProgress(id);
+  student.skills.forEach((skill, si) => {
+    if (!saved[si]) return;
+    skill.criteria.forEach((c, ci) => {
+      if (saved[si][ci] !== undefined) c.done = saved[si][ci];
+    });
+  });
+}
+
+// ── Student ermitteln ─────────────────────────────────────────────────────
+function getStudentId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('student')?.toLowerCase() || '';
+}
+
+// ── Render ────────────────────────────────────────────────────────────────
+function render() {
+  const id = getStudentId();
+  const student = STUDENTS[id];
+  const app = document.getElementById('app');
+
+  if (!student) {
+    app.innerHTML = `
+      <div class="not-found">
+        <div class="not-found-icon">🔒</div>
+        <div class="not-found-title">Seite nicht gefunden</div>
+        <div class="not-found-text">Bitte nutzen Sie den Link, den Ihre Lehrerin Ihnen geschickt hat.</div>
+      </div>`;
+    return;
+  }
+
+  applyProgress(student, id);
+
+  const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const feedbackHTML = student.feedback ? `
+    <div class="section-title">Feedback</div>
+    <button class="feedback-toggle" id="fb-toggle" onclick="toggleFeedback()">
+      <div class="feedback-toggle-left">
+        <div class="feedback-toggle-label">Kommentar zur letzten Aufgabe</div>
+        <div class="feedback-toggle-date">${student.feedback.date}</div>
+      </div>
+      <div class="feedback-toggle-arrow">⌄</div>
+    </button>
+    <div class="feedback-body" id="fb-body">
+      <div class="feedback-text">${student.feedback.text}</div>
+      <div class="feedback-score">${student.feedback.score}</div>
+    </div>
+  ` : '';
+
+  app.innerHTML = `
+    <div class="header">
+      <div class="header-title">Mein Bereich</div>
+      <div class="header-level">${student.level}</div>
+    </div>
+
+  <div class="screen active" id="screen-task">
+    <div class="greeting">
+      <div class="greeting-name">Guten Tag, ${student.name} 👋</div>
+      <div class="greeting-date">${today}</div>
+    </div>
+
+    ${student.review ? `
+    <div class="review-card">
+      <button class="review-toggle" id="review-toggle" onclick="toggleReview()">
+        <div class="review-toggle-left">🔄 Zuerst wiederholen?</div>
+        <div class="review-toggle-arrow">⌄</div>
+      </button>
+      <div class="review-body" id="review-body">
+        <div class="review-topic">${student.review.topic}</div>
+        <div class="review-text">${student.review.text}</div>
+      </div>
+    </div>
+    ` : ''}
+
+    <div class="task-card">
+      <div class="task-card-header">
+        <div class="task-card-label">📌 Aufgabe für heute · <span style="opacity:.8;font-weight:400">Pflicht</span></div>
+      </div>
+      <div class="task-card-topic">${student.task.topic}</div>
+      <div class="task-card-body">${student.task.text}</div>
+      <div class="task-meta">
+        <div class="task-meta-item">
+          <div class="task-meta-label">Zeit</div>
+          <div class="task-meta-value">${student.task.estimate}</div>
+        </div>
+        <div class="task-meta-item">
+          <div class="task-meta-label">Abgabe bis</div>
+          <div class="task-meta-value urgent">${student.task.deadline}</div>
+        </div>
+      </div>
+      <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()">
+        💡 Tipp — wenn es gar nicht klappt
+      </button>
+      <div class="hint-body" id="hint-body">${student.task.hint}</div>
+    </div>
+
+    <a href="https://t.me/mila_konstanz" class="action-btn">
+      ✉️ Aufgabe abschicken
+    </a>
+
+    ${student.deepen ? `
+    <div class="optional-card">
+      <button class="optional-toggle" id="deepen-toggle" onclick="toggleOptional('deepen')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">➕ Vertiefung</div>
+          <div class="optional-toggle-sub">Möchten Sie tiefer gehen?</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="deepen-body">
+        <div class="optional-topic">${student.deepen.topic}</div>
+        <div class="optional-text">${student.deepen.text}</div>
+        <a href="https://t.me/mila_konstanz" class="optional-send-btn">✉️ Antwort schicken</a>
+      </div>
+    </div>
+    ` : ''}
+
+    ${student.immerse ? `
+    <div class="optional-card">
+      <button class="optional-toggle" id="immerse-toggle" onclick="toggleOptional('immerse')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">🚀 Sprachentwicklung</div>
+          <div class="optional-toggle-sub">Für die Mutigen — echte Sprache</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="immerse-body">
+        <div class="optional-topic">${student.immerse.topic}</div>
+        <div class="optional-text">${student.immerse.text}</div>
+        <a href="https://t.me/mila_konstanz" class="optional-send-btn">✉️ Antwort schicken</a>
+      </div>
+    </div>
+    ` : ''}
+
+    ${feedbackHTML}
+
+    <div class="section-title">Fortschritt zum Ziel</div>
+    <div class="goal-card">
+      <div class="goal-icon">🎯</div>
+      <div>
+        <div class="goal-title">${student.goal.title}</div>
+        <div class="goal-deadline">bis ${student.goal.deadline}</div>
+      </div>
+    </div>
+
+    <div class="milestones">
+      ${student.milestones.map(m => `
+        <div class="milestone ${m.status}">
+          <div class="milestone-dot">${m.status === 'done' ? '✓' : m.status === 'active' ? '▶' : '○'}</div>
+          <div class="milestone-text">${m.label}</div>
+          ${m.sub ? `<div class="milestone-sub">${m.sub}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="progress-note">${student.progressText}</div>
+  </div>
+
+  <div class="screen" id="screen-grammar">
+
+    ${(() => {
+      const done = student.grammar.filter(g => g.status === 'done');
+      const current = student.grammar.filter(g => g.status === 'current');
+      const upcoming = student.grammar.filter(g => g.status === 'upcoming');
+
+      const renderCards = (items) => items.map((g, i) => `
+        <div class="grammar-card ${g.status}" id="gc-${g.status}-${i}">
+          <button class="grammar-toggle" onclick="toggleGrammar('${g.status}-${i}')">
+            <div class="grammar-status-dot"></div>
+            <div class="grammar-toggle-label">
+              <div class="grammar-topic-name">${g.topic}</div>
+              <div class="grammar-topic-level">Niveau ${g.level}</div>
+            </div>
+            <div class="grammar-arrow">⌄</div>
+          </button>
+          <div class="grammar-body" id="gb-${g.status}-${i}">
+            <div class="grammar-summary">${g.summary}</div>
+            ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g, '<br>')}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      return `
+        ${current.length ? `<div class="grammar-group-title">Aktuelle Themen</div>${renderCards(current)}` : ''}
+        ${done.length ? `<div class="grammar-group-title">Bereits gelernt ✓</div>${renderCards(done)}` : ''}
+        ${upcoming.length ? `<div class="grammar-group-title">Kommt noch</div>${renderCards(upcoming)}` : ''}
+      `;
+    })()}
+  </div>
+
+  <div class="screen" id="screen-progress">
+    <div class="progress-section-title">Kommunikation</div>
+    <div class="growth-legend">
+      <div class="legend-item"><span class="legend-arrow" style="color:var(--accent)">↑</span> besser geworden</div>
+      <div class="legend-item"><span class="legend-arrow" style="color:var(--muted)">→</span> stabil</div>
+      <div class="legend-item"><span class="legend-arrow" style="color:var(--urgent)">↓</span> üben</div>
+    </div>
+
+    ${(function renderSkillCard(skills) {
+      return skills.map((s, i) => {
+        const idx = student.skills.indexOf(s);
+        const doneCnt = s.criteria.filter(c => c.done).length;
+        const totalCnt = s.criteria.length;
+        const pct = totalCnt > 0 ? Math.round(doneCnt / totalCnt * 100) : 0;
+        return `
+        <div class="skill-card" id="sk-card-${idx}">
+          <button class="skill-header" onclick="toggleSkill(${idx})">
+            <div class="skill-card-top">
+              <div class="skill-name-row">
+                <div class="skill-icon">${s.icon}</div>
+                <div class="skill-name">${s.name}</div>
+              </div>
+              <div class="skill-right">
+                <div class="skill-arrow ${s.personal}">${s.personal === 'up' ? '↑' : s.personal === 'down' ? '↓' : '→'}</div>
+                <div class="skill-expand-arrow">⌄</div>
+              </div>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-fill" style="width:${pct}%"></div>
+            </div>
+            <div class="skill-bar-labels">
+              <div class="skill-pct">${doneCnt} von ${totalCnt} Kriterien ✓</div>
+              <div class="skill-goal-label">${pct}% zum Ziel</div>
+            </div>
+            <div class="skill-note">${s.note}</div>
+          </button>
+          <div class="skill-criteria" id="sk-criteria-${idx}">
+            <div class="skill-criteria-title">Was auf diesem Niveau erwartet wird</div>
+            ${s.criteria.map((c, ci) => `
+              <div class="criterion-item ${c.done ? 'done' : ''}" id="crit-${idx}-${ci}" onclick="toggleCriterion(${idx}, ${ci})">
+                <div class="criterion-dot">${c.done ? '✓' : '○'}</div>
+                <div>${c.label}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }).join('');
+    })(student.skills.slice(0, 4))}
+
+    <div class="fundament-bridge">
+      <div class="fundament-bridge-line"></div>
+      <div class="fundament-bridge-text">trägt alle Fertigkeiten</div>
+      <div class="fundament-bridge-line"></div>
+    </div>
+
+    <div class="fundament-wrapper">
+      <div class="fundament-label">🧱 Fundament — Grammatik &amp; Wortschatz</div>
+      ${(function renderSkillCard(skills) {
+        return skills.map((s, i) => {
+          const idx = student.skills.indexOf(s);
+          const doneCnt = s.criteria.filter(c => c.done).length;
+          const totalCnt = s.criteria.length;
+          const pct = totalCnt > 0 ? Math.round(doneCnt / totalCnt * 100) : 0;
+          return `
+          <div class="skill-card" id="sk-card-${idx}">
+            <button class="skill-header" onclick="toggleSkill(${idx})">
+              <div class="skill-card-top">
+                <div class="skill-name-row">
+                  <div class="skill-icon">${s.icon}</div>
+                  <div class="skill-name">${s.name}</div>
+                </div>
+                <div class="skill-right">
+                  <div class="skill-arrow ${s.personal}">${s.personal === 'up' ? '↑' : s.personal === 'down' ? '↓' : '→'}</div>
+                  <div class="skill-expand-arrow">⌄</div>
+                </div>
+              </div>
+              <div class="skill-bar-wrap">
+                <div class="skill-bar-fill" style="width:${pct}%"></div>
+              </div>
+              <div class="skill-bar-labels">
+                <div class="skill-pct">${doneCnt} von ${totalCnt} Themen ✓</div>
+                <div class="skill-goal-label">${pct}% aufgebaut</div>
+              </div>
+              <div class="skill-note">${s.note}</div>
+            </button>
+            <div class="skill-criteria" id="sk-criteria-${idx}">
+              <div class="skill-criteria-title">Themen im Aufbau</div>
+              ${s.criteria.map((c, ci) => `
+                <div class="criterion-item ${c.done ? 'done' : ''}" id="crit-${idx}-${ci}" onclick="toggleCriterion(${idx}, ${ci})">
+                  <div class="criterion-dot">${c.done ? '✓' : '○'}</div>
+                  <div>${c.label}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }).join('');
+      })(student.skills.slice(4))}
+    </div>
+
+    <div class="progress-section-title">Ziel</div>
+    <div class="goal-card" style="margin-bottom:0">
+      <div class="goal-icon">🎯</div>
+      <div>
+        <div class="goal-title">${student.goal.title}</div>
+        <div class="goal-deadline">bis ${student.goal.deadline}</div>
+      </div>
+    </div>
+
+    <div class="milestones" style="margin-bottom:20px">
+      ${student.milestones.map(m => `
+        <div class="milestone ${m.status}">
+          <div class="milestone-dot">${m.status === 'done' ? '✓' : m.status === 'active' ? '▶' : '○'}</div>
+          <div class="milestone-text">${m.label}</div>
+          ${m.sub ? `<div class="milestone-sub">${m.sub}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <div class="screen" id="screen-gaps">
+    <div id="gaps-content"></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-task" onclick="showTab('task')">
+      <div class="tab-icon">📌</div>Aufgabe
+    </button>
+    <button class="tab-btn" id="tab-grammar" onclick="showTab('grammar')">
+      <div class="tab-icon">📚</div>Grammatik
+    </button>
+    <button class="tab-btn" id="tab-progress" onclick="showTab('progress')">
+      <div class="tab-icon">📈</div>Fortschritt
+    </button>
+    <button class="tab-btn" id="tab-gaps" onclick="showTab('gaps')">
+      <div class="tab-icon">🔎</div>Lücken
+    </button>
+  </div>
+
+  `;
+
+  renderGapsScreen();
+
+  // Telegram MainButton
+  if (tg) {
+    tg.MainButton.setText('Lehrerin schreiben');
+    tg.MainButton.show();
+    tg.MainButton.onClick(() => {
+      tg.openTelegramLink('https://t.me/mila_konstanz');
+    });
+  }
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + tab)?.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+  window.scrollTo(0, 0);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleGrammar(id) {
+  const btn = document.querySelector(`#gc-${id} .grammar-toggle`);
+  const body = document.getElementById('gb-' + id);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  btn?.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleReview() {
+  const btn = document.getElementById('review-toggle');
+  const body = document.getElementById('review-body');
+  const open = body.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleOptional(id) {
+  const btn = document.getElementById(id + '-toggle');
+  const body = document.getElementById(id + '-body');
+  const open = body.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleHint() {
+  const btn = document.getElementById('hint-toggle');
+  const body = document.getElementById('hint-body');
+  const open = body.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  btn.textContent = open ? '💡 Tipp ausblenden' : '💡 Tipp — wenn es gar nicht klappt';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleCriterion(skillIdx, criterionIdx) {
+  const id = getStudentId();
+  const student = STUDENTS[id];
+  if (!student) return;
+  const skill = student.skills[skillIdx];
+  const c = skill.criteria[criterionIdx];
+  c.done = !c.done;
+
+  // In localStorage speichern
+  const saved = loadProgress(id);
+  if (!saved[skillIdx]) saved[skillIdx] = {};
+  saved[skillIdx][criterionIdx] = c.done;
+  saveProgress(id, saved);
+
+  // DOM aktualisieren (ohne re-render)
+  const item = document.getElementById('crit-' + skillIdx + '-' + criterionIdx);
+  if (item) {
+    item.classList.toggle('done', c.done);
+    item.querySelector('.criterion-dot').textContent = c.done ? '✓' : '○';
+  }
+
+  // Balken aktualisieren
+  const doneCnt = skill.criteria.filter(c => c.done).length;
+  const totalCnt = skill.criteria.length;
+  const pct = totalCnt > 0 ? Math.round(doneCnt / totalCnt * 100) : 0;
+  const card = document.getElementById('sk-card-' + skillIdx);
+  if (card) {
+    const fill = card.querySelector('.skill-bar-fill');
+    const pctLabel = card.querySelector('.skill-pct');
+    const goalLabel = card.querySelector('.skill-goal-label');
+    if (fill) fill.style.width = pct + '%';
+    if (pctLabel) pctLabel.textContent = (skillIdx >= 4)
+      ? doneCnt + ' von ' + totalCnt + ' Themen ✓'
+      : doneCnt + ' von ' + totalCnt + ' Kriterien ✓';
+    if (goalLabel) goalLabel.textContent = (skillIdx >= 4)
+      ? pct + '% aufgebaut'
+      : pct + '% zum Ziel';
+  }
+
+  if (pct === 100) {
+    fireCometCannon();
+    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+  } else {
+    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  }
+}
+
+// ── Lücken-Log ────────────────────────────────────────────────────────────
+function loadGaps(studentId) {
+  try { return JSON.parse(localStorage.getItem('pgc_gaps_' + studentId) || '[]'); }
+  catch { return []; }
+}
+function saveGaps(studentId, gaps) {
+  localStorage.setItem('pgc_gaps_' + studentId, JSON.stringify(gaps));
+}
+function loadGapStatus(studentId) {
+  try { return JSON.parse(localStorage.getItem('pgc_gap_st_' + studentId) || '{}'); }
+  catch { return {}; }
+}
+function saveGapStatus(studentId, data) {
+  localStorage.setItem('pgc_gap_st_' + studentId, JSON.stringify(data));
+}
+
+function renderGapsScreen() {
+  const id = getStudentId();
+  const student = STUDENTS[id];
+  const container = document.getElementById('gaps-content');
+  if (!student || !container) return;
+
+  const statusOverrides = loadGapStatus(id);
+  const userGaps = loadGaps(id);
+
+  // Teacher gaps
+  const teacherGaps = student.gaps.map((g, i) => ({
+    ...g, _idx: i,
+    status: statusOverrides[i] !== undefined ? statusOverrides[i] : g.status
+  }));
+
+  // Student gaps
+  const studentGaps = userGaps.map((g, i) => {
+    const idx = student.gaps.length + i;
+    return { ...g, _idx: idx, status: statusOverrides[idx] !== undefined ? statusOverrides[idx] : g.status };
+  });
+
+  const statusIcon = s => s === 'sos' ? '🚨' : s === 'aktiv' ? '🔄' : '✅';
+  const statusLabel = s => s === 'sos' ? 'Jetzt lösen' : s === 'aktiv' ? 'In Arbeit' : 'Gelöst';
+
+  const card = g => `
+    <div class="gap-card ${g.status}" id="gap-card-${g._idx}" onclick="toggleGapStatus(${g._idx})">
+      <div class="gap-card-top">
+        <div class="gap-badges">
+          ${g.level && g.level !== '—' ? `<span class="gap-level">${g.level}</span>` : ''}
+          <span class="gap-category">${g.category}</span>
+        </div>
+        <div class="gap-status-icon" title="${statusLabel(g.status)}">${statusIcon(g.status)}</div>
+      </div>
+      <div class="gap-text">${g.text}</div>
+      <div class="gap-meta">${g.date}</div>
+    </div>`;
+
+  const teacherActive  = teacherGaps.filter(g => g.status !== 'geloest');
+  const teacherGeloest = teacherGaps.filter(g => g.status === 'geloest');
+  const studentActive  = studentGaps.filter(g => g.status !== 'geloest');
+  const studentGeloest = studentGaps.filter(g => g.status === 'geloest');
+  const allGeloest     = [...teacherGeloest, ...studentGeloest];
+
+  container.innerHTML = `
+    <div class="gaps-who-section">
+      <div class="gaps-who-header">
+        <span class="gaps-who-icon">👩‍🏫</span>
+        <span class="gaps-who-title">Von Ihrer Lehrerin</span>
+      </div>
+      ${teacherActive.length
+        ? teacherActive.map(card).join('')
+        : '<div class="gaps-empty-small">Noch keine offenen Punkte von der Lehrerin.</div>'}
+    </div>
+
+    <div class="gaps-who-section student">
+      <div class="gaps-who-header">
+        <span class="gaps-who-icon">👤</span>
+        <span class="gaps-who-title">Meine Beobachtungen</span>
+      </div>
+      ${studentActive.length
+        ? studentActive.map(card).join('')
+        : '<div class="gaps-empty-small">Sie können jederzeit etwas eintragen — was im Gespräch gefehlt hat, was unklar war.</div>'}
+      <button class="add-gap-btn" id="add-gap-btn" onclick="toggleAddGapForm()">+ Was habe ich bemerkt?</button>
+      <div class="add-gap-form" id="add-gap-form">
+        <label class="add-gap-label">Was ist aufgefallen?</label>
+        <textarea class="add-gap-textarea" id="gap-textarea" placeholder="Zum Beispiel: Ich wusste nicht wie man «anrufen» im Nebensatz benutzt. Oder: Das Wort fehlte mir beim Gespräch mit der Kollegin."></textarea>
+        <select class="add-gap-select" id="gap-category">
+          <option value="Grammatik">Grammatik</option>
+          <option value="Wortschatz">Wortschatz</option>
+          <option value="Sprechen">Sprechen</option>
+          <option value="Schreiben">Schreiben</option>
+          <option value="Anderes">Anderes</option>
+        </select>
+        <button class="add-gap-submit" onclick="submitGap()">Eintragen</button>
+      </div>
+    </div>
+
+    ${allGeloest.length ? `
+    <div class="gaps-who-section geloest">
+      <div class="gaps-who-header">
+        <span class="gaps-who-icon">✅</span>
+        <span class="gaps-who-title">Gelöst</span>
+      </div>
+      ${allGeloest.map(card).join('')}
+    </div>` : ''}
+  `;
+}
+
+function toggleGapStatus(gapIdx) {
+  const id = getStudentId();
+  const student = STUDENTS[id];
+  if (!student) return;
+
+  const overrides = loadGapStatus(id);
+  const userGaps = loadGaps(id);
+  const allGaps = [...student.gaps, ...userGaps];
+  const gap = allGaps[gapIdx];
+  if (!gap) return;
+
+  const statuses = ['sos', 'aktiv', 'geloest'];
+  const current = overrides[gapIdx] !== undefined ? overrides[gapIdx] : gap.status;
+  overrides[gapIdx] = statuses[(statuses.indexOf(current) + 1) % statuses.length];
+  saveGapStatus(id, overrides);
+
+  renderGapsScreen();
+  if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleAddGapForm() {
+  const form = document.getElementById('add-gap-form');
+  const btn  = document.getElementById('add-gap-btn');
+  if (!form) return;
+  const visible = form.classList.toggle('visible');
+  if (btn) btn.textContent = visible ? '✕ Schließen' : '+ Was habe ich bemerkt?';
+}
+
+function submitGap() {
+  const id = getStudentId();
+  const textarea = document.getElementById('gap-textarea');
+  const select   = document.getElementById('gap-category');
+  if (!textarea || !select) return;
+  const text = textarea.value.trim();
+  if (!text) return;
+
+  const gaps = loadGaps(id);
+  const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
+  gaps.push({ id: 'u' + Date.now(), level: '—', category: select.value, text, status: 'sos', by: 'student', date: today });
+  saveGaps(id, gaps);
+
+  textarea.value = '';
+  renderGapsScreen();
+  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
+
+function toggleSkill(idx) {
+  const card = document.getElementById('sk-card-' + idx);
+  const criteria = document.getElementById('sk-criteria-' + idx);
+  if (!card || !criteria) return;
+  const open = criteria.classList.toggle('visible');
+  card.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+// ── Kometen-Kanone 🌠 ─────────────────────────────────────────────────────
+function fireCometCannon() {
+  let canvas = document.getElementById('comet-canvas');
+  if (canvas) canvas.remove(); // bei Doppelaufruf neu starten
+  canvas = document.createElement('canvas');
+  canvas.id = 'comet-canvas';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const W = canvas.width, H = canvas.height;
+
+  const COLORS = ['#7CC8A0','#4A8C6E','#B5E8D0','#FFD97D','#FF9F7E','#A5C8F0','#ffffff'];
+  const comets = [];
+
+  for (let i = 0; i < 22; i++) {
+    const angle  = (-(35 + Math.random() * 70)) * Math.PI / 180; // вверх 35–105°
+    const speed  = 9 + Math.random() * 10;
+    const side   = Math.random() < 0.5; // слева или справа
+    comets.push({
+      x:       side ? Math.random() * W * 0.45 : W - Math.random() * W * 0.45,
+      y:       H + 30 + Math.random() * 60,
+      vx:      Math.cos(angle) * speed * (side ? 1 : -1),
+      vy:      Math.sin(angle) * speed,
+      size:    2.5 + Math.random() * 3.5,
+      color:   COLORS[Math.floor(Math.random() * COLORS.length)],
+      tail:    [],
+      tailLen: 18 + Math.floor(Math.random() * 18),
+      delay:   Math.floor(Math.random() * 28),
+      alpha:   1,
+    });
+  }
+
+  let frame = 0;
+  const TOTAL = 130;
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+    let alive = false;
+
+    for (const c of comets) {
+      if (frame <= c.delay) { alive = true; continue; }
+
+      c.tail.push({ x: c.x, y: c.y });
+      if (c.tail.length > c.tailLen) c.tail.shift();
+
+      c.x  += c.vx;
+      c.y  += c.vy;
+      c.vy += 0.07; // лёгкая гравитация
+
+      if (frame > TOTAL * 0.65)
+        c.alpha = Math.max(0, 1 - (frame - TOTAL * 0.65) / (TOTAL * 0.35));
+
+      if (c.alpha <= 0) continue;
+      alive = true;
+
+      // хвост
+      for (let t = 0; t < c.tail.length; t++) {
+        const p = t / c.tail.length;
+        const a = p * c.alpha * 0.75;
+        const hex = Math.floor(a * 255).toString(16).padStart(2,'0');
+        ctx.beginPath();
+        ctx.arc(c.tail[t].x, c.tail[t].y, c.size * p * 0.9, 0, Math.PI * 2);
+        ctx.fillStyle = c.color + hex;
+        ctx.fill();
+      }
+
+      // свечение вокруг головы
+      const grd = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 4);
+      grd.addColorStop(0,   c.color + 'cc');
+      grd.addColorStop(0.4, c.color + '55');
+      grd.addColorStop(1,   c.color + '00');
+      ctx.globalAlpha = c.alpha;
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.size * 4, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      // яркое ядро
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    if (alive && frame < TOTAL + 30) {
+      requestAnimationFrame(draw);
+    } else {
+      canvas.remove();
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+function toggleFeedback() {
+  const btn = document.getElementById('fb-toggle');
+  const body = document.getElementById('fb-body');
+  const open = body.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+document.addEventListener('DOMContentLoaded', render);
+</script>
+</body>
+</html>
