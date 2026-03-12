@@ -148,6 +148,81 @@ body {
   font-style: italic;
 }
 
+/* GRAMMAR SELF-ASSESSMENT */
+.grammar-self-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.grammar-self-btn {
+  flex: 1;
+  padding: 9px 8px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  min-height: 44px;
+}
+.grammar-self-btn.active-ueben {
+  border-color: var(--urgent);
+  background: #FFF7ED;
+  color: var(--urgent);
+}
+.grammar-self-btn.active-ok {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* GRAMMAR WARUM */
+.grammar-warum {
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* GRAMMAR UPCOMING */
+.grammar-upcoming-list {
+  margin: 0 16px 16px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.grammar-upcoming-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.grammar-upcoming-item:last-child { border-bottom: none; }
+.grammar-upcoming-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--muted);
+  flex-shrink: 0;
+}
+.grammar-upcoming-topic {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.grammar-upcoming-level {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
 /* HEADER */
 .header {
   background: var(--nav);
@@ -1368,6 +1443,7 @@ const STUDENTS = {
         status: 'done',
         topic: 'Nominalisierung',
         level: 'C1',
+        warum: 'Damit Berichte, Präsentationen und C1-Texte professionell und präzise klingen.',
         summary: 'Verben und Adjektive werden zu Substantiven umgewandelt. Typisch für formelle Texte, Berichte, C1-Prüfungen.',
         example: '«entscheiden» → «die Entscheidung treffen»\n«untersuchen» → «die Untersuchung durchführen»',
       },
@@ -1375,6 +1451,7 @@ const STUDENTS = {
         status: 'current',
         topic: 'Passiv im Nebensatz',
         level: 'C1',
+        warum: 'Damit Nebensätze in Berichten und formellen Texten grammatikalisch korrekt sind.',
         summary: 'Im Nebensatz steht das Hilfsverb „werden" immer am Ende — nach dem Partizip II. Diese Position ist fest, egal wie lang der Satz ist.',
         example: '✓ «..., dass das Projekt abgeschlossen wird.»\n✗ «..., dass wird das Projekt abgeschlossen.»',
       },
@@ -1382,15 +1459,13 @@ const STUDENTS = {
         status: 'upcoming',
         topic: 'Konjunktivformen C1',
         level: 'C1',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Für Hypothesen, indirekte Rede und höfliche Formulierungen auf C1-Niveau.',
       },
       {
         status: 'upcoming',
         topic: 'Mündlicher Ausdruck — Stellungnahme',
         level: 'C1',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Damit Argumente bei der C1-Prüfung strukturiert und überzeugend klingen.',
       },
     ],
   },
@@ -1469,6 +1544,7 @@ const STUDENTS = {
         status: 'current',
         topic: 'Konjunktiv II',
         level: 'B2',
+        warum: 'Damit Sie im Beruf höflich und professionell klingen — unerlässlich im deutschen Arbeitsalltag.',
         summary: 'Wird für höfliche Bitten, Wünsche und irreale Situationen verwendet. Wichtig im Berufsleben.',
         example: '«Könnten Sie mir helfen?» — höflich ✓\n«Ich würde gern... / Das sollte man...»',
       },
@@ -1476,15 +1552,13 @@ const STUDENTS = {
         status: 'upcoming',
         topic: 'Relativsätze',
         level: 'B2',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Damit Sie Personen und Dinge präzise beschreiben können, ohne Sätze abzuhacken.',
       },
       {
         status: 'upcoming',
         topic: 'Zweiteilige Konnektoren',
         level: 'B2',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Für komplexe Argumente und fließende Übergänge zwischen Gedanken.',
       },
     ],
   },
@@ -1563,6 +1637,7 @@ const STUDENTS = {
         status: 'current',
         topic: 'Wortstellung im Hauptsatz',
         level: 'B1',
+        warum: 'Das ist die Basis jedes deutschen Satzes — ohne das klingt alles schief, auch wenn die Wörter stimmen.',
         summary: 'Das Verb steht immer auf Position 2. Egal was vorne steht — das Verb bleibt auf Platz 2, das Subjekt geht dahinter.',
         example: '«Heute arbeite ich bis 17 Uhr.» ✓\n«Morgens trinke ich Kaffee.» ✓\n«Um 8 Uhr beginnt die Arbeit.» ✓',
       },
@@ -1570,15 +1645,13 @@ const STUDENTS = {
         status: 'upcoming',
         topic: 'Nebensätze mit weil / obwohl',
         level: 'B1',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Damit Sie erklären und begründen können — für echte Gespräche bei der Arbeit unverzichtbar.',
       },
       {
         status: 'upcoming',
         topic: 'Modalverben im Alltag',
         level: 'B1',
-        summary: 'Kommt als nächstes.',
-        example: '',
+        warum: 'Müssen, können, dürfen, sollen — ohne diese Verben kommt man im Berufsalltag nicht aus.',
       },
     ],
   },
@@ -1762,7 +1835,13 @@ function render() {
       const current = student.grammar.filter(g => g.status === 'current');
       const upcoming = student.grammar.filter(g => g.status === 'upcoming');
 
-      const renderCards = (items) => items.map((g, i) => `
+      let grammarSelf = {};
+      try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
+
+      const renderCards = (items) => items.map((g, i) => {
+        const cardId = g.status + '-' + i;
+        const self = grammarSelf[cardId] || null;
+        return `
         <div class="grammar-card ${g.status}" id="gc-${g.status}-${i}">
           <button class="grammar-toggle" onclick="toggleGrammar('${g.status}-${i}')">
             <div class="grammar-status-dot"></div>
@@ -1773,8 +1852,23 @@ function render() {
             <div class="grammar-arrow">⌄</div>
           </button>
           <div class="grammar-body" id="gb-${g.status}-${i}">
-            <div class="grammar-summary">${g.summary}</div>
+            ${g.warum ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
+            ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
             ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g, '<br>')}</div>` : ''}
+            <div class="grammar-self-row">
+              <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
+              <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      const renderUpcoming = (items) => items.map(g => `
+        <div class="grammar-upcoming-item">
+          <div class="grammar-upcoming-dot"></div>
+          <div>
+            <div class="grammar-upcoming-topic">${g.topic}</div>
+            <div class="grammar-upcoming-level">Niveau ${g.level}</div>
           </div>
         </div>
       `).join('');
@@ -1782,7 +1876,11 @@ function render() {
       return `
         ${current.length ? `<div class="grammar-group-title">Aktuelle Themen</div>${renderCards(current)}` : ''}
         ${done.length ? `<div class="grammar-group-title">Bereits gelernt ✓</div>${renderCards(done)}` : ''}
-        ${upcoming.length ? `<div class="grammar-group-title">Kommt noch</div>${renderCards(upcoming)}` : ''}
+        ${upcoming.length ? `
+          <div class="grammar-group-title">Kommt noch</div>
+          <div class="grammar-upcoming-list">
+            ${renderUpcoming(upcoming)}
+          </div>` : ''}
       `;
     })()}
   </div>
@@ -2220,6 +2318,22 @@ function toggleGrammar(id) {
   const open = body.classList.toggle('visible');
   btn?.classList.toggle('open', open);
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleGrammarSelf(cardId, state) {
+  const sid = getStudentId();
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('pgc_grammar_' + sid) || '{}'); } catch {}
+  saved[cardId] = saved[cardId] === state ? null : state;
+  localStorage.setItem('pgc_grammar_' + sid, JSON.stringify(saved));
+
+  // DOM: update both buttons in this card's row
+  const body = document.getElementById('gb-' + cardId);
+  if (!body) return;
+  const btns = body.querySelectorAll('.grammar-self-btn');
+  btns[0]?.classList.toggle('active-ueben',  saved[cardId] === 'ueben');
+  btns[1]?.classList.toggle('active-ok',      saved[cardId] === 'verstanden');
+  if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 }
 
 function toggleReview() {
