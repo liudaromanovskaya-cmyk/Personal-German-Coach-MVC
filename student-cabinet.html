@@ -1193,6 +1193,46 @@ body {
   color: var(--text);
 }
 .kultur-body-example em { color: var(--muted); font-style: normal; font-size: 12px; }
+.kultur-translate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  padding: 7px 13px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.kultur-translate-btn.active {
+  background: #EBF4FF;
+  border-color: #63B3ED;
+  color: #2B6CB0;
+}
+.kultur-translation {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #EBF4FF;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #2D3748;
+  border-left: 3px solid #63B3ED;
+}
+.kultur-translation.visible { display: block; }
+.kultur-source {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+
 .kultur-link {
   display: inline-flex;
   align-items: center;
@@ -1568,6 +1608,8 @@ function getStudentId() {
 }
 
 // ── Render ────────────────────────────────────────────────────────────────
+let _studentLevel = 'B1'; // глобально — для Kultur
+
 function render() {
   const id = getStudentId();
   const student = STUDENTS[id];
@@ -1583,6 +1625,7 @@ function render() {
     return;
   }
 
+  _studentLevel = student.level || 'B1';
   applyProgress(student, id);
 
   const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -1905,12 +1948,16 @@ function render() {
 
 // ── KULTUR DATA ───────────────────────────────────────────────────────────────
 const KULTUR_WORT = [
-  { title: 'der Feierabend', teaser: 'Kein direktes Äquivalent in anderen Sprachen!', body: '<strong>Feierabend</strong> ist der Moment nach der Arbeit, wenn der Tag "gefeiert" wird — Zeit zum Abschalten und Genießen. Deutsche nehmen Feierabend sehr ernst: nach 18 Uhr schreibt man in der Regel keine beruflichen E-Mails mehr.', example: '„Na dann, schönen Feierabend!" — Tschüss und erhol dich gut!\n<em>Sagen Sie das am Ende jedes Arbeitstages — alle werden es mögen.</em>' },
-  { title: 'die Wurst', teaser: '„Das ist mir Wurst" — egal, völlig egal', body: 'Mit <strong>Wurst</strong> verbinden Deutsche viel mehr als Essen. „Das ist mir Wurst" bedeutet: Das ist mir völlig egal. Über 1.500 Wurstarten gibt es in Deutschland — sie sind echter Kulturgut.', example: '„Magst du Mustafa oder Tim?" — „Ach, das ist mir Wurst."\n<em>Vorsicht: Nicht bei wichtigen Themen sagen — wirkt unhöflich.</em>' },
-  { title: 'verschlimmbessern', teaser: 'Etwas verbessern wollen, aber es schlimmer machen', body: '<strong>Verschlimmbessern</strong> kombiniert „verschlimmern" und „verbessern". Dieses Wort existiert nur auf Deutsch und beschreibt präzise, was passiert, wenn gut gemeinte Korrekturen das Problem vergrößern.', example: '„Ich habe den Code repariert..." — „Du hast ihn verschlimmbessert!"\n<em>Sehr nützlich in Diskussionen über Projekte und Renovierungen.</em>' },
-  { title: 'gemütlich', teaser: 'Mehr als nur "gemütlich" — ein ganzer Lebensstil', body: '<strong>Gemütlich</strong> bedeutet eine Atmosphäre, die gleichzeitig warm, einladend, entspannend und behaglich ist. Die Engländer haben kein Wort dafür — sie sagen einfach "cozy", aber das ist nicht dasselbe.', example: '„Es war so gemütlich bei dir — das Kaminfeuer, der Tee, die Decken..."\n<em>Sagen Sie das nach einem Besuch: Ihr Gastgeber wird strahlen.</em>' },
-  { title: 'der Kummerspeck', teaser: 'Wortwörtlich: Speck aus Kummer', body: '<strong>Kummerspeck</strong> = Gewichtszunahme durch emotionales Essen — wenn man Stress, Trauer oder Liebeskummer mit Essen kompensiert. Dieses Wort kennen Psychologen weltweit, aber nur Deutsche haben einen Namen dafür.', example: '„Nach der Trennung habe ich fünf Kilo Kummerspeck bekommen."\n<em>Gut zu kennen — man hört es oft in echten Gesprächen.</em>' },
-  { title: 'doch', teaser: 'Das mächtigste Ein-Wort-Gegenmittel', body: '<strong>Doch</strong> ist eine Partikel ohne direktes Äquivalent. Es widerspricht einer Verneinung: „Das stimmt nicht" → „Doch!" (= nein, doch!) Außerdem kann es Aussagen verstärken: „Komm doch!" = Komm schon!', example: '„Du sprichst kein Deutsch!" — „Doch, ich spreche Deutsch!"\n<em>Eines der ersten Wörter, die echte Kommunikation möglich machen.</em>' },
+  { level:'A2', title: 'der Feierabend', teaser: 'Kein direktes Äquivalent in anderen Sprachen!', body: '<strong>Feierabend</strong> ist der Moment nach der Arbeit, wenn der Tag "gefeiert" wird — Zeit zum Abschalten und Genießen. Deutsche nehmen Feierabend sehr ernst: nach 18 Uhr schreibt man in der Regel keine beruflichen E-Mails mehr.', example: '„Na dann, schönen Feierabend!" — Tschüss und erhol dich gut!\n<em>Sagen Sie das am Ende jedes Arbeitstages — alle werden es mögen.</em>', translation: 'Конец рабочего дня, время отдыха. Буквально: «праздновать вечер». Аналога в русском нет — это целая философия: после работы работа заканчивается.', source: 'Duden' },
+  { level:'A2', title: 'die Wurst', teaser: '„Das ist mir Wurst" — egal, völlig egal', body: 'Mit <strong>Wurst</strong> verbinden Deutsche viel mehr als Essen. „Das ist mir Wurst" bedeutet: Das ist mir völlig egal. Über 1.500 Wurstarten gibt es in Deutschland — sie sind echter Kulturgut.', example: '„Magst du Mustafa oder Tim?" — „Ach, das ist mir Wurst."\n<em>Vorsicht: Nicht bei wichtigen Themen sagen — wirkt unhöflich.</em>', translation: '«Мне всё равно» — буквально «мне это колбаса». Используется, когда что-то совершенно неважно.', source: 'Duden' },
+  { level:'A2', title: 'gemütlich', teaser: 'Mehr als nur "gemütlich" — ein ganzer Lebensstil', body: '<strong>Gemütlich</strong> bedeutet eine Atmosphäre, die gleichzeitig warm, einladend, entspannend und behaglich ist. Die Engländer haben kein Wort dafür — sie sagen einfach "cozy", aber das ist nicht dasselbe.', example: '„Es war so gemütlich bei dir — das Kaminfeuer, der Tee, die Decken..."\n<em>Sagen Sie das nach einem Besuch: Ihr Gastgeber wird strahlen.</em>', translation: 'Уютно, по-домашнему, тепло и комфортно — одновременно. Это слово описывает атмосферу, настроение и стиль жизни.', source: 'Duden' },
+  { level:'A2', title: 'na', teaser: 'Das vielseitigste Wort Deutschlands', body: '<strong>Na</strong> kann Begrüßung sein ("Na?"), Bestätigung ("Na also!"), Zweifel ("Na, na..."), Ermutigung ("Na, dann mal los!") oder Zufriedenheit ("Na bitte!"). Kontext ist alles.', example: '„Na?" — „Na!" (= Hallo, wie geht\'s? / Gut, danke, und dir?)\n<em>Deutsche begrüßen sich oft nur mit „Na" — das reicht völlig.</em>', translation: 'Ну / Ну что / Ну вот / Давай. Одно слово — десятки значений в зависимости от интонации.', source: 'Duden' },
+  { level:'B1', title: 'doch', teaser: 'Das mächtigste Ein-Wort-Gegenmittel', body: '<strong>Doch</strong> ist eine Partikel ohne direktes Äquivalent. Es widerspricht einer Verneinung: „Das stimmt nicht" → „Doch!" (= nein, doch!) Außerdem kann es Aussagen verstärken: „Komm doch!" = Komm schon!', example: '„Du sprichst kein Deutsch!" — „Doch, ich spreche Deutsch!"\n<em>Eines der ersten Wörter, die echte Kommunikation möglich machen.</em>', translation: '«Нет, наоборот!» — возражение на отрицание. «Ты не говоришь по-немецки» — «Doch, говорю!». Аналог — «а вот и нет».', source: 'Duden' },
+  { level:'B1', title: 'tja', teaser: 'Sagt alles, ohne etwas zu sagen', body: '<strong>Tja</strong> ist eine Interjektion der Resignation, des Mitgefühls oder der stillen Zustimmung. Je nach Intonation bedeutet es: „Was soll man machen", „Das ist tragisch", „Ich hatte Recht" oder einfach Stille teilen.', example: '„Der Zug hatte wieder Verspätung." — „Tja... Deutsche Bahn."\n<em>Tiefe, leichte Aussprache mit einem Seufzer — und alle verstehen Sie.</em>', translation: 'Ну да... / Что поделаешь... / Вот именно. Звук философской resigned. Без перевода — но с правильной интонацией все поймут.', source: 'Duden' },
+  { level:'B1', title: 'der Kummerspeck', teaser: 'Wortwörtlich: Speck aus Kummer', body: '<strong>Kummerspeck</strong> = Gewichtszunahme durch emotionales Essen — wenn man Stress, Trauer oder Liebeskummer mit Essen kompensiert. Dieses Wort kennen Psychologen weltweit, aber nur Deutsche haben einen Namen dafür.', example: '„Nach der Trennung habe ich fünf Kilo Kummerspeck bekommen."\n<em>Gut zu kennen — man hört es oft in echten Gesprächen.</em>', translation: 'Килограммы горя — вес, набранный от стресса, грусти или расставания. Буквально: «сало из печали».', source: 'Duden' },
+  { level:'B2', title: 'verschlimmbessern', teaser: 'Etwas verbessern wollen, aber es schlimmer machen', body: '<strong>Verschlimmbessern</strong> kombiniert „verschlimmern" und „verbessern". Dieses Wort existiert nur auf Deutsch und beschreibt präzise, was passiert, wenn gut gemeinte Korrekturen das Problem vergrößern.', example: '„Ich habe den Code repariert..." — „Du hast ihn verschlimmbessert!"\n<em>Sehr nützlich in Diskussionen über Projekte und Renovierungen.</em>', translation: 'Улучшить, сделав хуже. Слово-портмоне: verschlimmern (ухудшать) + verbessern (улучшать). Аналога в русском нет.', source: 'Duden' },
+  { level:'B2', title: 'das Fingerspitzengefühl', teaser: 'Feingefühl an den Fingerspitzen', body: '<strong>Fingerspitzengefühl</strong> = Taktgefühl, Einfühlungsvermögen, die Fähigkeit, sensibel und geschickt mit schwierigen Situationen umzugehen. Wörtlich: Gefühl an den Fingerspitzen.', example: '„Mit kranken Patienten braucht man viel Fingerspitzengefühl."\n<em>Im Beruf (Medizin, HR, Führung) sehr oft zu hören.</em>', translation: 'Чуткость, деликатность, умение чувствовать ситуацию. Буквально: «чувство кончиков пальцев» — тонкое ощущение.', source: 'Duden' },
+  { level:'B2', title: 'der Weltschmerz', teaser: 'Schmerz über den Zustand der Welt', body: '<strong>Weltschmerz</strong> beschreibt das Gefühl, dass die Welt nie so gut sein kann, wie sie sein sollte. Erfunden von Jean Paul (1827) — heute in der Psychologie und in der Weltliteratur bekannt.', example: '„Ich kann keine Nachrichten mehr lesen. Dieser Weltschmerz macht mich krank."\n<em>Zeigt Tiefe und Bildung — perfekt für ernstere Gespräche.</em>', translation: 'Боль за мир, мировая скорбь. Ощущение, что реальность никогда не будет такой хорошей, какой должна быть. Термин вошёл в английский язык без перевода.', source: 'Duden / Литературный словарь' },
   { title: 'tja', teaser: 'Sagt alles, ohne etwas zu sagen', body: '<strong>Tja</strong> ist eine Interjektion der Resignation, des Mitgefühls oder der stillen Zustimmung. Je nach Intonation bedeutet es: „Was soll man machen", „Das ist tragisch", „Ich hatte Recht" oder einfach Stille teilen.', example: '„Der Zug hatte wieder Verspätung." — „Tja... Deutsche Bahn."\n<em>Tiefe, leichte Aussprache mit einem Seufzer — und alle verstehen Sie.</em>' },
   { title: 'der Weltschmerz', teaser: 'Schmerz über den Zustand der Welt', body: '<strong>Weltschmerz</strong> beschreibt das Gefühl, dass die Welt nie so gut sein kann, wie sie sein sollte. Erfunden von Jean Paul (1827) — heute in der Psychologie und in der Weltliteratur bekannt.', example: '„Ich kann keine Nachrichten mehr lesen. Dieser Weltschmerz macht mich krank."\n<em>Zeigt Tiefe und Bildung — perfekt für ernstere Gespräche.</em>' },
   { title: 'das Fingerspitzengefühl', teaser: 'Feingefühl an den Fingerspitzen', body: '<strong>Fingerspitzengefühl</strong> = Taktgefühl, Einfühlungsvermögen, die Fähigkeit, sensibel und geschickt mit schwierigen Situationen umzugehen. Wörtlich: Gefühl an den Fingerspitzen.', example: '„Mit kranken Patienten braucht man viel Fingerspitzengefühl."\n<em>Im Beruf (Medizin, HR, Führung) sehr oft zu hören.</em>' },
@@ -1918,29 +1965,31 @@ const KULTUR_WORT = [
 ];
 
 const KULTUR_SPRICHWORT = [
-  { title: 'Übung macht den Meister', teaser: 'Lernmotivation seit dem Mittelalter', body: 'Ein Sprichwort aus dem 16. Jahrhundert. Die Deutschen glauben fest daran, dass Talent weniger wichtig ist als Ausdauer. Studien bestätigen dies: Deliberate Practice schlägt natürliche Begabung langfristig.', example: '„Ich kann das noch nicht perfekt." — „Macht nichts — Übung macht den Meister!"\n<em>Perfekt als Selbstmotivation beim Deutschlernen.</em>' },
-  { title: 'Morgenstund hat Gold im Mund', teaser: 'Der frühe Morgen ist die beste Zeit', body: 'Deutsche sind bekannt für frühe Arbeitszeiten und frühe Meetings. Dieses Sprichwort erklärt viel über die Kultur: Wer früh aufsteht, hat mehr Energie, Klarheit und Erfolg. Produktivität vor 9 Uhr ist Pflicht.', example: '„Warum um 7 Uhr? Das ist zu früh!" — „Morgenstund hat Gold im Mund!"\n<em>Erwartet: pünktlicher Beginn, aktive Teilnahme, keine Schlaftrunkenheit.</em>' },
-  { title: 'Ohne Fleiß kein Preis', teaser: 'Arbeit kommt vor Belohnung — immer', body: 'Die deutsche Arbeitskultur basiert auf diesem Prinzip. Ergebnisse ohne Aufwand werden mit Skepsis betrachtet. Fleiß und Ernsthaftigkeit werden hoch geschätzt — mehr als schnelle Kreativlösungen.', example: '„Wie hat er so schnell die Prüfung bestanden?" — „Ohne Fleiß kein Preis — er hat drei Monate täglich gelernt."\n<em>Sagen Sie das und Sie klingen wie ein echter Deutscher.</em>' },
-  { title: 'Aller Anfang ist schwer', teaser: 'Jeder Anfang braucht Mut', body: 'Dieses Sprichwort ist Trost und Realismus zugleich. Deutsche erwarten nicht, dass Neues sofort funktioniert — aber sie erwarten, dass man trotzdem weitermacht. Perfektionismus und Ausdauer gehen Hand in Hand.', example: '„Ich mache so viele Fehler auf Deutsch!" — „Aller Anfang ist schwer — das ist völlig normal."\n<em>Jede Lehrerin sagt das — jetzt können Sie es auch sagen.</em>' },
-  { title: 'Was Hänschen nicht lernt, lernt Hans nimmermehr', teaser: 'Lernen hat die beste Zeit', body: 'Dieses Sprichwort wurde durch Studien zur Neuroplastizität teilweise relativiert — Erwachsene können sehr gut lernen. Trotzdem zeigt es, wie ernst Deutsche Bildung im frühen Alter nehmen. Kindergärten und Grundschulen sind entsprechend anspruchsvoll.', example: '„Soll ich mit 40 noch Deutsch lernen?" — „Natürlich! Was Hänschen nicht lernt... aber Hänschen sind Sie noch lange!"\n<em>Gutes Gesprächsthema über deutsches Bildungssystem.</em>' },
-  { title: 'Wer rastet, der rostet', teaser: 'Stillstand ist Rückschritt', body: 'Deutsche Kultur bewertet kontinuierliche Weiterentwicklung. Stagnation — beruflich oder persönlich — wird als Fehler gesehen. Lebenslanges Lernen (lebenslanges Lernen) ist kein Modewort, sondern echter gesellschaftlicher Wert.', example: '„Ich habe drei Wochen nicht geübt." — „Vorsicht — wer rastet, der rostet!"\n<em>Ideal für Gespräche über Sport, Beruf oder Sprachen.</em>' },
-  { title: 'Kleider machen Leute', teaser: 'Der erste Eindruck zählt wirklich', body: 'In Deutschland ist gepflegtes Äußeres wichtig — besonders im Beruf. Casual ist erlaubt, aber ungepflegt nie. Das Sprichwort stammt von Gottfried Keller (1874) und ist heute so aktuell wie damals.', example: '„Muss ich mich für das Interview wirklich so anziehen?" — „Kleider machen Leute — unbedingt!"\n<em>In Kliniken, Büros und Behörden: Erscheinung zählt.</em>' },
-  { title: 'Viele Köche verderben den Brei', teaser: 'Zu viele Meinungen — kein Ergebnis', body: 'Deutsche lieben Struktur und klare Verantwortlichkeiten. Wenn zu viele Menschen entscheiden, leidet die Qualität. Deswegen gibt es in deutschen Firmen klare Hierarchien und Entscheidungsprozesse.', example: '„Warum dauert das Projekt so lange?" — „Viele Köche verderben den Brei — jeder hat eine andere Meinung."\n<em>Nützlich in Team-Diskussionen und Meetings.</em>' },
-  { title: 'Andere Länder, andere Sitten', teaser: 'Respekt vor kulturellen Unterschieden', body: 'Deutsche sind sich bewusst, dass ihre Direktheit, Pünktlichkeit und Regelorientierung nicht überall selbstverständlich ist. Dieses Sprichwort wird oft genutzt, um Kulturunterschiede anzuerkennen — ohne zu urteilen.', example: '„Warum stehen hier alle in der Schlange ohne zu reden?" — „Andere Länder, andere Sitten — hier ist das Normalität."\n<em>Perfekt, um Kulturschock zu beschreiben.</em>' },
-  { title: 'Man soll den Tag nicht vor dem Abend loben', teaser: 'Vorsicht mit voreiligem Optimismus', body: 'Deutsche Nüchternheit zeigt sich in diesem Sprichwort. Erfolg wird erst anerkannt, wenn er tatsächlich eingetreten ist. Übertriebener Optimismus gilt als naiv — realistische Einschätzung als Stärke.', example: '„Ich denke, ich bestehe die Prüfung!" — „Man soll den Tag nicht vor dem Abend loben."\n<em>Hören Sie das oft — jetzt können Sie es einordnen.</em>' },
+  { title: 'Übung macht den Meister', teaser: 'Lernmotivation seit dem Mittelalter', body: 'Ein Sprichwort aus dem 16. Jahrhundert. Die Deutschen glauben fest daran, dass Talent weniger wichtig ist als Ausdauer. Studien bestätigen dies: Deliberate Practice schlägt natürliche Begabung langfristig.', example: '„Ich kann das noch nicht perfekt." — „Macht nichts — Übung macht den Meister!"\n<em>Perfekt als Selbstmotivation beim Deutschlernen.</em>', translation: '«Повторение — мать учения» / «Практика делает мастера». Талант без труда ничего не стоит — немцы в это искренне верят.', source: 'Duden Redewendungen' },
+  { title: 'Morgenstund hat Gold im Mund', teaser: 'Der frühe Morgen ist die beste Zeit', body: 'Deutsche sind bekannt für frühe Arbeitszeiten und frühe Meetings. Dieses Sprichwort erklärt viel über die Kultur: Wer früh aufsteht, hat mehr Energie, Klarheit und Erfolg. Produktivität vor 9 Uhr ist Pflicht.', example: '„Warum um 7 Uhr? Das ist zu früh!" — „Morgenstund hat Gold im Mund!"\n<em>Erwartet: pünktlicher Beginn, aktive Teilnahme, keine Schlaftrunkenheit.</em>', translation: '«Кто рано встаёт, тому Бог подаёт». Утренний час — золото. Немецкая культура очень ценит ранний старт дня.', source: 'Duden Redewendungen' },
+  { title: 'Ohne Fleiß kein Preis', teaser: 'Arbeit kommt vor Belohnung — immer', body: 'Die deutsche Arbeitskultur basiert auf diesem Prinzip. Ergebnisse ohne Aufwand werden mit Skepsis betrachtet. Fleiß und Ernsthaftigkeit werden hoch geschätzt — mehr als schnelle Kreativlösungen.', example: '„Wie hat er so schnell die Prüfung bestanden?" — „Ohne Fleiß kein Preis — er hat drei Monate täglich gelernt."\n<em>Sagen Sie das und Sie klingen wie ein echter Deutscher.</em>', translation: '«Без труда не выловишь рыбку из пруда». Награда только за усилие — быстрых результатов без работы немцы не признают.', source: 'Duden Redewendungen' },
+  { title: 'Aller Anfang ist schwer', teaser: 'Jeder Anfang braucht Mut', body: 'Dieses Sprichwort ist Trost und Realismus zugleich. Deutsche erwarten nicht, dass Neues sofort funktioniert — aber sie erwarten, dass man trotzdem weitermacht. Perfektionismus und Ausdauer gehen Hand in Hand.', example: '„Ich mache so viele Fehler auf Deutsch!" — „Aller Anfang ist schwer — das ist völlig normal."\n<em>Jede Lehrerin sagt das — jetzt können Sie es auch sagen.</em>', translation: '«Лиха беда начало» / «Начало — половина дела». Любое новое дело поначалу трудно — это нормально и ожидаемо.', source: 'Duden Redewendungen' },
+  { title: 'Was Hänschen nicht lernt, lernt Hans nimmermehr', teaser: 'Lernen hat die beste Zeit', body: 'Dieses Sprichwort wurde durch Studien zur Neuroplastizität teilweise relativiert — Erwachsene können sehr gut lernen. Trotzdem zeigt es, wie ernst Deutsche Bildung im frühen Alter nehmen. Kindergärten und Grundschulen sind entsprechend anspruchsvoll.', example: '„Soll ich mit 40 noch Deutsch lernen?" — „Natürlich! Was Hänschen nicht lernt... aber Hänschen sind Sie noch lange!"\n<em>Gutes Gesprächsthema über deutsches Bildungssystem.</em>', translation: '«Чему Ваня не научился, того Иван не выучит». Учиться лучше в детстве — но взрослые тоже могут!', source: 'Duden Redewendungen' },
+  { title: 'Wer rastet, der rostet', teaser: 'Stillstand ist Rückschritt', body: 'Deutsche Kultur bewertet kontinuierliche Weiterentwicklung. Stagnation — beruflich oder persönlich — wird als Fehler gesehen. Lebenslanges Lernen (lebenslanges Lernen) ist kein Modewort, sondern echter gesellschaftlicher Wert.', example: '„Ich habe drei Wochen nicht geübt." — „Vorsicht — wer rastet, der rostet!"\n<em>Ideal für Gespräche über Sport, Beruf oder Sprachen.</em>', translation: '«Кто стоит на месте — ржавеет». Остановился — значит, начал деградировать. Немцы не признают стагнации.', source: 'Duden Redewendungen' },
+  { title: 'Kleider machen Leute', teaser: 'Der erste Eindruck zählt wirklich', body: 'In Deutschland ist gepflegtes Äußeres wichtig — besonders im Beruf. Casual ist erlaubt, aber ungepflegt nie. Das Sprichwort stammt von Gottfried Keller (1874) und ist heute so aktuell wie damals.', example: '„Muss ich mich für das Interview wirklich so anziehen?" — „Kleider machen Leute — unbedingt!"\n<em>In Kliniken, Büros und Behörden: Erscheinung zählt.</em>', translation: '«По одёжке встречают». Внешний вид определяет первое впечатление — в Германии особенно на работе.', source: 'Gottfried Keller / Duden' },
+  { title: 'Viele Köche verderben den Brei', teaser: 'Zu viele Meinungen — kein Ergebnis', body: 'Deutsche lieben Struktur und klare Verantwortlichkeiten. Wenn zu viele Menschen entscheiden, leidet die Qualität. Deswegen gibt es in deutschen Firmen klare Hierarchien und Entscheidungsprozesse.', example: '„Warum dauert das Projekt so lange?" — „Viele Köche verderben den Brei — jeder hat eine andere Meinung."\n<em>Nützlich in Team-Diskussionen und Meetings.</em>', translation: '«У семи нянек дитя без глазу». Когда слишком много людей принимают решения — результат страдает.', source: 'Duden Redewendungen' },
+  { title: 'Andere Länder, andere Sitten', teaser: 'Respekt vor kulturellen Unterschieden', body: 'Deutsche sind sich bewusst, dass ihre Direktheit, Pünktlichkeit und Regelorientierung nicht überall selbstverständlich ist. Dieses Sprichwort wird oft genutzt, um Kulturunterschiede anzuerkennen — ohne zu urteilen.', example: '„Warum stehen hier alle in der Schlange ohne zu reden?" — „Andere Länder, andere Sitten — hier ist das Normalität."\n<em>Perfekt, um Kulturschock zu beschreiben.</em>', translation: '«В чужой монастырь со своим уставом не ходят». У каждой страны свои правила — и это нормально.', source: 'Duden Redewendungen' },
+  { title: 'Man soll den Tag nicht vor dem Abend loben', teaser: 'Vorsicht mit voreiligem Optimismus', body: 'Deutsche Nüchternheit zeigt sich in diesem Sprichwort. Erfolg wird erst anerkannt, wenn er tatsächlich eingetreten ist. Übertriebener Optimismus gilt als naiv — realistische Einschätzung als Stärke.', example: '„Ich denke, ich bestehe die Prüfung!" — „Man soll den Tag nicht vor dem Abend loben."\n<em>Hören Sie das oft — jetzt können Sie es einordnen.</em>', translation: '«Не говори гоп, пока не перепрыгнешь». Успех хвалят только когда он состоялся — не раньше.', source: 'Duden Redewendungen' },
 ];
 
 const KULTUR_REDEWENDUNG = [
-  { title: 'Daumen drücken', teaser: 'Deutsche drücken Daumen, keine Finger', body: 'Wo Angelsachsen „fingers crossed" sagen, drücken Deutsche den <strong>Daumen</strong>. Der Daumen war im antiken Rom das Symbol für Überleben in der Gladiatorenküche. Diese Geste kam durch die Römer zu uns.', example: '„Morgen habe ich mein Vorstellungsgespräch." — „Ich drücke dir die Daumen!"\n<em>Sagen Sie das auf Deutsch — und machen Sie die Geste dazu.</em>' },
-  { title: 'Ich verstehe nur Bahnhof', teaser: 'Nichts kapieren — der Bahnhof erklärt warum', body: 'Nach dem Ersten Weltkrieg wollten müde Soldaten nur noch den Heimatbahnhof sehen — nichts anderes verstand ihr Gehirn. Heute bedeutet es: Ich verstehe gar nichts von dem, was gesagt wird.', example: '„Die Anleitung war auf Technisch-Deutsch..." — „Ich habe nur Bahnhof verstanden!"\n<em>Perfekt, wenn der Arzt, Anwalt oder Techniker zu kompliziert spricht.</em>' },
+  { title: 'Daumen drücken', teaser: 'Deutsche drücken Daumen, keine Finger', body: 'Wo Angelsachsen „fingers crossed" sagen, drücken Deutsche den <strong>Daumen</strong>. Der Daumen war im antiken Rom das Symbol für Überleben in der Gladiatorenküche. Diese Geste kam durch die Römer zu uns.', example: '„Morgen habe ich mein Vorstellungsgespräch." — „Ich drücke dir die Daumen!"\n<em>Sagen Sie das auf Deutsch — und machen Sie die Geste dazu.</em>', translation: '«Держать кулачки» / «Желать удачи». Немцы не скрещивают пальцы, а нажимают большой палец — жест из Древнего Рима.', source: 'Duden Redewendungen' },
+  { title: 'Ich verstehe nur Bahnhof', teaser: 'Nichts kapieren — der Bahnhof erklärt warum', body: 'Nach dem Ersten Weltkrieg wollten müde Soldaten nur noch den Heimatbahnhof sehen — nichts anderes verstand ihr Gehirn. Heute bedeutet es: Ich verstehe gar nichts von dem, was gesagt wird.', example: '„Die Anleitung war auf Technisch-Deutsch..." — „Ich habe nur Bahnhof verstanden!"\n<em>Perfekt, wenn der Arzt, Anwalt oder Techniker zu kompliziert spricht.</em>', translation: '«Я ничего не понял» — буквально «я понял только вокзал». После войны солдаты думали лишь о вокзале домой — всё остальное не воспринималось.', source: 'Duden Redewendungen' },
   { title: 'Hals- und Beinbruch!', teaser: 'Viel Erfolg — wörtlich: brich dir Hals und Bein', body: 'Aus dem Jiddischen: „hazlokhe un brókhe" (Glück und Segen) klingt im Deutschen wie Hals und Beinbruch. Schauspieler sagten: Damit das Böse nicht kommt, sagen wir das Schlimmste. Heute einfach: Viel Erfolg!', example: '„Ich habe gleich meine Prüfung!" — „Hals- und Beinbruch!"\n<em>Nur bei wichtigen Momenten sagen — Prüfung, Auftritt, Bewerbung.</em>' },
   { title: 'auf dem Holzweg sein', teaser: 'Auf dem falschen Weg — aber woher kommt Holz?', body: 'Im Mittelalter führten Holzwege tief in den Wald — und endeten einfach dort, wo das Holz gefällt wurde. Wer diesen Weg folgte, kam nirgends hin. Heute: eine falsche Annahme haben.', example: '„Ich denke, der Chef mag meinen Plan nicht." — „Da bist du auf dem Holzweg — er war begeistert!"\n<em>Sehr häufig in Gesprächen, wenn jemand falsch liegt.</em>' },
   { title: 'ins Fettnäpfchen treten', teaser: 'Ein peinlicher Fehler — wortwörtlich ins Fett', body: 'Früher stellten Schuster Fett auf den Boden, um Leder zu pflegen. Wer hineintrat, machte Schmutz und Chaos. Heute: aus Unwissenheit etwas Unangebrachtes sagen oder tun.', example: '„Wann kommt das Baby?" — (Stille) „Sie ist nicht schwanger..." — „Oh, ich bin ins Fettnäpfchen getreten!"\n<em>Sehr nützlich, um peinliche Situationen zu beschreiben.</em>' },
   { title: 'Das ist nicht mein Bier', teaser: 'Das ist nicht mein Problem', body: 'Bier ist in Deutschland Kulturgut. Wenn Bier nicht deins ist — kümmert es dich nicht. Diese Redewendung zeigt die direkte deutsche Art, Verantwortung abzugrenzen — ohne unhöflich zu sein.', example: '„Was sagst du zum Streit zwischen Kollegen?" — „Das ist nicht mein Bier — sollen sie es selbst klären."\n<em>Respektvoll, aber klar: Ich halte mich raus.</em>' },
   { title: 'Schwein haben', teaser: 'Glück haben — aber warum das Schwein?', body: 'Im Mittelalter gewann der letzte Platz beim Schützenfest ein Schwein — ein wertvolles Trost-Preis. Wer also Schwein hatte, gewann trotz schlechter Leistung. Heute einfach: großes Glück haben.', example: '„Du hast die letzte freie Wohnung bekommen!" — „Ja, ich hatte Schwein!"\n<em>Sagen Sie das locker — kein negativer Unterton, nur Freude.</em>' },
-  { title: 'jemandem auf den Zahn fühlen', teaser: 'Jemanden genau befragen', body: 'Mittelalterliche Ärzte prüften den Gesundheitszustand durch Anfassen der Zähne. Heute: jemanden kritisch befragen, testen oder prüfen — ob er wirklich das weiß, was er behauptet zu wissen.', example: '„Der neue Mitarbeiter sagt, er spricht fließend Deutsch." — „Ich werde ihm auf den Zahn fühlen."\n<em>Oft in Bewerbungsgesprächen und Prüfungen zu hören.</em>' },
-  { title: 'auf großem Fuß leben', teaser: 'Luxuriös leben — der Fuß als Statussymbol', body: 'Im Mittelalter zeigten lange Schuhspitzen hohen sozialen Status (je länger, desto reicher). Heute: über seine Verhältnisse leben, Luxus genießen, mehr ausgeben als man hat.', example: '„Wie kann er sich das alles leisten?" — „Er lebt auf großem Fuß — und macht Schulden."\n<em>Nützlich in Gesprächen über Finanzen und Lebensstil.</em>' },
-  { title: 'den Nagel auf den Kopf treffen', teaser: 'Genau das Richtige sagen', body: 'Aus dem Handwerk: Ein guter Schlag trifft den Nagel genau auf den Kopf. Kein Danebenschlagen, kein zweiter Versuch. Heute: etwas präzise und genau formulieren, den Kern einer Sache treffen.', example: '„Die Analyse war brilliant — du hast den Nagel auf den Kopf getroffen!"\n<em>Echtes Kompliment — zeigt, dass man den Deutschen wirklich zugehört hat.</em>' },
+  { title: 'Hals- und Beinbruch!', teaser: 'Viel Erfolg — wörtlich: brich dir Hals und Bein', body: 'Aus dem Jiddischen: „hazlokhe un brókhe" (Glück und Segen) klingt im Deutschen wie Hals und Beinbruch. Schauspieler sagten: Damit das Böse nicht kommt, sagen wir das Schlimmste. Heute einfach: Viel Erfolg!', example: '„Ich habe gleich meine Prüfung!" — „Hals- und Beinbruch!"\n<em>Nur bei wichtigen Momenten sagen — Prüfung, Auftritt, Bewerbung.</em>', translation: '«Ни пуха ни пера!» — пожелание удачи, которое звучит как проклятие. Традиция: не говорить «удачи» напрямую, чтобы не сглазить.', source: 'Duden Etymologie' },
+  { title: 'Das ist nicht mein Bier', teaser: 'Das ist nicht mein Problem', body: 'Bier ist in Deutschland Kulturgut. Wenn Bier nicht deins ist — kümmert es dich nicht. Diese Redewendung zeigt die direkte deutsche Art, Verantwortung abzugrenzen — ohne unhöflich zu sein.', example: '„Was sagst du zum Streit zwischen Kollegen?" — „Das ist nicht mein Bier — sollen sie es selbst klären."\n<em>Respektvoll, aber klar: Ich halte mich raus.</em>', translation: '«Это не моё дело» / «Меня это не касается». Пиво тут ни при чём — просто немецкая прямота в разграничении ответственности.', source: 'Duden Redewendungen' },
+  { title: 'Schwein haben', teaser: 'Glück haben — aber warum das Schwein?', body: 'Im Mittelalter gewann der letzte Platz beim Schützenfest ein Schwein — ein wertvolles Trost-Preis. Wer also Schwein hatte, gewann trotz schlechter Leistung. Heute einfach: großes Glück haben.', example: '„Du hast die letzte freie Wohnung bekommen!" — „Ja, ich hatte Schwein!"\n<em>Sagen Sie das locker — kein negativer Unterton, nur Freude.</em>', translation: '«Повезло!» / «Счастливчик». Буквально «иметь свинью» — в средние века свинья была утешительным призом на соревнованиях.', source: 'Duden Etymologie' },
+  { title: 'jemandem auf den Zahn fühlen', teaser: 'Jemanden genau befragen', body: 'Mittelalterliche Ärzte prüften den Gesundheitszustand durch Anfassen der Zähne. Heute: jemanden kritisch befragen, testen oder prüfen — ob er wirklich das weiß, was er behauptet zu wissen.', example: '„Der neue Mitarbeiter sagt, er spricht fließend Deutsch." — „Ich werde ihm auf den Zahn fühlen."\n<em>Oft in Bewerbungsgesprächen und Prüfungen zu hören.</em>', translation: '«Устроить допрос» / «Проверить на прочность». Средневековые врачи щупали зубы, чтобы оценить здоровье — отсюда выражение.', source: 'Duden Redewendungen' },
+  { title: 'den Nagel auf den Kopf treffen', teaser: 'Genau das Richtige sagen', body: 'Aus dem Handwerk: Ein guter Schlag trifft den Nagel genau auf den Kopf. Kein Danebenschlagen, kein zweiter Versuch. Heute: etwas präzise und genau formulieren, den Kern einer Sache treffen.', example: '„Die Analyse war brilliant — du hast den Nagel auf den Kopf getroffen!"\n<em>Echtes Kompliment — zeigt, dass man den Deutschen wirklich zugehört hat.</em>', translation: '«Попасть в точку» / «Ударить в самую суть». Кузнечный образ: хороший удар точно в головку гвоздя — без промаха.', source: 'Duden Redewendungen' },
 ];
 
 const KULTUR_WUSSTEN = [
@@ -2055,8 +2104,16 @@ function renderKulturScreen() {
   const now = new Date();
   const dateStr = `${days[now.getDay()]}, ${now.getDate()}. ${months[now.getMonth()]}`;
 
-  // Wort des Tages — immer zuerst
-  const wort = KULTUR_WORT[dayOfYear % KULTUR_WORT.length];
+  // Wort des Tages — nach Studentenlevel filtern
+  const levelOrder = ['A1','A2','B1','B2','C1','C2'];
+  const studentLvl = levelOrder.indexOf(_studentLevel) >= 0 ? _studentLevel : 'B1';
+  const levelIdx = levelOrder.indexOf(studentLvl);
+  const wordsForLevel = KULTUR_WORT.filter(w => {
+    const wLvl = levelOrder.indexOf(w.level || 'B1');
+    return wLvl <= levelIdx + 1; // показываем свой уровень и один выше
+  });
+  const wortPool = wordsForLevel.length ? wordsForLevel : KULTUR_WORT;
+  const wort = wortPool[dayOfYear % wortPool.length];
 
   // 4 Kategorien aus dem Pool — deterministisch per Tag rotiert
   const pool = [...KULTUR_CATEGORY_POOL];
@@ -2100,6 +2157,14 @@ function renderKulturScreen() {
       <div class="kultur-body${c.open ? ' visible' : ''}" id="kb-${i}">
         <div class="kultur-body-text">${c.data.body}</div>
         ${c.data.example ? `<div class="kultur-body-example">${c.data.example.replace(/\n/g,'<br>')}</div>` : ''}
+        ${c.data.translation ? `
+        <button class="kultur-translate-btn" onclick="toggleTranslation(${i})" id="ktb-${i}">
+          🇷🇺 Перевод
+        </button>
+        <div class="kultur-translation" id="kt-${i}">
+          ${c.data.translation}
+        </div>` : ''}
+        ${c.data.source ? `<div class="kultur-source">Quelle: ${c.data.source}</div>` : ''}
       </div>
     </div>`).join('')}
     <div style="height:16px"></div>
@@ -2113,6 +2178,15 @@ function toggleKultur(i) {
   const open = body.classList.toggle('visible');
   card.classList.toggle('open', open);
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleTranslation(i) {
+  const btn = document.getElementById('ktb-' + i);
+  const box = document.getElementById('kt-' + i);
+  if (!btn || !box) return;
+  const show = box.classList.toggle('visible');
+  btn.classList.toggle('active', show);
+  btn.textContent = show ? '🇷🇺 Перевод скрыть' : '🇷🇺 Перевод';
 }
 
 function showTab(tab) {
