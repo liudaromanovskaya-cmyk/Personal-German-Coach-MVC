@@ -1908,51 +1908,54 @@ function render() {
 
   <div class="screen" id="screen-grammar">
     ${(() => {
+      const done     = student.grammar.filter(g => g.status === 'done');
+      const current  = student.grammar.filter(g => g.status === 'current');
+      const upcoming = student.grammar.filter(g => g.status === 'upcoming');
       let grammarSelf = {};
-      try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
-      const ordered = [
-        ...student.grammar.filter(g => g.status === 'done'),
-        ...student.grammar.filter(g => g.status === 'current'),
-        ...student.grammar.filter(g => g.status === 'upcoming'),
-      ];
-      const doneCount = ordered.filter(g => g.status === 'done').length;
-      const dotMap   = { done: '✓', current: '▶', upcoming: '○' };
-      const labelMap = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
-      const nodes = ordered.map((g, i) => {
-        const self       = grammarSelf['path-' + i] || null;
-        const hasContent = !!(g.summary || g.warum);
-        const isOpen     = g.status === 'current' && hasContent;
-        const isLast     = i === ordered.length - 1;
-        const warum   = g.warum   ? '<div class="grammar-warum">💡 ' + g.warum + '</div>' : '';
-        const summary = g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '';
-        const example = g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '';
-        const selfRow = (hasContent && g.status !== 'upcoming')
-          ? '<div class="grammar-self-row">'
-            + '<button class="grammar-self-btn ' + (self==='ueben'?'active-ueben':'') + '" onclick="toggleGrammarSelf(\'path-' + i + '\',\'ueben\')">🔄 Ich übe noch</button>'
-            + '<button class="grammar-self-btn ' + (self==='verstanden'?'active-ok':'') + '" onclick="toggleGrammarSelf(\'path-' + i + '\',\'verstanden\')">✓ Verstanden</button>'
-            + '</div>'
-          : '';
-        return '<div class="gpath-node ' + g.status + '">'
-          + '<button class="gpath-row' + (hasContent ? ' clickable' : '') + '" onclick="toggleGrammarPath(' + i + ')">'
-            + '<div class="gpath-dot ' + g.status + '">' + dotMap[g.status] + '</div>'
-            + '<div class="gpath-info">'
-              + '<div class="gpath-label">' + labelMap[g.status] + '</div>'
-              + '<div class="gpath-topic">' + g.topic + '</div>'
-              + '<div class="gpath-level">Niveau ' + g.level + '</div>'
-            + '</div>'
-            + (hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">⌄</div>' : '')
-          + '</button>'
-          + '<div class="gpath-body' + (isOpen ? ' visible' : '') + '" id="gpb-' + i + '">'
-            + warum + summary + example + selfRow
-          + '</div>'
-          + (!isLast ? '<div class="gpath-connector"></div>' : '')
-          + '</div>';
+      try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch(e) {}
+
+      const renderCards = (items) => items.map((g, i) => {
+        const cardId = g.status + '-' + i;
+        const self = grammarSelf[cardId] || null;
+        return `
+        <div class="grammar-card ${g.status}" id="gc-${g.status}-${i}">
+          <button class="grammar-toggle" onclick="toggleGrammar('${g.status}-${i}')">
+            <div class="grammar-status-dot"></div>
+            <div class="grammar-toggle-label">
+              <div class="grammar-topic-name">${g.topic}</div>
+              <div class="grammar-topic-level">Niveau ${g.level}</div>
+            </div>
+            <div class="grammar-arrow">⌄</div>
+          </button>
+          <div class="grammar-body" id="gb-${g.status}-${i}">
+            ${g.warum ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
+            ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
+            ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g, '<br>')}</div>` : ''}
+            ${g.status !== 'upcoming' ? `
+            <div class="grammar-self-row">
+              <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
+              <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
+            </div>` : ''}
+          </div>
+        </div>`;
       }).join('');
-      return '<div class="gpath-header-block">'
-        + '<div class="gpath-title">Ihr Grammatikweg</div>'
-        + '<div class="gpath-progress">' + doneCount + ' von ' + ordered.length + ' Themen abgeschlossen</div>'
-        + '</div>'
-        + '<div class="gpath-container">' + nodes + '</div>';
+
+      return `
+        ${current.length  ? `<div class="grammar-group-title">Aktuelles Thema</div>${renderCards(current)}` : ''}
+        ${done.length     ? `<div class="grammar-group-title">Bereits gelernt ✓</div>${renderCards(done)}` : ''}
+        ${upcoming.length ? `<div class="grammar-group-title">Kommt als nächstes</div>
+          <div class="grammar-upcoming-list">
+            ${upcoming.map(g => `
+              <div class="grammar-upcoming-item">
+                <div class="grammar-upcoming-dot">○</div>
+                <div>
+                  <div class="grammar-upcoming-topic">${g.topic}</div>
+                  <div class="grammar-upcoming-level">Niveau ${g.level}</div>
+                  ${g.warum ? `<div class="grammar-warum" style="margin-top:4px">💡 ${g.warum}</div>` : ''}
+                </div>
+              </div>`).join('')}
+          </div>` : ''}
+      `;
     })()}
   </div>
 
