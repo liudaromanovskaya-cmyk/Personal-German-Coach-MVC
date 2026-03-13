@@ -52,6 +52,15 @@ const STUDENTS = {
     // ]}
     lexik: [],
 
+    // Prüfungskriterien: Bewertungsraster pro Fertigkeit. null = Platzhalter.
+    // Beispiel: lesen: { kriterien: ['Globales Verstehen', 'Detailverstehen'], link: 'https://...' }
+    pruefung: {
+      lesen:     null,
+      hoeren:    null,
+      schreiben: null,
+      sprechen:  null,
+    },
+
     // Methodik: Tipps nach Fertigkeit (in Bibliothek). null = Platzhalter.
     // Beispiel: lesen: { tipps: ['Tipp 1', 'Tipp 2'], link: 'https://...' }
     methodik: {

@@ -778,6 +778,33 @@ function renderKulturScreen(student) {
     </div>`;
   }).join('');
 
+  // ── Prüfungskriterien ─────────────────────────────────────
+  const pruefung = student?.pruefung || [];
+  const PRUEF_SKILLS = [
+    { key: 'lesen',     label: 'Lesen',     icon: '📖' },
+    { key: 'hoeren',    label: 'Hören',     icon: '🎧' },
+    { key: 'schreiben', label: 'Schreiben', icon: '✍️' },
+    { key: 'sprechen',  label: 'Sprechen',  icon: '🗣️' },
+  ];
+  const pruefungHTML = PRUEF_SKILLS.map((s, i) => {
+    const content = pruefung[s.key];
+    const bodyHTML = content
+      ? `${Array.isArray(content.kriterien)
+          ? content.kriterien.map(k => `<div class="bib-tip">• ${k}</div>`).join('')
+          : `<div class="bib-tip">${content}</div>`
+        }${content.link ? `<a href="${content.link}" target="_blank" class="bib-link-btn">📋 Öffnen</a>` : ''}`
+      : `<div class="bib-placeholder">Prüfungskriterien werden von Ihrer Lehrerin ergänzt.</div>`;
+    return `
+    <div class="bib-skill-card" id="prs-${i}">
+      <button class="bib-skill-toggle" onclick="togglePruefung(${i})">
+        <span class="bib-skill-icon">${s.icon}</span>
+        <span class="bib-skill-label">${s.label}</span>
+        <span class="bib-skill-arrow" id="pra-${i}">⌄</span>
+      </button>
+      <div class="bib-skill-body" id="prb-${i}">${bodyHTML}</div>
+    </div>`;
+  }).join('');
+
   // ── Bücher ────────────────────────────────────────────────
   const book = student?.book;
   const buecherHTML = book
@@ -834,6 +861,10 @@ function renderKulturScreen(student) {
       ${methodikHTML}
     </div>
     <div class="bib-section">
+      <div class="bib-section-title">📋 Prüfungskriterien</div>
+      ${pruefungHTML}
+    </div>
+    <div class="bib-section">
       <div class="bib-section-title">📖 Bücher</div>
       ${buecherHTML}
     </div>
@@ -882,6 +913,15 @@ function toggleKultur(i) {
   if (!card || !body) return;
   const open = body.classList.toggle('visible');
   card.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function togglePruefung(i) {
+  const body = document.getElementById('prb-' + i);
+  const arrow = document.getElementById('pra-' + i);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
