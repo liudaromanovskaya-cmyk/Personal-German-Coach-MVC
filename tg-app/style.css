@@ -1738,3 +1738,37 @@ a.optional-send-btn:active {
   border-bottom: 1px solid var(--border);
 }
 .pruef-kriterium:last-child { border-bottom: none; }
+
+/* ══════════════════════════════════════════════
+   METHODIK & PRÜFUNG — визуальное разделение v2
+   ══════════════════════════════════════════════ */
+
+/* Methodik: зелёная полоса СЛЕВА, инструментальный стиль */
+.bib-skill-card {
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+.bib-skill-toggle {
+  background: linear-gradient(135deg, #F0FAF5 0%, var(--card) 100%);
+}
+.bib-skill-label { color: var(--accent); }
+.bib-skill-icon { filter: none; }
+
+/* Prüfungskriterien: янтарная полоса СПРАВА, официальный стиль */
+.pruef-card {
+  border: 1.5px solid var(--border);
+  border-left: none;
+  border-right: 4px solid var(--urgent);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+.pruef-toggle {
+  background: linear-gradient(135deg, var(--card) 0%, #FEF5E4 100%);
+}
+.pruef-label { color: #92520A; }
