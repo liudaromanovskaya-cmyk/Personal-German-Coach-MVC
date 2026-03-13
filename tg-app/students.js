@@ -46,15 +46,19 @@ const STUDENTS = {
       text: 'Artem, gute Arbeit mit der Nominalisierung — man sieht, dass die Regel automatischer geworden ist. In Satz 3 der Artikel: «der Beschluss», nicht «die». Typische Fossilisierung — wir erkennen sie und üben weiter zusammen.',
       score: 'Guter Fortschritt 📈',
     },
-    // Methodik: Tipps nach Fertigkeit. null = Platzhalter wird angezeigt.
+    // Lexik: Vokabelgruppen für den Lexik-Tab.
+    // Beispiel: { thema: 'Passiv-Redemittel', icon: '🃏', woerter: [
+    //   { de: 'es wird gebaut', ru: 'строится', beispiel: 'Das Haus wird gebaut.' }
+    // ]}
+    lexik: [],
+
+    // Methodik: Tipps nach Fertigkeit (in Bibliothek). null = Platzhalter.
     // Beispiel: lesen: { tipps: ['Tipp 1', 'Tipp 2'], link: 'https://...' }
     methodik: {
       lesen:     null,
       hoeren:    null,
       schreiben: null,
       sprechen:  null,
-      grammatik: null,
-      lexik:     null,
     },
     // Aktuelles Buch. null = kein Buch zugewiesen.
     // Beispiel: { title: 'Der Vorleser', author: 'Bernhard Schlink', note: 'C1-Lektüre', link: null }

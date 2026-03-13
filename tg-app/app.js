@@ -194,6 +194,10 @@ function render() {
     <div id="grammar-content"></div>
   </div>
 
+  <div class="screen" id="screen-lexik">
+    <div id="lexik-content"></div>
+  </div>
+
   <div class="screen" id="screen-progress">
     <div class="progress-section-title">Kommunikation</div>
     <div class="growth-legend">
@@ -328,6 +332,9 @@ function render() {
     <button class="tab-btn" id="tab-grammar" onclick="showTab('grammar')">
       <div class="tab-icon">📚</div>Grammatik
     </button>
+    <button class="tab-btn" id="tab-lexik" onclick="showTab('lexik')">
+      <div class="tab-icon">🃏</div>Lexik
+    </button>
     <button class="tab-btn" id="tab-progress" onclick="showTab('progress')">
       <div class="tab-icon">📈</div>Fortschritt
     </button>
@@ -342,6 +349,7 @@ function render() {
   `;
 
   renderGrammarScreen();
+  renderLexikScreen(student);
   renderGapsScreen();
   renderKulturScreen(student);
 
@@ -693,13 +701,56 @@ function renderGrammarModules(el, id, student) {
   });
 }
 
+// ── Lexik ─────────────────────────────────────────────────────────────────
+function renderLexikScreen(student) {
+  const el = document.getElementById('lexik-content');
+  if (!el) return;
+
+  const lexik = student?.lexik || [];
+
+  if (!lexik.length) {
+    el.innerHTML = `
+      <div class="lexik-empty">
+        <div class="lexik-empty-icon">🃏</div>
+        <div class="lexik-empty-title">Lexik-Kärtchen</div>
+        <div class="lexik-empty-text">Ihre Lehrerin fügt hier Wortfamilien und Redemittel hinzu — thematisch gruppiert, damit Sie gezielt üben können.</div>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = lexik.map((group, gi) => `
+    <div class="lexik-group" id="lxg-${gi}">
+      <button class="lexik-group-toggle" onclick="toggleLexikGroup(${gi})">
+        <span class="lexik-group-icon">${group.icon || '🃏'}</span>
+        <span class="lexik-group-label">${group.thema}</span>
+        <span class="lexik-group-count">${group.woerter?.length || 0}</span>
+        <span class="lexik-group-arrow" id="lxa-${gi}">⌄</span>
+      </button>
+      <div class="lexik-group-body" id="lxb-${gi}">
+        ${(group.woerter || []).map(w => `
+        <div class="lexik-card">
+          <div class="lexik-de">${w.de}</div>
+          ${w.ru ? `<div class="lexik-ru">${w.ru}</div>` : ''}
+          ${w.beispiel ? `<div class="lexik-beispiel">💬 ${w.beispiel}</div>` : ''}
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function toggleLexikGroup(gi) {
+  const body = document.getElementById('lxb-' + gi);
+  const arrow = document.getElementById('lxa-' + gi);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
 const METHODIK_SKILLS = [
   { key: 'lesen',     label: 'Lesen',     icon: '📖' },
   { key: 'hoeren',    label: 'Hören',     icon: '🎧' },
   { key: 'schreiben', label: 'Schreiben', icon: '✍️' },
   { key: 'sprechen',  label: 'Sprechen',  icon: '🗣️' },
-  { key: 'grammatik', label: 'Grammatik', icon: '📝' },
-  { key: 'lexik',     label: 'Lexik',     icon: '🃏' },
 ];
 
 function renderKulturScreen(student) {

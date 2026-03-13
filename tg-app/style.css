@@ -83,13 +83,13 @@ body {
   cursor: pointer;
   font-family: inherit;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   transition: color .15s;
   min-height: 44px;
 }
 .tab-btn.active { color: var(--accent); }
-.tab-icon { font-size: 20px; line-height: 1; }
+.tab-icon { font-size: 18px; line-height: 1; }
 
 /* TOUCH-СОСТОЯНИЯ — визуальный отклик на нажатие (мобильные) */
 button:active,
@@ -1627,4 +1627,69 @@ a.optional-send-btn:active {
   color: var(--accent);
   text-decoration: none;
   cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════
+   LEXIK TAB
+   ══════════════════════════════════════════════ */
+
+.lexik-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 32px;
+  text-align: center;
+}
+.lexik-empty-icon { font-size: 40px; margin-bottom: 14px; }
+.lexik-empty-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.lexik-empty-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+.lexik-group {
+  margin: 12px 16px 0;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card);
+}
+.lexik-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+.lexik-group-icon { font-size: 18px; flex-shrink: 0; }
+.lexik-group-label { flex: 1; font-size: 15px; font-weight: 600; color: var(--text); }
+.lexik-group-count {
+  font-size: 12px;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-weight: 700;
+}
+.lexik-group-arrow { font-size: 16px; color: var(--muted); }
+.lexik-group-body { display: none; padding: 0 12px 12px; }
+.lexik-group-body.visible { display: block; }
+
+.lexik-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 8px;
+  background: var(--bg);
+}
+.lexik-de { font-size: 15px; font-weight: 700; color: var(--text); }
+.lexik-ru { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.lexik-beispiel {
+  font-size: 13px;
+  color: var(--text);
+  margin-top: 6px;
+  font-style: italic;
+  line-height: 1.5;
 }
