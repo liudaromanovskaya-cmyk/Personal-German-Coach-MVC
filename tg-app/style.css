@@ -209,8 +209,35 @@ a.optional-send-btn:active {
 .gpath-title {
   font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px;
 }
-.gpath-progress { font-size: 12px; color: var(--muted); }
+.gpath-progress { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
 .gpath-container { padding: 4px 20px 20px; }
+
+/* ── Модули из levels.js ── */
+.mod-stats { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 6px; }
+.mod-legend { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
+#mod-container { padding: 8px 16px 24px; display: flex; flex-direction: column; gap: 8px; }
+.mod-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.mod-card.mod-current { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(74,140,110,0.15); }
+.mod-header { display: flex; align-items: center; gap: 10px; padding: 14px 14px; cursor: pointer; user-select: none; }
+.mod-header:active { background: var(--accent-light); }
+.mod-header-text { flex: 1; min-width: 0; }
+.mod-nr { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+.mod-title { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 2px; line-height: 1.3; }
+.mod-arrow { font-size: 16px; color: var(--muted); flex-shrink: 0; }
+.mod-body { display: none; padding: 0 14px 14px; }
+.mod-body.visible { display: block; }
+.mod-ziel { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; padding-top: 4px; border-top: 1px solid var(--border); padding-top: 10px; }
+.mod-lesson { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.mod-lesson:last-child { border-bottom: none; }
+.mod-lesson-title { font-size: 13px; color: var(--text); line-height: 1.4; flex: 1; }
+
+/* Кружки — три состояния */
+.mod-dot { font-size: 18px; flex-shrink: 0; cursor: pointer; transition: transform .1s; line-height: 1; }
+.mod-dot:active { transform: scale(1.3); }
+.mod-dot-main { font-size: 22px; }
+.mod-grey   { color: #C0C8D2; }
+.mod-orange { color: #D97706; }
+.mod-green  { color: #4A8C6E; }
 
 .gpath-node { position: relative; }
 .gpath-row {

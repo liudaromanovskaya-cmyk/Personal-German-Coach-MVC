@@ -573,6 +573,13 @@ function renderGrammarScreen() {
   const student = STUDENTS[id];
   if (!student) return;
 
+  // Если у студента есть шаблон уровня — показываем модули из levels.js
+  if (student.template && typeof LEVELS !== 'undefined' && LEVELS[student.template]) {
+    renderGrammarModules(el, id, student);
+    return;
+  }
+
+  // Старый режим — для студентов без шаблона
   let grammarSelf = {};
   try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
 
@@ -623,26 +630,105 @@ function renderGrammarScreen() {
     + '</div>'
     + '<div class="gpath-container" id="gpath-container">' + rows + '</div>';
 
-  // Event delegation — один обработчик на весь контейнер
   const container = document.getElementById('gpath-container');
   if (container) {
     container.addEventListener('click', function(e) {
-      // Клик по строке темы
       const row = e.target.closest('.gpath-row.clickable');
-      if (row) {
-        const i = parseInt(row.dataset.idx, 10);
-        toggleGrammarPath(i);
-        return;
-      }
-      // Клик по кнопке самооценки
+      if (row) { toggleGrammarPath(parseInt(row.dataset.idx, 10)); return; }
       const selfBtn = e.target.closest('[data-self]');
-      if (selfBtn) {
-        const val = selfBtn.dataset.self;
-        const idx = selfBtn.dataset.selfidx;
-        toggleGrammarSelf('path-' + idx, val);
-      }
+      if (selfBtn) toggleGrammarSelf('path-' + selfBtn.dataset.selfidx, selfBtn.dataset.self);
     });
   }
+}
+
+// ── Рендер модулей из levels.js (3 статуса: серый / оранжевый / зелёный) ──
+function renderGrammarModules(el, id, student) {
+  const level    = LEVELS[student.template];
+  const modules  = level.module;
+  const storeKey = 'pgc_mod_' + id;
+  let modState   = {};
+  try { modState = JSON.parse(localStorage.getItem(storeKey) || '{}'); } catch {}
+
+  // Статус → классы и иконки
+  function stateClass(s) { return s === 'automatisiert' ? 'mod-green' : s === 'bekannt' ? 'mod-orange' : 'mod-grey'; }
+  function stateIcon(s)  { return s === 'automatisiert' ? '●' : s === 'bekannt' ? '●' : '○'; }
+
+  const greenCount = modules.filter(m => modState['m' + m.nr] === 'automatisiert').length;
+  const curMod     = student.currentModule || 0;
+
+  const html = modules.map(m => {
+    const mKey   = 'm' + m.nr;
+    const mState = modState[mKey] || null;
+    const isCur  = m.nr === curMod;
+    const isOpen = isCur; // текущий модуль открыт по умолчанию
+
+    // Подпункты — уроки
+    const lessonRows = (m.lektionen || []).map(l => {
+      const lKey   = 'l' + m.nr + '_' + l.nr;
+      const lState = modState[lKey] || null;
+      return '<div class="mod-lesson" data-key="' + lKey + '" data-store="' + storeKey + '">'
+        + '<span class="mod-dot ' + stateClass(lState) + '" title="Tippen zum Ändern">' + stateIcon(lState) + '</span>'
+        + '<span class="mod-lesson-title">L' + l.nr + '. ' + l.titel + '</span>'
+        + '</div>';
+    }).join('');
+
+    return '<div class="mod-card' + (isCur ? ' mod-current' : '') + '" id="modc-' + m.nr + '">'
+      + '<div class="mod-header" data-mod="' + m.nr + '">'
+        + '<span class="mod-dot mod-dot-main ' + stateClass(mState) + '" data-key="' + mKey + '" data-store="' + storeKey + '" title="Tippen: grau → orange → grün">' + stateIcon(mState) + '</span>'
+        + '<div class="mod-header-text">'
+          + '<div class="mod-nr">' + (isCur ? '▶ Jetzt · ' : '') + 'Modul ' + m.nr + '</div>'
+          + '<div class="mod-title">' + m.titel + '</div>'
+        + '</div>'
+        + '<span class="mod-arrow" id="moda-' + m.nr + '">' + (isOpen ? '⌃' : '⌄') + '</span>'
+      + '</div>'
+      + '<div class="mod-body' + (isOpen ? ' visible' : '') + '" id="modb-' + m.nr + '">'
+        + '<div class="mod-ziel">' + m.ziel + '</div>'
+        + lessonRows
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  el.innerHTML = '<div class="gpath-header-block">'
+    + '<div class="gpath-title">Grammatikprogramm · ' + level.name + '</div>'
+    + '<div class="gpath-progress">'
+      + '<span class="mod-legend"><span class="mod-dot mod-green">●</span> automatisiert</span>'
+      + '<span class="mod-legend"><span class="mod-dot mod-orange">●</span> bekannt</span>'
+      + '<span class="mod-legend"><span class="mod-dot mod-grey">○</span> noch nicht</span>'
+    + '</div>'
+    + '<div class="mod-stats">' + greenCount + ' von ' + modules.length + ' Modulen automatisiert</div>'
+    + '</div>'
+    + '<div id="mod-container">' + html + '</div>';
+
+  // Обработчики событий
+  document.getElementById('mod-container').addEventListener('click', function(e) {
+    // Клик по кружку — сменить статус
+    const dot = e.target.closest('.mod-dot[data-key]');
+    if (dot) {
+      e.stopPropagation();
+      const key      = dot.dataset.key;
+      const store    = dot.dataset.store;
+      let state      = {};
+      try { state = JSON.parse(localStorage.getItem(store) || '{}'); } catch {}
+      const cur      = state[key] || null;
+      const next     = cur === null ? 'bekannt' : cur === 'bekannt' ? 'automatisiert' : null;
+      if (next === null) delete state[key]; else state[key] = next;
+      localStorage.setItem(store, JSON.stringify(state));
+      if (tg) tg.HapticFeedback.impactOccurred('light');
+      renderGrammarModules(el, id, student);
+      return;
+    }
+    // Клик по заголовку модуля — открыть/закрыть
+    const header = e.target.closest('.mod-header');
+    if (header) {
+      const nr   = header.dataset.mod;
+      const body = document.getElementById('modb-' + nr);
+      const arr  = document.getElementById('moda-' + nr);
+      if (body) {
+        const open = body.classList.toggle('visible');
+        if (arr) arr.textContent = open ? '⌃' : '⌄';
+      }
+    }
+  });
 }
 
 function renderKulturScreen() {

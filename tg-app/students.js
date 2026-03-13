@@ -11,6 +11,9 @@ const STUDENTS = {
   artem: {
     name: 'Artem',
     level: 'B2/C1',
+    template: 'c1_goethe',  // шаблон из levels.js
+    currentModule: 11,       // модуль где сейчас (Passiv)
+    currentLektion: 2,       // урок где сейчас
     progressText: 'Deutlich präziser geworden — besonders in schriftlichen Texten',
     goal: { title: 'Goethe-Zertifikat C1 bestehen', deadline: 'Dezember 2026' },
     milestones: [
