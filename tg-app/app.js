@@ -781,27 +781,27 @@ function renderKulturScreen(student) {
   // ── Prüfungskriterien ─────────────────────────────────────
   const pruefung = student?.pruefung || [];
   const PRUEF_SKILLS = [
-    { key: 'lesen',     label: 'Lesen',     icon: '📖' },
-    { key: 'hoeren',    label: 'Hören',     icon: '🎧' },
-    { key: 'schreiben', label: 'Schreiben', icon: '✍️' },
-    { key: 'sprechen',  label: 'Sprechen',  icon: '🗣️' },
+    { key: 'lesen',     label: 'Lesen',     icon: '📄' },
+    { key: 'hoeren',    label: 'Hören',     icon: '🔊' },
+    { key: 'schreiben', label: 'Schreiben', icon: '🖊️' },
+    { key: 'sprechen',  label: 'Sprechen',  icon: '🎤' },
   ];
   const pruefungHTML = PRUEF_SKILLS.map((s, i) => {
     const content = pruefung[s.key];
     const bodyHTML = content
       ? `${Array.isArray(content.kriterien)
-          ? content.kriterien.map(k => `<div class="bib-tip">• ${k}</div>`).join('')
-          : `<div class="bib-tip">${content}</div>`
+          ? content.kriterien.map(k => `<div class="pruef-kriterium">• ${k}</div>`).join('')
+          : `<div class="pruef-kriterium">${content}</div>`
         }${content.link ? `<a href="${content.link}" target="_blank" class="bib-link-btn">📋 Öffnen</a>` : ''}`
-      : `<div class="bib-placeholder">Prüfungskriterien werden von Ihrer Lehrerin ergänzt.</div>`;
+      : `<div class="bib-placeholder">Wird von Ihrer Lehrerin ergänzt.</div>`;
     return `
-    <div class="bib-skill-card" id="prs-${i}">
-      <button class="bib-skill-toggle" onclick="togglePruefung(${i})">
-        <span class="bib-skill-icon">${s.icon}</span>
-        <span class="bib-skill-label">${s.label}</span>
-        <span class="bib-skill-arrow" id="pra-${i}">⌄</span>
+    <div class="pruef-card" id="prs-${i}">
+      <button class="pruef-toggle" onclick="togglePruefung(${i})">
+        <span class="pruef-icon">${s.icon}</span>
+        <span class="pruef-label">${s.label}</span>
+        <span class="pruef-arrow" id="pra-${i}">⌄</span>
       </button>
-      <div class="bib-skill-body" id="prb-${i}">${bodyHTML}</div>
+      <div class="pruef-body" id="prb-${i}">${bodyHTML}</div>
     </div>`;
   }).join('');
 
