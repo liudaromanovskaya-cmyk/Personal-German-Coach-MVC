@@ -165,9 +165,16 @@ body {
   gap: 14px;
   padding: 10px 0;
   border-radius: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: default;
 }
 .gpath-row.clickable { cursor: pointer; }
 .gpath-row.clickable:active { background: rgba(0,0,0,.04); }
+.gpath-row:disabled { cursor: default; opacity: 1; }
 
 .gpath-dot {
   width: 36px; height: 36px;
@@ -2246,38 +2253,44 @@ function renderGrammarScreen() {
   const dotIcon  = { done: '✓', current: '▶', upcoming: '○' };
   const labelMap = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
 
-  const nodes = ordered.map((g, i) => {
+  const nodes = ordered.map(function(g, i) {
     const cardId = 'path-' + i;
     const self   = grammarSelf[cardId] || null;
     const isLast = i === ordered.length - 1;
     const hasContent = !!(g.summary || g.warum);
     const openByDefault = g.status === 'current' && hasContent;
+    const bodyClass = 'gpath-body' + (openByDefault ? ' visible' : '');
+    const dot   = dotIcon[g.status];
+    const label = labelMap[g.status];
+    const warum   = g.warum   ? '<div class="grammar-warum">\uD83D\uDCA1 ' + g.warum + '</div>' : '';
+    const summary = g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '';
+    const example = g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '';
+    const selfBtns = (hasContent && g.status !== 'upcoming')
+      ? '<div class="grammar-self-row">'
+        + '<button class="grammar-self-btn' + (self === 'ueben' ? ' active-ueben' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'ueben\')">\uD83D\uDD04 Ich \xFCbe noch</button>'
+        + '<button class="grammar-self-btn' + (self === 'verstanden' ? ' active-ok' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'verstanden\')">\u2713 Verstanden</button>'
+        + '</div>'
+      : '';
+    const arrow = hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">\u2304</div>' : '';
+    const connector = isLast ? '' : '<div class="gpath-connector"></div>';
 
-    const selfBtns = (hasContent && g.status !== 'upcoming') ? `
-      <div class="grammar-self-row">
-        <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
-        <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
-      </div>` : '';
-
-    return `
-      <div class="gpath-node ${g.status}" id="gpn-${i}">
-        <div class="gpath-row${hasContent ? ' clickable' : ''}" ${hasContent ? `onclick="toggleGrammarPath(${i})"` : ''}>
-          <div class="gpath-dot ${g.status}">${dotIcon[g.status]}</div>
-          <div class="gpath-info">
-            <div class="gpath-label">${labelMap[g.status]}</div>
-            <div class="gpath-topic">${g.topic}</div>
-            <div class="gpath-level">Niveau ${g.level}</div>
-          </div>
-          ${hasContent ? `<div class="gpath-arrow" id="gpa-${i}">⌄</div>` : ''}
-        </div>
-        <div class="gpath-body${openByDefault ? ' visible' : ''}" id="gpb-${i}">
-          ${g.warum  ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
-          ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
-          ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g,'<br>')}</div>` : ''}
-          ${selfBtns}
-        </div>
-        ${isLast ? '' : '<div class="gpath-connector"></div>'}
-      </div>`;
+    return '<div class="gpath-node ' + g.status + '" id="gpn-' + i + '">'
+      + '<button class="gpath-row' + (hasContent ? ' clickable' : '') + '" '
+      + (hasContent ? 'onclick="toggleGrammarPath(' + i + ')"' : 'disabled')
+      + '>'
+      + '<div class="gpath-dot ' + g.status + '">' + dot + '</div>'
+      + '<div class="gpath-info">'
+      + '<div class="gpath-label">' + label + '</div>'
+      + '<div class="gpath-topic">' + g.topic + '</div>'
+      + '<div class="gpath-level">Niveau ' + g.level + '</div>'
+      + '</div>'
+      + arrow
+      + '</button>'
+      + '<div class="' + bodyClass + '" id="gpb-' + i + '">'
+      + warum + summary + example + selfBtns
+      + '</div>'
+      + connector
+      + '</div>';
   }).join('');
 
   const doneCount = ordered.filter(g => g.status === 'done').length;
