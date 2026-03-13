@@ -153,106 +153,63 @@ body {
   padding: 20px 20px 12px;
 }
 .gpath-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
+  font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px;
 }
-.gpath-progress {
-  font-size: 12px;
-  color: var(--muted);
-}
-.gpath-container {
-  padding: 4px 20px 20px;
-}
-.gpath-node {
+.gpath-progress { font-size: 12px; color: var(--muted); }
+.gpath-container { padding: 4px 20px 20px; }
+
+.gpath-node { position: relative; }
+.gpath-row {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-.gpath-left {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
-  width: 36px;
+  gap: 14px;
+  padding: 10px 0;
+  border-radius: 12px;
 }
-.gpath-dot-btn {
-  width: 36px;
-  height: 36px;
+.gpath-row.clickable { cursor: pointer; }
+.gpath-row.clickable:active { background: rgba(0,0,0,.04); }
+
+.gpath-dot {
+  width: 36px; height: 36px;
   border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
   flex-shrink: 0;
-  transition: transform .15s;
 }
-.gpath-dot-btn:disabled { cursor: default; }
-.gpath-dot-btn.done    { background: var(--accent); color: #fff; }
-.gpath-dot-btn.current { background: var(--urgent);  color: #fff; box-shadow: 0 0 0 4px rgba(217,119,6,.15); }
-.gpath-dot-btn.upcoming{ background: var(--border);  color: var(--muted); }
-.gpath-line {
-  width: 2px;
-  flex: 1;
-  min-height: 24px;
-  background: var(--border);
-  margin: 4px 0;
-}
-.gpath-right {
-  flex: 1;
-  min-width: 0;
-  padding-bottom: 20px;
-}
-.gpath-header {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  background: none;
-  border: none;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-  font-family: inherit;
-}
-.gpath-header-text { flex: 1; }
+.gpath-dot.done    { background: var(--accent); color: #fff; }
+.gpath-dot.current { background: var(--urgent); color: #fff; box-shadow: 0 0 0 4px rgba(217,119,6,.15); }
+.gpath-dot.upcoming{ background: var(--border); color: var(--muted); }
+
+.gpath-info { flex: 1; min-width: 0; }
 .gpath-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  color: var(--muted);
-  margin-bottom: 2px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--muted); margin-bottom: 2px;
 }
 .gpath-node.current .gpath-label { color: var(--urgent); }
 .gpath-node.done    .gpath-label { color: var(--accent); }
 .gpath-topic {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.3;
+  font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3;
 }
-.gpath-node.done .gpath-topic { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--accent); }
+.gpath-node.done .gpath-topic {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--accent);
+}
 .gpath-node.upcoming .gpath-topic { color: var(--muted); }
-.gpath-level {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 2px;
-}
+.gpath-level { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
 .gpath-arrow {
-  color: var(--muted);
-  font-size: 16px;
-  margin-top: 2px;
-  transition: transform .2s;
-  flex-shrink: 0;
+  color: var(--muted); font-size: 18px;
+  transition: transform .2s; flex-shrink: 0;
+}
+.gpath-connector {
+  width: 2px; height: 20px;
+  background: var(--border);
+  margin-left: 17px;
 }
 .gpath-body {
   display: none;
-  margin-top: 12px;
+  margin: 0 0 8px 50px;
   background: #fff;
   border-radius: 12px;
   border: 1.5px solid var(--border);
@@ -1963,38 +1920,33 @@ function render() {
         const self = grammarSelf[cardId] || null;
         const isLast = i === ordered.length - 1;
         const isCurrent = g.status === 'current';
-        const hasContent = g.summary || g.warum;
+        const hasContent = !!(g.summary || g.warum);
         const openByDefault = isCurrent && hasContent;
 
-        return `
-        <div class="gpath-node ${g.status}" id="gpn-${i}">
-          <div class="gpath-left">
-            <button class="gpath-dot-btn ${g.status}" onclick="${hasContent ? `toggleGrammarPath(${i})` : ''}" ${hasContent ? '' : 'disabled'}>
-              <span>${dotIcon[g.status]}</span>
-            </button>
-            ${isLast ? '' : '<div class="gpath-line"></div>'}
-          </div>
-          <div class="gpath-right">
-            <button class="gpath-header" onclick="${hasContent ? `toggleGrammarPath(${i})` : ''}" ${hasContent ? '' : 'style="cursor:default"'}>
-              <div class="gpath-header-text">
-                <div class="gpath-label">${labelText[g.status]}</div>
-                <div class="gpath-topic">${g.topic}</div>
-                <div class="gpath-level">Niveau ${g.level}</div>
-              </div>
-              ${hasContent ? `<div class="gpath-arrow" id="gpa-${i}">⌄</div>` : ''}
-            </button>
-            <div class="gpath-body ${openByDefault ? 'visible' : ''}" id="gpb-${i}">
-              ${g.warum ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
-              ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
-              ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g,'<br>')}</div>` : ''}
-              ${hasContent && g.status !== 'upcoming' ? `
-              <div class="grammar-self-row">
-                <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
-                <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
-              </div>` : ''}
-            </div>
-          </div>
-        </div>`;
+        return '<div class="gpath-node ' + g.status + '" id="gpn-' + i + '">'
+          + '<div class="gpath-row' + (hasContent ? ' clickable' : '') + '"'
+          + (hasContent ? ' onclick="toggleGrammarPath(' + i + ')"' : '') + '>'
+          + '<div class="gpath-dot ' + g.status + '">' + dotIcon[g.status] + '</div>'
+          + '<div class="gpath-info">'
+          + '<div class="gpath-label">' + labelText[g.status] + '</div>'
+          + '<div class="gpath-topic">' + g.topic + '</div>'
+          + '<div class="gpath-level">Niveau ' + g.level + '</div>'
+          + '</div>'
+          + (hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">&#8964;</div>' : '')
+          + '</div>'
+          + '<div class="gpath-body' + (openByDefault ? ' visible' : '') + '" id="gpb-' + i + '">'
+          + (g.warum ? '<div class="grammar-warum">&#128161; ' + g.warum + '</div>' : '')
+          + (g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '')
+          + (g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '')
+          + (hasContent && g.status !== 'upcoming'
+              ? '<div class="grammar-self-row">'
+                + '<button class="grammar-self-btn' + (self === 'ueben' ? ' active-ueben' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'ueben\')">&#x1F504; Ich &#252;be noch</button>'
+                + '<button class="grammar-self-btn' + (self === 'verstanden' ? ' active-ok' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'verstanden\')">&#10003; Verstanden</button>'
+                + '</div>'
+              : '')
+          + '</div>'
+          + (isLast ? '' : '<div class="gpath-connector"></div>')
+          + '</div>';
       }).join('');
 
       const doneCount = ordered.filter(g => g.status === 'done').length;
