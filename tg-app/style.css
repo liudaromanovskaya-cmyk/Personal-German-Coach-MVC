@@ -23,7 +23,8 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding-bottom: 80px; /* место для таб-бара */
+  /* Safe area: учитываем домашнюю полоску iPhone снизу */
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
 }
 
 /* BOTTOM TAB BAR */
@@ -34,7 +35,9 @@ body {
   border-top: 1px solid var(--border);
   display: flex;
   z-index: 100;
-  height: 60px;
+  /* Safe area: таб-бар не перекрывает домашнюю полоску */
+  height: calc(60px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .tab-btn {
   flex: 1;
@@ -55,6 +58,27 @@ body {
 }
 .tab-btn.active { color: var(--accent); }
 .tab-icon { font-size: 20px; line-height: 1; }
+
+/* TOUCH-СОСТОЯНИЯ — визуальный отклик на нажатие (мобильные) */
+button:active,
+a.action-btn:active,
+a.optional-send-btn:active {
+  transform: scale(0.97);
+  transition: transform 0.08s;
+}
+/* Таб-кнопки — чуть другой эффект */
+.tab-btn:active {
+  transform: scale(0.92);
+  transition: transform 0.08s;
+}
+/* Карточки с кликом — лёгкое затемнение */
+.criterion-item:active,
+.gap-card:active,
+.feedback-toggle:active,
+.skill-header:active {
+  background: var(--accent-light) !important;
+  transition: background 0.08s;
+}
 
 /* SCREENS */
 .screen { display: none; }
