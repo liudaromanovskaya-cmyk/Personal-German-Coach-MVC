@@ -1772,3 +1772,23 @@ a.optional-send-btn:active {
   background: linear-gradient(135deg, var(--card) 0%, #FEF5E4 100%);
 }
 .pruef-label { color: #92520A; }
+
+/* ══════════════════════════════════════════════
+   PRÜFUNG v3 — иконки справа, темнее
+   ══════════════════════════════════════════════ */
+.pruef-toggle {
+  flex-direction: row-reverse;
+  background: linear-gradient(135deg, var(--card) 0%, #FCDFA0 100%);
+}
+.pruef-label {
+  color: #7A3F06;
+  font-weight: 700;
+}
+.pruef-body {
+  background: #FEF3D5;
+  border-top: 1px solid #F5C842;
+  padding: 12px 16px 14px;
+}
+.pruef-kriterium {
+  border-bottom-color: #F5C842;
+}
