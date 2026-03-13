@@ -2302,6 +2302,14 @@ function renderGrammarScreen() {
     </div>
     <div class="gpath-container">${nodes}</div>
   `;
+
+  // addEventListener вместо inline onclick — надёжнее в любом окружении
+  ordered.forEach(function(g, i) {
+    const hasContent = !!(g.summary || g.warum);
+    if (!hasContent) return;
+    const btn = el.querySelector('#gpn-' + i + ' .gpath-row');
+    if (btn) btn.addEventListener('click', function() { toggleGrammarPath(i); });
+  });
 }
 
 function renderKulturScreen() {
