@@ -335,7 +335,7 @@ function render() {
       <div class="tab-icon">🔎</div>Lücken
     </button>
     <button class="tab-btn" id="tab-kultur" onclick="showTab('kultur')">
-      <div class="tab-icon">🌍</div>Kultur
+      <div class="tab-icon">📖</div>Bibliothek
     </button>
   </div>
 
@@ -343,7 +343,7 @@ function render() {
 
   renderGrammarScreen();
   renderGapsScreen();
-  renderKulturScreen();
+  renderKulturScreen(student);
 
   // Telegram MainButton
   if (tg) {
@@ -693,9 +693,53 @@ function renderGrammarModules(el, id, student) {
   });
 }
 
-function renderKulturScreen() {
+const METHODIK_SKILLS = [
+  { key: 'lesen',     label: 'Lesen',     icon: '📖' },
+  { key: 'hoeren',    label: 'Hören',     icon: '🎧' },
+  { key: 'schreiben', label: 'Schreiben', icon: '✍️' },
+  { key: 'sprechen',  label: 'Sprechen',  icon: '🗣️' },
+  { key: 'grammatik', label: 'Grammatik', icon: '📝' },
+  { key: 'lexik',     label: 'Lexik',     icon: '🃏' },
+];
+
+function renderKulturScreen(student) {
   const el = document.getElementById('kultur-content');
   if (!el) return;
+
+  // ── Methodik ──────────────────────────────────────────────
+  const methodik = student?.methodik || {};
+  const methodikHTML = METHODIK_SKILLS.map((s, i) => {
+    const content = methodik[s.key];
+    const bodyHTML = content
+      ? `${Array.isArray(content.tipps)
+          ? content.tipps.map(t => `<div class="bib-tip">• ${t}</div>`).join('')
+          : `<div class="bib-tip">${content}</div>`
+        }${content.link ? `<a href="${content.link}" target="_blank" class="bib-link-btn">🔗 Material öffnen</a>` : ''}`
+      : `<div class="bib-placeholder">Wird von Ihrer Lehrerin ergänzt.</div>`;
+    return `
+    <div class="bib-skill-card" id="bms-${i}">
+      <button class="bib-skill-toggle" onclick="toggleBibMethodik(${i})">
+        <span class="bib-skill-icon">${s.icon}</span>
+        <span class="bib-skill-label">${s.label}</span>
+        <span class="bib-skill-arrow" id="bma-${i}">⌄</span>
+      </button>
+      <div class="bib-skill-body" id="bmb-${i}">${bodyHTML}</div>
+    </div>`;
+  }).join('');
+
+  // ── Bücher ────────────────────────────────────────────────
+  const book = student?.book;
+  const buecherHTML = book
+    ? `<div class="bib-book-card">
+        <div class="bib-book-emoji">📚</div>
+        <div class="bib-book-info">
+          <div class="bib-book-title">${book.title}</div>
+          <div class="bib-book-author">${book.author}</div>
+          ${book.note ? `<div class="bib-book-note">${book.note}</div>` : ''}
+          ${book.link ? `<a href="${book.link}" target="_blank" class="bib-link-btn" style="margin-top:10px">📖 Öffnen</a>` : ''}
+        </div>
+      </div>`
+    : `<div class="bib-empty-card"><div class="bib-empty-icon">📚</div><div class="bib-empty-text">Noch kein Buch zugewiesen.</div></div>`;
 
   const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 864e5);
   const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
@@ -734,7 +778,17 @@ function renderKulturScreen() {
   ];
 
   el.innerHTML = `
-    <div class="kultur-header">
+    <div class="bib-section">
+      <div class="bib-section-title">📚 Methodik</div>
+      ${methodikHTML}
+    </div>
+    <div class="bib-section">
+      <div class="bib-section-title">📖 Bücher</div>
+      ${buecherHTML}
+    </div>
+    <div class="bib-section">
+      <div class="bib-section-title">🌍 Tägliches Deutsch</div>
+      <div class="kultur-header">
       <div class="kultur-header-top">
         <div class="kultur-day-label">Ihr tägliches Stück Deutschland</div>
         <div class="kultur-day-badge">${dateStr}</div>
@@ -767,6 +821,7 @@ function renderKulturScreen() {
       </div>
     </div>`).join('')}
     <div style="height:16px"></div>
+    </div>
   `;
 }
 
@@ -776,6 +831,15 @@ function toggleKultur(i) {
   if (!card || !body) return;
   const open = body.classList.toggle('visible');
   card.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleBibMethodik(i) {
+  const body = document.getElementById('bmb-' + i);
+  const arrow = document.getElementById('bma-' + i);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
