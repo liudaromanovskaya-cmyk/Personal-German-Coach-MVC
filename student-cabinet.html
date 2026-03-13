@@ -148,6 +148,120 @@ body {
   font-style: italic;
 }
 
+/* GRAMMAR PATH */
+.gpath-header-block {
+  padding: 20px 20px 12px;
+}
+.gpath-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.gpath-progress {
+  font-size: 12px;
+  color: var(--muted);
+}
+.gpath-container {
+  padding: 4px 20px 20px;
+}
+.gpath-node {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.gpath-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+}
+.gpath-dot-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform .15s;
+}
+.gpath-dot-btn:disabled { cursor: default; }
+.gpath-dot-btn.done    { background: var(--accent); color: #fff; }
+.gpath-dot-btn.current { background: var(--urgent);  color: #fff; box-shadow: 0 0 0 4px rgba(217,119,6,.15); }
+.gpath-dot-btn.upcoming{ background: var(--border);  color: var(--muted); }
+.gpath-line {
+  width: 2px;
+  flex: 1;
+  min-height: 24px;
+  background: var(--border);
+  margin: 4px 0;
+}
+.gpath-right {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 20px;
+}
+.gpath-header {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+.gpath-header-text { flex: 1; }
+.gpath-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.gpath-node.current .gpath-label { color: var(--urgent); }
+.gpath-node.done    .gpath-label { color: var(--accent); }
+.gpath-topic {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.gpath-node.done .gpath-topic { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--accent); }
+.gpath-node.upcoming .gpath-topic { color: var(--muted); }
+.gpath-level {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.gpath-arrow {
+  color: var(--muted);
+  font-size: 16px;
+  margin-top: 2px;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.gpath-body {
+  display: none;
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  padding: 14px;
+}
+.gpath-body.visible { display: block; }
+.gpath-node.current .gpath-body { border-color: rgba(217,119,6,.3); }
+.gpath-node.done    .gpath-body { border-color: rgba(74,140,110,.3); }
+
 /* GRAMMAR SELF-ASSESSMENT */
 .grammar-self-row {
   display: flex;
@@ -1831,56 +1945,67 @@ function render() {
   <div class="screen" id="screen-grammar">
 
     ${(() => {
-      const done = student.grammar.filter(g => g.status === 'done');
-      const current = student.grammar.filter(g => g.status === 'current');
-      const upcoming = student.grammar.filter(g => g.status === 'upcoming');
-
       let grammarSelf = {};
       try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
 
-      const renderCards = (items) => items.map((g, i) => {
-        const cardId = g.status + '-' + i;
+      // Порядок: done → current → upcoming
+      const ordered = [
+        ...student.grammar.filter(g => g.status === 'done'),
+        ...student.grammar.filter(g => g.status === 'current'),
+        ...student.grammar.filter(g => g.status === 'upcoming'),
+      ];
+
+      const dotIcon = { done: '✓', current: '▶', upcoming: '○' };
+      const labelText = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
+
+      const nodes = ordered.map((g, i) => {
+        const cardId = 'path-' + i;
         const self = grammarSelf[cardId] || null;
+        const isLast = i === ordered.length - 1;
+        const isCurrent = g.status === 'current';
+        const hasContent = g.summary || g.warum;
+        const openByDefault = isCurrent && hasContent;
+
         return `
-        <div class="grammar-card ${g.status}" id="gc-${g.status}-${i}">
-          <button class="grammar-toggle" onclick="toggleGrammar('${g.status}-${i}')">
-            <div class="grammar-status-dot"></div>
-            <div class="grammar-toggle-label">
-              <div class="grammar-topic-name">${g.topic}</div>
-              <div class="grammar-topic-level">Niveau ${g.level}</div>
-            </div>
-            <div class="grammar-arrow">⌄</div>
-          </button>
-          <div class="grammar-body" id="gb-${g.status}-${i}">
-            ${g.warum ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
-            ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
-            ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g, '<br>')}</div>` : ''}
-            <div class="grammar-self-row">
-              <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
-              <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
+        <div class="gpath-node ${g.status}" id="gpn-${i}">
+          <div class="gpath-left">
+            <button class="gpath-dot-btn ${g.status}" onclick="${hasContent ? `toggleGrammarPath(${i})` : ''}" ${hasContent ? '' : 'disabled'}>
+              <span>${dotIcon[g.status]}</span>
+            </button>
+            ${isLast ? '' : '<div class="gpath-line"></div>'}
+          </div>
+          <div class="gpath-right">
+            <button class="gpath-header" onclick="${hasContent ? `toggleGrammarPath(${i})` : ''}" ${hasContent ? '' : 'style="cursor:default"'}>
+              <div class="gpath-header-text">
+                <div class="gpath-label">${labelText[g.status]}</div>
+                <div class="gpath-topic">${g.topic}</div>
+                <div class="gpath-level">Niveau ${g.level}</div>
+              </div>
+              ${hasContent ? `<div class="gpath-arrow" id="gpa-${i}">⌄</div>` : ''}
+            </button>
+            <div class="gpath-body ${openByDefault ? 'visible' : ''}" id="gpb-${i}">
+              ${g.warum ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
+              ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
+              ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g,'<br>')}</div>` : ''}
+              ${hasContent && g.status !== 'upcoming' ? `
+              <div class="grammar-self-row">
+                <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
+                <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
+              </div>` : ''}
             </div>
           </div>
         </div>`;
       }).join('');
 
-      const renderUpcoming = (items) => items.map(g => `
-        <div class="grammar-upcoming-item">
-          <div class="grammar-upcoming-dot"></div>
-          <div>
-            <div class="grammar-upcoming-topic">${g.topic}</div>
-            <div class="grammar-upcoming-level">Niveau ${g.level}</div>
-          </div>
-        </div>
-      `).join('');
+      const doneCount = ordered.filter(g => g.status === 'done').length;
+      const total = ordered.length;
 
       return `
-        ${current.length ? `<div class="grammar-group-title">Aktuelle Themen</div>${renderCards(current)}` : ''}
-        ${done.length ? `<div class="grammar-group-title">Bereits gelernt ✓</div>${renderCards(done)}` : ''}
-        ${upcoming.length ? `
-          <div class="grammar-group-title">Kommt noch</div>
-          <div class="grammar-upcoming-list">
-            ${renderUpcoming(upcoming)}
-          </div>` : ''}
+        <div class="gpath-header-block">
+          <div class="gpath-title">Ihr Grammatikweg</div>
+          <div class="gpath-progress">${doneCount} von ${total} Themen abgeschlossen</div>
+        </div>
+        <div class="gpath-container">${nodes}</div>
       `;
     })()}
   </div>
@@ -2317,6 +2442,15 @@ function toggleGrammar(id) {
   if (!body) return;
   const open = body.classList.toggle('visible');
   btn?.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleGrammarPath(i) {
+  const body = document.getElementById('gpb-' + i);
+  const arrow = document.getElementById('gpa-' + i);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
