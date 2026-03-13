@@ -2472,10 +2472,12 @@ function toggleGrammar(id) {
 }
 
 function toggleGrammarPath(i) {
+  document.title = 'CLICK:' + i;
   const body = document.getElementById('gpb-' + i);
-  const arrow = document.getElementById('gpa-' + i);
-  if (!body) return;
+  if (!body) { document.title = 'NO-BODY:' + i; return; }
   const open = body.classList.toggle('visible');
+  document.title = 'OK:' + i + ':' + open;
+  const arrow = document.getElementById('gpa-' + i);
   if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
