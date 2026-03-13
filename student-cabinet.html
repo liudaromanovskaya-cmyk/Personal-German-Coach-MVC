@@ -1901,65 +1901,7 @@ function render() {
 
   <div class="screen" id="screen-grammar">
 
-    ${(() => {
-      let grammarSelf = {};
-      try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
-
-      // Порядок: done → current → upcoming
-      const ordered = [
-        ...student.grammar.filter(g => g.status === 'done'),
-        ...student.grammar.filter(g => g.status === 'current'),
-        ...student.grammar.filter(g => g.status === 'upcoming'),
-      ];
-
-      const dotIcon = { done: '✓', current: '▶', upcoming: '○' };
-      const labelText = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
-
-      const nodes = ordered.map((g, i) => {
-        const cardId = 'path-' + i;
-        const self = grammarSelf[cardId] || null;
-        const isLast = i === ordered.length - 1;
-        const isCurrent = g.status === 'current';
-        const hasContent = !!(g.summary || g.warum);
-        const openByDefault = isCurrent && hasContent;
-
-        return '<div class="gpath-node ' + g.status + '" id="gpn-' + i + '">'
-          + '<div class="gpath-row' + (hasContent ? ' clickable' : '') + '"'
-          + (hasContent ? ' onclick="toggleGrammarPath(' + i + ')"' : '') + '>'
-          + '<div class="gpath-dot ' + g.status + '">' + dotIcon[g.status] + '</div>'
-          + '<div class="gpath-info">'
-          + '<div class="gpath-label">' + labelText[g.status] + '</div>'
-          + '<div class="gpath-topic">' + g.topic + '</div>'
-          + '<div class="gpath-level">Niveau ' + g.level + '</div>'
-          + '</div>'
-          + (hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">&#8964;</div>' : '')
-          + '</div>'
-          + '<div class="gpath-body' + (openByDefault ? ' visible' : '') + '" id="gpb-' + i + '">'
-          + (g.warum ? '<div class="grammar-warum">&#128161; ' + g.warum + '</div>' : '')
-          + (g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '')
-          + (g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '')
-          + (hasContent && g.status !== 'upcoming'
-              ? '<div class="grammar-self-row">'
-                + '<button class="grammar-self-btn' + (self === 'ueben' ? ' active-ueben' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'ueben\')">&#x1F504; Ich &#252;be noch</button>'
-                + '<button class="grammar-self-btn' + (self === 'verstanden' ? ' active-ok' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'verstanden\')">&#10003; Verstanden</button>'
-                + '</div>'
-              : '')
-          + '</div>'
-          + (isLast ? '' : '<div class="gpath-connector"></div>')
-          + '</div>';
-      }).join('');
-
-      const doneCount = ordered.filter(g => g.status === 'done').length;
-      const total = ordered.length;
-
-      return `
-        <div class="gpath-header-block">
-          <div class="gpath-title">Ihr Grammatikweg</div>
-          <div class="gpath-progress">${doneCount} von ${total} Themen abgeschlossen</div>
-        </div>
-        <div class="gpath-container">${nodes}</div>
-      `;
-    })()}
+    <div id="grammar-content"></div>
   </div>
 
   <div class="screen" id="screen-progress">
@@ -2109,6 +2051,7 @@ function render() {
 
   `;
 
+  renderGrammarScreen();
   renderGapsScreen();
   renderKulturScreen();
 
@@ -2283,6 +2226,70 @@ const KULTUR_CATEGORY_POOL = [
   { type:'politik',      emoji:'🏛️', label:'Staat & Politik',      arr: KULTUR_POLITIK },
   { type:'kunst',        emoji:'🎨', label:'Kunst & Sehenswürdigkeiten', arr: KULTUR_KUNST },
 ];
+
+function renderGrammarScreen() {
+  const el = document.getElementById('grammar-content');
+  if (!el) return;
+  const id = getStudentId();
+  const student = STUDENTS[id];
+  if (!student) return;
+
+  let grammarSelf = {};
+  try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
+
+  const ordered = [
+    ...student.grammar.filter(g => g.status === 'done'),
+    ...student.grammar.filter(g => g.status === 'current'),
+    ...student.grammar.filter(g => g.status === 'upcoming'),
+  ];
+
+  const dotIcon  = { done: '✓', current: '▶', upcoming: '○' };
+  const labelMap = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
+
+  const nodes = ordered.map((g, i) => {
+    const cardId = 'path-' + i;
+    const self   = grammarSelf[cardId] || null;
+    const isLast = i === ordered.length - 1;
+    const hasContent = !!(g.summary || g.warum);
+    const openByDefault = g.status === 'current' && hasContent;
+
+    const selfBtns = (hasContent && g.status !== 'upcoming') ? `
+      <div class="grammar-self-row">
+        <button class="grammar-self-btn ${self === 'ueben' ? 'active-ueben' : ''}" onclick="toggleGrammarSelf('${cardId}','ueben')">🔄 Ich übe noch</button>
+        <button class="grammar-self-btn ${self === 'verstanden' ? 'active-ok' : ''}" onclick="toggleGrammarSelf('${cardId}','verstanden')">✓ Verstanden</button>
+      </div>` : '';
+
+    return `
+      <div class="gpath-node ${g.status}" id="gpn-${i}">
+        <div class="gpath-row${hasContent ? ' clickable' : ''}" ${hasContent ? `onclick="toggleGrammarPath(${i})"` : ''}>
+          <div class="gpath-dot ${g.status}">${dotIcon[g.status]}</div>
+          <div class="gpath-info">
+            <div class="gpath-label">${labelMap[g.status]}</div>
+            <div class="gpath-topic">${g.topic}</div>
+            <div class="gpath-level">Niveau ${g.level}</div>
+          </div>
+          ${hasContent ? `<div class="gpath-arrow" id="gpa-${i}">⌄</div>` : ''}
+        </div>
+        <div class="gpath-body${openByDefault ? ' visible' : ''}" id="gpb-${i}">
+          ${g.warum  ? `<div class="grammar-warum">💡 ${g.warum}</div>` : ''}
+          ${g.summary ? `<div class="grammar-summary">${g.summary}</div>` : ''}
+          ${g.example ? `<div class="grammar-example">${g.example.replace(/\n/g,'<br>')}</div>` : ''}
+          ${selfBtns}
+        </div>
+        ${isLast ? '' : '<div class="gpath-connector"></div>'}
+      </div>`;
+  }).join('');
+
+  const doneCount = ordered.filter(g => g.status === 'done').length;
+
+  el.innerHTML = `
+    <div class="gpath-header-block">
+      <div class="gpath-title">Ihr Grammatikweg</div>
+      <div class="gpath-progress">${doneCount} von ${ordered.length} Themen abgeschlossen</div>
+    </div>
+    <div class="gpath-container">${nodes}</div>
+  `;
+}
 
 function renderKulturScreen() {
   const el = document.getElementById('kultur-content');
