@@ -665,7 +665,17 @@ function renderGrammarModules(el, id, student) {
       if (next === null) delete state[key]; else state[key] = next;
       localStorage.setItem(store, JSON.stringify(state));
       if (tg) tg.HapticFeedback.impactOccurred('light');
+      // Запоминаем открытые модули перед перерендером
+      const openMods = new Set();
+      document.querySelectorAll('.mod-body.visible').forEach(b => openMods.add(b.id));
       renderGrammarModules(el, id, student);
+      // Восстанавливаем открытые модули
+      openMods.forEach(bid => {
+        const b = document.getElementById(bid);
+        const nr = bid.replace('modb-', '');
+        const a = document.getElementById('moda-' + nr);
+        if (b) { b.classList.add('visible'); if (a) a.textContent = '⌃'; }
+      });
       return;
     }
     // Клик по заголовку модуля — открыть/закрыть
