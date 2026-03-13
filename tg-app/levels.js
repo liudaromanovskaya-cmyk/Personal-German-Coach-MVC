@@ -2,6 +2,10 @@
 // NIVEAU-VORLAGEN — Kursarchitektur nach Sprachniveau
 // Jeder Student erbt sein Niveau aus dieser Datei.
 // Neue Niveaus: c1_telc, b2_goethe, b1_goethe usw. hinzufügen.
+//
+// Infografik zu einem Modul hinzufügen:
+//   infografik: 'https://...',   ← Link zu Canva / PDF / Google Slides
+// Wenn kein Link → Schaltfläche erscheint nicht.
 // ═══════════════════════════════════════════════════════════
 
 const LEVELS = {

@@ -634,6 +634,7 @@ function renderGrammarModules(el, id, student) {
       + '</div>'
       + '<div class="mod-body' + (isOpen ? ' visible' : '') + '" id="modb-' + m.nr + '">'
         + '<div class="mod-ziel">' + m.ziel + '</div>'
+        + (m.infografik ? '<a href="' + m.infografik + '" target="_blank" class="mod-infografik-btn">📊 Infografik öffnen</a>' : '')
         + lessonRows
       + '</div>'
       + '</div>';
