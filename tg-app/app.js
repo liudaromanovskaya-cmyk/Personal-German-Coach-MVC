@@ -1,6 +1,14 @@
 // Telegram Web App SDK — подключение и инициализация
 const tg = window.Telegram?.WebApp;
-if (tg) { tg.expand(); tg.ready(); }
+if (tg) {
+  tg.expand();
+  tg.ready();
+  // Тёмная тема: если Telegram в тёмном режиме — добавляем класс body.dark
+  if (tg.colorScheme === 'dark') document.body.classList.add('dark');
+  tg.onEvent('themeChanged', () => {
+    document.body.classList.toggle('dark', tg.colorScheme === 'dark');
+  });
+}
 
 // ── LocalStorage: Fortschritt speichern ───────────────────────────────────
 function loadProgress(studentId) {

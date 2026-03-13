@@ -1,7 +1,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* СВЕТЛАЯ ТЕМА (по умолчанию) */
 :root {
   --bg:           #FAF9F6;
+  --card:         #FFFFFF;
   --nav:          #2D3748;
   --accent:       #4A8C6E;
   --accent-light: #EDF7F1;
@@ -10,6 +12,36 @@
   --text:         #1A1A1A;
   --muted:        #718096;
   --border:       #E2E8F0;
+}
+
+/* ТЁМНАЯ ТЕМА — вариант 1: системная тема телефона тёмная */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:           #1A1F24;
+    --card:         #242B32;
+    --nav:          #151A1F;
+    --accent:       #5BA882;
+    --accent-light: #1E3329;
+    --highlight:    #7CC8A0;
+    --urgent:       #E9A84C;
+    --text:         #F0F2F4;
+    --muted:        #8A9BAE;
+    --border:       #2E3A42;
+  }
+}
+
+/* ТЁМНАЯ ТЕМА — вариант 2: Telegram в тёмном режиме (класс добавляет app.js) */
+body.dark {
+  --bg:           #1A1F24;
+  --card:         #242B32;
+  --nav:          #151A1F;
+  --accent:       #5BA882;
+  --accent-light: #1E3329;
+  --highlight:    #7CC8A0;
+  --urgent:       #E9A84C;
+  --text:         #F0F2F4;
+  --muted:        #8A9BAE;
+  --border:       #2E3A42;
 }
 
 /* Запрет горизонтальной прокрутки — обязательно для мобильных */
