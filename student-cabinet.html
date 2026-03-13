@@ -1907,8 +1907,53 @@ function render() {
   </div>
 
   <div class="screen" id="screen-grammar">
-
-    <div id="grammar-content"></div>
+    ${(() => {
+      let grammarSelf = {};
+      try { grammarSelf = JSON.parse(localStorage.getItem('pgc_grammar_' + id) || '{}'); } catch {}
+      const ordered = [
+        ...student.grammar.filter(g => g.status === 'done'),
+        ...student.grammar.filter(g => g.status === 'current'),
+        ...student.grammar.filter(g => g.status === 'upcoming'),
+      ];
+      const doneCount = ordered.filter(g => g.status === 'done').length;
+      const dotMap   = { done: '✓', current: '▶', upcoming: '○' };
+      const labelMap = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
+      const nodes = ordered.map((g, i) => {
+        const self       = grammarSelf['path-' + i] || null;
+        const hasContent = !!(g.summary || g.warum);
+        const isOpen     = g.status === 'current' && hasContent;
+        const isLast     = i === ordered.length - 1;
+        const warum   = g.warum   ? '<div class="grammar-warum">💡 ' + g.warum + '</div>' : '';
+        const summary = g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '';
+        const example = g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '';
+        const selfRow = (hasContent && g.status !== 'upcoming')
+          ? '<div class="grammar-self-row">'
+            + '<button class="grammar-self-btn ' + (self==='ueben'?'active-ueben':'') + '" onclick="toggleGrammarSelf(\'path-' + i + '\',\'ueben\')">🔄 Ich übe noch</button>'
+            + '<button class="grammar-self-btn ' + (self==='verstanden'?'active-ok':'') + '" onclick="toggleGrammarSelf(\'path-' + i + '\',\'verstanden\')">✓ Verstanden</button>'
+            + '</div>'
+          : '';
+        return '<div class="gpath-node ' + g.status + '">'
+          + '<button class="gpath-row' + (hasContent ? ' clickable' : '') + '" onclick="toggleGrammarPath(' + i + ')">'
+            + '<div class="gpath-dot ' + g.status + '">' + dotMap[g.status] + '</div>'
+            + '<div class="gpath-info">'
+              + '<div class="gpath-label">' + labelMap[g.status] + '</div>'
+              + '<div class="gpath-topic">' + g.topic + '</div>'
+              + '<div class="gpath-level">Niveau ' + g.level + '</div>'
+            + '</div>'
+            + (hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">⌄</div>' : '')
+          + '</button>'
+          + '<div class="gpath-body' + (isOpen ? ' visible' : '') + '" id="gpb-' + i + '">'
+            + warum + summary + example + selfRow
+          + '</div>'
+          + (!isLast ? '<div class="gpath-connector"></div>' : '')
+          + '</div>';
+      }).join('');
+      return '<div class="gpath-header-block">'
+        + '<div class="gpath-title">Ihr Grammatikweg</div>'
+        + '<div class="gpath-progress">' + doneCount + ' von ' + ordered.length + ' Themen abgeschlossen</div>'
+        + '</div>'
+        + '<div class="gpath-container">' + nodes + '</div>';
+    })()}
   </div>
 
   <div class="screen" id="screen-progress">
