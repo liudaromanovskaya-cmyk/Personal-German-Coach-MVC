@@ -1792,3 +1792,10 @@ a.optional-send-btn:active {
 .pruef-kriterium {
   border-bottom-color: #F5C842;
 }
+
+/* Prüfungskriterien секция — заголовок справа */
+.bib-section--pruef .bib-section-title {
+  text-align: right;
+  border-bottom-color: var(--urgent);
+  color: #92520A;
+}

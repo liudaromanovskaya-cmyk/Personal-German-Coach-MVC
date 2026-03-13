@@ -860,8 +860,8 @@ function renderKulturScreen(student) {
       <div class="bib-section-title">📚 Methodik</div>
       ${methodikHTML}
     </div>
-    <div class="bib-section">
-      <div class="bib-section-title">📋 Prüfungskriterien</div>
+    <div class="bib-section bib-section--pruef">
+      <div class="bib-section-title">Prüfungskriterien 📋</div>
       ${pruefungHTML}
     </div>
     <div class="bib-section">
