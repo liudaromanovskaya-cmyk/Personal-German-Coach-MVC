@@ -1799,3 +1799,6 @@ a.optional-send-btn:active {
   border-bottom-color: var(--urgent);
   color: #92520A;
 }
+
+/* Pruefung: названия навыков тоже справа */
+.pruef-label { text-align: right; }
