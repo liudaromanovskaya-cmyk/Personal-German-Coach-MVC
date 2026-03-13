@@ -2250,66 +2250,67 @@ function renderGrammarScreen() {
     ...student.grammar.filter(g => g.status === 'upcoming'),
   ];
 
-  const dotIcon  = { done: '✓', current: '▶', upcoming: '○' };
+  const doneCount = ordered.filter(g => g.status === 'done').length;
+  const dotMap   = { done: '✓', current: '▶', upcoming: '○' };
   const labelMap = { done: 'Gelernt', current: 'Jetzt', upcoming: 'Kommt' };
 
-  const nodes = ordered.map(function(g, i) {
-    const cardId = 'path-' + i;
-    const self   = grammarSelf[cardId] || null;
-    const isLast = i === ordered.length - 1;
+  const rows = ordered.map((g, i) => {
+    const self       = grammarSelf['path-' + i] || null;
     const hasContent = !!(g.summary || g.warum);
-    const openByDefault = g.status === 'current' && hasContent;
-    const bodyClass = 'gpath-body' + (openByDefault ? ' visible' : '');
-    const dot   = dotIcon[g.status];
-    const label = labelMap[g.status];
-    const warum   = g.warum   ? '<div class="grammar-warum">\uD83D\uDCA1 ' + g.warum + '</div>' : '';
+    const isOpen     = g.status === 'current' && hasContent;
+    const isLast     = i === ordered.length - 1;
+    const warum   = g.warum   ? '<div class="grammar-warum">💡 ' + g.warum + '</div>' : '';
     const summary = g.summary ? '<div class="grammar-summary">' + g.summary + '</div>' : '';
     const example = g.example ? '<div class="grammar-example">' + g.example.replace(/\n/g,'<br>') + '</div>' : '';
-    const selfBtns = (hasContent && g.status !== 'upcoming')
+    const selfRow = (hasContent && g.status !== 'upcoming')
       ? '<div class="grammar-self-row">'
-        + '<button class="grammar-self-btn' + (self === 'ueben' ? ' active-ueben' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'ueben\')">\uD83D\uDD04 Ich \xFCbe noch</button>'
-        + '<button class="grammar-self-btn' + (self === 'verstanden' ? ' active-ok' : '') + '" onclick="toggleGrammarSelf(\'' + cardId + '\',\'verstanden\')">\u2713 Verstanden</button>'
+        + '<div class="grammar-self-btn' + (self==='ueben'?' active-ueben':'') + '" data-self="ueben" data-selfidx="' + i + '">🔄 Ich übe noch</div>'
+        + '<div class="grammar-self-btn' + (self==='verstanden'?' active-ok':'') + '" data-self="verstanden" data-selfidx="' + i + '">✓ Verstanden</div>'
         + '</div>'
       : '';
-    const arrow = hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">\u2304</div>' : '';
-    const connector = isLast ? '' : '<div class="gpath-connector"></div>';
-
-    return '<div class="gpath-node ' + g.status + '" id="gpn-' + i + '">'
-      + '<button class="gpath-row' + (hasContent ? ' clickable' : '') + '" '
-      + (hasContent ? 'onclick="toggleGrammarPath(' + i + ')"' : 'disabled')
-      + '>'
-      + '<div class="gpath-dot ' + g.status + '">' + dot + '</div>'
-      + '<div class="gpath-info">'
-      + '<div class="gpath-label">' + label + '</div>'
-      + '<div class="gpath-topic">' + g.topic + '</div>'
-      + '<div class="gpath-level">Niveau ' + g.level + '</div>'
+    return '<div class="gpath-node ' + g.status + '">'
+      + '<div class="gpath-row' + (hasContent ? ' clickable' : '') + '" data-idx="' + i + '">'
+        + '<div class="gpath-dot ' + g.status + '">' + dotMap[g.status] + '</div>'
+        + '<div class="gpath-info">'
+          + '<div class="gpath-label">' + labelMap[g.status] + '</div>'
+          + '<div class="gpath-topic">' + g.topic + '</div>'
+          + '<div class="gpath-level">Niveau ' + g.level + '</div>'
+        + '</div>'
+        + (hasContent ? '<div class="gpath-arrow" id="gpa-' + i + '">⌄</div>' : '')
       + '</div>'
-      + arrow
-      + '</button>'
-      + '<div class="' + bodyClass + '" id="gpb-' + i + '">'
-      + warum + summary + example + selfBtns
+      + '<div class="gpath-body' + (isOpen ? ' visible' : '') + '" id="gpb-' + i + '">'
+        + warum + summary + example + selfRow
       + '</div>'
-      + connector
+      + (!isLast ? '<div class="gpath-connector"></div>' : '')
       + '</div>';
   }).join('');
 
-  const doneCount = ordered.filter(g => g.status === 'done').length;
+  el.innerHTML = '<div class="gpath-header-block">'
+    + '<div class="gpath-title">Ihr Grammatikweg</div>'
+    + '<div class="gpath-progress">' + doneCount + ' von ' + ordered.length + ' Themen abgeschlossen</div>'
+    + '</div>'
+    + '<div class="gpath-container" id="gpath-container">' + rows + '</div>';
 
-  el.innerHTML = `
-    <div class="gpath-header-block">
-      <div class="gpath-title">Ihr Grammatikweg</div>
-      <div class="gpath-progress">${doneCount} von ${ordered.length} Themen abgeschlossen</div>
-    </div>
-    <div class="gpath-container">${nodes}</div>
-  `;
-
-  // addEventListener вместо inline onclick — надёжнее в любом окружении
-  ordered.forEach(function(g, i) {
-    const hasContent = !!(g.summary || g.warum);
-    if (!hasContent) return;
-    const btn = el.querySelector('#gpn-' + i + ' .gpath-row');
-    if (btn) btn.addEventListener('click', function() { toggleGrammarPath(i); });
-  });
+  // Event delegation — один обработчик на весь контейнер
+  const container = document.getElementById('gpath-container');
+  if (container) {
+    container.addEventListener('click', function(e) {
+      // Клик по строке темы
+      const row = e.target.closest('.gpath-row.clickable');
+      if (row) {
+        const i = parseInt(row.dataset.idx, 10);
+        toggleGrammarPath(i);
+        return;
+      }
+      // Клик по кнопке самооценки
+      const selfBtn = e.target.closest('[data-self]');
+      if (selfBtn) {
+        const val = selfBtn.dataset.self;
+        const idx = selfBtn.dataset.selfidx;
+        toggleGrammarSelf('path-' + idx, val);
+      }
+    });
+  }
 }
 
 function renderKulturScreen() {
@@ -2426,10 +2427,9 @@ function toggleGrammar(id) {
 }
 
 function toggleGrammarPath(i) {
-  alert('toggleGrammarPath вызван: ' + i);
   const body = document.getElementById('gpb-' + i);
   const arrow = document.getElementById('gpa-' + i);
-  if (!body) { alert('body не найден: gpb-' + i); return; }
+  if (!body) return;
   const open = body.classList.toggle('visible');
   if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
