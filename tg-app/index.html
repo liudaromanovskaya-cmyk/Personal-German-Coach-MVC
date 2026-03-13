@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mein Bereich</title>
+
+<!-- Telegram Web App SDK — обязательно, даёт доступ к теме и данным пользователя -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- Весь дизайн — в style.css. Цвета, кнопки, вкладки — всё там -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!--
+  ═══════════════════════════════════════════════
+  КАРКАС СТУДЕНЧЕСКОГО КАБИНЕТА
+  ═══════════════════════════════════════════════
+  Здесь только пустая "комната".
+  Содержимое заполняется через JavaScript:
+    - students.js — данные каждого студента
+    - app.js      — логика и отрисовка экранов
+  ═══════════════════════════════════════════════
+-->
+<div id="app"></div>
+
+<!-- Данные студентов — загружаем первыми, app.js использует их -->
+<script src="students.js"></script>
+
+<!-- Вся логика приложения: отрисовка, вкладки, Kultur, Grammatik, Lücken -->
+<script src="app.js"></script>
+
+</body>
+</html>
