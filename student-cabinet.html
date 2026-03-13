@@ -2418,9 +2418,10 @@ function toggleGrammar(id) {
 }
 
 function toggleGrammarPath(i) {
+  alert('toggleGrammarPath вызван: ' + i);
   const body = document.getElementById('gpb-' + i);
   const arrow = document.getElementById('gpa-' + i);
-  if (!body) return;
+  if (!body) { alert('body не найден: gpb-' + i); return; }
   const open = body.classList.toggle('visible');
   if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
