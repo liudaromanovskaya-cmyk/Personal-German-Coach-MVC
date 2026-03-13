@@ -46,11 +46,15 @@ const STUDENTS = {
       text: 'Artem, gute Arbeit mit der Nominalisierung — man sieht, dass die Regel automatischer geworden ist. In Satz 3 der Artikel: «der Beschluss», nicht «die». Typische Fossilisierung — wir erkennen sie und üben weiter zusammen.',
       score: 'Guter Fortschritt 📈',
     },
-    // Lexik: Vokabelgruppen für den Lexik-Tab.
-    // Beispiel: { thema: 'Passiv-Redemittel', icon: '🃏', woerter: [
-    //   { de: 'es wird gebaut', ru: 'строится', beispiel: 'Das Haus wird gebaut.' }
-    // ]}
-    lexik: [],
+    // Lexik: ссылки на 3 колоды. null = показывает "Ссылка появится здесь".
+    // bank    — весь банк слов (Quizlet / Google Sheets / Anki)
+    // aktuell — текущая тема (что сейчас учим)
+    // niveau  — всё для C1 (Redemittel + предложения + карточки)
+    lexik: {
+      bank:    null,
+      aktuell: null,
+      niveau:  null,
+    },
 
     // Prüfungskriterien: Bewertungsraster pro Fertigkeit. null = Platzhalter.
     // Beispiel: lesen: { kriterien: ['Globales Verstehen', 'Detailverstehen'], link: 'https://...' }

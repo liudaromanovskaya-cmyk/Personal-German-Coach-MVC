@@ -702,48 +702,55 @@ function renderGrammarModules(el, id, student) {
 }
 
 // ── Lexik ─────────────────────────────────────────────────────────────────
+const LEXIK_BLOCKS = [
+  {
+    key:      'bank',
+    icon:     '🗃️',
+    title:    'Wortschatzbank',
+    sub:      'Alle gesammelten Wörter — alles bisher Gelernte an einem Ort',
+    cls:      'lexik-block--bank',
+    btnLabel: '📂 Öffnen',
+  },
+  {
+    key:      'aktuell',
+    icon:     '⚡',
+    title:    'Aktuell',
+    sub:      'Was wir gerade üben — neue Wörter und Redemittel aus den letzten Stunden',
+    cls:      'lexik-block--aktuell',
+    btnLabel: '⚡ Zum Deck',
+  },
+  {
+    key:      'niveau',
+    icon:     '🎯',
+    title:    'C1-Niveau',
+    sub:      'Alles was Sie auf C1 beherrschen sollten — Redemittel, Sätze, Karten, alles gemischt',
+    cls:      'lexik-block--niveau',
+    btnLabel: '🎯 Öffnen',
+  },
+];
+
 function renderLexikScreen(student) {
   const el = document.getElementById('lexik-content');
   if (!el) return;
 
-  const lexik = student?.lexik || [];
+  const lexik = student?.lexik || {};
 
-  if (!lexik.length) {
-    el.innerHTML = `
-      <div class="lexik-empty">
-        <div class="lexik-empty-icon">🃏</div>
-        <div class="lexik-empty-title">Lexik-Kärtchen</div>
-        <div class="lexik-empty-text">Ihre Lehrerin fügt hier Wortfamilien und Redemittel hinzu — thematisch gruppiert, damit Sie gezielt üben können.</div>
+  el.innerHTML = '<div class="lexik-blocks">' +
+    LEXIK_BLOCKS.map(b => {
+      const link = lexik[b.key];
+      return `
+      <div class="lexik-block ${b.cls}">
+        <div class="lexik-block-top">
+          <span class="lexik-block-icon">${b.icon}</span>
+          <span class="lexik-block-title">${b.title}</span>
+        </div>
+        <div class="lexik-block-sub">${b.sub}</div>
+        ${link
+          ? `<a href="${link}" target="_blank" class="lexik-block-btn">${b.btnLabel}</a>`
+          : '<div class="lexik-block-soon">Ссылка появится здесь</div>'}
       </div>`;
-    return;
-  }
-
-  el.innerHTML = lexik.map((group, gi) => `
-    <div class="lexik-group" id="lxg-${gi}">
-      <button class="lexik-group-toggle" onclick="toggleLexikGroup(${gi})">
-        <span class="lexik-group-icon">${group.icon || '🃏'}</span>
-        <span class="lexik-group-label">${group.thema}</span>
-        <span class="lexik-group-count">${group.woerter?.length || 0}</span>
-        <span class="lexik-group-arrow" id="lxa-${gi}">⌄</span>
-      </button>
-      <div class="lexik-group-body" id="lxb-${gi}">
-        ${(group.woerter || []).map(w => `
-        <div class="lexik-card">
-          <div class="lexik-de">${w.de}</div>
-          ${w.ru ? `<div class="lexik-ru">${w.ru}</div>` : ''}
-          ${w.beispiel ? `<div class="lexik-beispiel">💬 ${w.beispiel}</div>` : ''}
-        </div>`).join('')}
-      </div>
-    </div>`).join('');
-}
-
-function toggleLexikGroup(gi) {
-  const body = document.getElementById('lxb-' + gi);
-  const arrow = document.getElementById('lxa-' + gi);
-  if (!body) return;
-  const open = body.classList.toggle('visible');
-  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
-  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+    }).join('') +
+  '</div>';
 }
 
 const METHODIK_SKILLS = [

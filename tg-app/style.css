@@ -1802,3 +1802,62 @@ a.optional-send-btn:active {
 
 /* Pruefung: названия навыков тоже справа */
 .pruef-label { text-align: right; }
+
+/* ══════════════════════════════════════════════
+   LEXIK TAB v2 — три блока-ссылки
+   ══════════════════════════════════════════════ */
+.lexik-blocks { padding: 16px 16px 0; display: flex; flex-direction: column; gap: 12px; }
+
+.lexik-block {
+  border-radius: 14px;
+  padding: 18px 16px 14px;
+  border: 1.5px solid var(--border);
+}
+.lexik-block-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.lexik-block-icon { font-size: 24px; flex-shrink: 0; }
+.lexik-block-title { font-size: 17px; font-weight: 700; }
+.lexik-block-sub { font-size: 13px; line-height: 1.5; color: var(--muted); margin-bottom: 14px; }
+.lexik-block-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.lexik-block-soon {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Цвета блоков */
+.lexik-block--bank {
+  background: #F0FAF5;
+  border-color: #A8D5BC;
+}
+.lexik-block--bank .lexik-block-title { color: #2A6B4A; }
+.lexik-block--bank .lexik-block-btn { background: var(--accent); color: #fff; }
+
+.lexik-block--aktuell {
+  background: #FFF8E6;
+  border-color: #F5C842;
+}
+.lexik-block--aktuell .lexik-block-title { color: #7A5200; }
+.lexik-block--aktuell .lexik-block-btn { background: var(--urgent); color: #fff; }
+
+.lexik-block--niveau {
+  background: #F0F4FF;
+  border-color: #A0B4F0;
+}
+.lexik-block--niveau .lexik-block-title { color: #1E3A8A; }
+.lexik-block--niveau .lexik-block-btn { background: #3B5ED4; color: #fff; }
