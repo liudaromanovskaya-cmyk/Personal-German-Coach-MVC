@@ -617,8 +617,8 @@ function renderGrammarModules(el, id, student) {
     const lessonRows = (m.lektionen || []).map(l => {
       const lKey   = 'l' + m.nr + '_' + l.nr;
       const lState = modState[lKey] || null;
-      return '<div class="mod-lesson" data-key="' + lKey + '" data-store="' + storeKey + '">'
-        + '<span class="mod-dot ' + stateClass(lState) + '" title="Tippen zum Ändern">' + stateIcon(lState) + '</span>'
+      return '<div class="mod-lesson">'
+        + '<span class="mod-dot ' + stateClass(lState) + '" data-key="' + lKey + '" data-store="' + storeKey + '" title="Tippen zum Ändern">' + stateIcon(lState) + '</span>'
         + '<span class="mod-lesson-title">L' + l.nr + '. ' + l.titel + '</span>'
         + '</div>';
     }).join('');
