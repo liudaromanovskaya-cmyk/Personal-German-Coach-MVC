@@ -30,6 +30,10 @@ function applyProgress(student, id) {
 
 // ── Student ermitteln ─────────────────────────────────────────────────────
 function getStudentId() {
+  // Вариант 1: открыто через Telegram Mini App — t.me/PersonalGermanCoachBot/cabinet?startapp=artem
+  const startParam = tg?.initDataUnsafe?.start_param;
+  if (startParam) return startParam.toLowerCase();
+  // Вариант 2: открыто по прямой ссылке — ?student=artem
   const params = new URLSearchParams(window.location.search);
   return params.get('student')?.toLowerCase() || '';
 }
