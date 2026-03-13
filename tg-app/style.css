@@ -2,49 +2,46 @@
 
 /* СВЕТЛАЯ ТЕМА (по умолчанию) */
 :root {
-  --bg:           #F4F7F5;
+  --bg:           #FAF9F6;
   --card:         #FFFFFF;
-  --nav:          #3E6F73;
-  --accent:       #3E6F73;
-  --accent-light: #E6F2F0;
-  --highlight:    #5BA882;
+  --nav:          #2D3748;
+  --accent:       #4A8C6E;
+  --accent-light: #EDF7F1;
+  --highlight:    #7CC8A0;
   --urgent:       #D97706;
-  --text:         #1A2826;
-  --muted:        #6B8C89;
-  --border:       #D8E1DD;
-  --card-shadow:  0 4px 16px rgba(16,24,40,0.04);
+  --text:         #1A1A1A;
+  --muted:        #718096;
+  --border:       #E2E8F0;
 }
 
 /* ТЁМНАЯ ТЕМА — вариант 1: системная тема телефона тёмная */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:           #111C1B;
-    --card:         #1C2927;
-    --nav:          #0E1F1E;
+    --bg:           #1A1F24;
+    --card:         #242B32;
+    --nav:          #151A1F;
     --accent:       #5BA882;
-    --accent-light: #1A2E2A;
+    --accent-light: #1E3329;
     --highlight:    #7CC8A0;
     --urgent:       #E9A84C;
-    --text:         #EDF2F0;
-    --muted:        #7AA09B;
-    --border:       #263330;
-    --card-shadow:  0 4px 16px rgba(0,0,0,0.20);
+    --text:         #F0F2F4;
+    --muted:        #8A9BAE;
+    --border:       #2E3A42;
   }
 }
 
 /* ТЁМНАЯ ТЕМА — вариант 2: Telegram в тёмном режиме (класс добавляет app.js) */
 body.dark {
-  --bg:           #111C1B;
-  --card:         #1C2927;
-  --nav:          #0E1F1E;
+  --bg:           #1A1F24;
+  --card:         #242B32;
+  --nav:          #151A1F;
   --accent:       #5BA882;
-  --accent-light: #1A2E2A;
+  --accent-light: #1E3329;
   --highlight:    #7CC8A0;
   --urgent:       #E9A84C;
-  --text:         #EDF2F0;
-  --muted:        #7AA09B;
-  --border:       #263330;
-  --card-shadow:  0 4px 16px rgba(0,0,0,0.20);
+  --text:         #F0F2F4;
+  --muted:        #8A9BAE;
+  --border:       #2E3A42;
 }
 
 /* Запрет горизонтальной прокрутки — обязательно для мобильных */
@@ -54,7 +51,7 @@ html, body {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -62,20 +59,11 @@ body {
   padding-bottom: calc(80px + env(safe-area-inset-bottom));
 }
 
-/* Заголовки и метки — Manrope */
-h1, h2, h3, h4,
-.screen-title, .task-topic, .skill-name,
-.grammar-topic-name, .gpath-name,
-.tab-btn, .section-title,
-.progress-text, .milestone-label {
-  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
-}
-
 /* BOTTOM TAB BAR */
 .tab-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: var(--card);
+  background: #fff;
   border-top: 1px solid var(--border);
   display: flex;
   z-index: 100;
@@ -139,10 +127,9 @@ a.optional-send-btn:active {
 }
 .grammar-card {
   margin: 0 16px 10px;
-  background: var(--card);
-  border-radius: 16px;
+  background: #fff;
+  border-radius: 14px;
   border: 1.5px solid var(--border);
-  box-shadow: var(--card-shadow);
   overflow: hidden;
   transition: border-color .15s;
 }
@@ -200,7 +187,7 @@ a.optional-send-btn:active {
 .grammar-body.visible { display: block; }
 .grammar-summary {
   font-size: 14px;
-  color: var(--text);
+  color: #374151;
   line-height: 1.7;
   margin-bottom: 12px;
 }
@@ -210,7 +197,7 @@ a.optional-send-btn:active {
   border-radius: 0 8px 8px 0;
   padding: 10px 14px;
   font-size: 13px;
-  color: var(--accent);
+  color: #2E6B4F;
   line-height: 1.6;
   font-style: italic;
 }
@@ -284,7 +271,7 @@ a.optional-send-btn:active {
 .gpath-body {
   display: none;
   margin: 0 0 8px 50px;
-  background: var(--card);
+  background: #fff;
   border-radius: 12px;
   border: 1.5px solid var(--border);
   padding: 14px;
@@ -304,7 +291,7 @@ a.optional-send-btn:active {
   padding: 9px 8px;
   border-radius: 10px;
   border: 1.5px solid var(--border);
-  background: var(--card);
+  background: #fff;
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
@@ -338,10 +325,9 @@ a.optional-send-btn:active {
 /* GRAMMAR UPCOMING */
 .grammar-upcoming-list {
   margin: 0 16px 16px;
-  background: var(--card);
-  border-radius: 16px;
+  background: #fff;
+  border-radius: 14px;
   border: 1.5px solid var(--border);
-  box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 .grammar-upcoming-item {
@@ -383,14 +369,13 @@ a.optional-send-btn:active {
   font-weight: 600;
 }
 .header-level {
-  background: rgba(255,255,255,0.18);
+  background: var(--accent);
   color: #fff;
   font-size: 11px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 20px;
   letter-spacing: .3px;
-  border: 1px solid rgba(255,255,255,0.3);
 }
 
 /* GREETING */
@@ -400,7 +385,6 @@ a.optional-send-btn:active {
 .greeting-name {
   font-size: 22px;
   font-weight: 800;
-  font-family: 'Manrope', inherit;
   color: var(--text);
   margin-bottom: 4px;
 }
@@ -412,10 +396,9 @@ a.optional-send-btn:active {
 /* TASK CARD */
 .task-card {
   margin: 20px 16px 0;
-  background: var(--card);
+  background: #fff;
   border-radius: 16px;
   border: 1.5px solid var(--border);
-  box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 .task-card-header {
@@ -442,7 +425,7 @@ a.optional-send-btn:active {
 .task-card-body {
   padding: 0 18px 16px;
   font-size: 14px;
-  color: var(--text);
+  color: #374151;
   line-height: 1.65;
 }
 .task-meta {
@@ -450,7 +433,7 @@ a.optional-send-btn:active {
   gap: 16px;
   padding: 12px 18px;
   border-top: 1px solid var(--border);
-  background: var(--accent-light);
+  background: #FAFAFA;
 }
 .task-meta-item {
   display: flex;
@@ -501,7 +484,7 @@ a.optional-send-btn:active {
   background: var(--accent-light);
   border-radius: 10px;
   font-size: 13px;
-  color: var(--accent);
+  color: #2E6B4F;
   line-height: 1.6;
   border-left: 3px solid var(--highlight);
 }
@@ -516,17 +499,17 @@ a.optional-send-btn:active {
   color: #fff;
   font-size: 15px;
   font-weight: 700;
-  font-family: 'Manrope', inherit;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
   text-align: center;
-  min-height: 44px;
+  min-height: 52px;
   text-decoration: none;
+  font-family: inherit;
   width: calc(100% - 32px);
-  transition: background .15s, transform .08s;
+  transition: background .15s;
 }
-.action-btn:hover { background: #2D5659; }
+.action-btn:hover { background: #2E6B4F; }
 
 /* LEVEL BADGES */
 .level-badge {
@@ -592,7 +575,7 @@ a.optional-send-btn:active {
 }
 .review-text {
   font-size: 13px;
-  color: var(--text);
+  color: #374151;
   line-height: 1.6;
 }
 
@@ -650,7 +633,7 @@ a.optional-send-btn:active {
 }
 .optional-text {
   font-size: 14px;
-  color: var(--text);
+  color: #374151;
   line-height: 1.65;
 }
 .optional-send-btn {
@@ -682,7 +665,7 @@ a.optional-send-btn:active {
 
 .feedback-toggle {
   margin: 0 16px;
-  background: var(--card);
+  background: #fff;
   border: 1.5px solid var(--border);
   border-radius: 14px;
   padding: 14px 18px;
@@ -722,7 +705,7 @@ a.optional-send-btn:active {
 .feedback-body {
   display: none;
   margin: 0 16px;
-  background: var(--card);
+  background: #fff;
   border: 1.5px solid var(--accent);
   border-top: none;
   border-radius: 0 0 14px 14px;
@@ -731,7 +714,7 @@ a.optional-send-btn:active {
 .feedback-body.visible { display: block; }
 .feedback-text {
   font-size: 14px;
-  color: var(--text);
+  color: #374151;
   line-height: 1.65;
   margin-bottom: 10px;
 }
@@ -846,7 +829,7 @@ a.optional-send-btn:active {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--accent);
+  color: #2E6B4F;
   border-left: 3px solid var(--highlight);
 }
 
@@ -862,7 +845,7 @@ a.optional-send-btn:active {
 
 .skill-card {
   margin: 0 16px 10px;
-  background: var(--card);
+  background: #fff;
   border-radius: 14px;
   border: 1.5px solid var(--border);
   overflow: hidden;
@@ -1096,7 +1079,7 @@ a.optional-send-btn:active {
 
 .gap-card {
   margin: 0 16px 10px;
-  background: var(--card);
+  background: #fff;
   border-radius: 14px;
   border: 1.5px solid var(--border);
   padding: 13px 16px;
@@ -1165,7 +1148,7 @@ a.optional-send-btn:active {
 .add-gap-form {
   display: none;
   margin: 0 16px 12px;
-  background: var(--card);
+  background: #fff;
   border: 1.5px solid var(--accent);
   border-radius: 14px;
   padding: 16px;
@@ -1204,7 +1187,7 @@ a.optional-send-btn:active {
   font-family: inherit;
   font-size: 13px;
   color: var(--text);
-  background: var(--card);
+  background: #fff;
   margin-bottom: 12px;
   appearance: none;
   cursor: pointer;
@@ -1272,7 +1255,7 @@ a.optional-send-btn:active {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.5;
-  background: var(--card);
+  background: #fff;
   border-radius: 12px;
   border: 1.5px dashed var(--border);
 }
@@ -1289,7 +1272,7 @@ a.optional-send-btn:active {
 .kultur-header {
   padding: 22px 20px 10px;
   border-bottom: 1px solid var(--border);
-  background: var(--card);
+  background: #fff;
 }
 .kultur-header-top {
   display: flex;
@@ -1326,7 +1309,7 @@ a.optional-send-btn:active {
 
 .kultur-card {
   margin: 12px 16px 0;
-  background: var(--card);
+  background: #fff;
   border-radius: 16px;
   border: 1.5px solid var(--border);
   overflow: hidden;
