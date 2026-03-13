@@ -28,6 +28,7 @@ const STUDENTS = {
       estimate: '20–25 Minuten',
       deadline: '15. März',
       hint: 'Im Nebensatz steht das Hilfsverb „werden" immer an letzter Stelle: «..., dass das Projekt abgeschlossen wird.» — nicht «wird abgeschlossen».',
+      link: 'https://aussprachetraining.goethe.de/lesson/602ec08cc2227afbba1adb3d',
     },
     deepen: {
       topic: 'Passiv im eigenen Text',

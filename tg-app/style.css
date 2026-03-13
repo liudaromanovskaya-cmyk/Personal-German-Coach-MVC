@@ -510,6 +510,12 @@ a.optional-send-btn:active {
   transition: background .15s;
 }
 .action-btn:hover { background: #2E6B4F; }
+.action-btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+.action-btn-secondary:hover { background: var(--accent-light); }
 
 /* LEVEL BADGES */
 .level-badge {

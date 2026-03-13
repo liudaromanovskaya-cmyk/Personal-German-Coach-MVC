@@ -123,6 +123,11 @@ function render() {
       <div class="hint-body" id="hint-body">${student.task.hint}</div>
     </div>
 
+    ${student.task.link ? `
+    <a href="${student.task.link}" target="_blank" class="action-btn action-btn-secondary">
+      📚 Übung öffnen
+    </a>
+    ` : ''}
     <a href="https://t.me/mila_konstanz" class="action-btn">
       ✉️ Aufgabe abschicken
     </a>
