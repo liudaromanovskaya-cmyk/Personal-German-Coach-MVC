@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lehrerin-Bereich</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #FAF9F6; --card: #fff; --accent: #4A8C6E; --urgent: #D97706;
+  --text: #1A1A1A; --muted: #718096; --border: #E2E8F0;
+}
+body { background: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); }
+
+/* ── PIN ──────────────────────────────────────────── */
+.full-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.pin-card { background: var(--card); border-radius: 20px; padding: 36px 28px; width: 100%; max-width: 340px; box-shadow: 0 4px 24px rgba(0,0,0,.08); text-align: center; }
+.pin-icon { font-size: 40px; margin-bottom: 12px; }
+.pin-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.pin-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+.pin-dots { display: flex; gap: 14px; justify-content: center; margin-bottom: 28px; }
+.pin-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--border); transition: background .2s; }
+.pin-dot.on { background: var(--accent); }
+.pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 10px; justify-content: center; }
+.pin-key { width: 72px; height: 72px; border-radius: 50%; border: none; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.08); font-size: 22px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.pin-key:active { background: var(--border); transform: scale(.95); }
+.pin-error { color: #E53E3E; font-size: 13px; margin-top: 14px; min-height: 18px; }
+
+/* ── TOKEN SETUP ──────────────────────────────────── */
+.setup-card { background: var(--card); border-radius: 20px; padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+.setup-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.setup-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+.setup-steps { background: #F0FAF5; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
+.setup-step { font-size: 13px; line-height: 1.8; color: #2A5C3F; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
+.field input, .field textarea, .field select { width: 100%; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 14px; color: var(--text); background: var(--card); outline: none; }
+.field input:focus, .field textarea:focus { border-color: var(--accent); }
+.field textarea { resize: vertical; min-height: 76px; }
+.btn-primary { width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 11px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-primary:hover { background: #3d7a5e; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-sm { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: none; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); }
+
+/* ── ADMIN LAYOUT ─────────────────────────────────── */
+#admin-screen { display: none; min-height: 100vh; }
+.admin-header { position: sticky; top: 0; z-index: 20; background: #2D3748; color: #fff; padding: 13px 16px; display: flex; align-items: center; gap: 10px; }
+.admin-header-title { flex: 1; font-size: 16px; font-weight: 700; }
+.hbtn { background: none; border: none; color: #A0AEC0; font-size: 20px; cursor: pointer; padding: 4px 8px; line-height: 1; }
+.hbtn:hover { color: #fff; }
+.student-tabs { background: var(--card); border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; overflow-x: auto; position: sticky; top: 51px; z-index: 10; }
+.stab { padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.stab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.admin-body { max-width: 660px; margin: 0 auto; padding: 16px 14px 100px; }
+
+/* ── SECTIONS ─────────────────────────────────────── */
+.sect { background: var(--card); border-radius: 14px; border: 1.5px solid var(--border); padding: 18px; margin-bottom: 14px; }
+.sect-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); margin-bottom: 12px; cursor: pointer; user-select: none; }
+.toggle-label { font-size: 14px; font-weight: 600; }
+.toggle-sw { width: 42px; height: 24px; border-radius: 12px; background: var(--border); position: relative; transition: background .2s; flex-shrink: 0; }
+.toggle-sw.on { background: var(--accent); }
+.toggle-sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left .2s; }
+.toggle-sw.on::after { left: 20px; }
+.collapsible { display: none; }
+.collapsible.open { display: block; }
+
+/* ── GAPS ─────────────────────────────────────────── */
+.gap-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 7px; }
+.gap-text { flex: 1; font-size: 13px; line-height: 1.4; }
+.gap-st { border: none; border-radius: 16px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.st-sos    { background: #FEE2E2; color: #991B1B; }
+.st-aktiv  { background: #FEF3C7; color: #92400E; }
+.st-geloest{ background: #D1FAE5; color: #065F46; }
+.add-gap-row { display: flex; gap: 8px; margin-top: 8px; }
+.add-gap-row input { flex: 1; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 13px; }
+
+/* ── SAVE BAR ─────────────────────────────────────── */
+.save-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(250,249,246,.96); border-top: 1px solid var(--border); padding: 12px 16px; backdrop-filter: blur(8px); }
+.save-bar-inner { max-width: 660px; margin: 0 auto; }
+.save-btn { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.save-btn:disabled { opacity: .5; cursor: not-allowed; }
+.save-status { text-align: center; font-size: 12px; color: var(--muted); margin-top: 6px; min-height: 16px; }
+.save-status.ok  { color: var(--accent); font-weight: 600; }
+.save-status.err { color: #E53E3E; }
+
+/* ── SETTINGS ─────────────────────────────────────── */
+#settings-screen { display: none; }
+.settings-body { max-width: 480px; margin: 0 auto; padding: 20px 14px; }
+</style>
+</head>
+<body>
+
+<!-- ══ PIN SCREEN ═══════════════════════════════════ -->
+<div id="pin-screen">
+  <div class="full-center">
+    <div class="pin-card">
+      <div class="pin-icon">🔐</div>
+      <div class="pin-title">Lehrerin-Bereich</div>
+      <div class="pin-sub">PIN eingeben</div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="d0"></div>
+        <div class="pin-dot" id="d1"></div>
+        <div class="pin-dot" id="d2"></div>
+        <div class="pin-dot" id="d3"></div>
+      </div>
+      <div class="pin-pad">
+        <button class="pin-key" onclick="pk('1')">1</button>
+        <button class="pin-key" onclick="pk('2')">2</button>
+        <button class="pin-key" onclick="pk('3')">3</button>
+        <button class="pin-key" onclick="pk('4')">4</button>
+        <button class="pin-key" onclick="pk('5')">5</button>
+        <button class="pin-key" onclick="pk('6')">6</button>
+        <button class="pin-key" onclick="pk('7')">7</button>
+        <button class="pin-key" onclick="pk('8')">8</button>
+        <button class="pin-key" onclick="pk('9')">9</button>
+        <button class="pin-key" onclick="pk('0')">0</button>
+        <button class="pin-key" onclick="pdel()">⌫</button>
+      </div>
+      <div class="pin-error" id="pin-err"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOKEN SETUP ═══════════════════════════════════ -->
+<div id="token-screen" style="display:none">
+  <div class="full-center">
+    <div class="setup-card">
+      <div class="pin-icon">🔑</div>
+      <div class="setup-title">GitHub Token — один раз</div>
+      <div class="setup-sub">Нужен, чтобы кнопка "Сохранить" работала напрямую. Хранится только в вашем браузере.</div>
+      <div class="setup-steps">
+        <div class="setup-step">1. Откройте github.com → ваш аватар → Settings</div>
+        <div class="setup-step">2. Developer settings → Personal access tokens → Tokens (classic)</div>
+        <div class="setup-step">3. Generate new token → галочка <b>repo</b> → Generate</div>
+        <div class="setup-step">4. Скопируйте токен (ghp_...) и вставьте ниже</div>
+      </div>
+      <div class="field">
+        <label>Personal Access Token</label>
+        <input type="password" id="token-input" placeholder="ghp_...">
+      </div>
+      <button class="btn-primary" onclick="saveToken()">Подключить</button>
+      <div class="pin-error" id="token-err" style="margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN SCREEN ══════════════════════════════════ -->
+<div id="admin-screen">
+  <div class="admin-header">
+    <div class="admin-header-title">✏️ Lehrerin-Bereich</div>
+    <button class="hbtn" onclick="showSettings()" title="Настройки">⚙️</button>
+    <button class="hbtn" onclick="doLogout()" title="Выйти">🚪</button>
+  </div>
+  <div class="student-tabs" id="stabs"></div>
+  <div class="admin-body" id="editor"></div>
+  <div class="save-bar">
+    <div class="save-bar-inner">
+      <button class="save-btn" id="save-btn" onclick="saveToGitHub()">💾 Speichern & Veröffentlichen</button>
+      <div class="save-status" id="save-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS ══════════════════════════════════════ -->
+<div id="settings-screen">
+  <div class="admin-header">
+    <button class="hbtn" onclick="hideSettings()">←</button>
+    <div class="admin-header-title">⚙️ Einstellungen</div>
+  </div>
+  <div class="settings-body">
+    <div class="sect">
+      <div class="sect-title">🔑 GitHub Token</div>
+      <div class="field">
+        <label>Token (хранится в браузере)</label>
+        <input type="password" id="st-token" placeholder="ghp_...">
+      </div>
+      <button class="btn-primary" onclick="saveToken(true)">Сохранить токен</button>
+    </div>
+    <div class="sect" style="margin-top:14px">
+      <div class="sect-title">🔐 PIN</div>
+      <div class="field">
+        <label>Новый PIN (4 цифры)</label>
+        <input type="number" id="st-pin" placeholder="1234" maxlength="4">
+      </div>
+      <button class="btn-primary" onclick="savePin()">Изменить PIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- students.js подключён для fallback -->
+<script src="students.js"></script>
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────────────
+const REPO  = 'liudaromanovskaya-cmyk/Personal-German-Coach-MVC';
+const FPATH = 'tg-app/students.js';
+const BRANCH = 'main';
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let _students = null;
+let _sha      = null;
+let _active   = null;
+
+// ── PIN ───────────────────────────────────────────────────────────────────
+let _pinBuf = '';
+const getPin = () => localStorage.getItem('admin_pin') || '1234';
+
+function pk(d) {
+  if (_pinBuf.length >= 4) return;
+  _pinBuf += d;
+  updateDots();
+  if (_pinBuf.length === 4) setTimeout(checkPin, 150);
+}
+function pdel() {
+  _pinBuf = _pinBuf.slice(0, -1);
+  updateDots();
+  document.getElementById('pin-err').textContent = '';
+}
+function updateDots() {
+  for (let i = 0; i < 4; i++)
+    document.getElementById('d' + i).classList.toggle('on', i < _pinBuf.length);
+}
+function checkPin() {
+  if (_pinBuf === getPin()) {
+    hide('pin-screen');
+    const tok = localStorage.getItem('gh_token');
+    tok ? initAdmin() : show('token-screen');
+  } else {
+    document.getElementById('pin-err').textContent = 'Неверный PIN';
+    _pinBuf = '';
+    updateDots();
+  }
+}
+function doLogout() {
+  _pinBuf = ''; updateDots();
+  hide('admin-screen'); show('pin-screen');
+}
+
+// ── TOKEN ─────────────────────────────────────────────────────────────────
+async function saveToken(fromSettings) {
+  const id = fromSettings ? 'st-token' : 'token-input';
+  const t = document.getElementById(id).value.trim();
+  if (!t) return;
+  // Проверяем токен
+  const r = await fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + t } });
+  if (!r.ok) {
+    const errId = fromSettings ? 'save-status' : 'token-err';
+    const el = document.getElementById(errId);
+    if (el) el.textContent = 'Токен неверный или нет прав';
+    return;
+  }
+  localStorage.setItem('gh_token', t);
+  if (fromSettings) { hideSettings(); setStatus('✅ Токен сохранён', 'ok'); }
+  else { hide('token-screen'); initAdmin(); }
+}
+
+// ── INIT ADMIN ────────────────────────────────────────────────────────────
+async function initAdmin() {
+  show('admin-screen');
+  setStatus('Загружаю данные с GitHub...');
+  try {
+    const r = await fetch(
+      'https://api.github.com/repos/' + REPO + '/contents/' + FPATH + '?ref=' + BRANCH,
+      { headers: { Authorization: 'token ' + localStorage.getItem('gh_token') } }
+    );
+    if (!r.ok) throw new Error('GitHub ' + r.status);
+    const data = await r.json();
+    _sha = data.sha;
+    const src = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    // Parse: execute JS to get STUDENTS
+    _students = new Function(src + '\nreturn STUDENTS;')();
+    setStatus('');
+  } catch(e) {
+    // Fallback to local students.js
+    if (typeof STUDENTS !== 'undefined') {
+      _students = JSON.parse(JSON.stringify(STUDENTS));
+      setStatus('⚠️ Работаю локально — токен не подключён', 'err');
+    } else {
+      setStatus('❌ ' + e.message, 'err');
+      return;
+    }
+  }
+  _active = Object.keys(_students)[0];
+  renderTabs();
+  renderEditor();
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function renderTabs() {
+  document.getElementById('stabs').innerHTML =
+    Object.keys(_students).map(id =>
+      `<button class="stab${id === _active ? ' active' : ''}" onclick="switchTab('${id}')">${_students[id].name}</button>`
+    ).join('');
+}
+function switchTab(id) {
+  collectForm();
+  _active = id;
+  renderTabs();
+  renderEditor();
+}
+
+// ── EDITOR ────────────────────────────────────────────────────────────────
+function renderEditor() {
+  const s = _students[_active];
+  const el = document.getElementById('editor');
+  el.innerHTML = `
+
+    <!-- AUFGABE -->
+    <div class="sect">
+      <div class="sect-title">📌 Aufgabe</div>
+      ${f('task_topic',    'Thema',         s.task?.topic    || '', 'text')}
+      ${f('task_text',     'Text',          s.task?.text     || '', 'ta')}
+      <div class="field-row">
+        ${f('task_estimate','Zeitaufwand',   s.task?.estimate || '', 'text', 'z.B. 20–25 Min.')}
+        ${f('task_deadline','Deadline',      s.task?.deadline || '', 'text', 'z.B. 20. März')}
+      </div>
+      ${f('task_hint',     'Hinweis',        s.task?.hint     || '', 'ta')}
+      ${f('task_link',     'Link (optional)',s.task?.link     || '', 'text', 'https://...')}
+    </div>
+
+    <!-- REVIEW -->
+    <div class="sect">
+      <div class="sect-title">🔄 Wiederholung</div>
+      <div class="toggle-row" onclick="tog('review')">
+        <span class="toggle-label">Wiederholung anzeigen</span>
+        <div class="toggle-sw${s.review ? ' on' : ''}" id="tsw-review"></div>
+      </div>
+      <div class="collapsible${s.review ? ' open' : ''}" id="tcl-review">
+        ${f('review_topic', 'Thema', s.review?.topic || '', 'text')}
+        ${f('review_text',  'Text',  s.review?.text  || '', 'ta')}
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="sect">
+      <div class="sect-title">💬 Feedback</div>
+      <div class="toggle-row" onclick="tog('feedback')">
+        <span class="toggle-label">Feedback anzeigen</span>
+        <div class="toggle-sw${s.feedback ? ' on' : ''}" id="tsw-feedback"></div>
+      </div>
+      <div class="collapsible${s.feedback ? ' open' : ''}" id="tcl-feedback">
+        ${f('fb_date',  'Datum',  s.feedback?.date  || '', 'text', 'z.B. 14. März')}
+        ${f('fb_text',  'Text',   s.feedback?.text  || '', 'ta')}
+        ${f('fb_score', 'Fazit',  s.feedback?.score || '', 'text', 'Guter Fortschritt 📈')}
+      </div>
+    </div>
+
+    <!-- FORTSCHRITT -->
+    <div class="sect">
+      <div class="sect-title">📈 Fortschritt</div>
+      ${f('progressText',   'Fortschrittstext', s.progressText    || '', 'text')}
+      <div class="field-row">
+        ${f('currentModule', 'Modul (Nr)', s.currentModule  ?? '', 'text', '1–12')}
+        ${f('currentLektion','Lektion (Nr)',s.currentLektion ?? '', 'text', '1–4')}
+      </div>
+    </div>
+
+    <!-- LÜCKEN -->
+    <div class="sect">
+      <div class="sect-title">🔎 Lücken</div>
+      <div id="gaps-list">
+        ${(s.gaps || []).map((g, i) => `
+        <div class="gap-item" id="gi-${i}">
+          <div class="gap-text">${ea(g.text)}</div>
+          <button class="gap-st st-${g.status}" onclick="cycleGap(${i})">${gapLbl(g.status)}</button>
+        </div>`).join('')}
+      </div>
+      <div class="add-gap-row">
+        <input type="text" id="new-gap" placeholder="Neue Lücke hinzufügen...">
+        <button class="btn-sm" onclick="addGap()">+ Hinzufügen</button>
+      </div>
+    </div>
+
+    <!-- DEEPEN / IMMERSE -->
+    <div class="sect">
+      <div class="sect-title">🔁 Vertiefen & Eintauchen</div>
+      <div class="toggle-row" onclick="tog('deepen')">
+        <span class="toggle-label">Vertiefen</span>
+        <div class="toggle-sw${s.deepen ? ' on' : ''}" id="tsw-deepen"></div>
+      </div>
+      <div class="collapsible${s.deepen ? ' open' : ''}" id="tcl-deepen">
+        ${f('deepen_topic','Thema', s.deepen?.topic || '', 'text')}
+        ${f('deepen_text', 'Text',  s.deepen?.text  || '', 'ta')}
+      </div>
+      <div class="toggle-row" onclick="tog('immerse')" style="margin-top:8px">
+        <span class="toggle-label">Eintauchen</span>
+        <div class="toggle-sw${s.immerse ? ' on' : ''}" id="tsw-immerse"></div>
+      </div>
+      <div class="collapsible${s.immerse ? ' open' : ''}" id="tcl-immerse">
+        ${f('immerse_topic','Thema', s.immerse?.topic || '', 'text')}
+        ${f('immerse_text', 'Text',  s.immerse?.text  || '', 'ta')}
+      </div>
+    </div>
+  `;
+}
+
+// ── FORM HELPERS ──────────────────────────────────────────────────────────
+function f(id, label, val, type, ph) {
+  const p = ph ? ` placeholder="${ea(ph)}"` : '';
+  if (type === 'ta')
+    return `<div class="field"><label>${label}</label><textarea id="f_${id}"${p}>${ea(val)}</textarea></div>`;
+  return `<div class="field"><label>${label}</label><input type="text" id="f_${id}" value="${ea(val)}"${p}></div>`;
+}
+function tog(key) {
+  const sw = document.getElementById('tsw-' + key);
+  const cl = document.getElementById('tcl-' + key);
+  const on = sw.classList.toggle('on');
+  cl.classList.toggle('open', on);
+}
+function gapLbl(s) { return { sos:'🔴 SOS', aktiv:'🟡 Aktiv', geloest:'✅ Gelöst' }[s] || s; }
+function cycleGap(i) {
+  const g = _students[_active].gaps[i];
+  const ord = ['sos','aktiv','geloest'];
+  g.status = ord[(ord.indexOf(g.status) + 1) % ord.length];
+  const btn = document.querySelector(`#gi-${i} .gap-st`);
+  btn.textContent = gapLbl(g.status);
+  btn.className = 'gap-st st-' + g.status;
+}
+function addGap() {
+  const inp = document.getElementById('new-gap');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  const s = _students[_active];
+  s.gaps = s.gaps || [];
+  const now = new Date();
+  const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  s.gaps.push({ id: 'g' + Date.now(), level: s.level || 'B2', category: 'Grammatik', text: txt, status: 'sos', by: 'lehrerin', date: now.getDate() + '. ' + months[now.getMonth()] });
+  inp.value = '';
+  renderEditor();
+}
+
+// ── COLLECT FORM ──────────────────────────────────────────────────────────
+function collectForm() {
+  if (!_active || !_students[_active]) return;
+  const s = _students[_active];
+  const v = id => document.getElementById('f_' + id)?.value?.trim() ?? '';
+  const sw = id => document.getElementById('tsw-' + id)?.classList.contains('on');
+
+  s.task = { ...s.task,
+    topic:    v('task_topic'),
+    text:     v('task_text'),
+    estimate: v('task_estimate'),
+    deadline: v('task_deadline'),
+    hint:     v('task_hint')  || undefined,
+    link:     v('task_link')  || undefined,
+  };
+  if (!s.task.hint) delete s.task.hint;
+  if (!s.task.link) delete s.task.link;
+
+  s.review   = sw('review')   ? { topic: v('review_topic'),  text: v('review_text') }  : null;
+  s.feedback = sw('feedback') ? { date: v('fb_date'), text: v('fb_text'), score: v('fb_score') } : null;
+  s.deepen   = sw('deepen')   ? { topic: v('deepen_topic'),  text: v('deepen_text') }  : null;
+  s.immerse  = sw('immerse')  ? { topic: v('immerse_topic'), text: v('immerse_text') } : null;
+
+  s.progressText  = v('progressText')   || s.progressText;
+  const m  = parseInt(v('currentModule'));
+  const l  = parseInt(v('currentLektion'));
+  if (!isNaN(m)) s.currentModule  = m;
+  if (!isNaN(l)) s.currentLektion = l;
+}
+
+// ── SAVE ──────────────────────────────────────────────────────────────────
+async function saveToGitHub() {
+  const tok = localStorage.getItem('gh_token');
+  if (!tok) { setStatus('Нужен токен — ⚙️ Настройки', 'err'); return; }
+  collectForm();
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  setStatus('Сохраняю...');
+  try {
+    const content = buildJs(_students);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+    const body = { message: 'Admin: update student ' + _active, content: encoded, sha: _sha, branch: BRANCH };
+    const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + FPATH, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + tok, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
+    const data = await r.json();
+    _sha = data.content.sha;
+    setStatus('✅ Gespeichert! Vercel deployt in ~30 Sekunden.', 'ok');
+  } catch(e) {
+    setStatus('❌ ' + e.message, 'err');
+  }
+  btn.disabled = false;
+}
+
+function buildJs(students) {
+  return `// ═══════════════════════════════════════════════════════════
+// ДАННЫЕ СТУДЕНТОВ — редактируется через Admin-Panel
+// ═══════════════════════════════════════════════════════════
+
+const STUDENTS = ${JSON.stringify(students, null, 2)};
+`;
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────
+function showSettings() {
+  document.getElementById('st-token').value = localStorage.getItem('gh_token') || '';
+  hide('admin-screen'); show('settings-screen');
+}
+function hideSettings() { hide('settings-screen'); show('admin-screen'); }
+function savePin() {
+  const p = document.getElementById('st-pin').value;
+  if (!/^\d{4}$/.test(p)) { alert('PIN должен быть ровно 4 цифры'); return; }
+  localStorage.setItem('admin_pin', p);
+  alert('PIN изменён ✓');
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────
+function show(id) { document.getElementById(id).style.display = 'block'; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+function setStatus(msg, cls) {
+  const el = document.getElementById('save-status');
+  el.textContent = msg;
+  el.className = 'save-status' + (cls ? ' ' + cls : '');
+}
+function ea(s) { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
