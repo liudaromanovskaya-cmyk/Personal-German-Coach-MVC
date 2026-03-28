@@ -28,6 +28,10 @@ function applyProgress(student, id) {
   });
 }
 
+// ── Глобальный студент (для submit-функций) ───────────────────────────────
+let _student = null;
+let _studentId = '';
+
 // ── Student ermitteln ─────────────────────────────────────────────────────
 function getStudentId() {
   // Вариант 1: открыто через Telegram Mini App — t.me/PersonalGermanCoachBot/cabinet?startapp=artem
@@ -56,6 +60,8 @@ function render() {
     return;
   }
 
+  _student = student;
+  _studentId = id;
   _studentLevel = student.level || 'B1';
   applyProgress(student, id);
 
@@ -128,9 +134,19 @@ function render() {
       📚 Übung öffnen
     </a>
     ` : ''}
-    <a href="https://t.me/mila_konstanz" class="action-btn">
-      ✉️ Aufgabe abschicken
-    </a>
+    <div class="submit-form" id="submit-form-task">
+      <div class="submit-form-label">✏️ Ihre Antwort</div>
+      <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie Ihre Antwort hier... oder beschreiben Sie kurz, was Sie gemacht haben."></textarea>
+      <label class="submit-file-label">
+        <input type="file" accept="image/*,audio/*" id="submit-file-task" onchange="handleFileSelect('task', this)">
+        <span class="submit-file-btn" id="submit-file-btn-task">📎 Screenshot / Datei anhängen</span>
+      </label>
+      <div class="submit-file-preview" id="submit-preview-task"></div>
+      <button class="action-btn" onclick="submitHomework('task')">✉️ Aufgabe abschicken</button>
+      <div class="submit-confirm" id="submit-confirm-task" style="display:none">
+        ✅ Gesendet! Schauen Sie in Telegram nach.
+      </div>
+    </div>
 
     ${student.deepen ? `
     <div class="optional-card">
@@ -144,7 +160,16 @@ function render() {
       <div class="optional-body" id="deepen-body">
         <div class="optional-topic">${student.deepen.topic}</div>
         <div class="optional-text">${student.deepen.text}</div>
-        <a href="https://t.me/mila_konstanz" class="optional-send-btn">✉️ Antwort schicken</a>
+        <div class="submit-form submit-form--optional" id="submit-form-deepen">
+          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Ihre Antwort..."></textarea>
+          <label class="submit-file-label">
+            <input type="file" accept="image/*,audio/*" id="submit-file-deepen" onchange="handleFileSelect('deepen', this)">
+            <span class="submit-file-btn" id="submit-file-btn-deepen">📎 Datei anhängen</span>
+          </label>
+          <div class="submit-file-preview" id="submit-preview-deepen"></div>
+          <button class="optional-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
+        </div>
       </div>
     </div>
     ` : ''}
@@ -161,7 +186,16 @@ function render() {
       <div class="optional-body" id="immerse-body">
         <div class="optional-topic">${student.immerse.topic}</div>
         <div class="optional-text">${student.immerse.text}</div>
-        <a href="https://t.me/mila_konstanz" class="optional-send-btn">✉️ Antwort schicken</a>
+        <div class="submit-form submit-form--optional" id="submit-form-immerse">
+          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Ihre Antwort..."></textarea>
+          <label class="submit-file-label">
+            <input type="file" accept="image/*,audio/*" id="submit-file-immerse" onchange="handleFileSelect('immerse', this)">
+            <span class="submit-file-btn" id="submit-file-btn-immerse">📎 Datei anhängen</span>
+          </label>
+          <div class="submit-file-preview" id="submit-preview-immerse"></div>
+          <button class="optional-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
+        </div>
       </div>
     </div>
     ` : ''}
@@ -1331,6 +1365,65 @@ function toggleFeedback() {
   const open = body.classList.toggle('visible');
   btn.classList.toggle('open', open);
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+// ── Сдача домашнего задания ───────────────────────────────────────────────
+
+function handleFileSelect(level, input) {
+  const file = input.files[0];
+  const preview = document.getElementById('submit-preview-' + level);
+  const btn = document.getElementById('submit-file-btn-' + level);
+  if (!file) return;
+  btn.textContent = '📎 ' + file.name;
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.innerHTML = `<img src="${e.target.result}" class="submit-preview-img" alt="Screenshot">`;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    preview.innerHTML = `<div class="submit-preview-audio">🎵 ${file.name}</div>`;
+  }
+}
+
+function submitHomework(level) {
+  if (!_student) return;
+  const textarea = document.getElementById('submit-text-' + level);
+  const fileInput = document.getElementById('submit-file-' + level);
+  const text = textarea ? textarea.value.trim() : '';
+  const hasFile = fileInput && fileInput.files.length > 0;
+
+  const levelLabel = level === 'task' ? 'Pflichtaufgabe' : level === 'deepen' ? 'Vertiefung' : 'Eintauchen';
+  const topic = level === 'task' ? _student.task.topic
+              : level === 'deepen' ? _student.deepen?.topic
+              : _student.immerse?.topic;
+
+  let msg = `📚 Hausaufgabe von ${_student.name}\n`;
+  msg += `📌 ${levelLabel}: ${topic}\n`;
+  if (text) msg += `\n${text}`;
+  if (hasFile) msg += `\n\n[Screenshot/Datei folgt]`;
+
+  // Сохраняем в localStorage
+  try {
+    const sub = JSON.parse(localStorage.getItem('pgc_sub_' + _studentId) || '{}');
+    sub[level] = { date: new Date().toISOString(), text, hasFile, topic };
+    localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
+  } catch(e) {}
+
+  // Открываем Telegram с готовым сообщением
+  const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+
+  // Показываем подтверждение
+  const confirm = document.getElementById('submit-confirm-' + level);
+  if (confirm) {
+    confirm.style.display = 'block';
+    if (hasFile) {
+      confirm.innerHTML = '✅ Текст отправлен! Прикрепите скриншот следующим сообщением в Telegram.';
+    }
+  }
+  if (textarea) textarea.value = '';
+  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 }
 
 document.addEventListener('DOMContentLoaded', render);

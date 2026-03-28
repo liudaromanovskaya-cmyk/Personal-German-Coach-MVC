@@ -258,6 +258,82 @@ const STUDENTS = {
     ],
   },
 
+  mikhail: {
+    name: 'Mikhail',
+    level: 'A2/B1',
+    progressText: 'Guter Start — wir bauen gemeinsam das Fundament',
+    goal: { title: 'Sicher auf Deutsch im Alltag kommunizieren', deadline: 'Herbst 2026' },
+    milestones: [
+      { label: 'Grundwortschatz aufbauen',   status: 'active', sub: 'Sie sind hier' },
+      { label: 'Alltagsgespräche führen',     status: 'upcoming' },
+      { label: 'B1 erreichen',               status: 'upcoming' },
+    ],
+    review: null,
+    task: {
+      topic: 'Sich vorstellen — auf Deutsch',
+      text: 'Schreiben Sie 5 Sätze über sich selbst: Name, Herkunft, Beruf, Hobby, warum Sie Deutsch lernen. Keine Angst vor Fehlern — das ist ein Anfang!',
+      estimate: '15 Minuten',
+      deadline: '1. April',
+      hint: 'Muster: «Ich heiße... Ich komme aus... Ich arbeite als... Mein Hobby ist... Ich lerne Deutsch, weil...»',
+    },
+    deepen: null,
+    immerse: null,
+    feedback: null,
+    lexik: { bank: null, aktuell: null, niveau: null },
+    pruefung: { lesen: null, hoeren: null, schreiben: null, sprechen: null },
+    methodik: { lesen: null, hoeren: null, schreiben: null, sprechen: null },
+    book: null,
+    gaps: [],
+    skills: [
+      { name: 'Hören', icon: '🎧', personal: 'stable', note: 'Einfache Sätze gut verstehen', criteria: [
+        { label: 'Einfache Alltagsgespräche verstehen', done: false },
+        { label: 'Zahlen, Zeiten, Preise hören', done: false },
+        { label: 'Kurze Ansagen und Durchsagen', done: false },
+      ]},
+      { name: 'Sprechen', icon: '🗣️', personal: 'stable', note: 'Erste Schritte — Mut ist da!', criteria: [
+        { label: 'Sich vorstellen', done: false },
+        { label: 'Einkaufen und bestellen', done: false },
+        { label: 'Um Hilfe bitten', done: false },
+      ]},
+      { name: 'Lesen', icon: '📖', personal: 'stable', note: 'Einfache Texte lesen', criteria: [
+        { label: 'Kurze Nachrichten lesen', done: false },
+        { label: 'Schilder und Formulare verstehen', done: false },
+        { label: 'Einfache E-Mails lesen', done: false },
+      ]},
+      { name: 'Schreiben', icon: '✍️', personal: 'stable', note: 'Erste Sätze schreiben', criteria: [
+        { label: 'Sich schriftlich vorstellen', done: false },
+        { label: 'Kurze Nachrichten schreiben', done: false },
+        { label: 'Einfache Formulare ausfüllen', done: false },
+      ]},
+      { name: 'Grammatik', icon: '🔧', personal: 'stable', note: 'Grundstrukturen aufbauen', criteria: [
+        { label: 'Verb auf Position 2', done: false },
+        { label: 'Artikel: der / die / das', done: false },
+        { label: 'Präsens — alle Personen', done: false },
+      ]},
+      { name: 'Wortschatz', icon: '📝', personal: 'stable', note: 'Grundwortschatz Alltag', criteria: [
+        { label: 'Zahlen und Zeiten', done: false },
+        { label: 'Familie und Beruf', done: false },
+        { label: 'Essen und Einkaufen', done: false },
+      ]},
+    ],
+    grammar: [
+      {
+        status: 'current',
+        topic: 'Verb auf Position 2',
+        level: 'A1',
+        warum: 'Das ist die wichtigste Regel im Deutschen — ohne sie klingt kein Satz richtig.',
+        summary: 'Das Verb steht immer auf Platz 2 im Satz. Immer.',
+        example: '«Ich lerne Deutsch.» ✓\n«Heute lerne ich Deutsch.» ✓',
+      },
+      {
+        status: 'upcoming',
+        topic: 'Artikel der / die / das',
+        level: 'A1',
+        warum: 'Jedes Substantiv hat einen Artikel — das müssen wir zusammen mit dem Wort lernen.',
+      },
+    ],
+  },
+
   julia: {
     name: 'Julia',
     level: 'B1/B2',
