@@ -33,7 +33,7 @@ async function notifyTeacher(msg, studentName, label) {
   await forwardMessage(msg.chat.id, msg.message_id);
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(200).json({ ok: true });
 
   const update = req.body;
