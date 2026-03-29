@@ -180,15 +180,15 @@ const STUDENTS = {
       text: 'Heute arbeiten wir mit echten Ausdrücken aus dem Lehrbuch. Schauen Sie sich kurz die Bedeutungen an — kennen Sie schon welche?',
     },
     task: {
-      topic: 'Wortschatz: Freundschaft — Bedeutungen zuordnen',
-      text: 'Ordnen Sie die Ausdrücke den passenden Erklärungen zu (Lehrbuch 3A, Übung 2a):\n\n1. füreinander dasein\n2. tiefe Gefühle zeigen\n3. scharfe Kritik anbringen\n4. etw. ist gut gemeint\n5. enge Freunde\n6. oberflächliche Freundschaft\n7. Beziehungen pflegen\n8. auf einer Wellenlänge sein\n9. gesellig sein\n\nA. die gleichen Interessen und Einstellungen haben\nB. Gegenteil von tiefer echter Freundschaft\nC. sich umeinander kümmern\nD. gern mit Menschen zusammen sein\nE. etw. wird in guter Absicht getan\nF. sehr vertraute Freunde\nG. hier: starke Gefühle zeigen\nH. sehr stark kritisieren\nI. sorgsam mit dem Kontakt zu anderen umgehen\n\nSchreiben Sie danach 3 Sätze über Ihre eigene Freundschaft — verwenden Sie 3 Ausdrücke aus der Liste.',
+      topic: 'Eigenschaften — Antonyme und Nomen (Lektion 3A, Übung 2–3)',
+      text: 'Schritt 1 — Übung 2a: Welche Adjektive bilden ihr Gegenteil NICHT mit „un-"? Markieren Sie:\nehrlich | fleißig | freundlich | fröhlich | gesellig | großzügig | humorvoll | intelligent | nachdenklich | optimistisch | ordentlich | pünktlich | reich | ruhig | sportlich | verständnisvoll | zuverlässig\n\nSchritt 2 — Übung 2b: Schreiben Sie das Gegenteil von allen Wörtern aus der Liste. Beispiel: unehrlich, faul, ...\n\nSchritt 3 — Übung 3: Bilden Sie Nomen mit Artikel:\n1. egoistisch → der Egoismus\n2. hilfsbereit → ?\n3. sensibel → ?\n4. intelligent → ?\n5. verständnisvoll → ?\n6. fleißig → ?',
       estimate: '15–20 Minuten',
       deadline: '30. März',
-      hint: '„Auf einer Wellenlänge sein" klingt sehr natürlich im Deutschen — viel besser als „dieselben Interessen haben". Solche Ausdrücke merken sich Deutsche sofort.',
+      hint: 'Tipp für Schritt 1: „reich" → „arm" (nicht „unreich"!). Manche Gegenteile sind eigene Wörter — kein Präfix. Das ist typisch Deutsch.',
     },
     deepen: {
-      topic: 'Verben mit Präpositionen — Akkusativ oder Dativ?',
-      text: 'Vervollständigen Sie die Sätze und ersetzen Sie dann den Ausdruck durch ein Präpositionaladverb:\n\n1. Ich denke oft ___ meine Freundin aus Russland. → Ich denke oft ___.\n2. Wir sprechen ___ unsere Freundschaft. → Wir sprechen ___.\n3. Sie wartet ___ einen Brief von ihrer Freundin. → Sie wartet ___.\n4. Er interessiert sich ___ deutsche Vereine. → Er interessiert sich ___.\n5. Ich freue mich ___ unser nächstes Treffen. → Ich freue mich ___.\n\nPräpositionaladverbien: daran / darüber / darauf / dafür — welches passt wohin?',
+      topic: 'Wortschatz Freundschaft — Bedeutungen zuordnen (Übung 4)',
+      text: 'Ordnen Sie zu (Lehrbuch 3A, Übung 2a — Wortschatz):\n\n1. füreinander dasein\n2. tiefe Gefühle zeigen\n3. scharfe Kritik anbringen\n4. etw. ist gut gemeint\n5. enge Freunde\n6. oberflächliche Freundschaft\n7. Beziehungen pflegen\n8. auf einer Wellenlänge sein\n9. gesellig sein\n\nA. die gleichen Interessen und Einstellungen haben\nB. Gegenteil von tiefer echter Freundschaft\nC. sich umeinander kümmern\nD. gern mit Menschen zusammen sein\nE. etw. wird in guter Absicht getan\nF. sehr vertraute Freunde\nG. hier: starke Gefühle zeigen\nH. sehr stark kritisieren\nI. sorgsam mit dem Kontakt zu anderen umgehen\n\nDanach: Schreiben Sie 3 Sätze über Ihre eigene Freundschaft mit 3 Ausdrücken aus der Liste.',
     },
     immerse: {
       topic: 'Freundschaft im Vergleich — schreiben Sie!',
