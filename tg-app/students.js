@@ -175,21 +175,24 @@ const STUDENTS = {
       { label: 'Automatisierung im Sprechen', status: 'upcoming' },
       { label: 'B2-Prüfung ablegen',          status: 'upcoming' },
     ],
-    review: null,
+    review: {
+      topic: 'Mittelpunkt B2 — Lektion 3A: Wortschatz Freundschaft',
+      text: 'Heute arbeiten wir mit echten Ausdrücken aus dem Lehrbuch. Schauen Sie sich kurz die Bedeutungen an — kennen Sie schon welche?',
+    },
     task: {
-      topic: 'Konjunktiv II — berufliche Situationen',
-      text: 'Bilden Sie 6 Sätze mit Konjunktiv II zum Thema Arbeit. Verwenden Sie: könnten, würden, sollten. Denken Sie nicht ans Regelwerk — sprechen Sie einfach so, wie man höflich auf Deutsch spricht.',
+      topic: 'Wortschatz: Freundschaft — Bedeutungen zuordnen',
+      text: 'Ordnen Sie die Ausdrücke den passenden Erklärungen zu (Lehrbuch 3A, Übung 2a):\n\n1. füreinander dasein\n2. tiefe Gefühle zeigen\n3. scharfe Kritik anbringen\n4. etw. ist gut gemeint\n5. enge Freunde\n6. oberflächliche Freundschaft\n7. Beziehungen pflegen\n8. auf einer Wellenlänge sein\n9. gesellig sein\n\nA. die gleichen Interessen und Einstellungen haben\nB. Gegenteil von tiefer echter Freundschaft\nC. sich umeinander kümmern\nD. gern mit Menschen zusammen sein\nE. etw. wird in guter Absicht getan\nF. sehr vertraute Freunde\nG. hier: starke Gefühle zeigen\nH. sehr stark kritisieren\nI. sorgsam mit dem Kontakt zu anderen umgehen\n\nSchreiben Sie danach 3 Sätze über Ihre eigene Freundschaft — verwenden Sie 3 Ausdrücke aus der Liste.',
       estimate: '15–20 Minuten',
-      deadline: '15. März',
-      hint: 'Beispiel: «Könnten Sie mir bitte helfen?» — klingt höflich und professionell. «Können Sie» klingt direkter. Der Unterschied ist klein, aber Deutsche spüren ihn.',
+      deadline: '30. März',
+      hint: '„Auf einer Wellenlänge sein" klingt sehr natürlich im Deutschen — viel besser als „dieselben Interessen haben". Solche Ausdrücke merken sich Deutsche sofort.',
     },
     deepen: {
-      topic: 'Ein Gespräch simulieren',
-      text: 'Schreiben Sie einen kurzen Dialog (6–8 Zeilen): Sie bitten Ihren Kollegen um Hilfe bei einer Aufgabe. Nutzen Sie Konjunktiv II so natürlich wie möglich.',
+      topic: 'Verben mit Präpositionen — Akkusativ oder Dativ?',
+      text: 'Vervollständigen Sie die Sätze und ersetzen Sie dann den Ausdruck durch ein Präpositionaladverb:\n\n1. Ich denke oft ___ meine Freundin aus Russland. → Ich denke oft ___.\n2. Wir sprechen ___ unsere Freundschaft. → Wir sprechen ___.\n3. Sie wartet ___ einen Brief von ihrer Freundin. → Sie wartet ___.\n4. Er interessiert sich ___ deutsche Vereine. → Er interessiert sich ___.\n5. Ich freue mich ___ unser nächstes Treffen. → Ich freue mich ___.\n\nPräpositionaladverbien: daran / darüber / darauf / dafür — welches passt wohin?',
     },
     immerse: {
-      topic: 'Konjunktiv II im Alltag hören',
-      text: 'Schauen Sie sich ein kurzes YouTube-Video auf Deutsch an (Alltag, Kochen, Reisen — egal was). Notieren Sie 3 Sätze, die Sie mit Konjunktiv II reformulieren könnten.',
+      topic: 'Freundschaft im Vergleich — schreiben Sie!',
+      text: 'Schreiben Sie 8–10 Sätze: Wie ist Freundschaft in Russland anders als in Deutschland?\n\nVerwenden Sie:\n• Im Gegensatz zu Deutschland...\n• Einerseits... andererseits...\n• Sowohl... als auch...\n• Während in Russland...\n\nUnd mindestens 4 Ausdrücke aus dem Basis-Wortschatz (füreinander dasein, auf einer Wellenlänge sein usw.).',
     },
     gaps: [
       { id: 'o1', level: 'A2', category: 'Grammatik', text: 'Verbendungen in der 3. Person — «sie hat» / «er haben» Fehler unter Druck', status: 'sos', by: 'lehrerin', date: '11. März' },
