@@ -194,6 +194,17 @@ const STUDENTS = {
       topic: 'Freundschaft im Vergleich — schreiben Sie!',
       text: 'Schreiben Sie 8–10 Sätze: Wie ist Freundschaft in Russland anders als in Deutschland?\n\nVerwenden Sie:\n• Im Gegensatz zu Deutschland...\n• Einerseits... andererseits...\n• Sowohl... als auch...\n• Während in Russland...\n\nUnd mindestens 4 Ausdrücke aus dem Basis-Wortschatz (füreinander dasein, auf einer Wellenlänge sein usw.).',
     },
+    lexik: {
+      bank: null,
+      aktuell: {
+        title: 'April-Sprint — Woche 1',
+        description: 'Präpositionalverben + Verben des Ermöglichens + Alltagswortschatz',
+        words: ['sich erinnern an', 'ankommen auf', 'abhängen von', 'arbeiten an', 'sich freuen auf', 'ermöglichen', 'beitragen zu', 'führen zu', 'übernehmen', 'beeinflussen', 'sich wohl fühlen', 'die Erkenntnis', 'der Zweifel', 'überfordert sein'],
+        link: null,
+      },
+      niveau: null,
+      archiv: [],
+    },
     gaps: [
       { id: 'o1', level: 'A2', category: 'Grammatik', text: 'Verbendungen in der 3. Person — «sie hat» / «er haben» Fehler unter Druck', status: 'sos', by: 'lehrerin', date: '11. März' },
       { id: 'o2', level: 'B1', category: 'Wortschatz', text: 'Konnektoren fehlen — Sätze werden nicht verbunden, alles in Einzelsätzen', status: 'aktiv', by: 'lehrerin', date: '5. März' },
@@ -237,7 +248,26 @@ const STUDENTS = {
       ]},
     ],
     feedback: null,
+    diary: {
+      active: true,
+      title: 'Tagebuch — April-Sprint',
+      instruction: 'Schreiben Sie jeden Tag 5 Sätze auf Deutsch — oder schicken Sie eine Sprachnachricht. Thema: was auch immer heute passiert ist.',
+      sentenceTarget: 5,
+      prompt: 'Was ist heute passiert? Wo waren Sie? Mit wem? Was haben Sie gefühlt? Was denken Sie darüber?',
+      streak: 0,
+      totalDone: 0,
+      goalDays: 19,
+      note: 'April-Sprint: Sprechen aktivieren. Fehler sind erlaubt — der Mut zählt.',
+    },
     grammar: [
+      {
+        status: 'current',
+        topic: 'Präpositionalverben',
+        level: 'B1–B2',
+        warum: 'Diese Verben klingen sofort natürlich — genau wie ein Muttersprachler. Ohne sie klingt die Sprache steif.',
+        summary: 'Verben mit festen Präpositionen + Pronominaladverbien (daran, darauf, davon...)',
+        example: 'sich erinnern an → Woran erinnerst du dich? — Ich erinnere mich daran.\nankommen auf → Worauf kommt es an? — Es kommt darauf an.\nabhängen von → Wovon hängt das ab? — Das hängt davon ab.\narbeiten an → Woran arbeitest du? — Daran arbeite ich gerade.\nsich freuen auf → Worauf freust du dich? — Ich freue mich darauf.',
+      },
       {
         status: 'current',
         topic: 'Konjunktiv II',
