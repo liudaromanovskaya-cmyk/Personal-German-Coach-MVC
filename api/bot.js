@@ -74,8 +74,9 @@ module.exports = async function handler(req, res) {
   if (text.startsWith('/words') && chatId.toString() === TEACHER_CHAT_ID.toString()) {
     const parts = text.replace('/words', '').trim().split(/\s+/);
     const studentId = parts[0]?.toLowerCase();
-    const wordsRaw = parts.slice(1).join(' ');
-    const words = wordsRaw.split(',').map(w => w.trim()).filter(Boolean);
+    // Всё после имени студента — слова. Разделитель: запятая ИЛИ новая строка
+    const wordsRaw = text.replace('/words', '').replace(studentId, '').trim();
+    const words = wordsRaw.split(/[,\n]/).map(w => w.trim()).filter(Boolean);
 
     if (!studentId || words.length === 0) {
       await sendMessage(chatId,
