@@ -180,19 +180,19 @@ const STUDENTS = {
       text: 'Heute arbeiten wir mit echten Ausdrücken aus dem Lehrbuch. Schauen Sie sich kurz die Bedeutungen an — kennen Sie schon welche?',
     },
     task: {
-      topic: 'Eigenschaften — Antonyme und Nomen (Lektion 3A, Übung 2–3)',
-      text: 'Schritt 1 — Übung 2a: Welche Adjektive bilden ihr Gegenteil NICHT mit „un-"? Markieren Sie:\nehrlich | fleißig | freundlich | fröhlich | gesellig | großzügig | humorvoll | intelligent | nachdenklich | optimistisch | ordentlich | pünktlich | reich | ruhig | sportlich | verständnisvoll | zuverlässig\n\nSchritt 2 — Übung 2b: Schreiben Sie das Gegenteil von allen Wörtern aus der Liste. Beispiel: unehrlich, faul, ...\n\nSchritt 3 — Übung 3: Bilden Sie Nomen mit Artikel:\n1. egoistisch → der Egoismus\n2. hilfsbereit → ?\n3. sensibel → ?\n4. intelligent → ?\n5. verständnisvoll → ?\n6. fleißig → ?',
-      estimate: '15–20 Minuten',
-      deadline: '30. März',
-      hint: 'Tipp für Schritt 1: „reich" → „arm" (nicht „unreich"!). Manche Gegenteile sind eigene Wörter — kein Präfix. Das ist typisch Deutsch.',
+      topic: 'Aufwärmen — Was machst du gerade so?',
+      text: 'Eine Bekannte fragt: „Was machst du gerade so in deiner Freizeit?"\n\nErzählen Sie kurz — Sport, Ausflüge, Pläne, kleine Freuden. 5 Sätze.\n\nVerwenden Sie:\n• sich befinden → „Ich befinde mich gerade in einer aktiven Phase"\n• sich wohl fühlen → „Beim Sport fühle ich mich am wohlsten"\n• sich freuen auf → „Ich freue mich auf das Theaterstück am Wochenende"\n• sich unterhalten mit → „Ich unterhalte mich gern mit Freunden bei einem Spaziergang"\n• eine Fahrt → „Wir planen eine Fahrt ins Grüne"',
+      estimate: '10 Minuten',
+      deadline: '5. April',
+      hint: 'Einstieg: „Im Moment bin ich viel draußen. Ich freue mich besonders auf... Beim Sport fühle ich mich..."',
     },
     deepen: {
-      topic: 'Wortschatz Freundschaft — Bedeutungen zuordnen (Übung 4)',
-      text: 'Ordnen Sie zu (Lehrbuch 3A, Übung 2a — Wortschatz):\n\n1. füreinander dasein\n2. tiefe Gefühle zeigen\n3. scharfe Kritik anbringen\n4. etw. ist gut gemeint\n5. enge Freunde\n6. oberflächliche Freundschaft\n7. Beziehungen pflegen\n8. auf einer Wellenlänge sein\n9. gesellig sein\n\nA. die gleichen Interessen und Einstellungen haben\nB. Gegenteil von tiefer echter Freundschaft\nC. sich umeinander kümmern\nD. gern mit Menschen zusammen sein\nE. etw. wird in guter Absicht getan\nF. sehr vertraute Freunde\nG. hier: starke Gefühle zeigen\nH. sehr stark kritisieren\nI. sorgsam mit dem Kontakt zu anderen umgehen\n\nDanach: Schreiben Sie 3 Sätze über Ihre eigene Freundschaft mit 3 Ausdrücken aus der Liste.',
+      topic: 'Situation — Was gibt dir Kraft?',
+      text: 'Eine Kollegin fragt: „Wie schaffst du es, nach der Arbeit noch Energie zu haben? Was ist dein Geheimnis?"\n\nErzählen Sie — was Ihnen Kraft gibt, wie Sie sich erholen, worauf es Ihnen im Leben ankommt. 7–8 Sätze.\n\nPräpositionalverben — alle verwenden:\n• Worauf freust du dich? → Ich freue mich auf...\n• Worauf kommt es dir an? → Es kommt mir darauf an...\n• Wovon hängt deine Energie ab? → Das hängt davon ab...\n• Woran denkst du nach der Arbeit? → Ich denke daran...\n• Woran arbeitest du gerade? → Ich arbeite daran...\n\nWeitere Wörter:\nermöglichen · beitragen zu · beeinflussen · die Erkenntnis · übertreiben · führen zu\n\nTipp: „Für mich kommt es darauf an, dass ich regelmäßig Sport mache. Das ermöglicht mir... Ich habe die Erkenntnis gehabt, dass..."',
     },
     immerse: {
-      topic: 'Freundschaft im Vergleich — schreiben Sie!',
-      text: 'Schreiben Sie 8–10 Sätze: Wie ist Freundschaft in Russland anders als in Deutschland?\n\nVerwenden Sie:\n• Im Gegensatz zu Deutschland...\n• Einerseits... andererseits...\n• Sowohl... als auch...\n• Während in Russland...\n\nUnd mindestens 4 Ausdrücke aus dem Basis-Wortschatz (füreinander dasein, auf einer Wellenlänge sein usw.).',
+      topic: 'Ihre Geschichte — Ein Moment der zählt',
+      text: 'Erzählen Sie von einem Ausflug, einem Sporterlebnis oder einem besonderen Moment — ein Abend, ein Spaziergang, etwas das Sie aufgetankt hat.\n\nKeine perfekten Sätze nötig — einfach erzählen.\n\nAlle Wörter dieser Woche stehen Ihnen zur Verfügung:\nin Erfüllung gehen · im Vergleich zu · die Erkenntnis · beitragen zu · worum geht es · übernehmen · der Strom · retten · sich erholen\n\nBeispiele:\n• „In diesem Moment ging ein kleiner Wunsch in Erfüllung"\n• „Im Vergleich zum Alltag war das wie eine andere Welt"\n• „Solche Abende retten manchmal die ganze Woche"\n\nTipp zum Einstieg: „Ich erinnere mich an einen Moment, als... Im Vergleich zum normalen Alltag war das... Ich hatte dabei die Erkenntnis..."',
     },
     lexik: {
       bank: null,
