@@ -194,6 +194,20 @@ const STUDENTS = {
       topic: 'Ihre Geschichte — Ein Moment der zählt',
       text: 'Erzählen Sie von einem Ausflug, einem Sporterlebnis oder einem besonderen Moment — ein Abend, ein Spaziergang, etwas das Sie aufgetankt hat.\n\nKeine perfekten Sätze nötig — einfach erzählen.\n\nAlle Wörter dieser Woche stehen Ihnen zur Verfügung:\nin Erfüllung gehen · im Vergleich zu · die Erkenntnis · beitragen zu · worum geht es · übernehmen · der Strom · retten · sich erholen\n\nBeispiele:\n• „In diesem Moment ging ein kleiner Wunsch in Erfüllung"\n• „Im Vergleich zum Alltag war das wie eine andere Welt"\n• „Solche Abende retten manchmal die ganze Woche"\n\nTipp zum Einstieg: „Ich erinnere mich an einen Moment, als... Im Vergleich zum normalen Alltag war das... Ich hatte dabei die Erkenntnis..."',
     },
+    writing: {
+      task: {
+        topic: 'Schreiben — Aufwärmen',
+        text: 'Schreiben Sie 5 Sätze: Was machen Sie gerade in Ihrer Freizeit?\n\nVerwenden Sie:\n• sich befinden · sich wohl fühlen · sich freuen auf · fehlen · eine Fahrt\n\nTipp: „Im Moment befinde ich mich... Ich fühle mich besonders wohl, wenn... Mir fehlt manchmal..."',
+      },
+      deepen: {
+        topic: 'Schreiben — Was gibt dir Kraft?',
+        text: 'Schreiben Sie 7–8 Sätze an eine Freundin: Was hilft Ihnen nach einem langen Tag?\n\nPräpositionalverben — alle einbauen:\nankommen auf · abhängen von · sich freuen auf · denken an · arbeiten an\n\nWeitere Wörter:\nermöglichen · beitragen zu · die Erkenntnis · führen zu · beeinflussen\n\nTipp: „Für mich kommt es darauf an... Das hängt davon ab... Ich habe die Erkenntnis gehabt, dass..."',
+      },
+      immerse: {
+        topic: 'Schreiben — Ihr besonderer Moment',
+        text: 'Schreiben Sie einen kurzen Text (8–10 Sätze) über einen Moment der Ihnen Energie gegeben hat — ein Ausflug, ein Abend, ein Erlebnis in der Natur.\n\nAlle Wörter dieser Woche zur Auswahl:\nin Erfüllung gehen · im Vergleich zu · die Erkenntnis · beitragen zu · retten · sich erholen · übernehmen · der Wohlstand · worum geht es\n\nTipp: „Es war ein Abend, als... Im Vergleich zum Alltag... Das hat dazu geführt, dass ich..."',
+      },
+    },
     lexik: {
       bank: null,
       aktuell: {

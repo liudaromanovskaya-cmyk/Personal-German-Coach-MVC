@@ -107,6 +107,12 @@ function render() {
     </div>
     ` : ''}
 
+    <div class="mode-switcher">
+      <button class="mode-btn mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
+      <button class="mode-btn" id="mode-writing" onclick="switchMode('writing')">✍️ Schreiben</button>
+    </div>
+
+    <div id="speaking-tasks">
     <div class="task-card">
       <div class="task-card-header">
         <div class="task-card-label">📌 Aufgabe für heute · <span style="opacity:.8;font-weight:400">Pflicht</span></div>
@@ -199,6 +205,89 @@ function render() {
       </div>
     </div>
     ` : ''}
+
+    </div><!-- /speaking-tasks -->
+
+    <div id="writing-tasks" style="display:none">
+    ${student.writing ? `
+    <div class="task-card">
+      <div class="task-card-header">
+        <div class="task-card-label">✍️ Schreiben · <span style="opacity:.8;font-weight:400">Niveau 1</span></div>
+      </div>
+      <div class="task-card-topic">${student.writing.task.topic}</div>
+      <div class="task-card-body">${student.writing.task.text}</div>
+      <div class="submit-form" id="submit-form-writing1">
+        <textarea class="submit-textarea" id="submit-text-writing1" placeholder="Schreiben Sie hier..."></textarea>
+        <button class="action-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
+        <div class="submit-confirm" id="submit-confirm-writing1" style="display:none">✅ Gesendet!</div>
+      </div>
+    </div>
+
+    <div class="optional-card">
+      <button class="optional-toggle" id="writing2-toggle" onclick="toggleOptional('writing2')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">✍️ Niveau 2 — Situation</div>
+          <div class="optional-toggle-sub">Bereit für mehr?</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="writing2-body">
+        <div class="optional-topic">${student.writing.deepen.topic}</div>
+        <div class="optional-text">${student.writing.deepen.text}</div>
+        <div class="submit-form submit-form--optional" id="submit-form-writing2">
+          <textarea class="submit-textarea" id="submit-text-writing2" placeholder="Ihre Antwort..."></textarea>
+          <button class="optional-send-btn" onclick="submitHomework('writing2')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-writing2" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-card">
+      <button class="optional-toggle" id="writing3-toggle" onclick="toggleOptional('writing3')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">✍️ Niveau 3 — Ihre Geschichte</div>
+          <div class="optional-toggle-sub">Freies Schreiben</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="writing3-body">
+        <div class="optional-topic">${student.writing.immerse.topic}</div>
+        <div class="optional-text">${student.writing.immerse.text}</div>
+        <div class="submit-form submit-form--optional" id="submit-form-writing3">
+          <textarea class="submit-textarea" id="submit-text-writing3" placeholder="Ihre Geschichte..."></textarea>
+          <button class="optional-send-btn" onclick="submitHomework('writing3')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-writing3" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    </div><!-- /writing-tasks -->
+
+    ${student.diary && student.diary.active ? (() => {
+      const diaryKey = `pgc_diary_${id}`;
+      const diaryData = JSON.parse(localStorage.getItem(diaryKey) || '{"streak":0,"total":0,"lastDate":null}');
+      const streak = diaryData.streak || 0;
+      const total = diaryData.total || 0;
+      const goal = student.diary.goalDays || 19;
+      const pct = Math.min(100, Math.round((total / goal) * 100));
+      return `
+    <div class="diary-card">
+      <div class="diary-header">
+        <div class="diary-title">📓 ${student.diary.title}</div>
+        <div class="diary-streak">${streak > 0 ? `🔥 ${streak} Tage in Folge` : '&nbsp;'}</div>
+      </div>
+      <div class="diary-progress-bar-wrap">
+        <div class="diary-progress-bar" style="width:${pct}%"></div>
+      </div>
+      <div class="diary-progress-label">${total} von ${goal} Tagen · ${pct}%</div>
+      <div class="diary-instruction">${student.diary.instruction}</div>
+      <div class="diary-prompt">💬 ${student.diary.prompt}</div>
+      <textarea class="submit-textarea" id="diary-textarea" placeholder="5 Sätze auf Deutsch — los geht's..."></textarea>
+      <button class="action-btn diary-send-btn" onclick="submitDiary()">✉️ Heute abschicken</button>
+      <div class="submit-confirm" id="diary-confirm" style="display:none">✅ Super! Gesendet. Kommen Sie morgen wieder 💪</div>
+    </div>
+      `;
+    })() : ''}
 
     ${feedbackHTML}
 
@@ -1424,6 +1513,69 @@ function submitHomework(level) {
   }
   if (textarea) textarea.value = '';
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
+
+function switchMode(mode) {
+  const speaking = document.getElementById('speaking-tasks');
+  const writing = document.getElementById('writing-tasks');
+  const btnS = document.getElementById('mode-speaking');
+  const btnW = document.getElementById('mode-writing');
+  if (mode === 'speaking') {
+    speaking.style.display = 'block';
+    writing.style.display = 'none';
+    btnS.classList.add('mode-btn--active');
+    btnW.classList.remove('mode-btn--active');
+  } else {
+    speaking.style.display = 'none';
+    writing.style.display = 'block';
+    btnW.classList.add('mode-btn--active');
+    btnS.classList.remove('mode-btn--active');
+  }
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function submitDiary() {
+  if (!_student || !_student.diary) return;
+  const textarea = document.getElementById('diary-textarea');
+  const text = textarea ? textarea.value.trim() : '';
+  if (!text) { if (textarea) textarea.focus(); return; }
+
+  // Считаем streak и total
+  const diaryKey = `pgc_diary_${_studentId}`;
+  const today = new Date().toISOString().split('T')[0];
+  let data = JSON.parse(localStorage.getItem(diaryKey) || '{"streak":0,"total":0,"lastDate":null}');
+
+  if (data.lastDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    data.streak = data.lastDate === yesterday ? (data.streak || 0) + 1 : 1;
+    data.total = (data.total || 0) + 1;
+    data.lastDate = today;
+    localStorage.setItem(diaryKey, JSON.stringify(data));
+  }
+
+  // Формируем сообщение в Telegram
+  let msg = `📓 Tagebuch von ${_student.name} — ${new Date().toLocaleDateString('de-DE')}\n\n${text}`;
+  if (data.streak > 1) msg += `\n\n🔥 ${data.streak} Tage in Folge!`;
+
+  const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+
+  const confirm = document.getElementById('diary-confirm');
+  if (confirm) confirm.style.display = 'block';
+  if (textarea) textarea.value = '';
+  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+  // Обновляем счётчик на экране без перерендера
+  const label = document.querySelector('.diary-progress-label');
+  const bar = document.querySelector('.diary-progress-bar');
+  if (label && bar) {
+    const goal = _student.diary.goalDays || 19;
+    const pct = Math.min(100, Math.round((data.total / goal) * 100));
+    label.textContent = `${data.total} von ${goal} Tagen · ${pct}%`;
+    bar.style.width = pct + '%';
+  }
+  const streakEl = document.querySelector('.diary-streak');
+  if (streakEl && data.streak > 0) streakEl.textContent = `🔥 ${data.streak} Tage in Folge`;
 }
 
 document.addEventListener('DOMContentLoaded', render);
