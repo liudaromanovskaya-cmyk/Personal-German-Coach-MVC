@@ -2058,34 +2058,69 @@ a.optional-send-btn:active {
 .chunk-words-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 .chunk-word-block {
-  background: var(--accent-light);
-  border-radius: 10px;
-  padding: 10px 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+.chunk-word-block:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.chunk-word-header {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 1px;
 }
 .chunk-word {
   font-size: 15px;
   font-weight: 700;
   color: var(--accent);
-  margin-bottom: 2px;
+}
+.chunk-grammar-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .02em;
 }
 .chunk-hint {
   font-size: 11px;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .chunk-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 .chunk-item {
   font-size: 13px;
   color: var(--text);
-  background: var(--card);
-  border-radius: 6px;
-  padding: 5px 9px;
-  line-height: 1.4;
+  line-height: 1.6;
+  padding-left: 10px;
+  position: relative;
+}
+.chunk-item::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.chunk-verb {
+  font-weight: 700;
+  color: var(--accent);
+  font-style: normal;
+}
+.chunk-reflex {
+  font-style: italic;
+  color: #7b5ea7;
+}
+.chunk-prep {
+  font-weight: 600;
+  color: #C47A0E;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
 }

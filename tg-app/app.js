@@ -42,6 +42,22 @@ function getStudentId() {
   return params.get('student')?.toLowerCase() || '';
 }
 
+// ── Sprint: разбор [слово]-разметки в чанках ──────────────────────────────
+function parseChunk(text, wordData) {
+  const verbSet = new Set((wordData.verbForms || []).map(f => f.toLowerCase()));
+  const reflexPronouns = new Set(['mich', 'sich', 'uns', 'mir', 'dir', 'euch', 'dich']);
+  return text.replace(/\[([^\]]+)\]/g, (_match, inner) => {
+    const firstWord = inner.toLowerCase().split(' ')[0];
+    if (verbSet.has(firstWord) || verbSet.has(inner.toLowerCase())) {
+      return `<strong class="chunk-verb">${inner}</strong>`;
+    }
+    if (reflexPronouns.has(firstWord)) {
+      return `<em class="chunk-reflex">${inner}</em>`;
+    }
+    return `<span class="chunk-prep">${inner}</span>`;
+  });
+}
+
 // ── Render ────────────────────────────────────────────────────────────────
 let _studentLevel = 'B1'; // глобально — для Kultur
 
@@ -118,10 +134,13 @@ function render() {
       const s = student.sprint.today;
       const chunksHTML = s.words.map(w => `
         <div class="chunk-word-block">
-          <div class="chunk-word">${w.word}</div>
+          <div class="chunk-word-header">
+            <span class="chunk-word">${w.word}</span>
+            ${w.grammarTag ? `<span class="chunk-grammar-tag">${w.grammarTag}</span>` : ''}
+          </div>
           <div class="chunk-hint">${w.hint}</div>
           <div class="chunk-list">
-            ${w.chunks.map(c => `<div class="chunk-item">„${c}"</div>`).join('')}
+            ${w.chunks.map(c => `<div class="chunk-item">„${parseChunk(c, w)}"</div>`).join('')}
           </div>
         </div>
       `).join('');

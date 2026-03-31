@@ -235,62 +235,79 @@ const STUDENTS = {
         'in Erfüllung gehen', 'erfüllt werden', 'einen Traum erfüllen',
       ],
       // Задание одного дня — 6 слов с чанками
+      // grammarTag: тип глагола для подсветки
+      // verbForms: формы глагола которые подсвечиваем в примерах
+      // prep: предлог если есть — подсвечиваем управление
       today: {
         date: '1. April',
         theme: 'Ein Ausflug am Wochenende',
         words: [
           {
             word: 'sich befinden',
+            grammarTag: 'reflexiv',
             hint: 'wo man ist / wie die Lage ist',
+            verbForms: ['befinden', 'befinde', 'befindest', 'befindet', 'befand', 'befunden'],
             chunks: [
-              'Wo befinden Sie sich gerade?',
-              'Ich befinde mich gerade in einer aktiven Phase.',
-              'Das Hotel befindet sich direkt am See.',
+              'Wo [befinden] Sie [sich] gerade?',
+              'Ich [befinde] [mich] gerade in einer aktiven Phase.',
+              'Das Hotel [befindet] [sich] direkt am See.',
             ],
           },
           {
             word: 'eine Fahrt machen',
+            grammarTag: 'Verb + Nomen',
             hint: 'Ausflug, Reise, Strecke',
+            verbForms: ['machen', 'mache', 'machst', 'macht', 'gemacht'],
             chunks: [
-              'Wir haben eine Fahrt ins Grüne gemacht.',
+              'Wir haben eine Fahrt ins Grüne [gemacht].',
               'Die Fahrt hat zwei Stunden gedauert.',
               'Eine kurze Fahrt — aber so wertvoll!',
             ],
           },
           {
             word: 'ermöglichen',
+            grammarTag: 'insep.',
             hint: 'etwas möglich machen',
+            verbForms: ['ermöglichen', 'ermöglicht', 'ermöglichte', 'ermöglicht'],
             chunks: [
-              'Das ermöglicht mir, mehr Zeit draußen zu verbringen.',
-              'Der freie Tag hat uns diese Fahrt ermöglicht.',
-              'Das hat uns ermöglicht, endlich abzuschalten.',
+              'Das [ermöglicht] mir, mehr Zeit draußen zu verbringen.',
+              'Der freie Tag hat uns diese Fahrt [ermöglicht].',
+              'Das hat uns [ermöglicht], endlich abzuschalten.',
             ],
           },
           {
             word: 'in Erfüllung gehen',
+            grammarTag: 'feste Wendung',
             hint: 'ein Wunsch wird wahr',
+            verbForms: ['gehen', 'geht', 'ging', 'gegangen'],
             chunks: [
-              'Mein kleiner Wunsch ist in Erfüllung gegangen.',
-              'Ich wünsche dir, dass deine Träume in Erfüllung gehen.',
-              'Endlich ist es in Erfüllung gegangen!',
+              'Mein kleiner Wunsch ist in Erfüllung [gegangen].',
+              'Ich wünsche dir, dass deine Träume in Erfüllung [gehen].',
+              'Endlich ist es in Erfüllung [gegangen]!',
             ],
           },
           {
             word: 'sich unterhalten mit',
+            grammarTag: 'reflexiv + mit + Dat.',
             hint: 'sprechen, plaudern — mit wem?',
+            prep: 'mit',
+            verbForms: ['unterhalten', 'unterhalte', 'unterhältst', 'unterhält', 'unterhielt'],
             chunks: [
-              'Ich habe mich lange mit ihr unterhalten.',
-              'Mit wem haben Sie sich unterhalten?',
-              'Wir haben uns wunderbar unterhalten.',
+              'Ich habe [mich] lange [mit ihr] [unterhalten].',
+              '[Mit wem] haben Sie [sich] [unterhalten]?',
+              'Wir haben [uns] wunderbar [unterhalten].',
             ],
           },
           {
             word: 'worum geht es',
+            grammarTag: 'gehen um + Akk.',
             hint: 'was ist das Thema / der Kern',
+            prep: 'um',
+            verbForms: ['gehen', 'geht', 'ging', 'gegangen'],
             chunks: [
-              'Worum geht es in diesem Film?',
-              'Worum geht es dir eigentlich?',
-              'Es geht darum, dass wir mehr Zeit füreinander haben.',
+              '[Worum] [geht] es in diesem Film?',
+              '[Worum] [geht] es dir eigentlich?',
+              'Es [geht] darum, dass wir mehr Zeit füreinander haben.',
             ],
           },
         ],
