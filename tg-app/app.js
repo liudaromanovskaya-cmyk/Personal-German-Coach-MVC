@@ -113,6 +113,107 @@ function render() {
     </div>
 
     <div id="speaking-tasks">
+
+    ${student.sprint?.today ? (() => {
+      const s = student.sprint.today;
+      const chunksHTML = s.words.map(w => `
+        <div class="chunk-word-block">
+          <div class="chunk-word">${w.word}</div>
+          <div class="chunk-hint">${w.hint}</div>
+          <div class="chunk-list">
+            ${w.chunks.map(c => `<div class="chunk-item">„${c}"</div>`).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      return `
+    <div class="sprint-day-card">
+      <div class="sprint-day-header">
+        <div class="sprint-day-label">🗓 Sprint · ${s.date}</div>
+        <div class="sprint-day-theme">${s.theme}</div>
+      </div>
+      <div class="sprint-words-intro">Слова дня — прочитайте перед тем как говорить:</div>
+      <div class="chunk-words-grid">${chunksHTML}</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-card-header">
+        <div class="task-card-label">🎤 Niveau 1 · <span style="opacity:.8;font-weight:400">Aufwärmen</span></div>
+      </div>
+      <div class="task-card-topic">${s.task.topic}</div>
+      <div class="task-card-body">${s.task.prompt}</div>
+      <div class="task-card-body" style="margin-top:8px;opacity:.8;font-size:14px">${s.task.instruction}</div>
+      <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()" ${!s.task.hint ? 'style="display:none"' : ''}>
+        💡 Tipp — wenn es gar nicht klappt
+      </button>
+      <div class="hint-body" id="hint-body">${s.task.hint || ''}</div>
+    </div>
+    <div class="submit-form" id="submit-form-task">
+      <div class="submit-form-label">🎙 Aufnehmen oder schreiben</div>
+      <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie Ihre Antwort hier..."></textarea>
+      <label class="submit-file-label">
+        <input type="file" accept="audio/*" id="submit-file-task" onchange="handleFileSelect('task', this)">
+        <span class="submit-file-btn" id="submit-file-btn-task">🎤 Sprachnachricht anhängen</span>
+      </label>
+      <div class="submit-file-preview" id="submit-preview-task"></div>
+      <button class="action-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
+      <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
+    </div>
+
+    <div class="optional-card">
+      <button class="optional-toggle" id="deepen-toggle" onclick="toggleOptional('deepen')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">🎤 Niveau 2 — Situation</div>
+          <div class="optional-toggle-sub">Bereit für mehr?</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="deepen-body">
+        <div class="optional-topic">${s.deepen.topic}</div>
+        <div class="optional-text">${s.deepen.prompt}</div>
+        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.deepen.instruction}</div>
+        ${s.deepen.hint ? `<div class="hint-body" style="display:block;margin-top:8px">💡 ${s.deepen.hint}</div>` : ''}
+        <div class="submit-form submit-form--optional" id="submit-form-deepen">
+          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Ihre Antwort..."></textarea>
+          <label class="submit-file-label">
+            <input type="file" accept="audio/*" id="submit-file-deepen" onchange="handleFileSelect('deepen', this)">
+            <span class="submit-file-btn" id="submit-file-btn-deepen">🎤 Sprachnachricht</span>
+          </label>
+          <div class="submit-file-preview" id="submit-preview-deepen"></div>
+          <button class="optional-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-card">
+      <button class="optional-toggle" id="immerse-toggle" onclick="toggleOptional('immerse')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">🎤 Niveau 3 — Ihre Geschichte</div>
+          <div class="optional-toggle-sub">Freies Sprechen — alle Wörter zur Auswahl</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="immerse-body">
+        <div class="optional-topic">${s.immerse.topic}</div>
+        <div class="optional-text">${s.immerse.prompt}</div>
+        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.immerse.instruction}</div>
+        <div class="submit-form submit-form--optional" id="submit-form-immerse">
+          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Ihre Geschichte..."></textarea>
+          <label class="submit-file-label">
+            <input type="file" accept="audio/*" id="submit-file-immerse" onchange="handleFileSelect('immerse', this)">
+            <span class="submit-file-btn" id="submit-file-btn-immerse">🎤 Sprachnachricht</span>
+          </label>
+          <div class="submit-file-preview" id="submit-preview-immerse"></div>
+          <button class="optional-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>
+      `;
+    })() : ''}
+
+    ${student.sprint?.today ? '' : `
     <div class="task-card">
       <div class="task-card-header">
         <div class="task-card-label">📌 Aufgabe für heute · <span style="opacity:.8;font-weight:400">Pflicht</span></div>
@@ -205,11 +306,44 @@ function render() {
       </div>
     </div>
     ` : ''}
+    `}
 
     </div><!-- /speaking-tasks -->
 
     <div id="writing-tasks" style="display:none">
-    ${student.writing ? `
+    ${student.sprint?.today ? `
+    <div class="task-card">
+      <div class="task-card-header">
+        <div class="task-card-label">✍️ Schreiben · <span style="opacity:.8;font-weight:400">Niveau 1</span></div>
+      </div>
+      <div class="task-card-topic">${student.sprint.today.writingTask.topic}</div>
+      <div class="task-card-body">${student.sprint.today.writingTask.instruction}</div>
+      <div class="submit-form" id="submit-form-writing1">
+        <textarea class="submit-textarea" id="submit-text-writing1" placeholder="Schreiben Sie hier..."></textarea>
+        <button class="action-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
+        <div class="submit-confirm" id="submit-confirm-writing1" style="display:none">✅ Gesendet!</div>
+      </div>
+    </div>
+    <div class="optional-card">
+      <button class="optional-toggle" id="writing2-toggle" onclick="toggleOptional('writing2')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">✍️ Niveau 2 — Brief an eine Freundin</div>
+          <div class="optional-toggle-sub">Bereit für mehr?</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="writing2-body">
+        <div class="optional-topic">${student.sprint.today.writingDeepen.topic}</div>
+        <div class="optional-text">${student.sprint.today.writingDeepen.instruction}</div>
+        <div class="submit-form submit-form--optional" id="submit-form-writing2">
+          <textarea class="submit-textarea" id="submit-text-writing2" placeholder="Ihre Antwort..."></textarea>
+          <button class="optional-send-btn" onclick="submitHomework('writing2')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-writing2" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    ${!student.sprint?.today && student.writing ? `
     <div class="task-card">
       <div class="task-card-header">
         <div class="task-card-label">✍️ Schreiben · <span style="opacity:.8;font-weight:400">Niveau 1</span></div>
@@ -261,7 +395,7 @@ function render() {
       </div>
     </div>
     ` : ''}
-    </div><!-- /writing-tasks -->
+    </div><!-- /writing-tasks (fallback) -->
 
     ${student.diary && student.diary.active ? (() => {
       const diaryKey = `pgc_diary_${id}`;

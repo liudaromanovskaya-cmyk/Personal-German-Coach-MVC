@@ -208,12 +208,127 @@ const STUDENTS = {
         text: 'Schreiben Sie einen kurzen Text (8–10 Sätze) über einen Moment der Ihnen Energie gegeben hat — ein Ausflug, ein Abend, ein Erlebnis in der Natur.\n\nAlle Wörter dieser Woche zur Auswahl:\nin Erfüllung gehen · im Vergleich zu · die Erkenntnis · beitragen zu · retten · sich erholen · übernehmen · der Wohlstand · worum geht es\n\nTipp: „Es war ein Abend, als... Im Vergleich zum Alltag... Das hat dazu geführt, dass ich..."',
       },
     },
+    sprint: {
+      week: 'April 2026 — Woche 1',
+      // Все слова с живых занятий — полный банк
+      allWords: [
+        'sich befinden', 'in der Region', 'eine Fahrt', 'übertreiben', 'übernachten', 'übersetzen',
+        'überfahren', 'überqueren', 'erlauben', 'die Erlaubnis', 'möglich', 'ermöglichen',
+        'Das ermöglicht / ermöglichte / hat ermöglicht', 'führen zu + Dat.',
+        'Das hat dazu geführt, dass...', 'das Unternehmen', 'übernehmen',
+        'Werte übernehmen', 'Verantwortung übernehmen', 'das Geschäft übernehmen',
+        'Das erlaubt uns', 'der Staat', 'unterbrechen', 'die Rettung', 'retten + Akk.',
+        'der Rettungsdienst', 'sich unterhalten mit + Dat.', 'worum geht es',
+        'gehen um + Akk.', 'der Stoff', 'der Lernstoff', 'rechnen', 'der Mentor',
+        'fehlen', 'anwenden', 'die Anwendung', 'der Zweifel', 'die Wiederholung',
+        'interessiert an + Dat.', 'das Interesse an + Dat.', 'sich interessieren für + Akk.',
+        'die Erkenntnis', 'die Lücke', 'der Strom', 'die Heizung', 'überfordert sein',
+        'die Senkung der Motivation', 'kraftlos', 'zittern', 'beeinflussen',
+        'Einfluss auf etw. nehmen', 'sich beziehen auf + Akk.', 'der Bezug auf + Akk.',
+        'bezüglich', 'ankommen auf + Akk.', 'abhängen von + Dat.',
+        'Es kommt darauf an', 'das hängt davon ab', 'sich freuen auf', 'warten auf',
+        'sich erinnern an + Akk.', 'denken an + Akk.', 'arbeiten an + Dat.',
+        'vergleichen', 'der Vergleich', 'im Vergleich zu', 'das Volk',
+        'sich wohl fühlen', 'der Wohlstand', 'die Wohlfahrt',
+        'ausgehen von + Dat.', 'eintreten', 'vertreten in + Dat.',
+        'beitragen zu + Dat.', 'der Garten', 'der Gärtner', 'der Kindergarten',
+        'in Erfüllung gehen', 'erfüllt werden', 'einen Traum erfüllen',
+      ],
+      // Задание одного дня — 6 слов с чанками
+      today: {
+        date: '1. April',
+        theme: 'Ein Ausflug am Wochenende',
+        words: [
+          {
+            word: 'sich befinden',
+            hint: 'wo man ist / wie die Lage ist',
+            chunks: [
+              'Wo befinden Sie sich gerade?',
+              'Ich befinde mich gerade in einer aktiven Phase.',
+              'Das Hotel befindet sich direkt am See.',
+            ],
+          },
+          {
+            word: 'eine Fahrt machen',
+            hint: 'Ausflug, Reise, Strecke',
+            chunks: [
+              'Wir haben eine Fahrt ins Grüne gemacht.',
+              'Die Fahrt hat zwei Stunden gedauert.',
+              'Eine kurze Fahrt — aber so wertvoll!',
+            ],
+          },
+          {
+            word: 'ermöglichen',
+            hint: 'etwas möglich machen',
+            chunks: [
+              'Das ermöglicht mir, mehr Zeit draußen zu verbringen.',
+              'Der freie Tag hat uns diese Fahrt ermöglicht.',
+              'Das hat uns ermöglicht, endlich abzuschalten.',
+            ],
+          },
+          {
+            word: 'in Erfüllung gehen',
+            hint: 'ein Wunsch wird wahr',
+            chunks: [
+              'Mein kleiner Wunsch ist in Erfüllung gegangen.',
+              'Ich wünsche dir, dass deine Träume in Erfüllung gehen.',
+              'Endlich ist es in Erfüllung gegangen!',
+            ],
+          },
+          {
+            word: 'sich unterhalten mit',
+            hint: 'sprechen, plaudern — mit wem?',
+            chunks: [
+              'Ich habe mich lange mit ihr unterhalten.',
+              'Mit wem haben Sie sich unterhalten?',
+              'Wir haben uns wunderbar unterhalten.',
+            ],
+          },
+          {
+            word: 'worum geht es',
+            hint: 'was ist das Thema / der Kern',
+            chunks: [
+              'Worum geht es in diesem Film?',
+              'Worum geht es dir eigentlich?',
+              'Es geht darum, dass wir mehr Zeit füreinander haben.',
+            ],
+          },
+        ],
+        task: {
+          topic: 'Aufwärmen — Wo warst du am Wochenende?',
+          prompt: 'Eine Bekannte fragt: „Wo warst du am Wochenende? Was hast du gemacht?"',
+          instruction: '5 Sätze. Kein Perfekt nötig — einfach erzählen.',
+          hint: 'Einstieg: „Am Wochenende befand ich mich... Wir haben eine Fahrt gemacht... Das hat mir ermöglicht..."',
+        },
+        deepen: {
+          topic: 'Situation — Ein Moment der zählt',
+          prompt: 'Ihre Kollegin fragt: „Hattest du letzte Woche einen schönen Moment? Erzähl mal!"',
+          instruction: '7–8 Sätze. Benutzen Sie die Wörter des Tages.',
+          hint: '„Es war ein Moment, als... Das hat mir ermöglicht... In diesem Moment ging ein kleiner Wunsch in Erfüllung..."',
+        },
+        immerse: {
+          topic: 'Ihre Geschichte — Was bedeutet das für Sie?',
+          prompt: 'Erinnern Sie sich an einen Ausflug oder Moment, der Ihnen gut getan hat.',
+          instruction: 'Erzählen Sie frei — alle Wörter des Tages stehen Ihnen zur Verfügung. So lange wie Sie möchten.',
+          hint: '',
+        },
+        // Письменный вариант — отдельные задания
+        writingTask: {
+          topic: 'Schreiben — Aufwärmen',
+          instruction: 'Schreiben Sie 5 Sätze: Wo waren Sie am Wochenende?\n\nVerwenden Sie:\n• sich befinden · eine Fahrt · ermöglichen\n\nTipp: „Am Wochenende befand ich mich... Wir haben eine Fahrt gemacht... Das hat mir ermöglicht..."',
+        },
+        writingDeepen: {
+          topic: 'Schreiben — Ein besonderer Moment',
+          instruction: 'Schreiben Sie 7–8 Sätze an eine Freundin über einen Moment der Ihnen gut getan hat.\n\nVerwenden Sie alle 6 Wörter des Tages:\nsich befinden · eine Fahrt · ermöglichen · in Erfüllung gehen · sich unterhalten mit · worum geht es\n\nTipp: „Es war ein Nachmittag, als... Worum es dabei wirklich ging... In diesem Moment ging etwas in Erfüllung..."',
+        },
+      },
+    },
     lexik: {
       bank: null,
       aktuell: {
         title: 'April-Sprint — Woche 1',
         description: 'Präpositionalverben + Verben des Ermöglichens + Alltagswortschatz',
-        words: ['sich erinnern an', 'ankommen auf', 'abhängen von', 'arbeiten an', 'sich freuen auf', 'ermöglichen', 'beitragen zu', 'führen zu', 'übernehmen', 'beeinflussen', 'sich wohl fühlen', 'die Erkenntnis', 'der Zweifel', 'überfordert sein'],
+        words: ['sich befinden', 'eine Fahrt', 'ermöglichen', 'in Erfüllung gehen', 'sich unterhalten mit', 'worum geht es', 'sich erinnern an', 'ankommen auf', 'abhängen von', 'arbeiten an', 'sich freuen auf', 'beitragen zu', 'führen zu', 'übernehmen', 'beeinflussen', 'sich wohl fühlen', 'die Erkenntnis', 'der Zweifel', 'überfordert sein', 'fehlen', 'der Strom', 'retten'],
         link: null,
       },
       niveau: null,
