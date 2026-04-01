@@ -393,7 +393,23 @@ const STUDENTS = {
         { label: 'Feste Ausdrücke & Redewendungen (10+ aktiv)', done: false },
       ]},
     ],
-    feedback: null,
+    feedback: {
+      date: '31. März',
+      notifText: 'Ihr Feedback ist da! Heute: wie klingt Erschöpfung auf Deutsch — wie ein echter Berliner.',
+      blocks: [
+        {
+          said: 'Ich war sehr müde nach der Arbeit.',
+          native: 'Ich war total am Ende.',
+          nativeNote: '— живо, точно. Именно так говорят коллеги в пятницу вечером.',
+          praise: '«eingespannt» — вы использовали это слово точно в нужный момент. Это уже B2.',
+          anchor: '«am Ende sein» — представьте: лампочка мигает и гаснет. Заряд кончился. Вот так немец чувствует усталость — она заканчивается, как батарейка.',
+          question: 'А когда у вас последний раз Akku закончился?',
+          questionDE: 'Wann ist bei Ihnen zuletzt der Akku leer geworden?',
+          questionHint: 'Используйте: «Ich war total am Ende, als...»',
+        },
+      ],
+      feedbackWords: ['total am Ende', 'der Akku ist leer', 'am Ende sein', 'eingespannt'],
+    },
     diary: {
       active: true,
       title: 'Tagebuch — April-Sprint',

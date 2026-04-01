@@ -2124,3 +2124,191 @@ a.optional-send-btn:active {
   text-decoration-style: dotted;
   text-underline-offset: 2px;
 }
+
+/* ── Sprint P0: Notification banner ─────────────────────────────────────── */
+.sprint-notif-banner {
+  margin: 0 16px 12px;
+  background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sprint-notif-text {
+  font-size: 13px;
+  color: #fff;
+  line-height: 1.5;
+  flex: 1;
+}
+.sprint-notif-close {
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── Sprint P0: Not-done banner ─────────────────────────────────────────── */
+.not-done-banner {
+  margin: 0 16px 12px;
+  background: #FFFBEB;
+  border: 1.5px solid #FCD34D;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: #92400E;
+}
+.not-done-btn {
+  background: #D97706;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 36px;
+  font-family: inherit;
+}
+
+/* ── Sprint P0: Mood selector ───────────────────────────────────────────── */
+.mood-selector {
+  margin: 0 16px 16px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.mood-selector-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.mood-selector-btns {
+  display: flex;
+  gap: 8px;
+}
+.mood-btn {
+  flex: 1;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  min-height: 44px;
+  text-align: center;
+}
+.mood-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+.mood-selected {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Sprint P0: Structured feedback blocks ──────────────────────────────── */
+.fb-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.fb-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fb-row:last-of-type { border-bottom: none; }
+.fb-row--accent { background: #F0FBF5; border-radius: 10px; padding: 12px; margin: 4px -2px; }
+.fb-row--anchor { background: #FFF7ED; border-radius: 10px; padding: 12px; margin: 4px -2px; }
+.fb-row--question { background: #EFF6FF; border-radius: 10px; padding: 12px; margin: 4px -2px; }
+.fb-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 22px;
+}
+.fb-row-content { flex: 1; }
+.fb-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.fb-row-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.fb-said-text { color: var(--muted); font-style: italic; }
+.fb-native-text { font-weight: 700; color: #166534; font-size: 15px; }
+.fb-row-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.fb-question-de {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e40af;
+  margin-top: 6px;
+}
+.fb-question-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.fb-response-form {
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Feedback words → next Sprint ───────────────────────────────────────── */
+.feedback-words-next {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1.5px solid var(--border);
+}
+.feedback-words-next-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  margin-bottom: 10px;
+}
+.feedback-words-next-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.feedback-word-chip {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid #7CC8A0;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}

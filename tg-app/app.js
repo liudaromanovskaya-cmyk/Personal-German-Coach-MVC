@@ -83,20 +83,7 @@ function render() {
 
   const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  const feedbackHTML = student.feedback ? `
-    <div class="section-title">Feedback</div>
-    <button class="feedback-toggle" id="fb-toggle" onclick="toggleFeedback()">
-      <div class="feedback-toggle-left">
-        <div class="feedback-toggle-label">Kommentar zur letzten Aufgabe</div>
-        <div class="feedback-toggle-date">${student.feedback.date}</div>
-      </div>
-      <div class="feedback-toggle-arrow">⌄</div>
-    </button>
-    <div class="feedback-body" id="fb-body">
-      <div class="feedback-text">${student.feedback.text}</div>
-      <div class="feedback-score">${student.feedback.score}</div>
-    </div>
-  ` : '';
+  const feedbackHTML = buildFeedbackHTML(student, id);
 
   app.innerHTML = `
     <div class="header">
@@ -132,6 +119,27 @@ function render() {
 
     ${student.sprint?.today ? (() => {
       const s = student.sprint.today;
+      const todayISO = new Date().toISOString().split('T')[0];
+
+      // Проверяем: сдавал ли уже сегодня Niveau 1
+      let taskDoneToday = false;
+      try {
+        const sub = JSON.parse(localStorage.getItem('pgc_sub_' + id) || '{}');
+        taskDoneToday = !!(sub.task && sub.task.date && sub.task.date.startsWith(todayISO));
+      } catch(e) {}
+
+      // Проверяем: фидбек новый (не просмотренный)
+      let fbSeen = false;
+      try { fbSeen = localStorage.getItem('pgc_fb_seen_' + id) === 'true'; } catch(e) {}
+      const showNotif = !!student.feedback && !fbSeen;
+
+      // Проверяем: настроение уже выбрано сегодня
+      let moodToday = null;
+      try {
+        const md = JSON.parse(localStorage.getItem('pgc_mood_' + id) || '{}');
+        moodToday = md.date === todayISO ? md.mood : null;
+      } catch(e) {}
+
       const chunksHTML = s.words.map(w => `
         <div class="chunk-word-block">
           <div class="chunk-word-header">
@@ -145,7 +153,36 @@ function render() {
         </div>
       `).join('');
 
+      const moodLabels = { tired: '😰 Erschöpft — heute nur Niveau 1', ok: '😐 Es geht — los geht\'s!', good: '😊 Gut! — alle Levels offen' };
+
       return `
+    ${showNotif ? `
+    <div class="sprint-notif-banner" id="sprint-notif-banner">
+      <div class="sprint-notif-text">🎯 ${student.feedback.notifText}</div>
+      <button class="sprint-notif-close" onclick="dismissFeedbackNotif()">×</button>
+    </div>
+    ` : ''}
+
+    ${!taskDoneToday ? `
+    <div class="not-done-banner" id="not-done-banner">
+      <span>Aufgaben von heute warten noch — kein Stress, los geht's!</span>
+      <button class="not-done-btn" onclick="dismissNotDone()">Weitermachen →</button>
+    </div>
+    ` : ''}
+
+    <div class="mood-selector" id="mood-selector">
+      ${moodToday ? `
+      <div class="mood-selected">${moodLabels[moodToday]}</div>
+      ` : `
+      <div class="mood-selector-label">Wie geht es Ihnen heute?</div>
+      <div class="mood-selector-btns">
+        <button class="mood-btn" onclick="setMood('tired')">😰 Erschöpft</button>
+        <button class="mood-btn" onclick="setMood('ok')">😐 Es geht</button>
+        <button class="mood-btn" onclick="setMood('good')">😊 Gut!</button>
+      </div>
+      `}
+    </div>
+
     <div class="sprint-day-card">
       <div class="sprint-day-header">
         <div class="sprint-day-label">🗓 Sprint · ${s.date}</div>
@@ -1665,6 +1702,11 @@ function submitHomework(level) {
     }
   }
   if (textarea) textarea.value = '';
+  // Убираем баннер "не сделано" после первой сдачи
+  if (level === 'task') {
+    const banner = document.getElementById('not-done-banner');
+    if (banner) banner.style.display = 'none';
+  }
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 }
 
@@ -1732,4 +1774,145 @@ function submitDiary() {
 }
 
 document.addEventListener('DOMContentLoaded', render);
+
+// ── Sprint P0: Фидбек + Настроение + Баннеры ────────────────────────────────
+
+function buildFeedbackHTML(student, id) {
+  if (!student.feedback) return '';
+  const fb = student.feedback;
+
+  const blocksHTML = (fb.blocks || []).map((b, i) => `
+    <div class="fb-block">
+      <div class="fb-row">
+        <div class="fb-icon">✨</div>
+        <div class="fb-row-content">
+          <div class="fb-row-label">Вы сказали:</div>
+          <div class="fb-row-text fb-said-text">"${b.said}"</div>
+        </div>
+      </div>
+      <div class="fb-row fb-row--accent">
+        <div class="fb-icon">🇩🇪</div>
+        <div class="fb-row-content">
+          <div class="fb-row-label">Немец скажет:</div>
+          <div class="fb-row-text fb-native-text">"${b.native}"</div>
+          ${b.nativeNote ? `<div class="fb-row-note">${b.nativeNote}</div>` : ''}
+        </div>
+      </div>
+      <div class="fb-row">
+        <div class="fb-icon">✅</div>
+        <div class="fb-row-content">
+          <div class="fb-row-label">Вы молодец:</div>
+          <div class="fb-row-text">${b.praise}</div>
+        </div>
+      </div>
+      <div class="fb-row fb-row--anchor">
+        <div class="fb-icon">🎯</div>
+        <div class="fb-row-content">
+          <div class="fb-row-label">Образ-якорь:</div>
+          <div class="fb-row-text">${b.anchor}</div>
+        </div>
+      </div>
+      <div class="fb-row fb-row--question">
+        <div class="fb-icon">❓</div>
+        <div class="fb-row-content">
+          <div class="fb-row-label">Теперь вы:</div>
+          <div class="fb-row-text">${b.question}</div>
+          <div class="fb-question-de">${b.questionDE}</div>
+          ${b.questionHint ? `<div class="fb-question-hint">💡 ${b.questionHint}</div>` : ''}
+        </div>
+      </div>
+      <div class="fb-response-form">
+        <textarea class="submit-textarea" id="fb-response-text-${i}" placeholder="Ваш ответ голосом или текстом..."></textarea>
+        <label class="submit-file-label">
+          <input type="file" accept="audio/*" id="submit-file-fbresponse${i}" onchange="handleFileSelect('fbresponse${i}', this)">
+          <span class="submit-file-btn" id="submit-file-btn-fbresponse${i}">🎤 Sprachnachricht</span>
+        </label>
+        <div class="submit-file-preview" id="submit-preview-fbresponse${i}"></div>
+        <button class="action-btn" style="margin-top:8px" onclick="submitFeedbackResponse(${i})">✉️ Abschicken</button>
+        <div class="submit-confirm" id="fb-response-confirm-${i}" style="display:none">✅ Gesendet! Sehr gut!</div>
+      </div>
+    </div>
+  `).join('');
+
+  const wordsHTML = fb.feedbackWords?.length ? `
+    <div class="feedback-words-next">
+      <div class="feedback-words-next-label">Wörter aus dem Feedback → nächster Sprint</div>
+      <div class="feedback-words-next-list">
+        ${fb.feedbackWords.map(w => `<span class="feedback-word-chip">${w}</span>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  return `
+    <div class="section-title">Feedback</div>
+    <button class="feedback-toggle" id="fb-toggle" onclick="toggleFeedback()">
+      <div class="feedback-toggle-left">
+        <div class="feedback-toggle-label">Kommentar — ${fb.date}</div>
+        <div class="feedback-toggle-date">Tippen zum Öffnen ⌄</div>
+      </div>
+      <div class="feedback-toggle-arrow">⌄</div>
+    </button>
+    <div class="feedback-body" id="fb-body">
+      ${blocksHTML}
+      ${wordsHTML}
+    </div>
+  `;
+}
+
+function setMood(mood) {
+  const id = _studentId;
+  const todayISO = new Date().toISOString().split('T')[0];
+  try {
+    localStorage.setItem('pgc_mood_' + id, JSON.stringify({ date: todayISO, mood }));
+  } catch(e) {}
+
+  const labels = {
+    tired: '😰 Erschöpft — heute nur Niveau 1',
+    ok: '😐 Es geht — los geht\'s!',
+    good: '😊 Gut! — alle Levels offen',
+  };
+  const sel = document.getElementById('mood-selector');
+  if (sel) sel.innerHTML = `<div class="mood-selected">${labels[mood]}</div>`;
+
+  const optionals = document.querySelectorAll('#speaking-tasks .optional-card');
+  if (mood === 'tired') {
+    optionals.forEach(el => { el.style.display = 'none'; });
+  } else {
+    optionals.forEach(el => { el.style.display = ''; });
+  }
+
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function dismissNotDone() {
+  const banner = document.getElementById('not-done-banner');
+  if (banner) banner.style.display = 'none';
+}
+
+function dismissFeedbackNotif() {
+  const banner = document.getElementById('sprint-notif-banner');
+  if (banner) banner.style.display = 'none';
+  try { localStorage.setItem('pgc_fb_seen_' + _studentId, 'true'); } catch(e) {}
+}
+
+function submitFeedbackResponse(idx) {
+  if (!_student) return;
+  const textarea = document.getElementById('fb-response-text-' + idx);
+  const fileInput = document.getElementById('submit-file-fbresponse' + idx);
+  const text = textarea ? textarea.value.trim() : '';
+  const hasFile = fileInput && fileInput.files.length > 0;
+
+  const block = _student.feedback?.blocks?.[idx];
+  let msg = `💬 Antwort auf Feedback — ${_student.name}\n`;
+  msg += `❓ ${block?.questionDE || 'Frage-Aktivierung'}\n`;
+  if (text) msg += `\n${text}`;
+  if (hasFile) msg += `\n\n[Sprachnachricht folgt]`;
+
+  window.open('https://t.me/mila_konstanz?text=' + encodeURIComponent(msg), '_blank');
+
+  const confirm = document.getElementById('fb-response-confirm-' + idx);
+  if (confirm) confirm.style.display = 'block';
+  if (textarea) textarea.value = '';
+  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
 
