@@ -111,8 +111,8 @@ function render() {
     ` : ''}
 
     <div class="mode-switcher">
-      <button class="mode-btn mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
-      <button class="mode-btn" id="mode-writing" onclick="switchMode('writing')">✍️ Schreiben</button>
+      <button class="mode-btn mode-btn--speaking mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
+      <button class="mode-btn mode-btn--writing" id="mode-writing" onclick="switchMode('writing')">✍️ Schreiben</button>
     </div>
 
     <div id="speaking-tasks">
@@ -709,6 +709,7 @@ function render() {
   renderLexikScreen(student);
   renderGapsScreen();
   renderKulturScreen(student);
+  initDrafts();
 
   // Telegram MainButton
   if (tg) {
@@ -1745,13 +1746,131 @@ function submitHomework(level) {
       confirm.innerHTML = '✅ Текст отправлен! Прикрепите скриншот следующим сообщением в Telegram.';
     }
   }
-  if (textarea) textarea.value = '';
+  // Помечаем как отправлено, показываем подтверждение с кнопкой редактирования
+  setDraftStatus(level, 'sent');
+  if (textarea) textarea.readOnly = true;
+  const confirm = document.getElementById('submit-confirm-' + level);
+  if (confirm) {
+    confirm.style.display = 'block';
+    confirm.innerHTML = `✅ Gesendet! <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
+  }
   // Убираем баннер "не сделано" после первой сдачи
   if (level === 'task') {
     const banner = document.getElementById('not-done-banner');
     if (banner) banner.style.display = 'none';
   }
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
+
+// ── Черновики — автосохранение и восстановление ──────────────────────────────
+
+function _draftKey(level) {
+  const today = new Date().toISOString().split('T')[0];
+  return `pgc_draft_${_studentId}_${level}_${today}`;
+}
+function _draftStKey(level) {
+  const today = new Date().toISOString().split('T')[0];
+  return `pgc_draftst_${_studentId}_${level}_${today}`;
+}
+function saveDraft(level, text) {
+  try { localStorage.setItem(_draftKey(level), text); } catch(e) {}
+}
+function loadDraft(level) {
+  try { return localStorage.getItem(_draftKey(level)) || ''; } catch(e) { return ''; }
+}
+function getDraftStatus(level) {
+  try { return localStorage.getItem(_draftStKey(level)) || 'new'; } catch(e) { return 'new'; }
+}
+function setDraftStatus(level, status) {
+  try { localStorage.setItem(_draftStKey(level), status); } catch(e) {}
+}
+
+function editSubmission(level) {
+  const textarea = document.getElementById('submit-text-' + level);
+  const confirm = document.getElementById('submit-confirm-' + level);
+  if (textarea) { textarea.readOnly = false; textarea.focus(); }
+  if (confirm) confirm.style.display = 'none';
+  setDraftStatus(level, 'draft');
+}
+
+function submitLater(level) {
+  const textarea = document.getElementById('submit-text-' + level);
+  const text = textarea ? textarea.value.trim() : '';
+  if (!text) return;
+  saveDraft(level, text);
+  setDraftStatus(level, 'draft');
+  const confirm = document.getElementById('submit-confirm-' + level);
+  if (confirm) {
+    confirm.style.display = 'block';
+    confirm.innerHTML = `💾 Gespeichert — <button class="edit-sent-btn" onclick="submitHomework('${level}')">Jetzt senden</button> · <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
+  }
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function checkAutoSubmitYesterday() {
+  if (!_studentId) return;
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const levels = ['task', 'deepen', 'immerse', 'writing1', 'writing2', 'writing3'];
+  levels.forEach(level => {
+    const draftKey = `pgc_draft_${_studentId}_${level}_${yesterday}`;
+    const stKey = `pgc_draftst_${_studentId}_${level}_${yesterday}`;
+    try {
+      const text = localStorage.getItem(draftKey);
+      const status = localStorage.getItem(stKey) || 'new';
+      if (text && text.trim() && status === 'draft') {
+        // Автоотправка вчерашнего черновика
+        localStorage.setItem(stKey, 'auto-sent');
+        const sub = JSON.parse(localStorage.getItem('pgc_sub_' + _studentId) || '{}');
+        sub[level + '_' + yesterday] = { date: yesterday + 'T23:59:00', text, auto: true };
+        localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
+      }
+    } catch(e) {}
+  });
+}
+
+function initDrafts() {
+  checkAutoSubmitYesterday();
+  const levels = ['task', 'deepen', 'immerse', 'writing1', 'writing2', 'writing3'];
+  levels.forEach(level => {
+    const textarea = document.getElementById('submit-text-' + level);
+    if (!textarea) return;
+    // Восстановить черновик
+    const draft = loadDraft(level);
+    if (draft) textarea.value = draft;
+    // Если уже отправлено — показать статус
+    const status = getDraftStatus(level);
+    if (status === 'sent') {
+      textarea.readOnly = true;
+      const confirm = document.getElementById('submit-confirm-' + level);
+      if (confirm) {
+        confirm.style.display = 'block';
+        confirm.innerHTML = `✅ Gesendet! <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
+      }
+    } else if (status === 'draft' && draft) {
+      const confirm = document.getElementById('submit-confirm-' + level);
+      if (confirm) {
+        confirm.style.display = 'block';
+        confirm.innerHTML = `💾 Entwurf gespeichert · <button class="edit-sent-btn" onclick="submitHomework('${level}')">Jetzt senden</button>`;
+      }
+    }
+    // Автосохранение при вводе
+    textarea.addEventListener('input', () => {
+      saveDraft(level, textarea.value);
+      if (getDraftStatus(level) !== 'sent') setDraftStatus(level, 'draft');
+    });
+    // Добавить кнопку "Später senden" рядом с "Abschicken"
+    const form = textarea.closest('.submit-form');
+    if (form && !form.querySelector('.send-later-btn')) {
+      const sendBtn = form.querySelector('.action-btn, .optional-send-btn');
+      if (sendBtn) {
+        const laterBtn = document.createElement('button');
+        laterBtn.className = 'send-later-btn';
+        laterBtn.textContent = '💾 Später senden';
+        laterBtn.onclick = () => submitLater(level);
+        sendBtn.insertAdjacentElement('afterend', laterBtn);
+      }
+    }
+  });
 }
 
 function switchMode(mode) {

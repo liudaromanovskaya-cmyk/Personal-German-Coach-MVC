@@ -1961,6 +1961,51 @@ a.optional-send-btn:active {
   color: var(--accent);
   background: var(--accent-light);
 }
+.mode-btn--speaking.mode-btn--active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+  border-width: 2px;
+}
+.mode-btn--writing.mode-btn--active {
+  border-color: #4338CA;
+  color: #4338CA;
+  background: #EEF2FF;
+  border-width: 2px;
+}
+#writing-tasks {
+  border-top: 3px solid #4338CA;
+  padding-top: 4px;
+}
+
+/* Кнопка "Später senden" */
+.send-later-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1.5px solid #A5B4FC;
+  border-radius: 10px;
+  background: #EEF2FF;
+  color: #4338CA;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+/* Кнопка "Bearbeiten" / "Jetzt senden" внутри статуса */
+.edit-sent-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 4px;
+  text-decoration: underline;
+}
+.edit-sent-btn:hover { opacity: .7; }
 
 /* ── Diary card ─────────────────────────────────────── */
 .diary-card {
