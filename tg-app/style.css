@@ -2328,3 +2328,13 @@ a.optional-send-btn:active {
   font-size: 13px;
   font-weight: 600;
 }
+.sprint-word-chip--new {
+  background: #EEF2FF;
+  color: #4338CA;
+  border-color: #A5B4FC;
+}
+.sprint-word-chip--deep {
+  background: #FFF7ED;
+  color: #C2410C;
+  border-color: #FDB87A;
+}
