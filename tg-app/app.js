@@ -120,13 +120,26 @@ function render() {
         const bg  = typeBg[p.type] || 'transparent';
         return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700">${p.text}</span>`;
       }).join('');
+      const mkSentence = (parts) => parts.map(p => {
+        if (p.type === 'plain') return `<span>${p.text}</span>`;
+        const col = typeColors[p.type] || '#333';
+        const bg  = typeBg[p.type] || 'transparent';
+        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700">${p.text}</span>`;
+      }).join('');
+
+      const tekamoloLegend = `<span style="color:${typeColors.T};font-weight:700">Te</span><span style="color:#718096">·</span><span style="color:#DC2626;font-weight:700">Ka</span><span style="color:#718096">·</span><span style="color:${typeColors.M};font-weight:700">Mo</span><span style="color:#718096">·</span><span style="color:${typeColors.Lo};font-weight:700">Lo</span>`;
+
       return `
     <div class="grammar-queen-banner">
       <div class="grammar-queen-label">Грамматика недели</div>
       <div class="grammar-queen-title">${gw.queen}</div>
-      <div class="grammar-queen-sentence">${sentenceHTML}</div>
+      <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
       ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
       ${gw.sentenceNote2 ? `<div class="grammar-queen-note2">${gw.sentenceNote2}</div>` : ''}
+      ${gw.sentence2 ? `
+      <div class="grammar-queen-divider"></div>
+      <div class="grammar-queen-teka-label">${tekamoloLegend}</div>
+      <div class="grammar-queen-sentence">${mkSentence(gw.sentence2)}</div>` : ''}
     </div>`;
     })() : ''}
 

@@ -2424,6 +2424,16 @@ a.optional-send-btn:active {
   margin-top: 3px;
   font-style: italic;
 }
+.grammar-queen-divider {
+  border-top: 1px solid #DDD6FE;
+  margin: 10px 0 8px;
+}
+.grammar-queen-teka-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
 
 /* Schreiben — список слов столбиком */
 .wlist {

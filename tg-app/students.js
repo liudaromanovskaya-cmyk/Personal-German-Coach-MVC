@@ -222,8 +222,18 @@ const STUDENTS = {
           { text: '.', type: 'plain' },
         ],
         sentenceNote: 'Es hängt davon ab · Wovon hängt es ab?',
-        // an wen (Personen) vs daran/woran (Sachen)
         sentenceNote2: 'Sachen: daran · woran — Personen: an ihn · an wen',
+        // TeKaMoLo: второе предложение
+        sentence2: [
+          { text: 'Ich ', type: 'plain' },
+          { text: 'erinnere', type: 'verb' },
+          { text: ' mich ', type: 'plain' },
+          { text: 'jeden Abend', type: 'T' },
+          { text: ' gerne', type: 'M' },
+          { text: ' daran', type: 'Lo' },
+          { text: '.', type: 'plain' },
+        ],
+        sentence2Label: 'Te·Ka·Mo·Lo',
       },
       // Все слова с живых занятий — полный банк
       allWords: [
