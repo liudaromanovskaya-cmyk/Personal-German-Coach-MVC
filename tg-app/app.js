@@ -813,6 +813,9 @@ function render() {
   renderKulturScreen(student);
   initDrafts();
 
+  // Онбординг — только при первом входе
+  showOnboarding(id, student.name);
+
   // Telegram MainButton
   if (tg) {
     tg.MainButton.setText('Lehrerin schreiben');
@@ -2203,5 +2206,79 @@ function submitFeedbackResponse(idx) {
   if (confirm) confirm.style.display = 'block';
   if (textarea) textarea.value = '';
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
+
+// ── Онбординг ─────────────────────────────────────────────────────────────
+const ONBOARDING_SCREENS = [
+  {
+    icon: '👋',
+    title: (name) => `${name}, добро пожаловать в ваш кабинет`,
+    body: 'Это ваше личное пространство с педагогом. Здесь живут <strong>задания, прогресс</strong> и <strong>обратная связь</strong> — всё в одном месте.',
+  },
+  {
+    icon: '📅',
+    title: () => 'Как это работает',
+    body: '<strong>Каждый день</strong> — 6 слов и задание на говорение.<br>Три уровня сложности: начинаете с лёгкого, идёте дальше если готовы.<br><strong>Грамматика недели</strong> — всегда перед глазами.',
+  },
+  {
+    icon: '🚀',
+    title: () => 'Ваше первое задание уже здесь',
+    body: 'Прокрутите вниз — там слова дня и задание. Начните когда удобно: в метро, дома, в паузе.',
+  },
+];
+
+let _onboardStep = 0;
+
+function showOnboarding(studentId, studentName) {
+  const key = `pgc_onboarded_${studentId}`;
+  if (localStorage.getItem(key)) return;
+
+  _onboardStep = 0;
+  _renderOnboardingStep(studentName);
+}
+
+function _renderOnboardingStep(name) {
+  const existing = document.getElementById('onboarding-overlay');
+  if (existing) existing.remove();
+
+  const screen = ONBOARDING_SCREENS[_onboardStep];
+  const isLast = _onboardStep === ONBOARDING_SCREENS.length - 1;
+
+  const dots = ONBOARDING_SCREENS.map((_, i) =>
+    `<div class="onboarding-dot ${i === _onboardStep ? 'active' : ''}"></div>`
+  ).join('');
+
+  const el = document.createElement('div');
+  el.id = 'onboarding-overlay';
+  el.className = 'onboarding-overlay';
+  el.innerHTML = `
+    <div class="onboarding-card">
+      <button class="onboarding-skip" onclick="dismissOnboarding()" aria-label="Пропустить">×</button>
+      <div class="onboarding-icon">${screen.icon}</div>
+      <div class="onboarding-title">${screen.title(name)}</div>
+      <div class="onboarding-body">${screen.body}</div>
+      <div class="onboarding-dots">${dots}</div>
+      <button class="onboarding-next" onclick="onboardNext('${name}')">
+        ${isLast ? 'Начать →' : 'Далее'}
+      </button>
+    </div>
+  `;
+  document.body.appendChild(el);
+}
+
+function onboardNext(name) {
+  if (_onboardStep < ONBOARDING_SCREENS.length - 1) {
+    _onboardStep++;
+    _renderOnboardingStep(name);
+  } else {
+    dismissOnboarding();
+  }
+}
+
+function dismissOnboarding() {
+  const key = `pgc_onboarded_${_studentId}`;
+  localStorage.setItem(key, '1');
+  const el = document.getElementById('onboarding-overlay');
+  if (el) el.remove();
 }
 
