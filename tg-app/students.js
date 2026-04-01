@@ -320,17 +320,23 @@ const STUDENTS = {
         words2: [
           { word: 'abschalten', hint: 'den Kopf frei machen, Stress vergessen' },
           { word: 'genießen', hint: 'bewusst, mit Freude erleben' },
-          { word: 'sich erholen', hint: 'neue Kraft schöpfen' },
-          { word: 'der Ausblick', hint: 'Blick in die Ferne — auch übertragen: Perspektive' },
-          { word: 'innehalten', hint: 'kurz stoppen, nachdenken, atmen' },
-          { word: 'loslassen', hint: 'loslassen von Gedanken, Stress, Alltag' },
+          { word: 'sich erholen', hint: 'neue Kraft schöpfen — sich von etwas erholen' },
+          { word: 'der Ausblick', hint: 'Blick in die Ferne — auch: Perspektive, was kommt' },
+          { word: 'innehalten', hint: 'kurz stoppen, nachdenken, atmen — mitten im Alltag' },
+          { word: 'loslassen', hint: 'Gedanken, Stress, Druck loslassen' },
         ],
         words3: [
-          { word: 'prägen', hint: 'etwas hinterlässt einen bleibenden Eindruck' },
-          { word: 'aufatmen', hint: 'Erleichterung spüren, endlich frei sein' },
-          { word: 'der Alltag', hint: 'das tägliche Einerlei — was man durchbricht' },
-          { word: 'bewusst werden', hint: 'etwas erkennen, was man vorher nicht gesehen hat' },
-          { word: 'entfalten', hint: 'sich entfalten = sich frei entwickeln, aufblühen' },
+          // Слова 1 уровня — новые коллокации (глубже, чем в Niveau 1)
+          { word: 'sich befinden · mitten in', hint: '„Ich befinde mich mitten in einer wichtigen Phase"' },
+          { word: 'eine Fahrt · unternehmen', hint: 'формальнее: eine Fahrt unternehmen = совершить поездку' },
+          { word: 'ermöglichen · es jmdm.', hint: '„Das ermöglicht es mir, endlich durchzuatmen"' },
+          { word: 'in Erfüllung · bringen', hint: '„einen Wunsch in Erfüllung bringen" (активная форма)' },
+          // Слова 2 уровня — новые коллокации
+          { word: 'abschalten · komplett', hint: '„Ich konnte komplett abschalten — kein Handy, nichts"' },
+          { word: 'sich erholen · von + Dat.', hint: '„Ich erhole mich von der Arbeitsbelastung"' },
+          // 2 новых слова уровня B2
+          { word: 'Reisende soll man nicht aufhalten', hint: '🇩🇪 Пословица: кто хочет уйти — не держи. Уходящего не останавливай.' },
+          { word: 'auf seine Kosten kommen', hint: '✦ Устойчивое выражение: получить своё удовольствие, не пожалеть о поездке' },
         ],
         deepen: {
           topic: 'Situation — Ein Moment der zählt',
@@ -340,9 +346,9 @@ const STUDENTS = {
         },
         immerse: {
           topic: 'Ihre Geschichte — Was bedeutet das für Sie?',
-          prompt: 'Erinnern Sie sich an einen Ausflug oder Moment, der Ihnen gut getan hat. Was hat er in Ihnen geprägt?',
-          instruction: 'Erzählen Sie frei — alle Wörter aus Niveau 1, 2 und 3 stehen Ihnen zur Verfügung. So lange wie Sie möchten.',
-          hint: '',
+          prompt: 'Erinnern Sie sich an einen Ausflug oder Moment, der Ihnen gut getan hat. Was hat er in Ihnen verändert?',
+          instruction: 'Erzählen Sie frei. Alle Wörter aus Niveau 1 + 2 + 3 stehen Ihnen zur Verfügung. Versuchen Sie, mindestens eines der B2-Ausdrücke zu verwenden.',
+          hint: '„Ich bin auf meine Kosten gekommen... Mitten in diesem Moment hielt ich inne... Es hat mir ermöglicht es mir, komplett abzuschalten..."',
         },
         // Письменный вариант — отдельные задания
         writingTask: {
