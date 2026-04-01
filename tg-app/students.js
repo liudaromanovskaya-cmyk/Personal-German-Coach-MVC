@@ -212,17 +212,17 @@ const STUDENTS = {
       week: 'April 2026 — Woche 1',
       grammarWeek: {
         queen: 'Präpositionalverben',
-        subtitle: 'Глаголы с предлогами + da-Wörter',
-        examples: [
-          { de: 'Ich erinnere mich daran.', note: 'daran = an + das' },
-          { de: 'Ich freue mich darauf.', note: 'darauf = auf + das' },
-          { de: 'Es hängt davon ab.', note: 'davon = von + das' },
-          { de: 'Ich arbeite daran.', note: 'daran = an + das' },
-          { de: 'Es kommt darauf an.', note: 'darauf = auf + das' },
+        // Одно предложение — части с типами для цветовой разметки
+        // типы: verb (глагол), T (время), K (причина), M (способ), Lo (место), plain
+        sentence: [
+          { text: 'Wir ', type: 'plain' },
+          { text: 'spielen', type: 'verb' },
+          { text: ' jeden Montag', type: 'T' },
+          { text: ' online', type: 'M' },
+          { text: ' von zu Hause', type: 'Lo' },
+          { text: ' Schach', type: 'plain' },
+          { text: '.', type: 'plain' },
         ],
-        secondaryFocus: 'Mittelfeld — глагол на своём месте',
-        secondaryNote: 'Wir spielen online · Ich erinnere mich daran · Es hängt davon ab',
-        infographic: null,
       },
       // Все слова с живых занятий — полный банк
       allWords: [

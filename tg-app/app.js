@@ -112,37 +112,22 @@ function render() {
 
     ${student.sprint?.grammarWeek ? (() => {
       const gw = student.sprint.grammarWeek;
+      const typeColors = { verb: '#4A8C6E', T: '#D97706', K: '#DC2626', M: '#7C3AED', Lo: '#0369A1' };
+      const typeBg    = { verb: '#EDF7F1', T: '#FEF3C7', K: '#FEE2E2', M: '#EDE9FE', Lo: '#E0F2FE' };
+      const typeLabel = { T: 'Zeit', K: 'Grund', M: 'Art', Lo: 'Ort' };
+      const sentenceHTML = (gw.sentence || []).map(p => {
+        if (p.type === 'plain') return `<span>${p.text}</span>`;
+        const col = typeColors[p.type] || '#333';
+        const bg  = typeBg[p.type] || 'transparent';
+        const lbl = typeLabel[p.type] ? `<sup style="font-size:9px;color:${col};margin-left:1px">${typeLabel[p.type]}</sup>` : '';
+        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 4px;font-weight:600">${p.text}</span>${lbl}`;
+      }).join('');
       return `
     <div class="grammar-queen-banner">
-      <div class="grammar-queen-top">
-        <div>
-          <div class="grammar-queen-label">Грамматика недели ✦</div>
-          <div class="grammar-queen-title">${gw.queen}</div>
-          <div class="grammar-queen-sub">${gw.subtitle}</div>
-        </div>
-        ${gw.infographic ? `<button class="grammar-infographic-btn" onclick="openInfographic('${gw.infographic}')">📊 Схема</button>` : ''}
-      </div>
-      ${gw.examples?.length ? `
-      <div class="grammar-queen-examples">
-        ${gw.examples.map(e => `
-          <div class="grammar-example-row">
-            <span class="grammar-example-de">${e.de}</span>
-            <span class="grammar-example-note">${e.note}</span>
-          </div>`).join('')}
-      </div>` : ''}
-      ${gw.secondaryFocus ? `
-      <div class="grammar-queen-secondary">
-        <span class="grammar-queen-secondary-label">${gw.secondaryFocus}</span>
-        <span class="grammar-queen-secondary-note">${gw.secondaryNote}</span>
-      </div>` : ''}
-    </div>
-    ${gw.infographic ? `
-    <div class="infographic-modal" id="infographic-modal" onclick="closeInfographic()">
-      <div class="infographic-modal-inner" onclick="event.stopPropagation()">
-        <button class="infographic-close" onclick="closeInfographic()">×</button>
-        <img src="${gw.infographic}" class="infographic-img" alt="Infografik">
-      </div>
-    </div>` : ''}`;
+      <div class="grammar-queen-label">Грамматика недели</div>
+      <div class="grammar-queen-title">${gw.queen}</div>
+      <div class="grammar-queen-sentence">${sentenceHTML}</div>
+    </div>`;
     })() : ''}
 
     <div class="mode-switcher">
