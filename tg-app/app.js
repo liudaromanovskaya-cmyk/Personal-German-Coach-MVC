@@ -229,8 +229,9 @@ function render() {
       // Недельный нарратив — понедельник или суббота
       const dayOfWeek = new Date().getDay(); // 0=Вс, 1=Пн, 6=Сб
       const weekNarr = student.sprint?.weekNarrative;
-      const weekNarrMsg = dayOfWeek === 1 ? weekNarr?.monday : (dayOfWeek === 6 ? weekNarr?.saturday : null);
-      const weekNarrType = dayOfWeek === 1 ? 'monday' : 'saturday';
+      // ТЕСТ: показываем понедельник всегда — убрать после проверки
+      const weekNarrMsg = weekNarr?.monday || (dayOfWeek === 6 ? weekNarr?.saturday : null);
+      const weekNarrType = 'monday';
 
       const chunksHTML = s.words.map(w => `
         <div class="chunk-word-block">
