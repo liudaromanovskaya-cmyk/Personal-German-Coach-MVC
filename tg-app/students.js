@@ -234,6 +234,7 @@ const STUDENTS = {
           { text: '.', type: 'plain' },
         ],
         sentence2Label: 'Te·Ka·Mo·Lo',
+        infographic: null, // ← сюда имя файла, напр. 'tekamolo.jpg' (положить в папку tg-app/)
       },
       // Все слова с живых занятий — полный банк
       allWords: [

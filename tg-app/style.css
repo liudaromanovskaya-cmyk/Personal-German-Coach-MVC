@@ -2424,6 +2424,68 @@ a.optional-send-btn:active {
   margin-top: 3px;
   font-style: italic;
 }
+.grammar-queen-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.grammar-infographic-btn {
+  flex-shrink: 0;
+  background: #7C3AED;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 36px;
+  white-space: nowrap;
+}
+
+/* Модалка инфографики */
+.infographic-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.infographic-modal.open { display: flex; }
+.infographic-modal-inner {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  max-width: 100%;
+  position: relative;
+}
+.infographic-close {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: rgba(0,0,0,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.infographic-img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 10px;
+  display: block;
+}
+
 .grammar-queen-divider {
   border-top: 1px solid #DDD6FE;
   margin: 10px 0 8px;

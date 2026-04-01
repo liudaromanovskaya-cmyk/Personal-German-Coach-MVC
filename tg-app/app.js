@@ -126,8 +126,13 @@ function render() {
 
       return `
     <div class="grammar-queen-banner">
-      <div class="grammar-queen-label">Грамматика недели</div>
-      <div class="grammar-queen-title">${gw.queen}</div>
+      <div class="grammar-queen-top-row">
+        <div>
+          <div class="grammar-queen-label">Грамматика недели</div>
+          <div class="grammar-queen-title">${gw.queen}</div>
+        </div>
+        ${gw.infographic ? `<button class="grammar-infographic-btn" onclick="openInfographic('${gw.infographic}')">📊 Схема</button>` : ''}
+      </div>
       <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
       ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
       ${gw.sentenceNote2 ? `<div class="grammar-queen-note2">${gw.sentenceNote2}</div>` : ''}
@@ -135,7 +140,14 @@ function render() {
       <div class="grammar-queen-divider"></div>
       <div class="grammar-queen-teka-label">${tekamoloLegend}</div>
       <div class="grammar-queen-sentence">${mkSentence(gw.sentence2)}</div>` : ''}
-    </div>`;
+    </div>
+    ${gw.infographic ? `
+    <div class="infographic-modal" id="infographic-modal" onclick="closeInfographic()">
+      <div class="infographic-modal-inner" onclick="event.stopPropagation()">
+        <button class="infographic-close" onclick="closeInfographic()">×</button>
+        <img src="tg-app/${gw.infographic}" class="infographic-img" alt="Infografik">
+      </div>
+    </div>` : ''}`;
     })() : ''}
 
     <div class="mode-switcher">
@@ -1807,13 +1819,13 @@ function setDraftStatus(level, status) {
   try { localStorage.setItem(_draftStKey(level), status); } catch(e) {}
 }
 
-function openInfographic(url) {
+function openInfographic() {
   const modal = document.getElementById('infographic-modal');
-  if (modal) modal.style.display = 'flex';
+  if (modal) modal.classList.add('open');
 }
 function closeInfographic() {
   const modal = document.getElementById('infographic-modal');
-  if (modal) modal.style.display = 'none';
+  if (modal) modal.classList.remove('open');
 }
 
 function editSubmission(level) {
