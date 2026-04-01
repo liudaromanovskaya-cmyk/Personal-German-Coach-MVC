@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="c" width="640" height="360" style="border:1px solid #ccc"></canvas>
+<br><br>
+<button onclick="download()">Скачать cover.png</button>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+// Фон
+ctx.fillStyle = '#2D3748';
+ctx.fillRect(0, 0, 640, 360);
+// Акцент-полоса
+ctx.fillStyle = '#4A8C6E';
+ctx.fillRect(0, 300, 640, 60);
+// Текст
+ctx.fillStyle = '#ffffff';
+ctx.font = 'bold 42px sans-serif';
+ctx.textAlign = 'center';
+ctx.fillText('Mein Bereich', 320, 170);
+ctx.font = '22px sans-serif';
+ctx.fillStyle = 'rgba(255,255,255,0.7)';
+ctx.fillText('Personal German Coach', 320, 215);
+
+function download() {
+  const a = document.createElement('a');
+  a.download = 'cover.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>
