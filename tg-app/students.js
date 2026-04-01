@@ -236,6 +236,10 @@ const STUDENTS = {
         sentence2Label: 'Te·Ka·Mo·Lo',
         infographic: null, // ← сюда имя файла, напр. 'tekamolo.jpg' (положить в папку tg-app/)
       },
+      weekNarrative: {
+        monday: 'На прошлой неделе вы успешно закрыли Präpositionalverben — это ваш инструмент точных высказываний. Именно на нём строится грамматика этой недели: da-Wörter. Вместе они дают вам основу для связного, уверенного немецкого — а это прямой критерий «Kohärenz» на экзамене.',
+        saturday: 'Эта неделя закрыта. Вы выучили 6 слов и отработали da-Wörter + Präpositionalverben. Эти две темы теперь работают вместе — вы говорите точнее и связнее. Это ваш фундамент.',
+      },
       // Все слова с живых занятий — полный банк
       allWords: [
         'sich befinden', 'in der Region', 'eine Fahrt', 'übertreiben', 'übernachten', 'übersetzen',

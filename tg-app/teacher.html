@@ -358,6 +358,19 @@
     </div>
   </div>
 
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Недельный нарратив</span>
+      <span class="section-hint">появляется только в понедельник и субботу</span>
+    </div>
+    <div class="section-body">
+      <label>Понедельник — мост из прошлой недели</label>
+      <textarea id="weekMonday" rows="3" placeholder="На прошлой неделе вы успешно закрыли X. Именно на нём строится грамматика этой недели: Y. Вместе они дают вам основу для... Это прямой критерий на экзамене."></textarea>
+      <label>Суббота — итог недели</label>
+      <textarea id="weekSaturday" rows="3" placeholder="Эта неделя закрыта. Вы выучили 6 слов, отработали X + Y. Эти темы теперь работают вместе — вы говорите точнее и связнее."></textarea>
+    </div>
+  </div>
+
   <!-- ACTIONS -->
   <div class="actions">
     <button class="btn btn-secondary" id="generateBtn" onclick="generateWithGemini()">
@@ -521,6 +534,7 @@ function collectData() {
       immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
       postSubmit: { done: v('postDone'), why: v('postWhy') },
     },
+    weekNarrative: { monday: v('weekMonday'), saturday: v('weekSaturday') },
   };
 }
 
@@ -551,6 +565,7 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
+  s('weekMonday', t.weekNarrative?.monday); s('weekSaturday', t.weekNarrative?.saturday);
 }
 
 // ── SAVE / LOAD / CLEAR ──────────────────
@@ -674,6 +689,7 @@ function parseAndFill(text) {
   if (json.deepen)  { s('task2Topic',json.deepen.topic);  s('task2Prompt',json.deepen.prompt);  s('task2Instruction',json.deepen.instruction);  s('task2Hint',json.deepen.hint); }
   if (json.immerse) { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
   if (json.postSubmit) { s('postDone',json.postSubmit.done); s('postWhy',json.postSubmit.why); }
+  if (json.weekNarrative) { s('weekMonday',json.weekNarrative.monday); s('weekSaturday',json.weekNarrative.saturday); }
 }
 
 // ── TOAST ────────────────────────────────

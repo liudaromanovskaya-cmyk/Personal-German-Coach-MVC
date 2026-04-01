@@ -2121,6 +2121,37 @@ a.optional-send-btn:active {
   font-weight: 600;
   color: var(--text);
 }
+.week-narrative-banner {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.week-narrative-monday {
+  background: #FFFBEB;
+  border-left: 3px solid #D97706;
+}
+.week-narrative-saturday {
+  background: #ECFDF5;
+  border-left: 3px solid #4A8C6E;
+}
+.week-narrative-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.week-narrative-text {
+  font-size: 13px;
+  color: #1A1A1A;
+}
+.week-narrative-monday .week-narrative-text {
+  color: #92400E;
+}
+.week-narrative-saturday .week-narrative-text {
+  color: #065F46;
+}
 .sprint-narrative {
   font-size: 12px;
   color: #7C3AED;

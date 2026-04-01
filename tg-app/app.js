@@ -106,6 +106,11 @@ function render() {
         if (td.grammarWeek.queen) student.sprint.grammarWeek.queen = td.grammarWeek.queen;
         if (td.grammarWeek.context) student.sprint.grammarWeek.context = td.grammarWeek.context;
       }
+      if (td.weekNarrative?.monday || td.weekNarrative?.saturday) {
+        student.sprint.weekNarrative = student.sprint.weekNarrative || {};
+        if (td.weekNarrative.monday) student.sprint.weekNarrative.monday = td.weekNarrative.monday;
+        if (td.weekNarrative.saturday) student.sprint.weekNarrative.saturday = td.weekNarrative.saturday;
+      }
     }
   } catch(e) { /* молча пропускаем ошибки */ }
   _studentId = id;
@@ -221,6 +226,12 @@ function render() {
         moodToday = md.date === todayISO ? md.mood : null;
       } catch(e) {}
 
+      // Недельный нарратив — понедельник или суббота
+      const dayOfWeek = new Date().getDay(); // 0=Вс, 1=Пн, 6=Сб
+      const weekNarr = student.sprint?.weekNarrative;
+      const weekNarrMsg = dayOfWeek === 1 ? weekNarr?.monday : (dayOfWeek === 6 ? weekNarr?.saturday : null);
+      const weekNarrType = dayOfWeek === 1 ? 'monday' : 'saturday';
+
       const chunksHTML = s.words.map(w => `
         <div class="chunk-word-block">
           <div class="chunk-word-header">
@@ -263,6 +274,13 @@ function render() {
       </div>
       `}
     </div>
+
+    ${weekNarrMsg ? `
+    <div class="week-narrative-banner week-narrative-${weekNarrType}">
+      <div class="week-narrative-icon">${weekNarrType === 'monday' ? '📅' : '🏆'}</div>
+      <div class="week-narrative-text">${weekNarrMsg}</div>
+    </div>
+    ` : ''}
 
     <div class="sprint-day-card">
       <div class="sprint-day-header">
