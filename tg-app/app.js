@@ -112,21 +112,21 @@ function render() {
 
     ${student.sprint?.grammarWeek ? (() => {
       const gw = student.sprint.grammarWeek;
-      const typeColors = { verb: '#4A8C6E', T: '#D97706', K: '#DC2626', M: '#7C3AED', Lo: '#0369A1' };
-      const typeBg    = { verb: '#EDF7F1', T: '#FEF3C7', K: '#FEE2E2', M: '#EDE9FE', Lo: '#E0F2FE' };
-      const typeLabel = { T: 'Zeit', K: 'Grund', M: 'Art', Lo: 'Ort' };
+      const typeColors = { verb: '#4A8C6E', prep: '#7C3AED', T: '#D97706', K: '#DC2626', M: '#0369A1', Lo: '#0369A1' };
+      const typeBg    = { verb: '#EDF7F1', prep: '#EDE9FE', T: '#FEF3C7', K: '#FEE2E2', M: '#E0F2FE', Lo: '#E0F2FE' };
       const sentenceHTML = (gw.sentence || []).map(p => {
         if (p.type === 'plain') return `<span>${p.text}</span>`;
         const col = typeColors[p.type] || '#333';
         const bg  = typeBg[p.type] || 'transparent';
-        const lbl = typeLabel[p.type] ? `<sup style="font-size:9px;color:${col};margin-left:1px">${typeLabel[p.type]}</sup>` : '';
-        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 4px;font-weight:600">${p.text}</span>${lbl}`;
+        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700">${p.text}</span>`;
       }).join('');
       return `
     <div class="grammar-queen-banner">
       <div class="grammar-queen-label">Грамматика недели</div>
       <div class="grammar-queen-title">${gw.queen}</div>
       <div class="grammar-queen-sentence">${sentenceHTML}</div>
+      ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
+      ${gw.sentenceNote2 ? `<div class="grammar-queen-note2">${gw.sentenceNote2}</div>` : ''}
     </div>`;
     })() : ''}
 

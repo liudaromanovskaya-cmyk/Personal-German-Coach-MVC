@@ -212,17 +212,18 @@ const STUDENTS = {
       week: 'April 2026 — Woche 1',
       grammarWeek: {
         queen: 'Präpositionalverben',
-        // Одно предложение — части с типами для цветовой разметки
-        // типы: verb (глагол), T (время), K (причина), M (способ), Lo (место), plain
+        // Одно предложение с Verbklammer (глагол в рамке) + Präpositionalverb
+        // типы: verb (глагол/зелёный), prep (предлог+объект/синий), plain
         sentence: [
-          { text: 'Wir ', type: 'plain' },
-          { text: 'spielen', type: 'verb' },
-          { text: ' jeden Montag', type: 'T' },
-          { text: ' online', type: 'M' },
-          { text: ' von zu Hause', type: 'Lo' },
-          { text: ' Schach', type: 'plain' },
+          { text: 'Das ', type: 'plain' },
+          { text: 'hängt', type: 'verb' },
+          { text: ' von der Arbeit', type: 'prep' },
+          { text: ' ab', type: 'verb' },
           { text: '.', type: 'plain' },
         ],
+        sentenceNote: 'Es hängt davon ab · Wovon hängt es ab?',
+        // an wen (Personen) vs daran/woran (Sachen)
+        sentenceNote2: 'Sachen: daran · woran — Personen: an ihn · an wen',
       },
       // Все слова с живых занятий — полный банк
       allWords: [
