@@ -111,6 +111,9 @@ function render() {
         if (td.weekNarrative.monday) student.sprint.weekNarrative.monday = td.weekNarrative.monday;
         if (td.weekNarrative.saturday) student.sprint.weekNarrative.saturday = td.weekNarrative.saturday;
       }
+      if (td.languageMarkers?.active?.length) {
+        student.languageMarkers = { active: td.languageMarkers.active, teacherNote: td.languageMarkers.teacherNote };
+      }
     }
   } catch(e) { /* молча пропускаем ошибки */ }
   _studentId = id;
@@ -658,6 +661,108 @@ function render() {
   </div>
 
   <div class="screen" id="screen-progress">
+
+    ${(() => {
+      // ── Блок "Ваш немецкий сейчас" ──────────────────────────────────────
+      const MARKER_PHRASES = {
+        verb_place:     'Глагол стоит на своём месте — это заметно. Речь стала увереннее, и всё реже случается, что он прыгает. Это уже не случайность — это навык.',
+        thinks_german:  'Чувствуется, что вы думаете на немецком языке. Перевод уходит на фон — вы думаете о сути, а не о словах.',
+        calm_speech:    'В речи стало больше спокойствия. Вы не ищете слова — они приходят.',
+        b2_words:       'Вы используете слова уровня B1/B2 естественно — не вставляете их, а говорите ими.',
+        all_levels:     'Вы проходите все три уровня заданий. Это говорит о том, что ресурс есть — и вы его используете.',
+        topic_closed:   'Тема недели закрепилась. Она не висит в воздухе — она уже в речи.',
+      };
+
+      // Берём маркеры из teacher.html или из students.js
+      let markers = [];
+      let teacherNote = '';
+      try {
+        const td = JSON.parse(localStorage.getItem('pgc_teacher_' + id) || '{}');
+        if (td.languageMarkers?.active?.length) {
+          markers = td.languageMarkers.active;
+          teacherNote = td.languageMarkers.teacherNote || '';
+        }
+      } catch(e) {}
+      if (!markers.length && student.languageMarkers?.active?.length) {
+        markers = student.languageMarkers.active;
+        teacherNote = student.languageMarkers.teacherNote || '';
+      }
+
+      // Цифры по банку слов
+      let wordStats = { green: 0, yellow: 0, red: 0, total: 0 };
+      try {
+        const ws = JSON.parse(localStorage.getItem('pgc_words_' + id) || '{}');
+        const weekWords = student.sprint?.today?.words || [];
+        wordStats.total = weekWords.length;
+        weekWords.forEach(w => {
+          const st = ws[w.word];
+          if (st === 'green') wordStats.green++;
+          else if (st === 'yellow') wordStats.yellow++;
+          else wordStats.red++;
+        });
+      } catch(e) {}
+
+      // Статистика сданных заданий за неделю
+      let tasksThisWeek = 0;
+      try {
+        const monday = new Date();
+        monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+        const monISO = monday.toISOString().split('T')[0];
+        const sub = JSON.parse(localStorage.getItem('pgc_sub_' + id) || '{}');
+        ['task','deepen','immerse'].forEach(level => {
+          if (sub[level]?.date >= monISO) tasksThisWeek++;
+        });
+      } catch(e) {}
+
+      if (!markers.length) return '';
+
+      const phrases = markers.map(m => MARKER_PHRASES[m]).filter(Boolean);
+
+      return `
+      <div class="lang-markers-block">
+        <div class="lang-markers-title">Ваш немецкий сейчас</div>
+        <div class="lang-markers-phrases">
+          ${phrases.map(p => `<p class="lang-marker-phrase">${p}</p>`).join('')}
+        </div>
+        ${teacherNote ? `<div class="lang-markers-note">${teacherNote}</div>` : ''}
+        <div class="lang-markers-stats">
+          <div class="lang-stat"><span class="lang-stat-num">${wordStats.total}</span><span class="lang-stat-label">слов в банке</span></div>
+          <div class="lang-stat green"><span class="lang-stat-num">🟢 ${wordStats.green}</span><span class="lang-stat-label">знаю</span></div>
+          <div class="lang-stat yellow"><span class="lang-stat-num">🟡 ${wordStats.total - wordStats.green - wordStats.red}</span><span class="lang-stat-label">учу</span></div>
+          <div class="lang-stat"><span class="lang-stat-num">📅 ${tasksThisWeek}</span><span class="lang-stat-label">заданий на этой неделе</span></div>
+        </div>
+      </div>
+      `;
+    })()}
+
+    ${(() => {
+      // ── Банк слов — оценка студента ─────────────────────────────────────
+      const weekWords = student.sprint?.today?.words || [];
+      if (!weekWords.length) return '';
+      let ws = {};
+      try { ws = JSON.parse(localStorage.getItem('pgc_words_' + id) || '{}'); } catch(e) {}
+
+      const rows = weekWords.map(w => {
+        const st = ws[w.word] || 'red';
+        return `
+        <div class="wordbank-row" id="wb-${w.word.replace(/\s/g,'_')}">
+          <div class="wordbank-word">${w.word}</div>
+          <div class="wordbank-btns">
+            <button class="wb-btn ${st === 'green' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','green','${id}')">🟢</button>
+            <button class="wb-btn ${st === 'yellow' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','yellow','${id}')">🟡</button>
+            <button class="wb-btn ${st === 'red' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','red','${id}')">🔴</button>
+          </div>
+        </div>`;
+      }).join('');
+
+      return `
+      <div class="wordbank-block">
+        <div class="progress-section-title">Слова недели</div>
+        <div class="wordbank-hint">Нажмите на кружок — отметьте как идёт</div>
+        <div class="wordbank-list">${rows}</div>
+      </div>`;
+    })()}
+
     <div class="progress-section-title">Kommunikation</div>
     <div class="growth-legend">
       <div class="legend-item"><span class="legend-arrow" style="color:var(--accent)">↑</span> besser geworden</div>
@@ -2206,6 +2311,51 @@ function submitFeedbackResponse(idx) {
   if (confirm) confirm.style.display = 'block';
   if (textarea) textarea.value = '';
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+}
+
+// ── Банк слов — оценка студента ───────────────────────────────────────────
+function setWordStatus(word, status, studentId) {
+  try {
+    const key = 'pgc_words_' + studentId;
+    const ws = JSON.parse(localStorage.getItem(key) || '{}');
+    ws[word] = status;
+    localStorage.setItem(key, JSON.stringify(ws));
+  } catch(e) {}
+  // Обновить кнопки визуально без полного ре-рендера
+  const rowId = 'wb-' + word.replace(/\s/g,'_');
+  const row = document.getElementById(rowId);
+  if (row) {
+    row.querySelectorAll('.wb-btn').forEach(btn => btn.classList.remove('active'));
+    const statuses = ['green','yellow','red'];
+    const idx = statuses.indexOf(status);
+    if (idx >= 0) row.querySelectorAll('.wb-btn')[idx]?.classList.add('active');
+  }
+  // Обновить цифры в блоке маркеров
+  _refreshMarkerStats(studentId);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function _refreshMarkerStats(id) {
+  const student = STUDENTS[id];
+  if (!student) return;
+  let green = 0, yellow = 0, red = 0;
+  const weekWords = student.sprint?.today?.words || [];
+  try {
+    const ws = JSON.parse(localStorage.getItem('pgc_words_' + id) || '{}');
+    weekWords.forEach(w => {
+      const st = ws[w.word];
+      if (st === 'green') green++;
+      else if (st === 'yellow') yellow++;
+      else red++;
+    });
+  } catch(e) {}
+  // Обновить только цифры если блок виден
+  const statsEl = document.querySelector('.lang-markers-stats');
+  if (!statsEl) return;
+  const nums = statsEl.querySelectorAll('.lang-stat-num');
+  if (nums[0]) nums[0].textContent = weekWords.length;
+  if (nums[1]) nums[1].textContent = '🟢 ' + green;
+  if (nums[2]) nums[2].textContent = '🟡 ' + yellow;
 }
 
 // ── Онбординг ─────────────────────────────────────────────────────────────

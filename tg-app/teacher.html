@@ -196,6 +196,38 @@
     .word-row > :nth-child(4) { grid-column: 2; }
     .actions { flex-direction: column; }
   }
+  .marker-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .marker-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #2D3748;
+    cursor: pointer;
+    line-height: 1.4;
+    padding: 8px 12px;
+    background: #F7FAFC;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    transition: background 0.15s;
+  }
+  .marker-check:has(input:checked) {
+    background: #ECFDF5;
+    border-color: #6EE7B7;
+    color: #065F46;
+    font-weight: 500;
+  }
+  .marker-check input {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: #4A8C6E;
+  }
 </style>
 </head>
 <body>
@@ -345,6 +377,26 @@
   </div>
 
   <!-- POST-SUBMIT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Ваш немецкий сейчас</span>
+      <span class="section-hint">студент видит это на вкладке Fortschritt</span>
+    </div>
+    <div class="section-body">
+      <label style="margin-bottom:8px">Отметьте что видите на этой неделе</label>
+      <div class="marker-checks">
+        <label class="marker-check"><input type="checkbox" id="mk_verb_place"> Глагол стоит на своём месте — речь стала увереннее</label>
+        <label class="marker-check"><input type="checkbox" id="mk_thinks_german"> Думает на немецком — перевод уходит на фон</label>
+        <label class="marker-check"><input type="checkbox" id="mk_calm_speech"> В речи больше спокойствия — слова приходят сами</label>
+        <label class="marker-check"><input type="checkbox" id="mk_b2_words"> Использует слова B1/B2 естественно</label>
+        <label class="marker-check"><input type="checkbox" id="mk_all_levels"> Проходит все три уровня заданий</label>
+        <label class="marker-check"><input type="checkbox" id="mk_topic_closed"> Тема недели закрепилась — уже в речи</label>
+      </div>
+      <label style="margin-top:12px">Личный комментарий (опционально)</label>
+      <input type="text" id="markerNote" placeholder="Меня это очень радует — я рада за вас.">
+    </div>
+  </div>
+
   <div class="section">
     <div class="section-header">
       <span class="section-title">Сообщение после отправки задания</span>
@@ -535,6 +587,10 @@ function collectData() {
       postSubmit: { done: v('postDone'), why: v('postWhy') },
     },
     weekNarrative: { monday: v('weekMonday'), saturday: v('weekSaturday') },
+    languageMarkers: {
+      active: ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].filter(k => document.getElementById('mk_'+k)?.checked),
+      teacherNote: v('markerNote'),
+    },
   };
 }
 
@@ -566,6 +622,13 @@ function fillForm(d) {
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
   s('weekMonday', t.weekNarrative?.monday); s('weekSaturday', t.weekNarrative?.saturday);
+  if (t.languageMarkers?.active) {
+    ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].forEach(k => {
+      const el = document.getElementById('mk_'+k);
+      if (el) el.checked = t.languageMarkers.active.includes(k);
+    });
+  }
+  s('markerNote', t.languageMarkers?.teacherNote);
 }
 
 // ── SAVE / LOAD / CLEAR ──────────────────
@@ -690,6 +753,13 @@ function parseAndFill(text) {
   if (json.immerse) { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
   if (json.postSubmit) { s('postDone',json.postSubmit.done); s('postWhy',json.postSubmit.why); }
   if (json.weekNarrative) { s('weekMonday',json.weekNarrative.monday); s('weekSaturday',json.weekNarrative.saturday); }
+  if (json.languageMarkers?.active) {
+    ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].forEach(k => {
+      const el = document.getElementById('mk_'+k);
+      if (el) el.checked = json.languageMarkers.active.includes(k);
+    });
+    s('markerNote', json.languageMarkers.teacherNote);
+  }
 }
 
 // ── TOAST ────────────────────────────────

@@ -208,6 +208,11 @@ const STUDENTS = {
         text: 'Schreiben Sie einen kurzen Text (8–10 Sätze) über einen Moment der Ihnen Energie gegeben hat — ein Ausflug, ein Abend, ein Erlebnis in der Natur.\n\nAlle Wörter dieser Woche zur Auswahl:\nin Erfüllung gehen · im Vergleich zu · die Erkenntnis · beitragen zu · retten · sich erholen · übernehmen · der Wohlstand · worum geht es\n\nTipp: „Es war ein Abend, als... Im Vergleich zum Alltag... Das hat dazu geführt, dass ich..."',
       },
     },
+    languageMarkers: {
+      // Педагог отмечает галочками в teacher.html — студент видит живые фразы
+      active: ['verb_place', 'thinks_german'],
+      teacherNote: 'Меня это очень радует — я рада за вас.',
+    },
     sprint: {
       week: 'April 2026 — Woche 1',
       grammarWeek: {
