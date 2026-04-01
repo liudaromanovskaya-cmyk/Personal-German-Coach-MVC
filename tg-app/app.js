@@ -131,7 +131,7 @@ function render() {
           <div class="grammar-queen-label">Грамматика недели</div>
           <div class="grammar-queen-title">${gw.queen}</div>
         </div>
-        ${gw.infographic ? `<button class="grammar-infographic-btn" onclick="openInfographic('${gw.infographic}')">📊 Схема</button>` : ''}
+        <button class="grammar-infographic-btn ${gw.infographic ? '' : 'grammar-infographic-btn--empty'}" onclick="${gw.infographic ? 'openInfographic()' : ''}">📊 Схема</button>
       </div>
       <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
       ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}

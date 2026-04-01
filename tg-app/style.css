@@ -2444,6 +2444,11 @@ a.optional-send-btn:active {
   min-height: 36px;
   white-space: nowrap;
 }
+.grammar-infographic-btn--empty {
+  background: #E5E7EB;
+  color: #9CA3AF;
+  cursor: default;
+}
 
 /* Модалка инфографики */
 .infographic-modal {
