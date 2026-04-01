@@ -376,13 +376,26 @@ function render() {
     </div><!-- /speaking-tasks -->
 
     <div id="writing-tasks" style="display:none">
-    ${student.sprint?.today ? `
+    ${student.sprint?.today ? (() => {
+      const sw = student.sprint.today;
+      const ww1 = sw.wordsWriting1 || [];
+      const ww2 = sw.wordsWriting2 || [];
+      const ww3 = sw.wordsWriting3 || [];
+      const tagClass = { 'Synonym': 'wtag--blue', 'Antonym': 'wtag--red', 'Kulturwort': 'wtag--orange', 'Sprichwort': 'wtag--orange', 'Redewendung': 'wtag--orange', 'Ausdruck': 'wtag--orange' };
+      const wordRow = (w, lvl) => `
+        <div class="wrow wrow--${lvl}">
+          <span class="wrow-word">${w.word}</span>
+          <span class="wrow-tag ${tagClass[w.tag] || ''}">${w.tag}</span>
+          <span class="wrow-hint">${w.hint}</span>
+        </div>`;
+      return `
     <div class="task-card">
       <div class="task-card-header">
         <div class="task-card-label">✍️ Schreiben · <span style="opacity:.8;font-weight:400">Niveau 1</span></div>
       </div>
-      <div class="task-card-topic">${student.sprint.today.writingTask.topic}</div>
-      <div class="task-card-body">${student.sprint.today.writingTask.instruction}</div>
+      <div class="task-card-topic">${sw.writingTask.topic}</div>
+      <div class="task-card-body">${sw.writingTask.instruction}</div>
+      ${ww1.length ? `<div class="wlist">${ww1.map(w => wordRow(w, 1)).join('')}</div>` : ''}
       <div class="submit-form" id="submit-form-writing1">
         <textarea class="submit-textarea" id="submit-text-writing1" placeholder="Schreiben Sie hier..."></textarea>
         <button class="action-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
@@ -398,8 +411,9 @@ function render() {
         <div class="optional-toggle-arrow">⌄</div>
       </button>
       <div class="optional-body" id="writing2-body">
-        <div class="optional-topic">${student.sprint.today.writingDeepen.topic}</div>
-        <div class="optional-text">${student.sprint.today.writingDeepen.instruction}</div>
+        <div class="optional-topic">${sw.writingDeepen.topic}</div>
+        <div class="optional-text">${sw.writingDeepen.instruction}</div>
+        ${ww2.length ? `<div class="wlist">${ww1.map(w => wordRow(w, 1)).join('') + ww2.map(w => wordRow(w, 2)).join('')}</div>` : ''}
         <div class="submit-form submit-form--optional" id="submit-form-writing2">
           <textarea class="submit-textarea" id="submit-text-writing2" placeholder="Ihre Antwort..."></textarea>
           <button class="optional-send-btn" onclick="submitHomework('writing2')">✉️ Abschicken</button>
@@ -407,7 +421,28 @@ function render() {
         </div>
       </div>
     </div>
-    ` : ''}
+    ${sw.writingImmerse ? `
+    <div class="optional-card">
+      <button class="optional-toggle" id="writing3-toggle" onclick="toggleOptional('writing3')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">✍️ Niveau 3 — Ihre Geschichte</div>
+          <div class="optional-toggle-sub">Freies Schreiben — alle Ebenen offen</div>
+        </div>
+        <div class="optional-toggle-arrow">⌄</div>
+      </button>
+      <div class="optional-body" id="writing3-body">
+        <div class="optional-topic">${sw.writingImmerse.topic}</div>
+        <div class="optional-text">${sw.writingImmerse.instruction}</div>
+        ${ww3.length ? `<div class="wlist">${[...ww1, ...ww2].map(w => wordRow(w, w === ww2[0] || ww2.includes(w) ? 2 : 1)).join('') + ww3.map(w => wordRow(w, 3)).join('')}</div>` : ''}
+        <div class="submit-form submit-form--optional" id="submit-form-writing3">
+          <textarea class="submit-textarea" id="submit-text-writing3" placeholder="Ihre Geschichte..."></textarea>
+          <button class="optional-send-btn" onclick="submitHomework('writing3')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-writing3" style="display:none">✅ Gesendet!</div>
+        </div>
+      </div>
+    </div>` : ''}
+    `;
+    })() : ''}
     ${!student.sprint?.today && student.writing ? `
     <div class="task-card">
       <div class="task-card-header">

@@ -350,14 +350,44 @@ const STUDENTS = {
           instruction: 'Erzählen Sie frei. Alle Wörter aus Niveau 1 + 2 + 3 stehen Ihnen zur Verfügung. Versuchen Sie, mindestens eines der B2-Ausdrücke zu verwenden.',
           hint: '„Ich bin auf meine Kosten gekommen... Mitten in diesem Moment hielt ich inne... Es hat mir ermöglicht es mir, komplett abzuschalten..."',
         },
-        // Письменный вариант — отдельные задания
+        // Schreiben — словарная поддержка по уровням (столбиком, с маркировкой)
+        wordsWriting1: [
+          // Другие формы базовых слов (морфология)
+          { word: 'die Befindlichkeit', tag: 'Nomen', hint: 'от sich befinden — общее состояние, самочувствие' },
+          { word: 'der Ausflug', tag: 'Nomen', hint: 'от eine Fahrt — поездка, вылазка' },
+          { word: 'die Ermöglichung', tag: 'Nomen', hint: 'от ermöglichen — создание условий' },
+          { word: 'die Erfüllung', tag: 'Nomen', hint: 'от in Erfüllung gehen — исполнение, удовлетворение' },
+          { word: 'das Gespräch führen', tag: 'Verb + Nomen', hint: 'от sich unterhalten — вести беседу' },
+          { word: 'es geht um + Akk.', tag: 'Redewendung', hint: 'от worum geht es — речь идёт о...' },
+        ],
+        wordsWriting2: [
+          // Синонимы и антонимы
+          { word: 'sich aufhalten', tag: 'Synonym', hint: '≈ sich befinden — находиться, пребывать' },
+          { word: 'einen Ausflug unternehmen', tag: 'Synonym', hint: '≈ eine Fahrt machen — формальнее, книжнее' },
+          { word: 'in die Lage versetzen', tag: 'Synonym', hint: '≈ ermöglichen — дать возможность' },
+          { word: 'sich verwirklichen', tag: 'Synonym', hint: '≈ in Erfüllung gehen — осуществиться, реализоваться' },
+          { word: 'ein Gespräch suchen', tag: 'Synonym', hint: '≈ sich unterhalten — искать разговор, контакт' },
+          { word: 'verhindern', tag: 'Antonym', hint: '↔ ermöglichen — мешать, не давать случиться' },
+        ],
+        wordsWriting3: [
+          // Фразеологизмы, страноведение, устойчивые выражения
+          { word: 'Wanderlust', tag: 'Kulturwort', hint: '🇩🇪 Немецкое понятие: страсть к путешествиям и природе. Вошло во все языки мира.' },
+          { word: 'die Auszeit nehmen', tag: 'Ausdruck', hint: '✦ взять паузу от повседневности — очень живое выражение' },
+          { word: 'Reisen bildet', tag: 'Sprichwort', hint: '🇩🇪 Путешествия развивают. Краткая форма пословицы Гёте.' },
+          { word: 'auf seine Kosten kommen', tag: 'Redewendung', hint: '✦ получить своё, не пожалеть — „Bei diesem Ausflug kam ich voll auf meine Kosten"' },
+        ],
+        // Письменный вариант — задания
         writingTask: {
           topic: 'Schreiben — Aufwärmen',
           instruction: 'Schreiben Sie 5 Sätze: Wo waren Sie am Wochenende?\n\nVerwenden Sie:\n• sich befinden · eine Fahrt · ermöglichen\n\nTipp: „Am Wochenende befand ich mich... Wir haben eine Fahrt gemacht... Das hat mir ermöglicht..."',
         },
         writingDeepen: {
           topic: 'Schreiben — Ein besonderer Moment',
-          instruction: 'Schreiben Sie 7–8 Sätze an eine Freundin über einen Moment der Ihnen gut getan hat.\n\nVerwenden Sie alle 6 Wörter des Tages:\nsich befinden · eine Fahrt · ermöglichen · in Erfüllung gehen · sich unterhalten mit · worum geht es\n\nTipp: „Es war ein Nachmittag, als... Worum es dabei wirklich ging... In diesem Moment ging etwas in Erfüllung..."',
+          instruction: 'Schreiben Sie 7–8 Sätze an eine Freundin über einen Moment der Ihnen gut getan hat.\n\nVerwenden Sie die Wörter des Tages und ihre Formen:\nsich befinden / der Ausflug · ermöglichen / in die Lage versetzen · in Erfüllung gehen / sich verwirklichen\n\nTipp: „Es war ein Nachmittag, als... Worum es dabei wirklich ging... In diesem Moment verwirklichte sich..."',
+        },
+        writingImmerse: {
+          topic: 'Schreiben — Ihre Geschichte',
+          instruction: 'Schreiben Sie frei — so viel Sie möchten. Mindestens ein Kulturwort oder Sprichwort einbauen.\n\nAlle Wörter aus Niveau 1 + 2 + 3 stehen Ihnen zur Verfügung.\n\nTipp: „Wanderlust — das Wort trifft es genau... Bei diesem Ausflug kam ich voll auf meine Kosten... Reisen bildet — das habe ich wieder gespürt..."',
         },
       },
     },
