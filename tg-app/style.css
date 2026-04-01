@@ -2384,6 +2384,71 @@ a.optional-send-btn:active {
   border-color: #FDB87A;
 }
 
+/* Грамматическая царица недели */
+.grammar-queen-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(135deg, #1a2744 0%, #2D3748 60%, #3a4a6b 100%);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.grammar-queen-banner::before {
+  content: '';
+  position: absolute;
+  top: -20px; right: -20px;
+  width: 100px; height: 100px;
+  background: rgba(124, 200, 160, 0.12);
+  border-radius: 50%;
+}
+.grammar-queen-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; left: 30%;
+  width: 140px; height: 60px;
+  background: rgba(124, 200, 160, 0.07);
+  border-radius: 50%;
+}
+.grammar-queen-crown {
+  font-size: 22px;
+  color: #7CC8A0;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.grammar-queen-body {
+  flex: 1;
+}
+.grammar-queen-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+.grammar-queen-sub {
+  font-size: 12px;
+  color: #7CC8A0;
+  margin-top: 1px;
+  margin-bottom: 6px;
+}
+.grammar-queen-focus {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+}
+.grammar-queen-secondary {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 6px;
+}
+.grammar-queen-secondary-note {
+  color: rgba(255,255,255,0.35);
+}
+
 /* Schreiben — список слов столбиком */
 .wlist {
   display: flex;

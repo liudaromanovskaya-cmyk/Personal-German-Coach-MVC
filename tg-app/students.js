@@ -210,6 +210,13 @@ const STUDENTS = {
     },
     sprint: {
       week: 'April 2026 — Woche 1',
+      grammarWeek: {
+        queen: 'Präpositionalverben',
+        subtitle: 'Глаголы с предлогами — управление',
+        focus: ['ankommen auf + Akk.', 'arbeiten an + Dat.', 'sich erinnern an + Akk.', 'sich freuen auf + Akk.', 'abhängen von + Dat.'],
+        secondaryFocus: 'Mittelfeld — глагол на своём месте',
+        secondaryNote: 'Reflexivpronomen · Präposition · Ergänzung — всё в среднем поле',
+      },
       // Все слова с живых занятий — полный банк
       allWords: [
         'sich befinden', 'in der Region', 'eine Fahrt', 'übertreiben', 'übernachten', 'übersetzen',

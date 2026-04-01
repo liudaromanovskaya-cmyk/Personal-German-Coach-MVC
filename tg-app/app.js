@@ -110,6 +110,20 @@ function render() {
     </div>
     ` : ''}
 
+    ${student.sprint?.grammarWeek ? (() => {
+      const gw = student.sprint.grammarWeek;
+      return `
+    <div class="grammar-queen-banner">
+      <div class="grammar-queen-crown">✦</div>
+      <div class="grammar-queen-body">
+        <div class="grammar-queen-title">${gw.queen}</div>
+        <div class="grammar-queen-sub">${gw.subtitle}</div>
+        <div class="grammar-queen-focus">${gw.focus.join(' · ')}</div>
+        ${gw.secondaryFocus ? `<div class="grammar-queen-secondary">${gw.secondaryFocus} — <span class="grammar-queen-secondary-note">${gw.secondaryNote}</span></div>` : ''}
+      </div>
+    </div>`;
+    })() : ''}
+
     <div class="mode-switcher">
       <button class="mode-btn mode-btn--speaking mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
       <button class="mode-btn mode-btn--writing" id="mode-writing" onclick="switchMode('writing')">✍️ Schreiben</button>
