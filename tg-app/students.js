@@ -227,10 +227,10 @@ const STUDENTS = {
         sentence2: [
           { text: 'Ich ', type: 'plain' },
           { text: 'erinnere', type: 'verb' },
-          { text: ' mich ', type: 'plain' },
-          { text: 'jeden Abend', type: 'T' },
+          { text: ' mich', type: 'refl' },
+          { text: ' jeden Abend', type: 'T' },
           { text: ' gerne', type: 'M' },
-          { text: ' daran', type: 'Lo' },
+          { text: ' daran', type: 'verb' },
           { text: '.', type: 'plain' },
         ],
         sentence2Label: 'Te·Ka·Mo·Lo',

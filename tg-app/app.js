@@ -112,19 +112,14 @@ function render() {
 
     ${student.sprint?.grammarWeek ? (() => {
       const gw = student.sprint.grammarWeek;
-      const typeColors = { verb: '#4A8C6E', prep: '#7C3AED', T: '#D97706', K: '#DC2626', M: '#0369A1', Lo: '#0369A1' };
-      const typeBg    = { verb: '#EDF7F1', prep: '#EDE9FE', T: '#FEF3C7', K: '#FEE2E2', M: '#E0F2FE', Lo: '#E0F2FE' };
-      const sentenceHTML = (gw.sentence || []).map(p => {
-        if (p.type === 'plain') return `<span>${p.text}</span>`;
-        const col = typeColors[p.type] || '#333';
-        const bg  = typeBg[p.type] || 'transparent';
-        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700">${p.text}</span>`;
-      }).join('');
+      const typeColors = { verb: '#4A8C6E', refl: '#4A8C6E', prep: '#7C3AED', T: '#D97706', K: '#DC2626', M: '#0369A1', Lo: '#0369A1' };
+      const typeBg    = { verb: '#EDF7F1', refl: '#EDF7F1', prep: '#EDE9FE', T: '#FEF3C7', K: '#FEE2E2', M: '#E0F2FE', Lo: '#E0F2FE' };
       const mkSentence = (parts) => parts.map(p => {
         if (p.type === 'plain') return `<span>${p.text}</span>`;
         const col = typeColors[p.type] || '#333';
         const bg  = typeBg[p.type] || 'transparent';
-        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700">${p.text}</span>`;
+        const italic = p.type === 'refl' ? 'font-style:italic;' : '';
+        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700;${italic}">${p.text}</span>`;
       }).join('');
 
       const tekamoloLegend = `<span style="color:${typeColors.T};font-weight:700">Te</span><span style="color:#718096">·</span><span style="color:#DC2626;font-weight:700">Ka</span><span style="color:#718096">·</span><span style="color:${typeColors.M};font-weight:700">Mo</span><span style="color:#718096">·</span><span style="color:${typeColors.Lo};font-weight:700">Lo</span>`;
