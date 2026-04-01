@@ -296,6 +296,7 @@ function render() {
       <div class="submit-file-preview" id="submit-preview-task"></div>
       <button class="action-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
       <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
+      <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
     </div>
 
     <div class="optional-card">
