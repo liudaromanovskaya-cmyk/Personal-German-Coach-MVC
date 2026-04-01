@@ -1738,21 +1738,15 @@ function submitHomework(level) {
   const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 
-  // Показываем подтверждение
-  const confirm = document.getElementById('submit-confirm-' + level);
-  if (confirm) {
-    confirm.style.display = 'block';
-    if (hasFile) {
-      confirm.innerHTML = '✅ Текст отправлен! Прикрепите скриншот следующим сообщением в Telegram.';
-    }
-  }
   // Помечаем как отправлено, показываем подтверждение с кнопкой редактирования
   setDraftStatus(level, 'sent');
   if (textarea) textarea.readOnly = true;
   const confirm = document.getElementById('submit-confirm-' + level);
   if (confirm) {
     confirm.style.display = 'block';
-    confirm.innerHTML = `✅ Gesendet! <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
+    confirm.innerHTML = hasFile
+      ? `✅ Текст отправлен! Прикрепите скриншот в Telegram. <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`
+      : `✅ Gesendet! <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
   }
   // Убираем баннер "не сделано" после первой сдачи
   if (level === 'task') {
