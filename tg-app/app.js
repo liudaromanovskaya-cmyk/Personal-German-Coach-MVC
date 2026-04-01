@@ -77,6 +77,28 @@ function render() {
   }
 
   _student = student;
+
+  // ── Данные из панели педагога (teacher.html) ──────────────────────────────
+  // Если преподаватель сохранил данные через форму — используем их вместо students.js
+  try {
+    const teacherRaw = localStorage.getItem(`pgc_teacher_${id}`);
+    if (teacherRaw) {
+      const td = JSON.parse(teacherRaw);
+      if (td.today) {
+        student.sprint = student.sprint || {};
+        student.sprint.today = td.today;
+        if (td.week) student.sprint.week = td.week;
+      }
+      if (td.grammarWeek?.queen) {
+        student.sprint = student.sprint || {};
+        student.sprint.grammarWeek = student.sprint.grammarWeek || {};
+        Object.assign(student.sprint.grammarWeek, {
+          queen: td.grammarWeek.queen,
+          context: td.grammarWeek.context,
+        });
+      }
+    }
+  } catch(e) { /* молча пропускаем ошибки */ }
   _studentId = id;
   _studentLevel = student.level || 'B1';
   applyProgress(student, id);

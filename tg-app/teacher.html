@@ -1,523 +1,681 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lehrerin-Bereich</title>
+<title>Панель педагога · Personal German Coach</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --bg: #FAF9F6; --card: #fff; --accent: #4A8C6E; --urgent: #D97706;
-  --text: #1A1A1A; --muted: #718096; --border: #E2E8F0;
-}
-body { background: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); }
+  :root {
+    --bg: #FAF9F6;
+    --nav: #2D3748;
+    --accent: #4A8C6E;
+    --accent-light: #EDF7F1;
+    --accent-bright: #7CC8A0;
+    --amber: #D97706;
+    --text: #1A1A1A;
+    --muted: #718096;
+    --border: #E2E8F0;
+    --red: #E53E3E;
+    --blue: #3B82F6;
+    --blue-light: #EFF6FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-/* ── PIN ──────────────────────────────────────────── */
-.full-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-.pin-card { background: var(--card); border-radius: 20px; padding: 36px 28px; width: 100%; max-width: 340px; box-shadow: 0 4px 24px rgba(0,0,0,.08); text-align: center; }
-.pin-icon { font-size: 40px; margin-bottom: 12px; }
-.pin-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-.pin-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
-.pin-dots { display: flex; gap: 14px; justify-content: center; margin-bottom: 28px; }
-.pin-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--border); transition: background .2s; }
-.pin-dot.on { background: var(--accent); }
-.pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 10px; justify-content: center; }
-.pin-key { width: 72px; height: 72px; border-radius: 50%; border: none; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.08); font-size: 22px; font-weight: 600; cursor: pointer; font-family: inherit; }
-.pin-key:active { background: var(--border); transform: scale(.95); }
-.pin-error { color: #E53E3E; font-size: 13px; margin-top: 14px; min-height: 18px; }
+  .header {
+    background: var(--nav);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header h1 { font-size: 17px; font-weight: 600; flex: 1; }
+  .student-tabs { display: flex; gap: 8px; }
+  .student-tab {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .student-tab.active { background: var(--accent); }
+  .student-tab:hover:not(.active) { background: rgba(255,255,255,0.25); }
 
-/* ── TOKEN SETUP ──────────────────────────────────── */
-.setup-card { background: var(--card); border-radius: 20px; padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
-.setup-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-.setup-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
-.setup-steps { background: #F0FAF5; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
-.setup-step { font-size: 13px; line-height: 1.8; color: #2A5C3F; }
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
-.field input, .field textarea, .field select { width: 100%; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 14px; color: var(--text); background: var(--card); outline: none; }
-.field input:focus, .field textarea:focus { border-color: var(--accent); }
-.field textarea { resize: vertical; min-height: 76px; }
-.btn-primary { width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 11px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
-.btn-primary:hover { background: #3d7a5e; }
-.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-.btn-sm { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: none; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); }
+  .main { max-width: 780px; margin: 0 auto; padding: 20px 16px 80px; }
 
-/* ── ADMIN LAYOUT ─────────────────────────────────── */
-#admin-screen { display: none; min-height: 100vh; }
-.admin-header { position: sticky; top: 0; z-index: 20; background: #2D3748; color: #fff; padding: 13px 16px; display: flex; align-items: center; gap: 10px; }
-.admin-header-title { flex: 1; font-size: 16px; font-weight: 700; }
-.hbtn { background: none; border: none; color: #A0AEC0; font-size: 20px; cursor: pointer; padding: 4px 8px; line-height: 1; }
-.hbtn:hover { color: #fff; }
-.student-tabs { background: var(--card); border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; overflow-x: auto; position: sticky; top: 51px; z-index: 10; }
-.stab { padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
-.stab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-.admin-body { max-width: 660px; margin: 0 auto; padding: 16px 14px 100px; }
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--accent-light);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .status-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-bright); flex-shrink: 0; }
+  .status-bar.unsaved { background: #FFF8EB; color: var(--amber); }
+  .status-bar.unsaved .dot { background: var(--amber); }
 
-/* ── SECTIONS ─────────────────────────────────────── */
-.sect { background: var(--card); border-radius: 14px; border: 1.5px solid var(--border); padding: 18px; margin-bottom: 14px; }
-.sect-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); margin-bottom: 12px; cursor: pointer; user-select: none; }
-.toggle-label { font-size: 14px; font-weight: 600; }
-.toggle-sw { width: 42px; height: 24px; border-radius: 12px; background: var(--border); position: relative; transition: background .2s; flex-shrink: 0; }
-.toggle-sw.on { background: var(--accent); }
-.toggle-sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left .2s; }
-.toggle-sw.on::after { left: 20px; }
-.collapsible { display: none; }
-.collapsible.open { display: block; }
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .section-title { font-size: 14px; font-weight: 600; }
+  .section-hint { font-size: 12px; color: var(--muted); }
+  .section-body { padding: 16px 18px; }
 
-/* ── GAPS ─────────────────────────────────────────── */
-.gap-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 7px; }
-.gap-text { flex: 1; font-size: 13px; line-height: 1.4; }
-.gap-st { border: none; border-radius: 16px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
-.st-sos    { background: #FEE2E2; color: #991B1B; }
-.st-aktiv  { background: #FEF3C7; color: #92400E; }
-.st-geloest{ background: #D1FAE5; color: #065F46; }
-.add-gap-row { display: flex; gap: 8px; margin-top: 8px; }
-.add-gap-row input { flex: 1; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 13px; }
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; margin-top: 12px; font-weight: 500; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=password], textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #FAFAFA;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); background: white; }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-/* ── SAVE BAR ─────────────────────────────────────── */
-.save-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(250,249,246,.96); border-top: 1px solid var(--border); padding: 12px 16px; backdrop-filter: blur(8px); }
-.save-bar-inner { max-width: 660px; margin: 0 auto; }
-.save-btn { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
-.save-btn:disabled { opacity: .5; cursor: not-allowed; }
-.save-status { text-align: center; font-size: 12px; color: var(--muted); margin-top: 6px; min-height: 16px; }
-.save-status.ok  { color: var(--accent); font-weight: 600; }
-.save-status.err { color: #E53E3E; }
+  .api-row { display: flex; gap: 8px; align-items: flex-end; }
+  .api-row input { flex: 1; }
+  .api-status { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .api-status.ok { color: var(--accent); }
 
-/* ── SETTINGS ─────────────────────────────────────── */
-#settings-screen { display: none; }
-.settings-body { max-width: 480px; margin: 0 auto; padding: 20px 14px; }
+  .word-row {
+    display: grid;
+    grid-template-columns: 22px 1fr 1fr 120px;
+    gap: 8px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .word-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .word-num { font-size: 13px; color: var(--muted); font-weight: 600; padding-top: 10px; }
+  .word-chunks {
+    grid-column: 2 / -1;
+    margin-top: 2px;
+    padding: 10px 12px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    display: none;
+  }
+  .word-chunks.visible { display: block; }
+  .word-chunks-label { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .word-chunks textarea { background: transparent; border: none; padding: 0; font-size: 13px; line-height: 1.7; color: #2D5A45; min-height: 80px; }
+  .word-chunks textarea:focus { border: none; outline: none; }
+
+  .words2-row {
+    display: grid;
+    grid-template-columns: 22px 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .words2-row:last-child { border-bottom: none; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    min-height: 44px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-secondary { background: var(--blue); color: white; }
+  .btn-outline { background: white; color: var(--text); border: 1px solid var(--border); }
+  .btn-danger { background: #FFF0F0; color: var(--red); border: 1px solid #FECACA; }
+  .btn-sm { padding: 7px 14px; font-size: 13px; min-height: 36px; }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  .level-label { font-size: 12px; font-weight: 600; margin-bottom: 10px; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+  .level-green { background: var(--accent-light); color: var(--accent); }
+  .level-blue { background: var(--blue-light); color: #1D4ED8; }
+  .level-amber { background: #FFF8EB; color: var(--amber); }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--nav);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.3s;
+    z-index: 100;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--accent); }
+  .toast.error { background: var(--red); }
+
+  @media (max-width: 600px) {
+    .row-2, .row-3 { grid-template-columns: 1fr; }
+    .word-row { grid-template-columns: 20px 1fr 1fr; }
+    .word-row > :nth-child(4) { grid-column: 2; }
+    .actions { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ══ PIN SCREEN ═══════════════════════════════════ -->
-<div id="pin-screen">
-  <div class="full-center">
-    <div class="pin-card">
-      <div class="pin-icon">🔐</div>
-      <div class="pin-title">Lehrerin-Bereich</div>
-      <div class="pin-sub">PIN eingeben</div>
-      <div class="pin-dots">
-        <div class="pin-dot" id="d0"></div>
-        <div class="pin-dot" id="d1"></div>
-        <div class="pin-dot" id="d2"></div>
-        <div class="pin-dot" id="d3"></div>
-      </div>
-      <div class="pin-pad">
-        <button class="pin-key" onclick="pk('1')">1</button>
-        <button class="pin-key" onclick="pk('2')">2</button>
-        <button class="pin-key" onclick="pk('3')">3</button>
-        <button class="pin-key" onclick="pk('4')">4</button>
-        <button class="pin-key" onclick="pk('5')">5</button>
-        <button class="pin-key" onclick="pk('6')">6</button>
-        <button class="pin-key" onclick="pk('7')">7</button>
-        <button class="pin-key" onclick="pk('8')">8</button>
-        <button class="pin-key" onclick="pk('9')">9</button>
-        <button class="pin-key" onclick="pk('0')">0</button>
-        <button class="pin-key" onclick="pdel()">⌫</button>
-      </div>
-      <div class="pin-error" id="pin-err"></div>
-    </div>
+<div class="header">
+  <h1>Панель педагога</h1>
+  <div class="student-tabs" id="studentTabs">
+    <button class="student-tab active" data-student="olga">Ольга</button>
+    <button class="student-tab" data-student="artem">Артём</button>
+    <button class="student-tab" data-student="julia">Юлия</button>
   </div>
 </div>
 
-<!-- ══ TOKEN SETUP ═══════════════════════════════════ -->
-<div id="token-screen" style="display:none">
-  <div class="full-center">
-    <div class="setup-card">
-      <div class="pin-icon">🔑</div>
-      <div class="setup-title">GitHub Token — один раз</div>
-      <div class="setup-sub">Нужен, чтобы кнопка "Сохранить" работала напрямую. Хранится только в вашем браузере.</div>
-      <div class="setup-steps">
-        <div class="setup-step">1. Откройте github.com → ваш аватар → Settings</div>
-        <div class="setup-step">2. Developer settings → Personal access tokens → Tokens (classic)</div>
-        <div class="setup-step">3. Generate new token → галочка <b>repo</b> → Generate</div>
-        <div class="setup-step">4. Скопируйте токен (ghp_...) и вставьте ниже</div>
+<div class="main">
+
+  <div class="status-bar" id="statusBar">
+    <div class="dot"></div>
+    <span id="statusText">Загрузка...</span>
+  </div>
+
+  <!-- API KEY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Gemini API ключ</span>
+      <span class="section-hint">вводится один раз, сохраняется в браузере</span>
+    </div>
+    <div class="section-body">
+      <div class="api-row">
+        <input type="password" id="apiKey" placeholder="AIza...">
+        <button class="btn btn-outline btn-sm" onclick="saveApiKey()">Сохранить</button>
       </div>
-      <div class="field">
-        <label>Personal Access Token</label>
-        <input type="password" id="token-input" placeholder="ghp_...">
-      </div>
-      <button class="btn-primary" onclick="saveToken()">Подключить</button>
-      <div class="pin-error" id="token-err" style="margin-top:10px"></div>
+      <div class="api-status" id="apiStatus">Получить бесплатно: aistudio.google.com → Get API key</div>
     </div>
   </div>
+
+  <!-- WEEK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Неделя</span>
+    </div>
+    <div class="section-body">
+      <div class="row-3">
+        <div>
+          <label>Метка недели</label>
+          <input type="text" id="weekLabel" placeholder="April 2026 — Woche 1">
+        </div>
+        <div>
+          <label>Дата для студента</label>
+          <input type="text" id="weekDate" placeholder="1. April">
+        </div>
+        <div>
+          <label>Следующая встреча</label>
+          <input type="text" id="nextLesson" placeholder="пятница, 5. April">
+        </div>
+      </div>
+      <label>Тема дня</label>
+      <input type="text" id="weekTheme" placeholder="Ein Ausflug am Wochenende">
+    </div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Грамматика недели</span>
+    </div>
+    <div class="section-body">
+      <div class="row-2">
+        <div>
+          <label>Тема (Grammar Queen)</label>
+          <input type="text" id="grammarQueen" placeholder="Präpositionalverben">
+        </div>
+        <div>
+          <label>Контекст — почему сейчас</label>
+          <input type="text" id="grammarContext" placeholder="Фундамент для говорения на встрече">
+        </div>
+      </div>
+      <label>Пример предложения (для баннера)</label>
+      <input type="text" id="grammarSentence" placeholder="Das hängt von der Arbeit ab.">
+      <label>TeKaMoLo пример</label>
+      <input type="text" id="grammarSentence2" placeholder="Ich erinnere mich jeden Abend gerne daran.">
+      <label>Заметка под предложением</label>
+      <input type="text" id="grammarNote" placeholder="Es hängt davon ab · Wovon hängt es ab?">
+    </div>
+  </div>
+
+  <!-- WORDS NIVEAU 1 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">6 слов дня — Niveau 1</span>
+      <span class="section-hint">слово + подсказка → Gemini делает чанки</span>
+    </div>
+    <div class="section-body" id="wordsContainer"></div>
+  </div>
+
+  <!-- WORDS NIVEAU 2 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Niveau 2 — углубление</span>
+      <span class="section-hint">синонимы, идиомы, коллокации</span>
+    </div>
+    <div class="section-body" id="words2Container"></div>
+  </div>
+
+  <!-- SPEAKING TASKS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Задания говорения</span>
+      <span class="section-hint">Gemini генерирует — ты правишь</span>
+    </div>
+    <div class="section-body">
+
+      <div class="level-label level-green">AUFWÄRMEN · Niveau 1</div>
+      <label>Заголовок</label>
+      <input type="text" id="task1Topic" placeholder="Aufwärmen — Wo warst du am Wochenende?">
+      <label>Промпт для студента</label>
+      <textarea id="task1Prompt" placeholder="Eine Bekannte fragt: „Wo warst du am Wochenende? Was hast du gemacht?""></textarea>
+      <label>Инструкция</label>
+      <input type="text" id="task1Instruction" placeholder="5 Sätze. Kein Perfekt nötig — einfach erzählen.">
+      <label>Подсказка</label>
+      <input type="text" id="task1Hint" placeholder="Einstieg: „Am Wochenende befand ich mich..."">
+
+      <div class="divider"></div>
+
+      <div class="level-label level-blue">SITUATION · Niveau 2</div>
+      <label>Заголовок</label>
+      <input type="text" id="task2Topic" placeholder="Situation — Ein Moment der zählt">
+      <label>Промпт</label>
+      <textarea id="task2Prompt" placeholder="Ihre Kollegin fragt: „Hattest du letzte Woche einen schönen Moment? Erzähl mal!""></textarea>
+      <label>Инструкция</label>
+      <input type="text" id="task2Instruction" placeholder="7–8 Sätze. Nutzen Sie die Wörter von Niveau 1 und 2.">
+      <label>Подсказка</label>
+      <input type="text" id="task2Hint" placeholder="„Es war ein Moment, als..."">
+
+      <div class="divider"></div>
+
+      <div class="level-label level-amber">IHRE GESCHICHTE · Niveau 3</div>
+      <label>Заголовок</label>
+      <input type="text" id="task3Topic" placeholder="Ihre Geschichte — Was bedeutet das für Sie?">
+      <label>Промпт</label>
+      <textarea id="task3Prompt" placeholder="Erinnern Sie sich an einen Ausflug oder Moment, der Ihnen gut getan hat..."></textarea>
+      <label>Инструкция</label>
+      <input type="text" id="task3Instruction" placeholder="Erzählen Sie frei. Alle Wörter dieser Woche.">
+      <label>Подсказка</label>
+      <input type="text" id="task3Hint" placeholder="„Ich bin auf meine Kosten gekommen..."">
+
+    </div>
+  </div>
+
+  <!-- POST-SUBMIT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Сообщение после отправки задания</span>
+      <span class="section-hint">студент видит это сразу — без похвалы, по делу</span>
+    </div>
+    <div class="section-body">
+      <label>Что закрыли сегодня</label>
+      <input type="text" id="postDone" placeholder="Präpositionalverben в живых ситуациях — закрыли.">
+      <label>Почему это важно</label>
+      <input type="text" id="postWhy" placeholder="Без этого блока говорение с предлогами не работает.">
+      <label>Предвкушение завтра</label>
+      <input type="text" id="postTomorrow" placeholder="Завтра — da-Wörter в диалоге.">
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn btn-secondary" id="generateBtn" onclick="generateWithGemini()">
+      ✨ Сгенерировать через Gemini
+    </button>
+    <button class="btn btn-primary" onclick="saveData()">
+      Сохранить для студента
+    </button>
+    <button class="btn btn-outline" onclick="loadData()">
+      Загрузить сохранённое
+    </button>
+    <button class="btn btn-danger btn-sm" onclick="clearData()">
+      Очистить
+    </button>
+  </div>
+
 </div>
 
-<!-- ══ ADMIN SCREEN ══════════════════════════════════ -->
-<div id="admin-screen">
-  <div class="admin-header">
-    <div class="admin-header-title">✏️ Lehrerin-Bereich</div>
-    <button class="hbtn" onclick="showSettings()" title="Настройки">⚙️</button>
-    <button class="hbtn" onclick="doLogout()" title="Выйти">🚪</button>
-  </div>
-  <div class="student-tabs" id="stabs"></div>
-  <div class="admin-body" id="editor"></div>
-  <div class="save-bar">
-    <div class="save-bar-inner">
-      <button class="save-btn" id="save-btn" onclick="saveToGitHub()">💾 Speichern & Veröffentlichen</button>
-      <div class="save-status" id="save-status"></div>
-    </div>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
-<!-- ══ SETTINGS ══════════════════════════════════════ -->
-<div id="settings-screen">
-  <div class="admin-header">
-    <button class="hbtn" onclick="hideSettings()">←</button>
-    <div class="admin-header-title">⚙️ Einstellungen</div>
-  </div>
-  <div class="settings-body">
-    <div class="sect">
-      <div class="sect-title">🔑 GitHub Token</div>
-      <div class="field">
-        <label>Token (хранится в браузере)</label>
-        <input type="password" id="st-token" placeholder="ghp_...">
-      </div>
-      <button class="btn-primary" onclick="saveToken(true)">Сохранить токен</button>
-    </div>
-    <div class="sect" style="margin-top:14px">
-      <div class="sect-title">🔐 PIN</div>
-      <div class="field">
-        <label>Новый PIN (4 цифры)</label>
-        <input type="number" id="st-pin" placeholder="1234" maxlength="4">
-      </div>
-      <button class="btn-primary" onclick="savePin()">Изменить PIN</button>
-    </div>
-  </div>
-</div>
-
-<!-- students.js подключён для fallback -->
-<script src="students.js"></script>
 <script>
-// ── CONFIG ────────────────────────────────────────────────────────────────
-const REPO  = 'liudaromanovskaya-cmyk/Personal-German-Coach-MVC';
-const FPATH = 'tg-app/students.js';
-const BRANCH = 'main';
+let currentStudent = 'olga';
+let isDirty = false;
+const WORD_COUNT = 6;
+const WORD2_COUNT = 6;
 
-// ── STATE ─────────────────────────────────────────────────────────────────
-let _students = null;
-let _sha      = null;
-let _active   = null;
+document.addEventListener('DOMContentLoaded', () => {
+  buildWordRows();
+  buildWords2Rows();
+  loadApiKey();
+  loadData();
 
-// ── PIN ───────────────────────────────────────────────────────────────────
-let _pinBuf = '';
-const getPin = () => localStorage.getItem('admin_pin') || '1234';
-
-function pk(d) {
-  if (_pinBuf.length >= 4) return;
-  _pinBuf += d;
-  updateDots();
-  if (_pinBuf.length === 4) setTimeout(checkPin, 150);
-}
-function pdel() {
-  _pinBuf = _pinBuf.slice(0, -1);
-  updateDots();
-  document.getElementById('pin-err').textContent = '';
-}
-function updateDots() {
-  for (let i = 0; i < 4; i++)
-    document.getElementById('d' + i).classList.toggle('on', i < _pinBuf.length);
-}
-function checkPin() {
-  if (_pinBuf === getPin()) {
-    hide('pin-screen');
-    const tok = localStorage.getItem('gh_token');
-    tok ? initAdmin() : show('token-screen');
-  } else {
-    document.getElementById('pin-err').textContent = 'Неверный PIN';
-    _pinBuf = '';
-    updateDots();
-  }
-}
-function doLogout() {
-  _pinBuf = ''; updateDots();
-  hide('admin-screen'); show('pin-screen');
-}
-
-// ── TOKEN ─────────────────────────────────────────────────────────────────
-async function saveToken(fromSettings) {
-  const id = fromSettings ? 'st-token' : 'token-input';
-  const t = document.getElementById(id).value.trim();
-  if (!t) return;
-  // Проверяем токен
-  const r = await fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + t } });
-  if (!r.ok) {
-    const errId = fromSettings ? 'save-status' : 'token-err';
-    const el = document.getElementById(errId);
-    if (el) el.textContent = 'Токен неверный или нет прав';
-    return;
-  }
-  localStorage.setItem('gh_token', t);
-  if (fromSettings) { hideSettings(); setStatus('✅ Токен сохранён', 'ok'); }
-  else { hide('token-screen'); initAdmin(); }
-}
-
-// ── INIT ADMIN ────────────────────────────────────────────────────────────
-async function initAdmin() {
-  show('admin-screen');
-  setStatus('Загружаю данные с GitHub...');
-  try {
-    const r = await fetch(
-      'https://api.github.com/repos/' + REPO + '/contents/' + FPATH + '?ref=' + BRANCH,
-      { headers: { Authorization: 'token ' + localStorage.getItem('gh_token') } }
-    );
-    if (!r.ok) throw new Error('GitHub ' + r.status);
-    const data = await r.json();
-    _sha = data.sha;
-    const src = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-    // Parse: execute JS to get STUDENTS
-    _students = new Function(src + '\nreturn STUDENTS;')();
-    setStatus('');
-  } catch(e) {
-    // Fallback to local students.js
-    if (typeof STUDENTS !== 'undefined') {
-      _students = JSON.parse(JSON.stringify(STUDENTS));
-      setStatus('⚠️ Работаю локально — токен не подключён', 'err');
-    } else {
-      setStatus('❌ ' + e.message, 'err');
-      return;
-    }
-  }
-  _active = Object.keys(_students)[0];
-  renderTabs();
-  renderEditor();
-}
-
-// ── TABS ──────────────────────────────────────────────────────────────────
-function renderTabs() {
-  document.getElementById('stabs').innerHTML =
-    Object.keys(_students).map(id =>
-      `<button class="stab${id === _active ? ' active' : ''}" onclick="switchTab('${id}')">${_students[id].name}</button>`
-    ).join('');
-}
-function switchTab(id) {
-  collectForm();
-  _active = id;
-  renderTabs();
-  renderEditor();
-}
-
-// ── EDITOR ────────────────────────────────────────────────────────────────
-function renderEditor() {
-  const s = _students[_active];
-  const el = document.getElementById('editor');
-  el.innerHTML = `
-
-    <!-- AUFGABE -->
-    <div class="sect">
-      <div class="sect-title">📌 Aufgabe</div>
-      ${f('task_topic',    'Thema',         s.task?.topic    || '', 'text')}
-      ${f('task_text',     'Text',          s.task?.text     || '', 'ta')}
-      <div class="field-row">
-        ${f('task_estimate','Zeitaufwand',   s.task?.estimate || '', 'text', 'z.B. 20–25 Min.')}
-        ${f('task_deadline','Deadline',      s.task?.deadline || '', 'text', 'z.B. 20. März')}
-      </div>
-      ${f('task_hint',     'Hinweis',        s.task?.hint     || '', 'ta')}
-      ${f('task_link',     'Link (optional)',s.task?.link     || '', 'text', 'https://...')}
-    </div>
-
-    <!-- REVIEW -->
-    <div class="sect">
-      <div class="sect-title">🔄 Wiederholung</div>
-      <div class="toggle-row" onclick="tog('review')">
-        <span class="toggle-label">Wiederholung anzeigen</span>
-        <div class="toggle-sw${s.review ? ' on' : ''}" id="tsw-review"></div>
-      </div>
-      <div class="collapsible${s.review ? ' open' : ''}" id="tcl-review">
-        ${f('review_topic', 'Thema', s.review?.topic || '', 'text')}
-        ${f('review_text',  'Text',  s.review?.text  || '', 'ta')}
-      </div>
-    </div>
-
-    <!-- FEEDBACK -->
-    <div class="sect">
-      <div class="sect-title">💬 Feedback</div>
-      <div class="toggle-row" onclick="tog('feedback')">
-        <span class="toggle-label">Feedback anzeigen</span>
-        <div class="toggle-sw${s.feedback ? ' on' : ''}" id="tsw-feedback"></div>
-      </div>
-      <div class="collapsible${s.feedback ? ' open' : ''}" id="tcl-feedback">
-        ${f('fb_date',  'Datum',  s.feedback?.date  || '', 'text', 'z.B. 14. März')}
-        ${f('fb_text',  'Text',   s.feedback?.text  || '', 'ta')}
-        ${f('fb_score', 'Fazit',  s.feedback?.score || '', 'text', 'Guter Fortschritt 📈')}
-      </div>
-    </div>
-
-    <!-- FORTSCHRITT -->
-    <div class="sect">
-      <div class="sect-title">📈 Fortschritt</div>
-      ${f('progressText',   'Fortschrittstext', s.progressText    || '', 'text')}
-      <div class="field-row">
-        ${f('currentModule', 'Modul (Nr)', s.currentModule  ?? '', 'text', '1–12')}
-        ${f('currentLektion','Lektion (Nr)',s.currentLektion ?? '', 'text', '1–4')}
-      </div>
-    </div>
-
-    <!-- LÜCKEN -->
-    <div class="sect">
-      <div class="sect-title">🔎 Lücken</div>
-      <div id="gaps-list">
-        ${(s.gaps || []).map((g, i) => `
-        <div class="gap-item" id="gi-${i}">
-          <div class="gap-text">${ea(g.text)}</div>
-          <button class="gap-st st-${g.status}" onclick="cycleGap(${i})">${gapLbl(g.status)}</button>
-        </div>`).join('')}
-      </div>
-      <div class="add-gap-row">
-        <input type="text" id="new-gap" placeholder="Neue Lücke hinzufügen...">
-        <button class="btn-sm" onclick="addGap()">+ Hinzufügen</button>
-      </div>
-    </div>
-
-    <!-- DEEPEN / IMMERSE -->
-    <div class="sect">
-      <div class="sect-title">🔁 Vertiefen & Eintauchen</div>
-      <div class="toggle-row" onclick="tog('deepen')">
-        <span class="toggle-label">Vertiefen</span>
-        <div class="toggle-sw${s.deepen ? ' on' : ''}" id="tsw-deepen"></div>
-      </div>
-      <div class="collapsible${s.deepen ? ' open' : ''}" id="tcl-deepen">
-        ${f('deepen_topic','Thema', s.deepen?.topic || '', 'text')}
-        ${f('deepen_text', 'Text',  s.deepen?.text  || '', 'ta')}
-      </div>
-      <div class="toggle-row" onclick="tog('immerse')" style="margin-top:8px">
-        <span class="toggle-label">Eintauchen</span>
-        <div class="toggle-sw${s.immerse ? ' on' : ''}" id="tsw-immerse"></div>
-      </div>
-      <div class="collapsible${s.immerse ? ' open' : ''}" id="tcl-immerse">
-        ${f('immerse_topic','Thema', s.immerse?.topic || '', 'text')}
-        ${f('immerse_text', 'Text',  s.immerse?.text  || '', 'ta')}
-      </div>
-    </div>
-  `;
-}
-
-// ── FORM HELPERS ──────────────────────────────────────────────────────────
-function f(id, label, val, type, ph) {
-  const p = ph ? ` placeholder="${ea(ph)}"` : '';
-  if (type === 'ta')
-    return `<div class="field"><label>${label}</label><textarea id="f_${id}"${p}>${ea(val)}</textarea></div>`;
-  return `<div class="field"><label>${label}</label><input type="text" id="f_${id}" value="${ea(val)}"${p}></div>`;
-}
-function tog(key) {
-  const sw = document.getElementById('tsw-' + key);
-  const cl = document.getElementById('tcl-' + key);
-  const on = sw.classList.toggle('on');
-  cl.classList.toggle('open', on);
-}
-function gapLbl(s) { return { sos:'🔴 SOS', aktiv:'🟡 Aktiv', geloest:'✅ Gelöst' }[s] || s; }
-function cycleGap(i) {
-  const g = _students[_active].gaps[i];
-  const ord = ['sos','aktiv','geloest'];
-  g.status = ord[(ord.indexOf(g.status) + 1) % ord.length];
-  const btn = document.querySelector(`#gi-${i} .gap-st`);
-  btn.textContent = gapLbl(g.status);
-  btn.className = 'gap-st st-' + g.status;
-}
-function addGap() {
-  const inp = document.getElementById('new-gap');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  const s = _students[_active];
-  s.gaps = s.gaps || [];
-  const now = new Date();
-  const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-  s.gaps.push({ id: 'g' + Date.now(), level: s.level || 'B2', category: 'Grammatik', text: txt, status: 'sos', by: 'lehrerin', date: now.getDate() + '. ' + months[now.getMonth()] });
-  inp.value = '';
-  renderEditor();
-}
-
-// ── COLLECT FORM ──────────────────────────────────────────────────────────
-function collectForm() {
-  if (!_active || !_students[_active]) return;
-  const s = _students[_active];
-  const v = id => document.getElementById('f_' + id)?.value?.trim() ?? '';
-  const sw = id => document.getElementById('tsw-' + id)?.classList.contains('on');
-
-  s.task = { ...s.task,
-    topic:    v('task_topic'),
-    text:     v('task_text'),
-    estimate: v('task_estimate'),
-    deadline: v('task_deadline'),
-    hint:     v('task_hint')  || undefined,
-    link:     v('task_link')  || undefined,
-  };
-  if (!s.task.hint) delete s.task.hint;
-  if (!s.task.link) delete s.task.link;
-
-  s.review   = sw('review')   ? { topic: v('review_topic'),  text: v('review_text') }  : null;
-  s.feedback = sw('feedback') ? { date: v('fb_date'), text: v('fb_text'), score: v('fb_score') } : null;
-  s.deepen   = sw('deepen')   ? { topic: v('deepen_topic'),  text: v('deepen_text') }  : null;
-  s.immerse  = sw('immerse')  ? { topic: v('immerse_topic'), text: v('immerse_text') } : null;
-
-  s.progressText  = v('progressText')   || s.progressText;
-  const m  = parseInt(v('currentModule'));
-  const l  = parseInt(v('currentLektion'));
-  if (!isNaN(m)) s.currentModule  = m;
-  if (!isNaN(l)) s.currentLektion = l;
-}
-
-// ── SAVE ──────────────────────────────────────────────────────────────────
-async function saveToGitHub() {
-  const tok = localStorage.getItem('gh_token');
-  if (!tok) { setStatus('Нужен токен — ⚙️ Настройки', 'err'); return; }
-  collectForm();
-  const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  setStatus('Сохраняю...');
-  try {
-    const content = buildJs(_students);
-    const encoded = btoa(unescape(encodeURIComponent(content)));
-    const body = { message: 'Admin: update student ' + _active, content: encoded, sha: _sha, branch: BRANCH };
-    const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + FPATH, {
-      method: 'PUT',
-      headers: { Authorization: 'token ' + tok, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+  document.querySelectorAll('.student-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.student-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentStudent = btn.dataset.student;
+      loadData();
     });
-    if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
-    const data = await r.json();
-    _sha = data.content.sha;
-    setStatus('✅ Gespeichert! Vercel deployt in ~30 Sekunden.', 'ok');
-  } catch(e) {
-    setStatus('❌ ' + e.message, 'err');
+  });
+
+  document.querySelectorAll('input[type=text], textarea').forEach(el => {
+    el.addEventListener('input', () => { isDirty = true; updateStatus(); });
+  });
+});
+
+function buildWordRows() {
+  const c = document.getElementById('wordsContainer');
+  let html = '';
+  for (let i = 0; i < WORD_COUNT; i++) {
+    html += `
+      <div class="word-row">
+        <div class="word-num">${i + 1}</div>
+        <input type="text" id="word${i}" placeholder="Слово / фраза">
+        <input type="text" id="hint${i}" placeholder="Подсказка значения">
+        <input type="text" id="grammarTag${i}" placeholder="тип (reflexiv…)">
+      </div>
+      <div class="word-chunks" id="chunks${i}">
+        <div class="word-chunks-label">Чанки (AI) — редактировать можно</div>
+        <textarea id="chunksText${i}" placeholder="Пример 1&#10;Пример 2&#10;Пример 3"></textarea>
+      </div>`;
   }
-  btn.disabled = false;
+  c.innerHTML = html;
 }
 
-function buildJs(students) {
-  return `// ═══════════════════════════════════════════════════════════
-// ДАННЫЕ СТУДЕНТОВ — редактируется через Admin-Panel
-// ═══════════════════════════════════════════════════════════
+function buildWords2Rows() {
+  const c = document.getElementById('words2Container');
+  let html = '';
+  for (let i = 0; i < WORD2_COUNT; i++) {
+    html += `
+      <div class="words2-row">
+        <div class="word-num">${i + 1}</div>
+        <input type="text" id="word2_${i}" placeholder="Слово / выражение">
+        <input type="text" id="hint2_${i}" placeholder="Пояснение / пример употребления">
+      </div>`;
+  }
+  c.innerHTML = html;
 
-const STUDENTS = ${JSON.stringify(students, null, 2)};
-`;
+  // Re-attach dirty listeners for dynamically created inputs
+  c.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', () => { isDirty = true; updateStatus(); });
+  });
+  document.getElementById('wordsContainer').querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => { isDirty = true; updateStatus(); });
+  });
 }
 
-// ── SETTINGS ──────────────────────────────────────────────────────────────
-function showSettings() {
-  document.getElementById('st-token').value = localStorage.getItem('gh_token') || '';
-  hide('admin-screen'); show('settings-screen');
+// ── API KEY ──────────────────────────────
+function loadApiKey() {
+  const k = localStorage.getItem('pgc_gemini_key') || '';
+  document.getElementById('apiKey').value = k;
+  updateApiStatus(!!k);
 }
-function hideSettings() { hide('settings-screen'); show('admin-screen'); }
-function savePin() {
-  const p = document.getElementById('st-pin').value;
-  if (!/^\d{4}$/.test(p)) { alert('PIN должен быть ровно 4 цифры'); return; }
-  localStorage.setItem('admin_pin', p);
-  alert('PIN изменён ✓');
+function saveApiKey() {
+  const k = document.getElementById('apiKey').value.trim();
+  if (k) { localStorage.setItem('pgc_gemini_key', k); updateApiStatus(true); toast('Ключ сохранён', 'success'); }
+}
+function updateApiStatus(ok) {
+  const el = document.getElementById('apiStatus');
+  el.textContent = ok ? 'Ключ сохранён ✓' : 'Получить бесплатно: aistudio.google.com → Get API key';
+  el.className = 'api-status' + (ok ? ' ok' : '');
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────────────
-function show(id) { document.getElementById(id).style.display = 'block'; }
-function hide(id) { document.getElementById(id).style.display = 'none'; }
-function setStatus(msg, cls) {
-  const el = document.getElementById('save-status');
-  el.textContent = msg;
-  el.className = 'save-status' + (cls ? ' ' + cls : '');
+// ── STATUS ───────────────────────────────
+function updateStatus() {
+  const bar = document.getElementById('statusBar');
+  const txt = document.getElementById('statusText');
+  const saved = localStorage.getItem(`pgc_teacher_${currentStudent}`);
+  if (isDirty) {
+    bar.className = 'status-bar unsaved';
+    txt.textContent = 'Есть несохранённые изменения — нажмите «Сохранить для студента»';
+  } else if (saved) {
+    const d = JSON.parse(saved);
+    bar.className = 'status-bar';
+    txt.textContent = `Сохранено для ${nameOf(currentStudent)} · ${d.updatedAt || ''}`;
+  } else {
+    bar.className = 'status-bar unsaved';
+    txt.textContent = `Нет данных для ${nameOf(currentStudent)}`;
+  }
 }
-function ea(s) { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function nameOf(id) { return { olga: 'Ольги', artem: 'Артёма', julia: 'Юлии' }[id] || id; }
+
+// ── COLLECT ──────────────────────────────
+function collectData() {
+  const words = [];
+  for (let i = 0; i < WORD_COUNT; i++) {
+    const w = v(`word${i}`);
+    if (!w) continue;
+    const raw = v(`chunksText${i}`) || '';
+    words.push({
+      word: w,
+      hint: v(`hint${i}`),
+      grammarTag: v(`grammarTag${i}`),
+      verbForms: [],
+      chunks: raw.split('\n').map(s => s.trim()).filter(Boolean),
+    });
+  }
+  const words2 = [];
+  for (let i = 0; i < WORD2_COUNT; i++) {
+    const w = v(`word2_${i}`);
+    if (w) words2.push({ word: w, hint: v(`hint2_${i}`) });
+  }
+  return {
+    updatedAt: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }),
+    week: v('weekLabel'),
+    nextLesson: v('nextLesson'),
+    grammarWeek: {
+      queen: v('grammarQueen'),
+      context: v('grammarContext'),
+      sentenceRaw: v('grammarSentence'),
+      sentence2Raw: v('grammarSentence2'),
+      sentenceNote: v('grammarNote'),
+    },
+    today: {
+      date: v('weekDate'),
+      theme: v('weekTheme'),
+      words,
+      words2,
+      task:    { topic: v('task1Topic'), prompt: v('task1Prompt'), instruction: v('task1Instruction'), hint: v('task1Hint') },
+      deepen:  { topic: v('task2Topic'), prompt: v('task2Prompt'), instruction: v('task2Instruction'), hint: v('task2Hint') },
+      immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
+      postSubmit: { done: v('postDone'), why: v('postWhy'), tomorrow: v('postTomorrow') },
+    },
+  };
+}
+
+// ── FILL FORM ────────────────────────────
+function fillForm(d) {
+  if (!d) return;
+  s('weekLabel', d.week); s('weekDate', d.today?.date); s('nextLesson', d.nextLesson);
+  s('weekTheme', d.today?.theme);
+  s('grammarQueen', d.grammarWeek?.queen); s('grammarContext', d.grammarWeek?.context);
+  s('grammarSentence', d.grammarWeek?.sentenceRaw); s('grammarSentence2', d.grammarWeek?.sentence2Raw);
+  s('grammarNote', d.grammarWeek?.sentenceNote);
+
+  (d.today?.words || []).forEach((w, i) => {
+    s(`word${i}`, w.word); s(`hint${i}`, w.hint); s(`grammarTag${i}`, w.grammarTag);
+    if (w.chunks?.length) {
+      s(`chunksText${i}`, w.chunks.join('\n'));
+      document.getElementById(`chunks${i}`)?.classList.add('visible');
+    }
+  });
+  (d.today?.words2 || []).forEach((w, i) => { s(`word2_${i}`, w.word); s(`hint2_${i}`, w.hint); });
+
+  const t = d.today;
+  if (!t) return;
+  s('task1Topic', t.task?.topic); s('task1Prompt', t.task?.prompt);
+  s('task1Instruction', t.task?.instruction); s('task1Hint', t.task?.hint);
+  s('task2Topic', t.deepen?.topic); s('task2Prompt', t.deepen?.prompt);
+  s('task2Instruction', t.deepen?.instruction); s('task2Hint', t.deepen?.hint);
+  s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
+  s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
+  s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why); s('postTomorrow', t.postSubmit?.tomorrow);
+}
+
+// ── SAVE / LOAD / CLEAR ──────────────────
+function saveData() {
+  localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(collectData()));
+  isDirty = false; updateStatus();
+  toast(`Сохранено для ${nameOf(currentStudent)} ✓`, 'success');
+}
+function loadData() {
+  const raw = localStorage.getItem(`pgc_teacher_${currentStudent}`);
+  clearForm();
+  if (raw) { try { fillForm(JSON.parse(raw)); } catch(e) {} }
+  isDirty = false; updateStatus();
+}
+function clearForm() {
+  document.querySelectorAll('input[type=text], textarea').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.word-chunks').forEach(el => el.classList.remove('visible'));
+}
+function clearData() {
+  if (!confirm(`Очистить данные для ${nameOf(currentStudent)}?`)) return;
+  localStorage.removeItem(`pgc_teacher_${currentStudent}`);
+  clearForm(); isDirty = false; updateStatus();
+  toast('Очищено');
+}
+
+// ── HELPERS ──────────────────────────────
+function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
+function s(id, val) { const el = document.getElementById(id); if (el && val != null) el.value = val; }
+
+// ── GEMINI ───────────────────────────────
+async function generateWithGemini() {
+  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
+  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+
+  const words = [];
+  for (let i = 0; i < WORD_COUNT; i++) {
+    const w = v(`word${i}`); const h = v(`hint${i}`);
+    if (w) words.push({ word: w, hint: h });
+  }
+  if (!words.length) { toast('Введите хотя бы одно слово', 'error'); return; }
+
+  const theme = v('weekTheme') || 'Alltag';
+  const grammar = v('grammarQueen') || '';
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Генерирую...';
+
+  const prompt = `Ты помощник преподавателя немецкого языка. Уровень студента: B1→B2.
+Тема занятия: ${theme}
+Грамматика недели: ${grammar}
+
+Слова:
+${words.map((w,i) => `${i+1}. ${w.word}${w.hint ? ' — ' + w.hint : ''}`).join('\n')}
+
+Верни ТОЛЬКО JSON (без объяснений, без markdown блоков):
+{
+  "chunks": [
+    { "word": "...", "chunks": ["Пример с [подсветкой] ключевого слова.", "Пример 2.", "Пример 3."] }
+  ],
+  "task": { "topic": "Aufwärmen — заголовок", "prompt": "Ситуация на немецком в кавычках", "instruction": "5 Sätze. Verwenden Sie...", "hint": "Einstieg: ..." },
+  "deepen": { "topic": "Situation — заголовок", "prompt": "Более сложная ситуация", "instruction": "7–8 Sätze.", "hint": "..." },
+  "immerse": { "topic": "Geschichte — заголовок", "prompt": "Открытый вопрос", "instruction": "Erzählen Sie frei.", "hint": "..." },
+  "postSubmit": { "done": "Что закрыли (1 предложение, без похвалы)", "why": "Почему важно", "tomorrow": "Предвкушение" }
+}
+
+Правила:
+- Ключевое слово в чанках оборачивать в [квадратные скобки]
+- Примеры бытовые, B1-B2, естественные
+- Тон постСабмишн: зрелый наставнический, без молодец/отлично`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 3000 } })
+      }
+    );
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    parseAndFill(text);
+    isDirty = true; updateStatus();
+    toast('Готово! Проверьте и нажмите «Сохранить»', 'success');
+  } catch(e) {
+    console.error(e);
+    toast('Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ Сгенерировать через Gemini';
+  }
+}
+
+function parseAndFill(text) {
+  let json;
+  try {
+    const m = text.match(/\{[\s\S]*\}/);
+    if (m) json = JSON.parse(m[0]);
+  } catch(e) { toast('Не удалось разобрать ответ — попробуйте ещё раз', 'error'); return; }
+  if (!json) return;
+
+  (json.chunks || []).forEach((item, i) => {
+    if (item.chunks) {
+      s(`chunksText${i}`, item.chunks.join('\n'));
+      document.getElementById(`chunks${i}`)?.classList.add('visible');
+    }
+  });
+  if (json.task)    { s('task1Topic',json.task.topic);    s('task1Prompt',json.task.prompt);    s('task1Instruction',json.task.instruction);    s('task1Hint',json.task.hint); }
+  if (json.deepen)  { s('task2Topic',json.deepen.topic);  s('task2Prompt',json.deepen.prompt);  s('task2Instruction',json.deepen.instruction);  s('task2Hint',json.deepen.hint); }
+  if (json.immerse) { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
+  if (json.postSubmit) { s('postDone',json.postSubmit.done); s('postWhy',json.postSubmit.why); s('postTomorrow',json.postSubmit.tomorrow); }
+}
+
+// ── TOAST ────────────────────────────────
+let toastTimer;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
 </script>
 </body>
 </html>
