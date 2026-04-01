@@ -228,6 +228,7 @@ function render() {
         <div class="optional-topic">${s.deepen.topic}</div>
         <div class="optional-text">${s.deepen.prompt}</div>
         <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.deepen.instruction}</div>
+        <div class="sprint-word-chips">${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}</div>
         ${s.deepen.hint ? `<div class="hint-body" style="display:block;margin-top:8px">💡 ${s.deepen.hint}</div>` : ''}
         <div class="submit-form submit-form--optional" id="submit-form-deepen">
           <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Ihre Antwort..."></textarea>
@@ -254,6 +255,7 @@ function render() {
         <div class="optional-topic">${s.immerse.topic}</div>
         <div class="optional-text">${s.immerse.prompt}</div>
         <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.immerse.instruction}</div>
+        <div class="sprint-word-chips">${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}</div>
         <div class="submit-form submit-form--optional" id="submit-form-immerse">
           <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Ihre Geschichte..."></textarea>
           <label class="submit-file-label">

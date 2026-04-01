@@ -2312,3 +2312,19 @@ a.optional-send-btn:active {
   font-size: 13px;
   font-weight: 600;
 }
+
+.sprint-word-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.sprint-word-chip {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid #7CC8A0;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
