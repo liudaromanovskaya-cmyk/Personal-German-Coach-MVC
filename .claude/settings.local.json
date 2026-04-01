@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git config http.postBuffer 524288000)",
-      "Bash(git push -u origin master)"
-    ]
-  }
-}
