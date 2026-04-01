@@ -1937,6 +1937,32 @@ a.optional-send-btn:active {
   padding: 8px 0 2px;
 }
 
+/* ── Пост-сабмишн сообщение ─────────────────────────── */
+.post-submit-msg {
+  margin-top: 16px;
+  padding: 16px;
+  background: #F5F3FF;
+  border-left: 3px solid #7C3AED;
+  border-radius: 10px;
+}
+.post-submit-done {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 6px;
+}
+.post-submit-why {
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.post-submit-tomorrow {
+  font-size: 13px;
+  color: #7C3AED;
+  font-style: italic;
+}
+
 /* ── Mode switcher ──────────────────────────────────── */
 .mode-switcher {
   display: flex;
@@ -2094,6 +2120,15 @@ a.optional-send-btn:active {
   font-size: 15px;
   font-weight: 600;
   color: var(--text);
+}
+.sprint-narrative {
+  font-size: 12px;
+  color: #7C3AED;
+  margin-top: 6px;
+  padding: 5px 10px;
+  background: #F5F3FF;
+  border-radius: 6px;
+  line-height: 1.4;
 }
 .sprint-words-intro {
   font-size: 12px;

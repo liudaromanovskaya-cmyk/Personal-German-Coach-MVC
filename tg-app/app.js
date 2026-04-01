@@ -269,6 +269,7 @@ function render() {
         <div class="sprint-day-label">🗓 Sprint · ${s.date}</div>
         <div class="sprint-day-theme">${s.theme}</div>
       </div>
+      ${student.sprint?.grammarWeek?.context ? `<div class="sprint-narrative">${student.sprint.grammarWeek.context}</div>` : ''}
       <div class="sprint-words-intro">Слова дня — прочитайте перед тем как говорить:</div>
       <div class="chunk-words-grid">${chunksHTML}</div>
     </div>
@@ -399,6 +400,7 @@ function render() {
       <div class="submit-confirm" id="submit-confirm-task" style="display:none">
         ✅ Gesendet! Schauen Sie in Telegram nach.
       </div>
+      <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
     </div>
 
     ${student.deepen ? `
@@ -1833,6 +1835,18 @@ function submitHomework(level) {
   if (level === 'task') {
     const banner = document.getElementById('not-done-banner');
     if (banner) banner.style.display = 'none';
+
+    // Пост-сабмишн сообщение — если педагог заполнил в teacher.html
+    const ps = _student.sprint?.today?.postSubmit;
+    const psEl = document.getElementById('post-submit-msg');
+    if (ps?.done && psEl) {
+      psEl.style.display = 'block';
+      psEl.innerHTML = `
+        <div class="post-submit-done">✓ ${ps.done}</div>
+        ${ps.why ? `<div class="post-submit-why">${ps.why}</div>` : ''}
+        ${ps.tomorrow ? `<div class="post-submit-tomorrow">Завтра — ${ps.tomorrow}</div>` : ''}
+      `;
+    }
   }
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 }
