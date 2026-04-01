@@ -212,10 +212,17 @@ const STUDENTS = {
       week: 'April 2026 — Woche 1',
       grammarWeek: {
         queen: 'Präpositionalverben',
-        subtitle: 'Глаголы с предлогами — управление',
-        focus: ['ankommen auf + Akk.', 'arbeiten an + Dat.', 'sich erinnern an + Akk.', 'sich freuen auf + Akk.', 'abhängen von + Dat.'],
+        subtitle: 'Глаголы с предлогами + da-Wörter',
+        examples: [
+          { de: 'Ich erinnere mich daran.', note: 'daran = an + das' },
+          { de: 'Ich freue mich darauf.', note: 'darauf = auf + das' },
+          { de: 'Es hängt davon ab.', note: 'davon = von + das' },
+          { de: 'Ich arbeite daran.', note: 'daran = an + das' },
+          { de: 'Es kommt darauf an.', note: 'darauf = auf + das' },
+        ],
         secondaryFocus: 'Mittelfeld — глагол на своём месте',
-        secondaryNote: 'Reflexivpronomen · Präposition · Ergänzung — всё в среднем поле',
+        secondaryNote: 'Wir spielen online · Ich erinnere mich daran · Es hängt davon ab',
+        infographic: null,
       },
       // Все слова с живых занятий — полный банк
       allWords: [
