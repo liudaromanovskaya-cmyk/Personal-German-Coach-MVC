@@ -415,6 +415,11 @@ const STUDENTS = {
           topic: 'Schreiben — Ihre Geschichte',
           instruction: 'Schreiben Sie frei — so viel Sie möchten. Mindestens ein Kulturwort oder Sprichwort einbauen.\n\nAlle Wörter aus Niveau 1 + 2 + 3 stehen Ihnen zur Verfügung.\n\nTipp: „Wanderlust — das Wort trifft es genau... Bei diesem Ausflug kam ich voll auf meine Kosten... Reisen bildet — das habe ich wieder gespürt..."',
         },
+        postSubmit: {
+          done: 'Präpositionalverben в живых ситуациях — закрыли.',
+          why: 'Без этого блока говорение с предлогами не работает. Именно это мы отрабатываем до встречи в пятницу.',
+          tomorrow: 'da-Wörter в диалоге — посмотришь как они живут в реальных предложениях.',
+        },
       },
     },
     lexik: {
