@@ -131,7 +131,7 @@ function render() {
           <div class="grammar-queen-label">Грамматика недели</div>
           <div class="grammar-queen-title">${gw.queen}</div>
         </div>
-        <button class="grammar-infographic-btn ${gw.infographic ? '' : 'grammar-infographic-btn--empty'}" onclick="${gw.infographic ? 'openInfographic()' : ''}">📊 Схема</button>
+        <button class="grammar-infographic-btn" onclick="openInfographic()">📊 Схема</button>
       </div>
       <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
       ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
@@ -141,13 +141,23 @@ function render() {
       <div class="grammar-queen-teka-label">${tekamoloLegend}</div>
       <div class="grammar-queen-sentence">${mkSentence(gw.sentence2)}</div>` : ''}
     </div>
-    ${gw.infographic ? `
     <div class="infographic-modal" id="infographic-modal" onclick="closeInfographic()">
       <div class="infographic-modal-inner" onclick="event.stopPropagation()">
         <button class="infographic-close" onclick="closeInfographic()">×</button>
-        <img src="tg-app/${gw.infographic}" class="infographic-img" alt="Infografik">
+        ${gw.infographic
+          ? `<img src="${gw.infographic}" class="infographic-img" alt="Infografik">`
+          : `<div class="infographic-upload-zone">
+              <div class="infographic-upload-icon">📊</div>
+              <div class="infographic-upload-text">Выберите картинку для схемы</div>
+              <label class="infographic-upload-btn">
+                Открыть файл
+                <input type="file" accept="image/*" style="display:none" onchange="previewInfographic(this)">
+              </label>
+              <img id="infographic-preview" class="infographic-img" style="display:none">
+            </div>`
+        }
       </div>
-    </div>` : ''}`;
+    </div>`;
     })() : ''}
 
     <div class="mode-switcher">
@@ -1826,6 +1836,16 @@ function openInfographic() {
 function closeInfographic() {
   const modal = document.getElementById('infographic-modal');
   if (modal) modal.classList.remove('open');
+}
+function previewInfographic(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const img = document.getElementById('infographic-preview');
+  if (img) {
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+    img.previousElementSibling.style.display = 'none'; // скрываем кнопку
+  }
 }
 
 function editSubmission(level) {

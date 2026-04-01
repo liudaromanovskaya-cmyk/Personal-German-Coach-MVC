@@ -2444,10 +2444,22 @@ a.optional-send-btn:active {
   min-height: 36px;
   white-space: nowrap;
 }
-.grammar-infographic-btn--empty {
-  background: #E5E7EB;
-  color: #9CA3AF;
-  cursor: default;
+.infographic-upload-zone {
+  padding: 24px 20px;
+  text-align: center;
+  min-width: 260px;
+}
+.infographic-upload-icon { font-size: 40px; margin-bottom: 10px; }
+.infographic-upload-text { font-size: 14px; color: #718096; margin-bottom: 16px; }
+.infographic-upload-btn {
+  display: inline-block;
+  background: #7C3AED;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* Модалка инфографики */
