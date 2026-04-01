@@ -1845,7 +1845,6 @@ function submitHomework(level) {
       psEl.innerHTML = `
         <div class="post-submit-done">✓ ${ps.done}</div>
         ${ps.why ? `<div class="post-submit-why">${ps.why}</div>` : ''}
-        ${ps.tomorrow ? `<div class="post-submit-tomorrow">Завтра — ${ps.tomorrow}</div>` : ''}
       `;
     }
   }
