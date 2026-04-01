@@ -79,23 +79,32 @@ function render() {
   _student = student;
 
   // ── Данные из панели педагога (teacher.html) ──────────────────────────────
-  // Если преподаватель сохранил данные через форму — используем их вместо students.js
+  // Мержим только заполненные поля — слова из students.js не трогаем если форма пустая
   try {
     const teacherRaw = localStorage.getItem(`pgc_teacher_${id}`);
     if (teacherRaw) {
       const td = JSON.parse(teacherRaw);
+      student.sprint = student.sprint || {};
+      // Только метаданные дня — не трогаем words/wordsWriting
       if (td.today) {
-        student.sprint = student.sprint || {};
-        student.sprint.today = td.today;
-        if (td.week) student.sprint.week = td.week;
+        student.sprint.today = student.sprint.today || {};
+        if (td.today.date) student.sprint.today.date = td.today.date;
+        if (td.today.theme) student.sprint.today.theme = td.today.theme;
+        // Задания говорения — только если заполнены
+        if (td.today.task?.topic) student.sprint.today.task = td.today.task;
+        if (td.today.deepen?.topic) student.sprint.today.deepen = td.today.deepen;
+        if (td.today.immerse?.topic) student.sprint.today.immerse = td.today.immerse;
+        // Слова — только если реально заполнены в форме
+        if (td.today.words?.length) student.sprint.today.words = td.today.words;
+        if (td.today.words2?.length) student.sprint.today.words2 = td.today.words2;
+        // Пост-сабмишн
+        if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
       }
+      if (td.week) student.sprint.week = td.week;
       if (td.grammarWeek?.queen) {
-        student.sprint = student.sprint || {};
         student.sprint.grammarWeek = student.sprint.grammarWeek || {};
-        Object.assign(student.sprint.grammarWeek, {
-          queen: td.grammarWeek.queen,
-          context: td.grammarWeek.context,
-        });
+        if (td.grammarWeek.queen) student.sprint.grammarWeek.queen = td.grammarWeek.queen;
+        if (td.grammarWeek.context) student.sprint.grammarWeek.context = td.grammarWeek.context;
       }
     }
   } catch(e) { /* молча пропускаем ошибки */ }
