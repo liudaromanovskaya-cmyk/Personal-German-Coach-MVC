@@ -3,338 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal German Coach — Личный кабинет студента</title>
+<title>Personal German Coach</title>
 <style>
   :root {
-    --bg: #FAF9F6;
-    --dark: #1A1A1A;
-    --accent: #4A8C6E;
-    --accent-light: #EDF7F1;
-    --muted: #718096;
-    --border: #E2E8F0;
-    --urgent: #D97706;
-    --surface: #FFFFFF;
+    --bg: #0F1117;
+    --surface: #1A1D27;
+    --surface2: #22263A;
+    --accent: #6EE7B7;
+    --accent-dim: rgba(110,231,183,0.12);
+    --gold: #F59E0B;
+    --gold-dim: rgba(245,158,11,0.12);
+    --text: #F1F5F9;
+    --muted: #8892A4;
+    --border: rgba(255,255,255,0.08);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
   body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
-    color: var(--dark);
+    color: var(--text);
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: rgba(250,249,246,0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
+    position: fixed; top:0; left:0; right:0;
     z-index: 100;
-    padding: 14px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(15,17,23,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
   }
-  .nav-logo {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.02em;
-  }
-  .nav-sub {
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  /* SECTIONS */
-  section {
-    padding: 80px 40px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-  section:first-of-type { padding-top: 120px; }
-
-  .label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-
-  h1 {
-    font-size: clamp(32px, 5vw, 52px);
-    font-weight: 800;
-    line-height: 1.15;
-    color: var(--dark);
-    margin-bottom: 24px;
-  }
-  h2 {
-    font-size: clamp(22px, 3vw, 32px);
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--dark);
-    margin-bottom: 20px;
-  }
-  h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 10px;
-  }
-  p {
-    font-size: 17px;
-    color: #4A5568;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-  p:last-child { margin-bottom: 0; }
-
-  .accent { color: var(--accent); }
-  .strong { font-weight: 600; color: var(--dark); }
+  .nav-logo { font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .nav-tag { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
 
   /* HERO */
-  .hero { padding-top: 130px; padding-bottom: 80px; }
-  .hero-eyebrow {
-    display: inline-block;
-    background: var(--accent-light);
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 48px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--accent);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
+    margin-bottom: 32px;
+  }
+  .hero-tag::before { content:''; width:24px; height:1px; background: var(--accent); }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
     margin-bottom: 28px;
   }
-  .hero h1 span {
-    color: var(--accent);
-  }
-  .hero-lead {
-    font-size: 20px;
-    color: #4A5568;
-    line-height: 1.7;
-    max-width: 640px;
-    margin-bottom: 40px;
-  }
-  .hero-cta {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 14px 32px;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .hero-cta:hover { opacity: 0.88; }
-  .hero-note {
-    margin-top: 16px;
-    font-size: 13px;
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(17px, 2vw, 22px);
     color: var(--muted);
+    max-width: 580px;
+    line-height: 1.65;
+    margin-bottom: 48px;
   }
-
-  /* DIVIDER */
-  .divider {
-    width: 48px;
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    margin-bottom: 40px;
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+  .hero-scroll {
+    font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
   }
+  .hero-scroll::after { content:''; flex:1; max-width:60px; height:1px; background: var(--border); }
 
-  /* PROBLEM */
-  .problem-block {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 32px;
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 48px;
+    border-top: 1px solid var(--border);
+  }
+  .section-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-num::after { content:''; flex:1; height:1px; background: var(--border); }
+  .section h2 {
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     margin-bottom: 16px;
-    border-left: 4px solid #FC8181;
   }
-  .problem-block h3 { color: #C53030; }
-  .problem-block p { font-size: 15px; color: #718096; }
+  .section h2 em { font-style: normal; color: var(--accent); }
+  .section-lead {
+    font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 560px;
+    margin-bottom: 48px;
+  }
 
-  /* WHAT IS */
-  .what-grid {
+  /* PROBLEM CARDS */
+  .problem-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .problem-card {
+    background: var(--surface);
+    padding: 28px 24px;
+  }
+  .problem-icon { font-size: 24px; margin-bottom: 14px; }
+  .problem-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .problem-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* BIG STATEMENT */
+  .statement {
+    background: var(--accent-dim);
+    border: 1px solid rgba(110,231,183,0.2);
+    border-radius: 20px;
+    padding: 48px;
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+  }
+  .statement p {
+    font-size: clamp(20px, 3vw, 30px);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .statement p em { font-style: normal; color: var(--accent); }
+  .statement-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  /* PILLARS */
+  .pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pillar {
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .pillar:hover { background: var(--surface2); }
+  .pillar-head {
+    display: flex; align-items: center; gap: 20px;
+    padding: 24px 28px;
+  }
+  .pillar-num {
+    font-size: 13px; font-weight: 800; color: var(--accent);
+    min-width: 28px;
+  }
+  .pillar-title { font-size: 17px; font-weight: 700; flex: 1; }
+  .pillar-arrow {
+    font-size: 18px; color: var(--muted);
+    transition: transform 0.25s;
+  }
+  .pillar.open .pillar-arrow { transform: rotate(180deg); }
+  .pillar-body {
+    display: none;
+    padding: 0 28px 24px 68px;
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+  }
+  .pillar.open .pillar-body { display: block; }
+
+  /* VS TABLE */
+  .vs-wrap { overflow-x: auto; margin-top: 32px; }
+  .vs-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+  .vs-table th {
+    padding: 14px 18px; text-align: left;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .vs-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .vs-table tr:last-child td { border-bottom: none; }
+  .vs-yes { color: var(--accent); font-weight: 700; }
+  .vs-no { color: #475569; }
+  .vs-me td:first-child { border-left: 2px solid var(--accent); }
+  .vs-me td { background: var(--accent-dim); font-weight: 600; }
+
+  /* PROFIT CARDS */
+  .profit-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-top: 32px;
   }
-  .what-card {
+  .profit-card {
     background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 24px;
+    padding: 32px;
+    border: 1px solid var(--border);
   }
-  .what-card-icon { font-size: 28px; margin-bottom: 12px; }
-  .what-card h3 { font-size: 16px; margin-bottom: 8px; }
-  .what-card p { font-size: 14px; color: var(--muted); margin: 0; }
+  .profit-card.gold { border-color: rgba(245,158,11,0.3); background: var(--gold-dim); }
+  .profit-card.green { border-color: rgba(110,231,183,0.2); background: var(--accent-dim); }
+  .profit-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .profit-card.gold .profit-label { color: var(--gold); }
+  .profit-card.green .profit-label { color: var(--accent); }
+  .profit-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 14px; font-size: 14px; line-height: 1.55;
+  }
+  .profit-item:last-child { margin-bottom: 0; }
+  .profit-item::before { content: '→'; flex-shrink: 0; font-weight: 700; }
+  .profit-card.gold .profit-item::before { color: var(--gold); }
+  .profit-card.green .profit-item::before { color: var(--accent); }
 
-  /* METHODOLOGY */
-  .method-row {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+  /* SCALE */
+  .scale-row {
+    display: flex; align-items: center; gap: 20px;
     padding: 20px 0;
     border-bottom: 1px solid var(--border);
   }
-  .method-row:last-child { border-bottom: none; }
-  .method-num {
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--accent-light);
-    line-height: 1;
-    min-width: 48px;
-    color: var(--accent);
-    opacity: 0.25;
-  }
-  .method-text h3 { margin-bottom: 6px; }
-  .method-text p { font-size: 15px; margin: 0; }
-
-  /* VS COMPETITORS */
-  .vs-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 32px;
-    font-size: 14px;
-  }
-  .vs-table th {
-    text-align: left;
-    padding: 12px 16px;
-    background: #2D3748;
-    color: #fff;
-    font-weight: 600;
-  }
-  .vs-table th:first-child { border-radius: 10px 0 0 0; }
-  .vs-table th:last-child { border-radius: 0 10px 0 0; }
-  .vs-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .vs-table tr:nth-child(even) td { background: #F7FAFC; }
-  .vs-table tr:last-child td:first-child { border-radius: 0 0 0 10px; }
-  .vs-table tr:last-child td:last-child { border-radius: 0 0 10px 0; }
-  .vs-yes { color: var(--accent); font-weight: 600; }
-  .vs-no { color: #FC8181; }
-  .vs-highlight td { background: var(--accent-light) !important; font-weight: 600; }
-  .vs-highlight td:first-child { border-left: 3px solid var(--accent); }
-
-  /* CABINET FEATURES */
-  .feature-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 28px;
-  }
-  .feature-item {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-  }
-  .feature-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
-  .feature-text h3 { font-size: 15px; margin-bottom: 4px; }
-  .feature-text p { font-size: 13px; color: var(--muted); margin: 0; }
-
-  /* SOON */
-  .soon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin-top: 24px;
-  }
-  .soon-card {
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    opacity: 0.75;
-  }
-  .soon-card .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: #FEF3C7;
-    color: #92400E;
-    padding: 2px 8px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-  }
-  .soon-card h3 { font-size: 14px; margin-bottom: 4px; }
-  .soon-card p { font-size: 12px; color: var(--muted); margin: 0; }
-
-  /* WHO */
-  .who-block {
-    background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
-    border: 1px solid #A7F3D0;
-    border-radius: 20px;
-    padding: 40px;
-    margin-top: 32px;
-  }
-  .who-block h3 { font-size: 20px; margin-bottom: 16px; color: #065F46; }
-  .who-list { list-style: none; }
-  .who-list li {
-    font-size: 16px;
-    color: #1A1A1A;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .who-list li:last-child { border-bottom: none; }
-  .who-list li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
-
-  /* QUOTE */
-  .quote-block {
-    border-left: 4px solid var(--accent);
-    padding: 24px 32px;
-    background: var(--accent-light);
-    border-radius: 0 16px 16px 0;
-    margin: 40px 0;
-  }
-  .quote-text {
-    font-size: 20px;
-    font-style: italic;
-    color: var(--dark);
-    line-height: 1.6;
-    margin-bottom: 12px;
-  }
-  .quote-author {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+  .scale-row:last-child { border-bottom: none; }
+  .scale-icon { font-size: 28px; min-width: 44px; text-align: center; }
+  .scale-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .scale-text p { font-size: 14px; color: var(--muted); }
 
   /* FOOTER */
   footer {
-    background: #2D3748;
-    color: #A0AEC0;
     text-align: center;
-    padding: 40px;
-    font-size: 14px;
+    padding: 60px 48px;
+    border-top: 1px solid var(--border);
   }
-  footer strong { color: #fff; }
+  footer .f-name { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  footer .f-sub { font-size: 14px; color: var(--muted); }
 
   /* RESPONSIVE */
-  @media (max-width: 600px) {
-    section { padding: 60px 20px; }
-    nav { padding: 12px 20px; }
-    .who-block { padding: 24px 20px; }
-    .vs-table { font-size: 12px; }
-    .vs-table td, .vs-table th { padding: 8px 10px; }
+  @media (max-width: 640px) {
+    nav { padding: 14px 20px; }
+    .hero, .section { padding-left: 20px; padding-right: 20px; }
+    .profit-split { grid-template-columns: 1fr; }
+    .statement { padding: 28px 20px; }
+    .pillar-body { padding-left: 28px; }
   }
 </style>
 </head>
@@ -342,391 +258,302 @@
 
 <nav>
   <div class="nav-logo">Personal German Coach</div>
-  <div class="nav-sub">Методология · Технология · Результат</div>
+  <div class="nav-tag">Авторский продукт · 2026</div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-eyebrow">Личный кабинет студента</div>
-  <h1>Немецкий язык,<br>который <span>работает</span> каждый день</h1>
-  <p class="hero-lead">
-    Не курс. Не платформа. Личное пространство между педагогом и студентом —
-    где методология, задания и прогресс живут вместе, а язык растёт постепенно и надёжно.
+<div class="hero">
+  <div class="hero-tag">Авторская методика + личный кабинет</div>
+  <h1>Немецкий язык.<br><em>Каждый день.</em><br>Именно для вас.</h1>
+  <p class="hero-sub">
+    Не платформа. Не курс. <strong>Личная система</strong> — где методология педагога,
+    ежедневные задания и прогресс студента живут в одном месте.
+    Такого нет на рынке.
   </p>
-  <a href="#product" class="hero-cta">Посмотреть продукт →</a>
-  <p class="hero-note">Работает в браузере и Telegram · Без установки · Для любого устройства</p>
-</section>
+  <div class="hero-scroll">Листать вниз</div>
+</div>
 
 <!-- PROBLEM -->
-<section id="problem">
-  <div class="label">Проблема</div>
-  <h2>Почему студенты бросают изучение языка</h2>
-  <div class="divider"></div>
-
-  <div class="problem-block">
-    <h3>Нет системы между занятиями</h3>
-    <p>Урок прошёл — и слова испарились. Через 3 дня студент не помнит ни контекста, ни конструкций. Разрыв между встречами не заполнен.</p>
-  </div>
-  <div class="problem-block">
-    <h3>Нет видимого прогресса</h3>
-    <p>Студент занимается месяцами и не чувствует роста. Тревожность усиливается, мотивация падает. Он не понимает, куда идёт и идёт ли вообще.</p>
-  </div>
-  <div class="problem-block">
-    <h3>Педагог тратит время на рутину</h3>
-    <p>Подготовка ДЗ, отслеживание прогресса, фидбек, напоминания — всё вручную. Времени на настоящую методическую работу почти не остаётся.</p>
-  </div>
-  <div class="problem-block">
-    <h3>Говорение = стресс</h3>
-    <p>Страх ошибки блокирует речь. Студент знает слова — но молчит. Ни одна платформа не работает с этим барьером системно.</p>
-  </div>
-</section>
-
-<!-- WHAT IS -->
-<section id="product">
-  <div class="label">Продукт</div>
-  <h2>Что такое Personal German Coach</h2>
-  <div class="divider"></div>
-
-  <p>
-    Это <span class="strong">личный цифровой кабинет студента</span> — созданный педагогом, наполняемый педагогом,
-    живущий в ритме студента. Не шаблонные уроки. Не автоматические тесты.
-    Каждый день — задание, составленное именно для этого студента, именно на этой неделе.
+<div class="section">
+  <div class="section-num">01 · Проблема</div>
+  <h2>Почему не работает<br><em>всё остальное</em></h2>
+  <p class="section-lead">
+    ChatGPT, iTalki, Preply, Lingoda — студент может пользоваться всем.
+    Но ни одно решение не закрывает главную потребность.
   </p>
 
-  <div class="what-grid">
-    <div class="what-card">
-      <div class="what-card-icon">📅</div>
-      <h3>Ежедневный Sprint</h3>
-      <p>6 слов + три уровня говорения. Студент идёт в своём темпе — от разогрева до свободного рассказа.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">🔄</div>
+      <h3>Нет системы между встречами</h3>
+      <p>Урок закончился — слова испарились. Разрыв не заполнен.</p>
     </div>
-    <div class="what-card">
-      <div class="what-card-icon">📚</div>
-      <h3>Грамматика недели</h3>
-      <p>Одна тема — неделя практики. Визуальная схема, живые примеры, связь с заданиями.</p>
+    <div class="problem-card">
+      <div class="problem-icon">🌫</div>
+      <h3>Нет видимого роста</h3>
+      <p>Занимается месяцами — не чувствует движения. Мотивация падает.</p>
     </div>
-    <div class="what-card">
-      <div class="what-card-icon">✍️</div>
-      <h3>Schreiben с целью</h3>
-      <p>Не упражнение — диагностика. Текст студента показывает педагогу как работает грамматика до встречи.</p>
+    <div class="problem-card">
+      <div class="problem-icon">🤖</div>
+      <h3>AI даёт шаблон, не личное</h3>
+      <p>ChatGPT не знает этого студента. Контекст, цель, барьеры — нет.</p>
     </div>
-    <div class="what-card">
-      <div class="what-card-icon">📊</div>
-      <h3>Живой прогресс</h3>
-      <p>Маркеры языка от педагога, банк слов, недельные срезы. Студент видит что растёт — конкретно.</p>
-    </div>
-    <div class="what-card">
-      <div class="what-card-icon">💬</div>
-      <h3>Фидбек в кабинете</h3>
-      <p>Педагог отвечает на задание — студент получает живой разбор, не оценку. Диалог, а не контроль.</p>
-    </div>
-    <div class="what-card">
-      <div class="what-card-icon">🤖</div>
-      <h3>AI — только черновик</h3>
-      <p>Gemini генерирует задания по методологии. Педагог проверяет и правит. Студент видит только финал.</p>
+    <div class="problem-card">
+      <div class="problem-icon">😶</div>
+      <h3>Говорение — до сих пор стресс</h3>
+      <p>Знает слова. Не говорит. Страх ошибки не снимается сам собой.</p>
     </div>
   </div>
-</section>
+</div>
 
-<!-- METHODOLOGY -->
-<section id="method">
-  <div class="label">Методология</div>
-  <h2>На чём стоит система</h2>
-  <div class="divider"></div>
-
-  <p>Каждый элемент кабинета основан на исследованиях — не на интуиции и не на "так принято".</p>
-
-  <div class="method-row">
-    <div class="method-num">01</div>
-    <div class="method-text">
-      <h3>Krashen — Affective Filter</h3>
-      <p>Тревога блокирует усвоение языка. Поэтому в кабинете нет оценок, нет "неправильно" — есть наставнический тон и безопасная среда. Самооценка настроения перед заданием — не декор, а диагностика.</p>
-    </div>
+<!-- STATEMENT -->
+<div style="padding: 0 48px; max-width: 996px; margin: 0 auto;">
+  <div class="statement">
+    <p>Студент может найти что угодно онлайн.<br>Но <em>личного педагога в кармане</em> —<br>который знает его цель, его уровень, его барьеры —<br>этого нет нигде.</p>
+    <p class="statement-sub">До сих пор.</p>
   </div>
-  <div class="method-row">
-    <div class="method-num">02</div>
-    <div class="method-text">
-      <h3>Swain — Output Hypothesis</h3>
-      <p>Говорить — значит учиться. Три уровня заданий форсируют использование слов, а не пассивное знание. Уровень 1 — контекст, уровень 2 — ситуация, уровень 3 — ваша история.</p>
-    </div>
-  </div>
-  <div class="method-row">
-    <div class="method-num">03</div>
-    <div class="method-text">
-      <h3>Nation — Vocabulary Repetition</h3>
-      <p>Слово усваивается через 7–10 встреч в разных контекстах. Слова недели появляются в Sprechen, Schreiben, грамматике, фидбеке — пока не закрепятся.</p>
-    </div>
-  </div>
-  <div class="method-row">
-    <div class="method-num">04</div>
-    <div class="method-text">
-      <h3>Conway — Autobiographical Memory</h3>
-      <p>Рассказы о собственном опыте запоминаются в разы лучше. Уровень 3 всегда про жизнь студента — не про выдуманных персонажей.</p>
-    </div>
-  </div>
-  <div class="method-row">
-    <div class="method-num">05</div>
-    <div class="method-text">
-      <h3>Dweck — Growth Mindset</h3>
-      <p>"Глагол стоит на своём месте — это уже навык, не случайность." Фидбек и маркеры языка показывают конкретный рост, а не абстрактную похвалу.</p>
-    </div>
-  </div>
-</section>
+</div>
 
-<!-- QUOTE -->
-<section style="padding-top: 0; padding-bottom: 0;">
-  <div class="quote-block">
-    <div class="quote-text">
-      "Чувствуется, что вы думаете на немецком языке. Перевод уходит на фон — вы думаете о сути, а не о словах."
-    </div>
-    <div class="quote-author">Из кабинета студента · раздел Fortschritt · живой маркер педагога</div>
-  </div>
-</section>
+<!-- PRODUCT -->
+<div class="section">
+  <div class="section-num">02 · Продукт</div>
+  <h2>Что такое<br><em>Personal German Coach</em></h2>
+  <p class="section-lead">
+    Личный кабинет студента. Педагог составляет задания — студент работает каждый день.
+    Методология зашита в каждый экран.
+  </p>
 
-<!-- VS COMPETITORS -->
-<section id="compare">
-  <div class="label">Сравнение</div>
-  <h2>Чего нет у конкурентов</h2>
-  <div class="divider"></div>
-
-  <p>iTalki, Preply, Lingoda, Busuu — большие платформы с миллионами пользователей. У каждой есть сильные стороны. Но ни одна не решает задачу <span class="strong">личного маршрута для конкретного взрослого студента</span>.</p>
-
-  <table class="vs-table">
-    <thead>
-      <tr>
-        <th>Возможность</th>
-        <th>iTalki</th>
-        <th>Preply</th>
-        <th>Lingoda</th>
-        <th>Personal German Coach</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Задания от педагога лично</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓</td>
-      </tr>
-      <tr>
-        <td>Три уровня говорения в день</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓</td>
-      </tr>
-      <tr>
-        <td>Живые маркеры языка</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓</td>
-      </tr>
-      <tr>
-        <td>Постоянный педагог + его голос</td>
-        <td class="vs-no">частично</td>
-        <td class="vs-no">частично</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓ всегда</td>
-      </tr>
-      <tr>
-        <td>AI как черновик, финал — педагог</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓</td>
-      </tr>
-      <tr>
-        <td>Работа с тревожностью системно</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓ Krashen</td>
-      </tr>
-      <tr>
-        <td>Грамматика + говорение связаны</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">частично</td>
-        <td class="vs-no">частично</td>
-        <td class="vs-yes">✓</td>
-      </tr>
-      <tr class="vs-highlight">
-        <td>Telegram Mini App</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-no">—</td>
-        <td class="vs-yes">✓ открывается в мессенджере</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- CABINET FEATURES NOW -->
-<section id="features">
-  <div class="label">Что уже работает</div>
-  <h2>Кабинет сегодня</h2>
-  <div class="divider"></div>
-
-  <div class="feature-list">
-    <div class="feature-item">
-      <div class="feature-icon">🎙</div>
-      <div class="feature-text">
-        <h3>Speaking Sprint — три уровня говорения</h3>
-        <p>Niveau 1 (разогрев) → Niveau 2 (ситуация) → Niveau 3 (ваша история). Задания строятся по методологии TBLT и autobiographical memory.</p>
+  <div class="pillars">
+    <div class="pillar open" onclick="this.classList.toggle('open')">
+      <div class="pillar-head">
+        <div class="pillar-num">01</div>
+        <div class="pillar-title">Speaking Sprint — три уровня говорения</div>
+        <div class="pillar-arrow">⌄</div>
+      </div>
+      <div class="pillar-body">
+        Каждый день: 6 слов и три задания. Niveau 1 — разогрев. Niveau 2 — реальная ситуация.
+        Niveau 3 — ваша история. Студент идёт в своём темпе, без давления.
+        Основано на Krashen, Swain, Nation — не на "так принято".
       </div>
     </div>
-    <div class="feature-item">
-      <div class="feature-icon">📊</div>
-      <div class="feature-text">
-        <h3>Fortschritt — живой прогресс</h3>
-        <p>Блок "Ваш немецкий сейчас" — живые фразы педагога. Банк слов с самооценкой студента 🟢/🟡/🔴. Статистика за неделю.</p>
+    <div class="pillar" onclick="this.classList.toggle('open')">
+      <div class="pillar-head">
+        <div class="pillar-num">02</div>
+        <div class="pillar-title">Грамматика недели с визуальной схемой</div>
+        <div class="pillar-arrow">⌄</div>
+      </div>
+      <div class="pillar-body">
+        Одна тема — неделя практики. TeKaMoLo, Verbklammer, Präpositionalverben — цветные схемы, живые примеры.
+        Связана с заданиями говорения. Не висит отдельно.
       </div>
     </div>
-    <div class="feature-item">
-      <div class="feature-icon">📅</div>
-      <div class="feature-text">
-        <h3>Недельный нарратив</h3>
-        <p>Понедельник — мост из прошлого в новую тему. Суббота — итог: что закрыли, как темы соединились. Педагог пишет один раз — кабинет показывает в нужный день.</p>
+    <div class="pillar" onclick="this.classList.toggle('open')">
+      <div class="pillar-head">
+        <div class="pillar-num">03</div>
+        <div class="pillar-title">Живой прогресс — не цифры, а ощущения</div>
+        <div class="pillar-arrow">⌄</div>
+      </div>
+      <div class="pillar-body">
+        Педагог отмечает маркеры языка → студент видит живые фразы в голосе педагога:
+        "Глагол стоит на своём месте — это уже навык, не случайность."
+        Плюс банк слов: сам студент отмечает 🟢 знаю / 🟡 учу / 🔴 новое.
       </div>
     </div>
-    <div class="feature-item">
-      <div class="feature-icon">✅</div>
-      <div class="feature-text">
-        <h3>Пост-сабмишн сообщение</h3>
-        <p>После отправки задания студент видит: что закрыли + почему это важно. Не похвала — наставнический жест зрелого педагога.</p>
+    <div class="pillar" onclick="this.classList.toggle('open')">
+      <div class="pillar-head">
+        <div class="pillar-num">04</div>
+        <div class="pillar-title">Панель педагога + AI-генерация</div>
+        <div class="pillar-arrow">⌄</div>
+      </div>
+      <div class="pillar-body">
+        Педагог заполняет форму — Gemini генерирует задания по методологии.
+        Педагог правит — студент видит только финал. AI как черновик, решение — педагога.
+        Подготовка ДЗ: 2 часа вместо 6.
       </div>
     </div>
-    <div class="feature-item">
-      <div class="feature-icon">🧱</div>
-      <div class="feature-text">
-        <h3>Грамматика недели с визуализацией</h3>
-        <p>TeKaMoLo, Verbklammer, Präpositionalverben — цветные схемы с живыми примерами. Кнопка "Схема" открывает инфографику.</p>
+    <div class="pillar" onclick="this.classList.toggle('open')">
+      <div class="pillar-head">
+        <div class="pillar-num">05</div>
+        <div class="pillar-title">Замкнутая петля педагог ↔ студент</div>
+        <div class="pillar-arrow">⌄</div>
       </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🤖</div>
-      <div class="feature-text">
-        <h3>Панель педагога + Gemini</h3>
-        <p>Педагог заполняет форму → Gemini генерирует задания по методологии → педагог правит → студент видит финал. 2 часа вместо 6.</p>
-      </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">👋</div>
-      <div class="feature-text">
-        <h3>Онбординг при первом входе</h3>
-        <p>3 экрана: кто я, как работает кабинет, где первое задание. Один раз — потом не мешает.</p>
+      <div class="pillar-body">
+        Студент отправил задание → педагог получил → ответил → студент увидел фидбек в кабинете.
+        Пост-сабмишн сообщение: "Что закрыли сегодня — и почему это важно."
+        Не оценка. Наставнический жест.
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- COMING SOON -->
-<section id="soon">
-  <div class="label">В разработке</div>
-  <h2>Что будет дальше</h2>
-  <div class="divider"></div>
-  <p>Продукт строится итерационно. Каждый следующий блок усиливает петлю педагог ↔ студент.</p>
+<!-- VS -->
+<div class="section">
+  <div class="section-num">03 · Рынок</div>
+  <h2>Чего нет<br><em>у конкурентов</em></h2>
+  <p class="section-lead">
+    Большие платформы решают масштаб. Personal German Coach решает глубину.
+  </p>
 
-  <div class="soon-grid">
-    <div class="soon-card">
-      <div class="badge">Следующий</div>
-      <h3>Новый студент без кода</h3>
-      <p>Педагог заполняет форму — кабинет готов. Не нужен разработчик.</p>
+  <div class="vs-wrap">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th>Возможность</th>
+          <th>iTalki</th>
+          <th>Preply</th>
+          <th>Lingoda</th>
+          <th>ChatGPT</th>
+          <th>Personal German Coach</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Задания под конкретного студента</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓</td>
+        </tr>
+        <tr>
+          <td>Методология в каждом задании</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">частично</td>
+          <td class="vs-no">частично</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓</td>
+        </tr>
+        <tr>
+          <td>Работа с тревожностью говорения</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓ Krashen</td>
+        </tr>
+        <tr>
+          <td>Голос педагога — не алгоритма</td>
+          <td class="vs-no">частично</td>
+          <td class="vs-no">частично</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓ всегда</td>
+        </tr>
+        <tr>
+          <td>Ежедневный ритм без педагога рядом</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓</td>
+        </tr>
+        <tr class="vs-me">
+          <td>Всё в одном — между встречами</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-no">—</td>
+          <td class="vs-yes">✓ только здесь</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PROFIT -->
+<div class="section">
+  <div class="section-num">04 · Ценность</div>
+  <h2>Что получает<br><em>каждая сторона</em></h2>
+  <p class="section-lead">Продукт выигрышный для обоих — и это редкость на рынке репетиторства.</p>
+
+  <div class="profit-split">
+    <div class="profit-card green">
+      <div class="profit-label">Студент</div>
+      <div class="profit-item">Язык растёт каждый день — не только на занятии</div>
+      <div class="profit-item">Видит прогресс словами, не процентами</div>
+      <div class="profit-item">Говорение без страха — система снимает барьер</div>
+      <div class="profit-item">Фидбек от педагога — не от алгоритма</div>
+      <div class="profit-item">Готов к экзамену — каждое задание связано с критериями</div>
     </div>
-    <div class="soon-card">
-      <div class="badge">Скоро</div>
-      <h3>Telegram уведомления</h3>
-      <p>Педагог ответил → студент получил уведомление. Петля замкнута.</p>
-    </div>
-    <div class="soon-card">
-      <div class="badge">Скоро</div>
-      <h3>Месячный срез</h3>
-      <p>Шаблон-опросник. Динамика к цели. Для педагога и студента.</p>
-    </div>
-    <div class="soon-card">
-      <div class="badge">В плане</div>
-      <h3>Все устройства</h3>
-      <p>Данные в облаке — кабинет одинаков на телефоне и компьютере.</p>
-    </div>
-    <div class="soon-card">
-      <div class="badge">В плане</div>
-      <h3>Генерация спринта</h3>
-      <p>Claude создаёт недельный план по методологии — педагог правит.</p>
-    </div>
-    <div class="soon-card">
-      <div class="badge">В плане</div>
-      <h3>Мультистудент</h3>
-      <p>Один педагог, несколько студентов. Один шаблон, разные данные.</p>
+    <div class="profit-card gold">
+      <div class="profit-label">Педагог</div>
+      <div class="profit-item">Видит студента между встречами — корректирует план</div>
+      <div class="profit-item">Подготовка ДЗ: 2 часа вместо 6</div>
+      <div class="profit-item">Методология в продукте — не в голове</div>
+      <div class="profit-item">Продукт стоит дороже — есть что показать</div>
+      <div class="profit-item">Масштаб без потери качества</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- WHO FOR -->
-<section id="who">
-  <div class="label">Для кого</div>
-  <h2>Кому это нужно</h2>
-  <div class="divider"></div>
+<!-- SCALE -->
+<div class="section">
+  <div class="section-num">05 · Масштаб</div>
+  <h2>Один шаблон —<br><em>любой студент</em></h2>
+  <p class="section-lead">
+    Архитектура продукта построена для роста. Данные разные — код один.
+  </p>
 
-  <div class="who-block">
-    <h3>Студент — взрослый русскоязычный в Германии</h3>
-    <ul class="who-list">
-      <li>Работает, занят — учиться можно только в паузах и в метро</li>
-      <li>Уровень B1/B2 — слова знает, но говорит с трудом</li>
-      <li>Тревожится от страха ошибки — нужна безопасная среда</li>
-      <li>Хочет понимать немецкий, а не переводить в голове</li>
-      <li>Готовится к экзамену — нужна связь с критериями оценки</li>
-    </ul>
-  </div>
-
-  <div class="who-block" style="background: linear-gradient(135deg, #FFF7ED, #FFFBEB); border-color: #FCD34D; margin-top: 16px;">
-    <h3 style="color: #92400E;">Педагог — частный репетитор немецкого</h3>
-    <ul class="who-list">
-      <li>Ведёт 3–10 студентов одновременно</li>
-      <li>Хочет тратить время на методику — не на рутину</li>
-      <li>Собственная методология — нужен продукт в её стиле</li>
-      <li>Видит студента между встречами — понимает где провалы</li>
-      <li>Хочет масштабироваться без потери качества</li>
-    </ul>
-  </div>
-</section>
-
-<!-- WHY ME -->
-<section id="why">
-  <div class="label">Почему Personal German Coach</div>
-  <h2>Три вещи которые не скопируешь</h2>
-  <div class="divider"></div>
-
-  <div class="feature-list">
-    <div class="feature-item" style="border-left: 3px solid var(--accent);">
-      <div class="feature-icon">🧠</div>
-      <div class="feature-text">
-        <h3>Методология внутри продукта</h3>
-        <p>Krashen, Swain, Nation, Ellis, Conway — каждая кнопка и каждая фраза основаны на исследованиях. Это не курс с методическими рекомендациями. Это продукт, где методология зашита в код.</p>
+  <div class="pillars" style="margin-bottom:0">
+    <div class="scale-row">
+      <div class="scale-icon">👤</div>
+      <div class="scale-text">
+        <h3>Сегодня — 3 студента</h3>
+        <p>Ольга, Артём, Юлия. Каждый со своим уровнем, целью и заданиями.</p>
       </div>
     </div>
-    <div class="feature-item" style="border-left: 3px solid var(--accent);">
-      <div class="feature-icon">🎯</div>
-      <div class="feature-text">
-        <h3>Голос педагога — не голос системы</h3>
-        <p>Студент получает задание и фидбек именно от своего педагога. Не от алгоритма, не от базы шаблонов. AI помогает — педагог решает. Каждое слово в кабинете несёт личность репетитора.</p>
+    <div class="scale-row">
+      <div class="scale-icon">👥</div>
+      <div class="scale-text">
+        <h3>Завтра — новый студент без кода</h3>
+        <p>Педагог заполняет форму в панели. Кабинет готов. Разработчик не нужен.</p>
       </div>
     </div>
-    <div class="feature-item" style="border-left: 3px solid var(--accent);">
-      <div class="feature-icon">🔗</div>
-      <div class="feature-text">
-        <h3>Замкнутая петля</h3>
-        <p>Студент отправил → педагог получил → ответил → студент увидел. Ни iTalki, ни Preply не дают этого для домашней работы между встречами. Здесь это центр всей системы.</p>
+    <div class="scale-row">
+      <div class="scale-icon">🌐</div>
+      <div class="scale-text">
+        <h3>Потом — другие педагоги</h3>
+        <p>Та же платформа, своя методология, свои студенты. White-label для репетиторов.</p>
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-icon">📱</div>
+      <div class="scale-text">
+        <h3>Везде — Telegram и браузер</h3>
+        <p>Открывается в мессенджере одной кнопкой. Работает в метро, в паузе, дома.</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FOOTER -->
+<!-- WHO AM I -->
+<div class="section">
+  <div class="section-num">06 · Кто я</div>
+  <h2>Педагог,<br><em>который строит инструмент</em></h2>
+  <p class="section-lead" style="max-width:640px">
+    Я не просто преподаю немецкий язык. Я строю методологию — и встраиваю её в продукт.
+    Каждый элемент кабинета основан на исследованиях: Krashen, Swain, Nation, Ellis, Conway.
+    Это не набор упражнений. Это система, которая работает даже когда меня нет рядом.
+  </p>
+
+  <div style="background: var(--surface); border-radius:16px; padding:32px; border-left:3px solid var(--accent); margin-top:0;">
+    <p style="font-size:19px; font-weight:700; line-height:1.5; margin-bottom:12px;">
+      "Чувствуется, что вы думаете на немецком языке.<br>
+      Перевод уходит на фон — вы думаете о сути."
+    </p>
+    <p style="font-size:12px; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; font-weight:600;">
+      Из кабинета студента · живой маркер педагога
+    </p>
+  </div>
+</div>
+
 <footer>
-  <p style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">Personal German Coach</p>
-  <p>Личный кабинет студента · Панель педагога · Методология в продукте</p>
-  <p style="margin-top: 16px; opacity: 0.5; font-size: 12px;">Разработано совместно с Claude (Anthropic) · 2026</p>
+  <div class="f-name">Personal German Coach</div>
+  <div class="f-sub">Личный кабинет · Авторская методология · Масштабируемый продукт · 2026</div>
 </footer>
 
+<script>
+  // Accordion для pillar — уже через onclick на элементах
+</script>
 </body>
 </html>
