@@ -3,384 +3,476 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal German Coach</title>
+<title>Personal German Coach — Презентация проекта</title>
 <style>
   :root {
-    --bg: #0F1117;
-    --surface: #1A1D27;
-    --surface2: #22263A;
-    --accent: #6EE7B7;
-    --accent-dim: rgba(110,231,183,0.12);
-    --gold: #F59E0B;
-    --gold-dim: rgba(245,158,11,0.12);
-    --text: #F1F5F9;
-    --muted: #8892A4;
-    --border: rgba(255,255,255,0.08);
+    --cream:   #FAF7F2;
+    --cream2:  #F3EFE8;
+    --navy:    #1B2A4A;
+    --navy2:   #243558;
+    --gold:    #B8963E;
+    --gold2:   #D4AF5A;
+    --gold-bg: #FBF6EC;
+    --text:    #1B2A4A;
+    --muted:   #7A8499;
+    --border:  #E4DDD3;
+    --green:   #3D7A62;
+    --green-bg:#EDF5F1;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior:smooth; }
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
+    font-family: 'Segoe UI', 'Georgia', system-ui, serif;
+    background: var(--cream);
     color: var(--text);
-    line-height: 1.6;
-    overflow-x: hidden;
+    line-height: 1.65;
   }
 
-  /* NAV */
+  /* ── NAV ── */
   nav {
-    position: fixed; top:0; left:0; right:0;
-    z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(15,17,23,0.85);
-    backdrop-filter: blur(16px);
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    display: flex; align-items:center; justify-content:space-between;
+    padding: 16px 56px;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
-  .nav-logo { font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
-  .nav-tag { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+  .nav-logo {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--navy);
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-right { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
 
-  /* HERO */
+  /* ── HERO ── */
   .hero {
     min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 120px 48px 80px;
-    max-width: 900px;
-    margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    gap: 60px;
+    padding: 120px 56px 80px;
+    max-width: 1100px; margin: 0 auto;
   }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 32px;
-  }
-  .hero-tag::before { content:''; width:24px; height:1px; background: var(--accent); }
-  .hero h1 {
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+  .hero-left {}
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold);
     margin-bottom: 28px;
   }
-  .hero h1 em { font-style: normal; color: var(--accent); }
-  .hero-sub {
-    font-size: clamp(17px, 2vw, 22px);
-    color: var(--muted);
-    max-width: 580px;
-    line-height: 1.65;
-    margin-bottom: 48px;
+  .hero-eyebrow::before { content:''; width:28px; height:1px; background:var(--gold); }
+  .hero h1 {
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--navy);
+    margin-bottom: 24px;
   }
-  .hero-sub strong { color: var(--text); font-weight: 600; }
-  .hero-scroll {
-    font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
-    display: flex; align-items: center; gap: 12px;
+  .hero h1 span { color: var(--gold); }
+  .hero-desc {
+    font-size: 17px; color: var(--muted); line-height: 1.75;
+    max-width: 440px; margin-bottom: 40px;
   }
-  .hero-scroll::after { content:''; flex:1; max-width:60px; height:1px; background: var(--border); }
+  .hero-desc strong { color: var(--navy); font-weight: 600; }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 12px; font-weight: 600;
+    padding: 6px 14px; border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--navy); background: #fff;
+    letter-spacing: 0.02em;
+  }
+  .badge.gold { background: var(--gold-bg); border-color: var(--gold2); color: var(--gold); }
+  .badge.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
 
-  /* SECTIONS */
+  .hero-right {
+    background: var(--navy);
+    border-radius: 24px;
+    padding: 40px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right::before {
+    content:'';
+    position:absolute; top:-40px; right:-40px;
+    width:180px; height:180px;
+    background: radial-gradient(circle, rgba(184,150,62,0.3) 0%, transparent 70%);
+    border-radius:50%;
+  }
+  .hero-card-label {
+    font-size:11px; font-weight:700; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--gold2); margin-bottom:20px;
+  }
+  .hero-card-name {
+    font-size: 28px; font-weight:800; margin-bottom:4px;
+    letter-spacing:-0.01em;
+  }
+  .hero-card-role { font-size:14px; color:rgba(255,255,255,0.55); margin-bottom:28px; }
+  .hero-card-facts { list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .hero-card-facts li {
+    display:flex; align-items:flex-start; gap:12px;
+    font-size:14px; line-height:1.5;
+    color: rgba(255,255,255,0.85);
+  }
+  .hero-card-facts li .dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold2); flex-shrink:0; margin-top:6px;
+  }
+  .hero-link {
+    display:block; margin-top:28px; padding:12px 20px;
+    background: var(--gold); border-radius:10px;
+    font-size:13px; font-weight:700; color:#fff;
+    text-decoration:none; text-align:center;
+    letter-spacing:0.03em;
+    transition: opacity 0.2s;
+  }
+  .hero-link:hover { opacity:0.85; }
+
+  /* ── SECTIONS ── */
   .section {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 80px 48px;
+    max-width: 1100px; margin: 0 auto;
+    padding: 80px 56px;
     border-top: 1px solid var(--border);
   }
-  .section-num {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 20px;
-    display: flex; align-items: center; gap: 10px;
+  .section-eyebrow {
+    font-size:11px; font-weight:700; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--gold);
+    display:flex; align-items:center; gap:12px;
+    margin-bottom: 24px;
   }
-  .section-num::after { content:''; flex:1; height:1px; background: var(--border); }
+  .section-eyebrow::after { content:''; flex:1; height:1px; background:var(--border); }
   .section h2 {
-    font-size: clamp(26px, 4vw, 44px);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight:800; line-height:1.15;
+    letter-spacing:-0.02em; color:var(--navy);
+    margin-bottom:16px;
   }
-  .section h2 em { font-style: normal; color: var(--accent); }
-  .section-lead {
-    font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 560px;
-    margin-bottom: 48px;
+  .section h2 em { font-style:normal; color:var(--gold); }
+  .section-sub {
+    font-size:17px; color:var(--muted); line-height:1.7;
+    max-width:580px; margin-bottom:48px;
   }
 
-  /* PROBLEM CARDS */
+  /* ── PROBLEM ── */
   .problem-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border-radius: 16px;
-    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
   }
   .problem-card {
-    background: var(--surface);
-    padding: 28px 24px;
+    background:#fff; border:1px solid var(--border);
+    border-radius:16px; padding:28px 24px;
+    border-top:3px solid var(--gold);
   }
-  .problem-icon { font-size: 24px; margin-bottom: 14px; }
-  .problem-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-  .problem-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .problem-icon { font-size:26px; margin-bottom:14px; }
+  .problem-card h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .problem-card p { font-size:13px; color:var(--muted); line-height:1.65; }
 
-  /* BIG STATEMENT */
-  .statement {
-    background: var(--accent-dim);
-    border: 1px solid rgba(110,231,183,0.2);
-    border-radius: 20px;
-    padding: 48px;
-    margin: 0 auto;
-    max-width: 900px;
-    text-align: center;
+  /* ── BIG QUOTE ── */
+  .big-quote {
+    background: var(--navy);
+    border-radius: 24px;
+    padding: 56px 64px;
+    text-align:center;
+    margin: 0 56px;
+    max-width: 988px;
+    margin-left: auto; margin-right: auto;
+    position: relative; overflow:hidden;
   }
-  .statement p {
-    font-size: clamp(20px, 3vw, 30px);
-    font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+  .big-quote::before {
+    content:'"';
+    position:absolute; top:-20px; left:40px;
+    font-size:200px; font-weight:900;
+    color:rgba(184,150,62,0.08); line-height:1;
+    font-family: Georgia, serif;
   }
-  .statement p em { font-style: normal; color: var(--accent); }
-  .statement-sub {
-    font-size: 15px;
-    color: var(--muted);
-    margin-top: 16px;
-    font-weight: 400;
+  .big-quote p {
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight:700; line-height:1.45;
+    color:#fff; margin-bottom:20px;
+    letter-spacing:-0.01em;
+    position:relative; z-index:1;
+  }
+  .big-quote p em { font-style:normal; color:var(--gold2); }
+  .big-quote-sub {
+    font-size:13px; color:rgba(255,255,255,0.4);
+    letter-spacing:0.06em; text-transform:uppercase; font-weight:600;
   }
 
-  /* PILLARS */
-  .pillars {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  /* ── HOW IT WORKS ── */
+  .flow {
+    display:flex; flex-direction:column; gap:2px;
   }
-  .pillar {
-    background: var(--surface);
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background 0.2s;
+  .flow-item {
+    display:flex; gap:24px; align-items:stretch;
+    background:#fff; border:1px solid var(--border); border-radius:14px;
+    overflow:hidden; cursor:pointer;
+    transition: box-shadow 0.2s;
   }
-  .pillar:hover { background: var(--surface2); }
-  .pillar-head {
-    display: flex; align-items: center; gap: 20px;
-    padding: 24px 28px;
+  .flow-item:hover { box-shadow: 0 4px 24px rgba(27,42,74,0.08); }
+  .flow-num {
+    display:flex; align-items:center; justify-content:center;
+    min-width:64px; background:var(--navy);
+    font-size:18px; font-weight:800; color:var(--gold2);
+    flex-shrink:0;
   }
-  .pillar-num {
-    font-size: 13px; font-weight: 800; color: var(--accent);
-    min-width: 28px;
+  .flow-content { padding:22px 24px; flex:1; }
+  .flow-content h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .flow-content p { font-size:14px; color:var(--muted); line-height:1.6; }
+  .flow-tag {
+    display:inline-block; font-size:11px; font-weight:700;
+    letter-spacing:0.08em; text-transform:uppercase;
+    padding:3px 10px; border-radius:6px;
+    background:var(--gold-bg); color:var(--gold);
+    margin-bottom:8px;
   }
-  .pillar-title { font-size: 17px; font-weight: 700; flex: 1; }
-  .pillar-arrow {
-    font-size: 18px; color: var(--muted);
-    transition: transform 0.25s;
-  }
-  .pillar.open .pillar-arrow { transform: rotate(180deg); }
-  .pillar-body {
-    display: none;
-    padding: 0 28px 24px 68px;
-    font-size: 14px; color: var(--muted); line-height: 1.7;
-  }
-  .pillar.open .pillar-body { display: block; }
 
-  /* VS TABLE */
-  .vs-wrap { overflow-x: auto; margin-top: 32px; }
-  .vs-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+  /* ── VS TABLE ── */
+  .vs-wrap { overflow-x:auto; }
+  .vs-table {
+    width:100%; border-collapse:separate; border-spacing:0;
+    font-size:14px; border-radius:16px; overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .vs-table thead tr { background:var(--navy); }
   .vs-table th {
-    padding: 14px 18px; text-align: left;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--muted); border-bottom: 1px solid var(--border);
+    padding:14px 18px; text-align:left;
+    font-size:12px; font-weight:700; letter-spacing:0.06em;
+    text-transform:uppercase; color:rgba(255,255,255,0.6);
   }
-  .vs-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .vs-table tr:last-child td { border-bottom: none; }
-  .vs-yes { color: var(--accent); font-weight: 700; }
-  .vs-no { color: #475569; }
-  .vs-me td:first-child { border-left: 2px solid var(--accent); }
-  .vs-me td { background: var(--accent-dim); font-weight: 600; }
+  .vs-table th:first-child { color:#fff; }
+  .vs-table td {
+    padding:13px 18px; border-bottom:1px solid var(--border);
+    background:#fff; vertical-align:middle;
+  }
+  .vs-table tr:last-child td { border-bottom:none; }
+  .vs-yes { color:var(--green); font-weight:700; }
+  .vs-no { color:#C4C9D4; }
+  .vs-me td { background:var(--gold-bg) !important; font-weight:600; }
+  .vs-me td:first-child { border-left:3px solid var(--gold); color:var(--navy); }
 
-  /* PROFIT CARDS */
-  .profit-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 32px;
+  /* ── PROFIT ── */
+  .profit-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:20px;
   }
   .profit-card {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 32px;
-    border: 1px solid var(--border);
+    border-radius:20px; padding:36px;
+    border:1px solid var(--border);
   }
-  .profit-card.gold { border-color: rgba(245,158,11,0.3); background: var(--gold-dim); }
-  .profit-card.green { border-color: rgba(110,231,183,0.2); background: var(--accent-dim); }
+  .profit-card.navy { background:var(--navy); }
+  .profit-card.cream { background:#fff; border:1px solid var(--border); }
   .profit-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 20px;
+    font-size:11px; font-weight:700; letter-spacing:0.12em;
+    text-transform:uppercase; margin-bottom:24px;
   }
-  .profit-card.gold .profit-label { color: var(--gold); }
-  .profit-card.green .profit-label { color: var(--accent); }
+  .profit-card.navy .profit-label { color:var(--gold2); }
+  .profit-card.cream .profit-label { color:var(--green); }
   .profit-item {
-    display: flex; gap: 12px; align-items: flex-start;
-    margin-bottom: 14px; font-size: 14px; line-height: 1.55;
+    display:flex; gap:12px; margin-bottom:14px;
+    font-size:15px; line-height:1.55; align-items:flex-start;
   }
-  .profit-item:last-child { margin-bottom: 0; }
-  .profit-item::before { content: '→'; flex-shrink: 0; font-weight: 700; }
-  .profit-card.gold .profit-item::before { color: var(--gold); }
-  .profit-card.green .profit-item::before { color: var(--accent); }
-
-  /* SCALE */
-  .scale-row {
-    display: flex; align-items: center; gap: 20px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
+  .profit-item:last-child { margin-bottom:0; }
+  .profit-item .arr {
+    font-weight:700; flex-shrink:0; margin-top:1px;
   }
-  .scale-row:last-child { border-bottom: none; }
-  .scale-icon { font-size: 28px; min-width: 44px; text-align: center; }
-  .scale-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .scale-text p { font-size: 14px; color: var(--muted); }
+  .profit-card.navy .profit-item { color:rgba(255,255,255,0.85); }
+  .profit-card.navy .profit-item .arr { color:var(--gold2); }
+  .profit-card.cream .profit-item { color:var(--navy); }
+  .profit-card.cream .profit-item .arr { color:var(--green); }
 
-  /* FOOTER */
+  /* ── SCALE ── */
+  .scale-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:16px;
+  }
+  .scale-card {
+    background:#fff; border:1px solid var(--border);
+    border-radius:16px; padding:28px 24px;
+  }
+  .scale-card.highlight {
+    background:var(--gold-bg); border-color:var(--gold2);
+  }
+  .scale-step {
+    font-size:11px; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:14px;
+  }
+  .scale-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .scale-card p { font-size:13px; color:var(--muted); line-height:1.6; }
+
+  /* ── CTA ── */
+  .cta-block {
+    background:var(--navy); border-radius:24px;
+    padding:64px; text-align:center;
+    max-width:1100px; margin:0 auto 80px;
+  }
+  .cta-block h2 {
+    font-size:clamp(28px,3.5vw,44px); font-weight:800;
+    color:#fff; letter-spacing:-0.02em; margin-bottom:16px;
+  }
+  .cta-block h2 em { font-style:normal; color:var(--gold2); }
+  .cta-block p { font-size:16px; color:rgba(255,255,255,0.55); margin-bottom:36px; }
+  .cta-links {
+    display:flex; flex-wrap:wrap; gap:14px;
+    justify-content:center;
+  }
+  .cta-link {
+    display:inline-block; text-decoration:none;
+    font-size:14px; font-weight:700; padding:14px 28px;
+    border-radius:12px; transition:opacity 0.2s;
+    letter-spacing:0.02em;
+  }
+  .cta-link.primary { background:var(--gold); color:#fff; }
+  .cta-link.secondary {
+    background:transparent; color:rgba(255,255,255,0.7);
+    border:1px solid rgba(255,255,255,0.2);
+  }
+  .cta-link:hover { opacity:0.82; }
+
+  /* ── FOOTER ── */
   footer {
-    text-align: center;
-    padding: 60px 48px;
-    border-top: 1px solid var(--border);
+    text-align:center; padding:32px 56px;
+    border-top:1px solid var(--border);
+    font-size:13px; color:var(--muted);
   }
-  footer .f-name { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
-  footer .f-sub { font-size: 14px; color: var(--muted); }
+  footer strong { color:var(--navy); }
 
-  /* RESPONSIVE */
-  @media (max-width: 640px) {
-    nav { padding: 14px 20px; }
-    .hero, .section { padding-left: 20px; padding-right: 20px; }
-    .profit-split { grid-template-columns: 1fr; }
-    .statement { padding: 28px 20px; }
-    .pillar-body { padding-left: 28px; }
+  /* ── RESPONSIVE ── */
+  @media (max-width:700px) {
+    nav { padding:14px 20px; }
+    .hero { grid-template-columns:1fr; padding:100px 20px 60px; gap:32px; }
+    .section { padding:60px 20px; }
+    .profit-grid { grid-template-columns:1fr; }
+    .cta-block { padding:40px 20px; margin:0 20px 60px; }
+    .big-quote { padding:36px 24px; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div class="nav-logo">Personal German Coach</div>
-  <div class="nav-tag">Авторский продукт · 2026</div>
+  <div class="nav-logo">Personal <span>German</span> Coach</div>
+  <div class="nav-right">Авторский продукт · 2026</div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-tag">Авторская методика + личный кабинет</div>
-  <h1>Немецкий язык.<br><em>Каждый день.</em><br>Именно для вас.</h1>
-  <p class="hero-sub">
-    Не платформа. Не курс. <strong>Личная система</strong> — где методология педагога,
-    ежедневные задания и прогресс студента живут в одном месте.
-    Такого нет на рынке.
-  </p>
-  <div class="hero-scroll">Листать вниз</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Курс Вайбкодинг · Защита проекта</div>
+    <h1>Личный кабинет<br>студента.<br><span>Методология<br>в продукте.</span></h1>
+    <p class="hero-desc">
+      Не платформа. Не шаблонный курс.<br>
+      <strong>Персональная система</strong> — где педагог, методика и студент
+      работают вместе каждый день.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">Работает сейчас</span>
+      <span class="badge green">3 студента в системе</span>
+      <span class="badge gold">AI + методология</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card-label">Автор проекта</div>
+    <div class="hero-card-name">Людмила Романовская</div>
+    <div class="hero-card-role">Педагог немецкого языка · Продуктовый разработчик</div>
+    <ul class="hero-card-facts">
+      <li><span class="dot"></span>Личный кабинет студента с нуля — за один курс</li>
+      <li><span class="dot"></span>Методология Krashen, Swain, Nation — в каждом экране</li>
+      <li><span class="dot"></span>Создан с Claude (Anthropic) — AI как инструмент, решение — педагога</li>
+      <li><span class="dot"></span>Работает в браузере и Telegram Mini App</li>
+    </ul>
+    <a class="hero-link" href="https://personalgermancoachmvc.vercel.app/tg-app/index.html?student=olga" target="_blank">
+      Открыть живой кабинет →
+    </a>
+  </div>
 </div>
 
 <!-- PROBLEM -->
 <div class="section">
-  <div class="section-num">01 · Проблема</div>
-  <h2>Почему не работает<br><em>всё остальное</em></h2>
-  <p class="section-lead">
-    ChatGPT, iTalki, Preply, Lingoda — студент может пользоваться всем.
-    Но ни одно решение не закрывает главную потребность.
+  <div class="section-eyebrow">01 · Проблема</div>
+  <h2>Почему не работает<br><em>всё что есть сейчас</em></h2>
+  <p class="section-sub">
+    Студент может открыть ChatGPT, iTalki, Preply, Lingoda.
+    Но ни один инструмент не закрывает главную потребность.
   </p>
 
   <div class="problem-grid">
     <div class="problem-card">
       <div class="problem-icon">🔄</div>
       <h3>Нет системы между встречами</h3>
-      <p>Урок закончился — слова испарились. Разрыв не заполнен.</p>
+      <p>Урок прошёл — слова испарились. Разрыв в 6 дней не заполнен ничем личным.</p>
     </div>
     <div class="problem-card">
       <div class="problem-icon">🌫</div>
-      <h3>Нет видимого роста</h3>
-      <p>Занимается месяцами — не чувствует движения. Мотивация падает.</p>
+      <h3>Прогресс невидим</h3>
+      <p>Занимается месяцами — не чувствует роста. Тревога растёт, мотивация падает.</p>
     </div>
     <div class="problem-card">
       <div class="problem-icon">🤖</div>
       <h3>AI даёт шаблон, не личное</h3>
-      <p>ChatGPT не знает этого студента. Контекст, цель, барьеры — нет.</p>
+      <p>ChatGPT не знает этого студента — его цель, барьер, уровень. Контекста нет.</p>
     </div>
     <div class="problem-card">
       <div class="problem-icon">😶</div>
       <h3>Говорение — до сих пор стресс</h3>
-      <p>Знает слова. Не говорит. Страх ошибки не снимается сам собой.</p>
+      <p>Знает слова. Не говорит. Страх ошибки не снимается сам — нужна система.</p>
     </div>
   </div>
 </div>
 
-<!-- STATEMENT -->
-<div style="padding: 0 48px; max-width: 996px; margin: 0 auto;">
-  <div class="statement">
-    <p>Студент может найти что угодно онлайн.<br>Но <em>личного педагога в кармане</em> —<br>который знает его цель, его уровень, его барьеры —<br>этого нет нигде.</p>
-    <p class="statement-sub">До сих пор.</p>
-  </div>
+<!-- BIG QUOTE -->
+<div class="big-quote">
+  <p>Студент может найти что угодно онлайн.<br>
+  Но <em>личного педагога в кармане</em> —<br>
+  который знает его цель, уровень, барьеры —<br>
+  этого <em>не существовало.</em></p>
+  <div class="big-quote-sub">До сих пор</div>
 </div>
 
-<!-- PRODUCT -->
+<!-- SOLUTION / HOW IT WORKS -->
 <div class="section">
-  <div class="section-num">02 · Продукт</div>
+  <div class="section-eyebrow">02 · Решение</div>
   <h2>Что такое<br><em>Personal German Coach</em></h2>
-  <p class="section-lead">
-    Личный кабинет студента. Педагог составляет задания — студент работает каждый день.
-    Методология зашита в каждый экран.
+  <p class="section-sub">
+    Личный кабинет студента — открывается в Telegram или браузере.
+    Педагог составляет задания, методология работает каждый день.
   </p>
 
-  <div class="pillars">
-    <div class="pillar open" onclick="this.classList.toggle('open')">
-      <div class="pillar-head">
-        <div class="pillar-num">01</div>
-        <div class="pillar-title">Speaking Sprint — три уровня говорения</div>
-        <div class="pillar-arrow">⌄</div>
-      </div>
-      <div class="pillar-body">
-        Каждый день: 6 слов и три задания. Niveau 1 — разогрев. Niveau 2 — реальная ситуация.
-        Niveau 3 — ваша история. Студент идёт в своём темпе, без давления.
-        Основано на Krashen, Swain, Nation — не на "так принято".
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-num">01</div>
+      <div class="flow-content">
+        <div class="flow-tag">Каждый день</div>
+        <h3>Speaking Sprint — три уровня говорения</h3>
+        <p>6 слов + три задания: разогрев → реальная ситуация → ваша история. Основано на Krashen, Swain, Nation — страх говорения снимается структурой, не уговорами.</p>
       </div>
     </div>
-    <div class="pillar" onclick="this.classList.toggle('open')">
-      <div class="pillar-head">
-        <div class="pillar-num">02</div>
-        <div class="pillar-title">Грамматика недели с визуальной схемой</div>
-        <div class="pillar-arrow">⌄</div>
-      </div>
-      <div class="pillar-body">
-        Одна тема — неделя практики. TeKaMoLo, Verbklammer, Präpositionalverben — цветные схемы, живые примеры.
-        Связана с заданиями говорения. Не висит отдельно.
+    <div class="flow-item">
+      <div class="flow-num">02</div>
+      <div class="flow-content">
+        <div class="flow-tag">Каждую неделю</div>
+        <h3>Грамматика недели + недельный нарратив</h3>
+        <p>Одна тема — визуальная схема, живые примеры, связь с заданиями. Понедельник — мост из прошлого. Суббота — итог недели. Студент видит маршрут.</p>
       </div>
     </div>
-    <div class="pillar" onclick="this.classList.toggle('open')">
-      <div class="pillar-head">
-        <div class="pillar-num">03</div>
-        <div class="pillar-title">Живой прогресс — не цифры, а ощущения</div>
-        <div class="pillar-arrow">⌄</div>
-      </div>
-      <div class="pillar-body">
-        Педагог отмечает маркеры языка → студент видит живые фразы в голосе педагога:
-        "Глагол стоит на своём месте — это уже навык, не случайность."
-        Плюс банк слов: сам студент отмечает 🟢 знаю / 🟡 учу / 🔴 новое.
+    <div class="flow-item">
+      <div class="flow-num">03</div>
+      <div class="flow-content">
+        <div class="flow-tag">Живой прогресс</div>
+        <h3>Fortschritt — не цифры, а ощущения</h3>
+        <p>Педагог отмечает маркеры языка → студент видит живые фразы: <em>"Глагол стоит на своём месте — это уже навык."</em> Банк слов: сам студент тапает 🟢/🟡/🔴.</p>
       </div>
     </div>
-    <div class="pillar" onclick="this.classList.toggle('open')">
-      <div class="pillar-head">
-        <div class="pillar-num">04</div>
-        <div class="pillar-title">Панель педагога + AI-генерация</div>
-        <div class="pillar-arrow">⌄</div>
-      </div>
-      <div class="pillar-body">
-        Педагог заполняет форму — Gemini генерирует задания по методологии.
-        Педагог правит — студент видит только финал. AI как черновик, решение — педагога.
-        Подготовка ДЗ: 2 часа вместо 6.
-      </div>
-    </div>
-    <div class="pillar" onclick="this.classList.toggle('open')">
-      <div class="pillar-head">
-        <div class="pillar-num">05</div>
-        <div class="pillar-title">Замкнутая петля педагог ↔ студент</div>
-        <div class="pillar-arrow">⌄</div>
-      </div>
-      <div class="pillar-body">
-        Студент отправил задание → педагог получил → ответил → студент увидел фидбек в кабинете.
-        Пост-сабмишн сообщение: "Что закрыли сегодня — и почему это важно."
-        Не оценка. Наставнический жест.
+    <div class="flow-item">
+      <div class="flow-num">04</div>
+      <div class="flow-content">
+        <div class="flow-tag">Замкнутая петля</div>
+        <h3>Студент отправил → педагог ответил → студент увидел</h3>
+        <p>Пост-сабмишн: "Что закрыли сегодня — и почему это важно." Панель педагога + Gemini AI: подготовка ДЗ 2 часа вместо 6. AI — черновик, финал — педагога.</p>
       </div>
     </div>
   </div>
@@ -388,11 +480,9 @@
 
 <!-- VS -->
 <div class="section">
-  <div class="section-num">03 · Рынок</div>
+  <div class="section-eyebrow">03 · Рынок</div>
   <h2>Чего нет<br><em>у конкурентов</em></h2>
-  <p class="section-lead">
-    Большие платформы решают масштаб. Personal German Coach решает глубину.
-  </p>
+  <p class="section-sub">Большие платформы решают масштаб. Personal German Coach решает глубину.</p>
 
   <div class="vs-wrap">
     <table class="vs-table">
@@ -409,50 +499,32 @@
       <tbody>
         <tr>
           <td>Задания под конкретного студента</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
+          <td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td>
           <td class="vs-yes">✓</td>
         </tr>
         <tr>
           <td>Методология в каждом задании</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">частично</td>
-          <td class="vs-no">частично</td>
-          <td class="vs-no">—</td>
+          <td class="vs-no">—</td><td class="vs-no">частично</td><td class="vs-no">частично</td><td class="vs-no">—</td>
           <td class="vs-yes">✓</td>
         </tr>
         <tr>
-          <td>Работа с тревожностью говорения</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
+          <td>Работа со страхом говорения</td>
+          <td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td>
           <td class="vs-yes">✓ Krashen</td>
         </tr>
         <tr>
           <td>Голос педагога — не алгоритма</td>
-          <td class="vs-no">частично</td>
-          <td class="vs-no">частично</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
+          <td class="vs-no">частично</td><td class="vs-no">частично</td><td class="vs-no">—</td><td class="vs-no">—</td>
           <td class="vs-yes">✓ всегда</td>
         </tr>
         <tr>
           <td>Ежедневный ритм без педагога рядом</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
+          <td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td>
           <td class="vs-yes">✓</td>
         </tr>
         <tr class="vs-me">
           <td>Всё в одном — между встречами</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
-          <td class="vs-no">—</td>
+          <td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td><td class="vs-no">—</td>
           <td class="vs-yes">✓ только здесь</td>
         </tr>
       </tbody>
@@ -462,98 +534,78 @@
 
 <!-- PROFIT -->
 <div class="section">
-  <div class="section-num">04 · Ценность</div>
+  <div class="section-eyebrow">04 · Ценность</div>
   <h2>Что получает<br><em>каждая сторона</em></h2>
-  <p class="section-lead">Продукт выигрышный для обоих — и это редкость на рынке репетиторства.</p>
+  <p class="section-sub">Продукт выигрышный для обоих — и это редкость на рынке репетиторства.</p>
 
-  <div class="profit-split">
-    <div class="profit-card green">
+  <div class="profit-grid">
+    <div class="profit-card navy">
       <div class="profit-label">Студент</div>
-      <div class="profit-item">Язык растёт каждый день — не только на занятии</div>
-      <div class="profit-item">Видит прогресс словами, не процентами</div>
-      <div class="profit-item">Говорение без страха — система снимает барьер</div>
-      <div class="profit-item">Фидбек от педагога — не от алгоритма</div>
-      <div class="profit-item">Готов к экзамену — каждое задание связано с критериями</div>
+      <div class="profit-item"><span class="arr">→</span> Язык растёт каждый день — не только на занятии</div>
+      <div class="profit-item"><span class="arr">→</span> Видит прогресс словами, не процентами</div>
+      <div class="profit-item"><span class="arr">→</span> Говорение без страха — система снимает барьер</div>
+      <div class="profit-item"><span class="arr">→</span> Фидбек от живого педагога — не от алгоритма</div>
+      <div class="profit-item"><span class="arr">→</span> Готов к экзамену — задания связаны с критериями</div>
     </div>
-    <div class="profit-card gold">
+    <div class="profit-card cream">
       <div class="profit-label">Педагог</div>
-      <div class="profit-item">Видит студента между встречами — корректирует план</div>
-      <div class="profit-item">Подготовка ДЗ: 2 часа вместо 6</div>
-      <div class="profit-item">Методология в продукте — не в голове</div>
-      <div class="profit-item">Продукт стоит дороже — есть что показать</div>
-      <div class="profit-item">Масштаб без потери качества</div>
+      <div class="profit-item"><span class="arr">→</span> Видит студента между встречами — корректирует план</div>
+      <div class="profit-item"><span class="arr">→</span> Подготовка ДЗ: 2 часа вместо 6</div>
+      <div class="profit-item"><span class="arr">→</span> Методология в продукте — не теряется в голове</div>
+      <div class="profit-item"><span class="arr">→</span> Продукт стоит дороже — есть что показать клиенту</div>
+      <div class="profit-item"><span class="arr">→</span> Масштаб без потери качества</div>
     </div>
   </div>
 </div>
 
 <!-- SCALE -->
 <div class="section">
-  <div class="section-num">05 · Масштаб</div>
+  <div class="section-eyebrow">05 · Масштабирование</div>
   <h2>Один шаблон —<br><em>любой студент</em></h2>
-  <p class="section-lead">
-    Архитектура продукта построена для роста. Данные разные — код один.
-  </p>
+  <p class="section-sub">Архитектура построена для роста. Данные разные — код один.</p>
 
-  <div class="pillars" style="margin-bottom:0">
-    <div class="scale-row">
-      <div class="scale-icon">👤</div>
-      <div class="scale-text">
-        <h3>Сегодня — 3 студента</h3>
-        <p>Ольга, Артём, Юлия. Каждый со своим уровнем, целью и заданиями.</p>
-      </div>
+  <div class="scale-grid">
+    <div class="scale-card">
+      <div class="scale-step">Сейчас</div>
+      <h3>3 студента</h3>
+      <p>Ольга, Артём, Юлия. Каждый со своим уровнем, целью и заданиями.</p>
     </div>
-    <div class="scale-row">
-      <div class="scale-icon">👥</div>
-      <div class="scale-text">
-        <h3>Завтра — новый студент без кода</h3>
-        <p>Педагог заполняет форму в панели. Кабинет готов. Разработчик не нужен.</p>
-      </div>
+    <div class="scale-card highlight">
+      <div class="scale-step">Следующий шаг</div>
+      <h3>Новый студент без кода</h3>
+      <p>Педагог заполняет форму в панели. Кабинет готов. Разработчик не нужен.</p>
     </div>
-    <div class="scale-row">
-      <div class="scale-icon">🌐</div>
-      <div class="scale-text">
-        <h3>Потом — другие педагоги</h3>
-        <p>Та же платформа, своя методология, свои студенты. White-label для репетиторов.</p>
-      </div>
+    <div class="scale-card">
+      <div class="scale-step">Рост</div>
+      <h3>Другие педагоги</h3>
+      <p>Та же платформа, своя методология, свои студенты. White-label.</p>
     </div>
-    <div class="scale-row">
-      <div class="scale-icon">📱</div>
-      <div class="scale-text">
-        <h3>Везде — Telegram и браузер</h3>
-        <p>Открывается в мессенджере одной кнопкой. Работает в метро, в паузе, дома.</p>
-      </div>
+    <div class="scale-card">
+      <div class="scale-step">Везде</div>
+      <h3>Telegram + браузер</h3>
+      <p>Открывается одной кнопкой в мессенджере. В метро, дома, в паузе.</p>
     </div>
   </div>
 </div>
 
-<!-- WHO AM I -->
-<div class="section">
-  <div class="section-num">06 · Кто я</div>
-  <h2>Педагог,<br><em>который строит инструмент</em></h2>
-  <p class="section-lead" style="max-width:640px">
-    Я не просто преподаю немецкий язык. Я строю методологию — и встраиваю её в продукт.
-    Каждый элемент кабинета основан на исследованиях: Krashen, Swain, Nation, Ellis, Conway.
-    Это не набор упражнений. Это система, которая работает даже когда меня нет рядом.
-  </p>
-
-  <div style="background: var(--surface); border-radius:16px; padding:32px; border-left:3px solid var(--accent); margin-top:0;">
-    <p style="font-size:19px; font-weight:700; line-height:1.5; margin-bottom:12px;">
-      "Чувствуется, что вы думаете на немецком языке.<br>
-      Перевод уходит на фон — вы думаете о сути."
-    </p>
-    <p style="font-size:12px; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; font-weight:600;">
-      Из кабинета студента · живой маркер педагога
-    </p>
+<!-- CTA -->
+<div class="cta-block">
+  <h2>Это <em>живой продукт.</em><br>Откройте прямо сейчас.</h2>
+  <p>Кабинет студента · Панель педагога · Лендинг проекта</p>
+  <div class="cta-links">
+    <a class="cta-link primary" href="https://personalgermancoachmvc.vercel.app/tg-app/index.html?student=olga" target="_blank">
+      Кабинет студента Ольги →
+    </a>
+    <a class="cta-link secondary" href="https://personalgermancoachmvc.vercel.app/tg-app/teacher.html" target="_blank">
+      Панель педагога
+    </a>
   </div>
 </div>
 
 <footer>
-  <div class="f-name">Personal German Coach</div>
-  <div class="f-sub">Личный кабинет · Авторская методология · Масштабируемый продукт · 2026</div>
+  <strong>Personal German Coach</strong> — Личный кабинет · Авторская методология · Масштабируемый продукт<br>
+  <span style="font-size:11px; opacity:0.6; margin-top:6px; display:block;">Создан совместно с Claude (Anthropic) · Людмила Романовская · 2026</span>
 </footer>
 
-<script>
-  // Accordion для pillar — уже через onclick на элементах
-</script>
 </body>
 </html>
