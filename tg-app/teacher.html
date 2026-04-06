@@ -459,6 +459,9 @@
     <button class="btn btn-danger btn-sm" onclick="clearData()">
       Очистить
     </button>
+    <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='block';document.getElementById('pasteJsonSection').scrollIntoView({behavior:'smooth'})">
+      📋 Вставить план вручную
+    </button>
   </div>
 
 </div>
@@ -473,6 +476,19 @@
   <div class="actions" style="margin-top:12px">
     <button class="btn btn-primary" onclick="saveWeekPlan()">💾 Сохранить план недели</button>
     <button class="btn btn-outline btn-sm" onclick="document.getElementById('weekPlanSection').style.display='none'">Скрыть</button>
+    <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='block'">📋 Вставить вручную</button>
+  </div>
+</div>
+
+<!-- ВСТАВИТЬ JSON ВРУЧНУЮ -->
+<div id="pasteJsonSection" style="max-width:780px;margin:0 auto 40px;padding:0 16px;display:none">
+  <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:16px 20px">
+    <div style="font-weight:700;color:#C2410C;margin-bottom:8px">📋 Вставить план вручную (без API ключа)</div>
+    <textarea id="pasteJsonArea" rows="6" style="width:100%;border:1px solid #FED7AA;border-radius:6px;padding:8px;font-size:12px;font-family:monospace" placeholder="Вставьте сюда JSON с планом недели..."></textarea>
+    <div style="margin-top:8px;display:flex;gap:8px">
+      <button class="btn btn-primary btn-sm" onclick="applyPastedJson()">Применить и показать</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='none'">Закрыть</button>
+    </div>
   </div>
 </div>
 
@@ -981,6 +997,20 @@ async function saveWeekPlan() {
   btn.textContent = '💾 Сохранить план недели'; btn.disabled = false;
 
   toast(ok ? `План недели сохранён ✓ Ольга увидит задание своего дня` : 'Сохранено локально', ok ? 'success' : '');
+}
+
+function applyPastedJson() {
+  const raw = document.getElementById('pasteJsonArea').value.trim();
+  try {
+    const m = raw.match(/\{[\s\S]*\}/);
+    _weekPlanData = JSON.parse(m ? m[0] : raw);
+    _weekPlanData._weekLabel = v('weekLabel');
+    renderWeekPlan(_weekPlanData);
+    document.getElementById('pasteJsonSection').style.display = 'none';
+    toast('План применён! Проверьте и сохраните.', 'success');
+  } catch(e) {
+    toast('Ошибка в JSON — проверьте формат', 'error');
+  }
 }
 
 // ── TOAST ────────────────────────────────
