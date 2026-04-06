@@ -155,8 +155,26 @@
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .btn-primary { background: var(--accent); color: white; }
   .btn-secondary { background: var(--blue); color: white; }
+  .btn-accent { background: #7C3AED; color: white; }
   .btn-outline { background: white; color: var(--text); border: 1px solid var(--border); }
   .btn-danger { background: #FFF0F0; color: var(--red); border: 1px solid #FECACA; }
+
+  /* Недельный план */
+  #weekPlanSection { max-width: 780px; margin: 0 auto 40px; padding: 0 16px; }
+  .week-plan-header { background: #F3F0FF; border: 1px solid #DDD6FE; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+  .week-plan-title { font-weight: 700; font-size: 16px; color: #5B21B6; }
+  .week-plan-hint { font-size: 13px; color: #718096; margin-top: 4px; }
+  .wp-day { background: white; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .wp-day-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; font-weight: 600; }
+  .wp-day-header:hover { background: #F7FAFC; }
+  .wp-day-name { font-size: 14px; color: #5B21B6; min-width: 100px; }
+  .wp-day-theme { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .wp-day-arrow { margin-left: auto; color: var(--muted); transition: transform 0.2s; }
+  .wp-day.open .wp-day-arrow { transform: rotate(180deg); }
+  .wp-day-body { display: none; padding: 12px 16px 16px; border-top: 1px solid var(--border); }
+  .wp-day.open .wp-day-body { display: block; }
+  .wp-task-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 4px; }
+  .wp-day-body textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 52px; }
   .btn-sm { padding: 7px 14px; font-size: 13px; min-height: 36px; }
 
   .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
@@ -427,7 +445,10 @@
   <!-- ACTIONS -->
   <div class="actions">
     <button class="btn btn-secondary" id="generateBtn" onclick="generateWithGemini()">
-      ✨ Сгенерировать через Gemini
+      ✨ Сгенерировать день
+    </button>
+    <button class="btn btn-accent" id="weekBtn" onclick="generateWeekPlan()">
+      🗓 Сгенерировать план недели (пн–пт)
     </button>
     <button class="btn btn-primary" onclick="saveData()">
       Сохранить для студента
@@ -440,6 +461,19 @@
     </button>
   </div>
 
+</div>
+
+<!-- НЕДЕЛЬНЫЙ ПЛАН — превью после генерации -->
+<div id="weekPlanSection" style="display:none">
+  <div class="week-plan-header">
+    <div class="week-plan-title">📅 Недельный план — <span id="wpWeekLabel"></span></div>
+    <div class="week-plan-hint">Проверьте каждый день и нажмите «Сохранить план»</div>
+  </div>
+  <div id="weekPlanDays"></div>
+  <div class="actions" style="margin-top:12px">
+    <button class="btn btn-primary" onclick="saveWeekPlan()">💾 Сохранить план недели</button>
+    <button class="btn btn-outline btn-sm" onclick="document.getElementById('weekPlanSection').style.display='none'">Скрыть</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -783,6 +817,170 @@ function parseAndFill(text) {
     });
     s('markerNote', json.languageMarkers.teacherNote);
   }
+}
+
+// ── ГЕНЕРАЦИЯ НЕДЕЛЬНОГО ПЛАНА ───────────
+let _weekPlanData = null;
+const DAY_NAMES = { mon: 'Понедельник', tue: 'Вторник', wed: 'Среда', thu: 'Четверг', fri: 'Пятница' };
+const DAY_DATES_OFFSETS = { mon: 0, tue: 1, wed: 2, thu: 3, fri: 4 }; // от понедельника
+
+async function generateWeekPlan() {
+  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
+  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+
+  const words = [];
+  for (let i = 0; i < WORD_COUNT; i++) {
+    const w = v(`word${i}`); const h = v(`hint${i}`);
+    if (w) words.push({ word: w, hint: h });
+  }
+  if (!words.length) { toast('Сначала введите слова недели', 'error'); return; }
+
+  const theme = v('weekTheme') || 'Alltag';
+  const grammar = v('grammarQueen') || '';
+  const weekLabel = v('weekLabel') || '';
+
+  const btn = document.getElementById('weekBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Генерирую план недели...';
+
+  const prompt = `Ты ассистент преподавателя немецкого языка. Генерируешь недельный план заданий по методологии Speaking Sprint + Writing Sprint.
+
+СТУДЕНТ: Ольга, B1→B2, медсестра, живёт в Германии, русскоязычная.
+ТЕМА НЕДЕЛИ: ${theme}
+ГРАММАТИКА НЕДЕЛИ: ${grammar}
+СЛОВА НЕДЕЛИ: ${words.map(w => w.word + (w.hint ? ' — ' + w.hint : '')).join(', ')}
+
+МЕТОДОЛОГИЯ:
+- Те же слова используются всю неделю — каждый день в новом контексте
+- Niveau 1 (Aufwärmen): лёгкая знакомая ситуация, любой ответ засчитывается, 5 предложений
+- Niveau 2 (Situation): реальная коммуникативная задача (TBLT), нужны все слова, 7–8 предложений
+- Niveau 3 (Geschichte): реальное воспоминание из жизни студента, свободно
+- Schreiben Niveau 1: 5 предложений письменно, морфологическая поддержка слов
+- Schreiben Niveau 2: письмо подруге или коллеге, 7–8 предложений
+- Schreiben Niveau 3: свободное письмо, Kulturwort или пословица
+
+КОНТЕКСТЫ ПО ДНЯМ (чередовать):
+- Понедельник: лёгкий личный контекст (подруга, знакомая)
+- Вторник: рабочий контекст (коллега, шеф, смена)
+- Среда: жизнь в Германии (врач, Behörde, сосед)
+- Четверг: личное-глубокое (семья, мечты, воспоминание)
+- Пятница: свободное — самый сложный день, Kulturwort обязательно
+
+Верни ТОЛЬКО валидный JSON без markdown:
+{
+  "mon": {
+    "theme": "подтема дня",
+    "task": { "topic": "Aufwärmen — ...", "prompt": "на немецком от собеседника", "instruction": "5 Sätze. Kein Perfekt nötig.", "hint": "Einstieg: ..." },
+    "deepen": { "topic": "Situation — ...", "prompt": "на немецком от собеседника", "instruction": "7–8 Sätze. Nutzen Sie alle Wörter.", "hint": "..." },
+    "immerse": { "topic": "Ihre Geschichte — ...", "prompt": "открытый вопрос про реальный момент", "instruction": "Erzählen Sie frei.", "hint": "..." },
+    "writingTask": { "topic": "Schreiben — Aufwärmen", "instruction": "5 Sätze schreiben. Verwenden Sie: ..." },
+    "writingDeepen": { "topic": "Schreiben — ...", "instruction": "7–8 Sätze. ..." },
+    "writingImmerse": { "topic": "Schreiben — Ihre Geschichte", "instruction": "Freies Schreiben. Kulturwort einbauen: ..." }
+  },
+  "tue": { ... },
+  "wed": { ... },
+  "thu": { ... },
+  "fri": { ... }
+}`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, maxOutputTokens: 6000 } })
+      }
+    );
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Не удалось разобрать ответ');
+    _weekPlanData = JSON.parse(m[0]);
+    _weekPlanData._weekLabel = weekLabel;
+    renderWeekPlan(_weekPlanData);
+    toast('План недели готов! Проверьте и сохраните.', 'success');
+  } catch(e) {
+    console.error(e);
+    toast('Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🗓 Сгенерировать план недели (пн–пт)';
+  }
+}
+
+function renderWeekPlan(plan) {
+  document.getElementById('wpWeekLabel').textContent = plan._weekLabel || '';
+  const container = document.getElementById('weekPlanDays');
+  const days = ['mon','tue','wed','thu','fri'];
+  container.innerHTML = days.map(key => {
+    const d = plan[key] || {};
+    return `
+    <div class="wp-day" id="wpDay_${key}">
+      <div class="wp-day-header" onclick="toggleWpDay('${key}')">
+        <span class="wp-day-name">${DAY_NAMES[key]}</span>
+        <span class="wp-day-theme">${d.theme || ''}</span>
+        <span class="wp-day-arrow">⌄</span>
+      </div>
+      <div class="wp-day-body">
+        <div class="wp-task-label">Sprechen · Niveau 1 — Aufwärmen</div>
+        <textarea id="wp_${key}_task_prompt" rows="2">${d.task?.prompt || ''}</textarea>
+        <div class="wp-task-label">Sprechen · Niveau 2 — Situation</div>
+        <textarea id="wp_${key}_deepen_prompt" rows="2">${d.deepen?.prompt || ''}</textarea>
+        <div class="wp-task-label">Sprechen · Niveau 3 — Geschichte</div>
+        <textarea id="wp_${key}_immerse_prompt" rows="2">${d.immerse?.prompt || ''}</textarea>
+        <div class="wp-task-label">Schreiben · Niveau 1</div>
+        <textarea id="wp_${key}_wt_instruction" rows="2">${d.writingTask?.instruction || ''}</textarea>
+        <div class="wp-task-label">Schreiben · Niveau 2</div>
+        <textarea id="wp_${key}_wd_instruction" rows="2">${d.writingDeepen?.instruction || ''}</textarea>
+        <div class="wp-task-label">Schreiben · Niveau 3 + Kulturwort</div>
+        <textarea id="wp_${key}_wi_instruction" rows="2">${d.writingImmerse?.instruction || ''}</textarea>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('weekPlanSection').style.display = 'block';
+  document.getElementById('weekPlanSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleWpDay(key) {
+  document.getElementById('wpDay_' + key).classList.toggle('open');
+}
+
+function collectWeekPlanFromUI() {
+  if (!_weekPlanData) return null;
+  const days = ['mon','tue','wed','thu','fri'];
+  const plan = { _weekLabel: _weekPlanData._weekLabel };
+  days.forEach(key => {
+    const orig = _weekPlanData[key] || {};
+    plan[key] = {
+      theme: orig.theme,
+      task:         { ...orig.task,         prompt: document.getElementById(`wp_${key}_task_prompt`)?.value || orig.task?.prompt },
+      deepen:       { ...orig.deepen,       prompt: document.getElementById(`wp_${key}_deepen_prompt`)?.value || orig.deepen?.prompt },
+      immerse:      { ...orig.immerse,      prompt: document.getElementById(`wp_${key}_immerse_prompt`)?.value || orig.immerse?.prompt },
+      writingTask:  { ...orig.writingTask,  instruction: document.getElementById(`wp_${key}_wt_instruction`)?.value || orig.writingTask?.instruction },
+      writingDeepen:{ ...orig.writingDeepen,instruction: document.getElementById(`wp_${key}_wd_instruction`)?.value || orig.writingDeepen?.instruction },
+      writingImmerse:{ ...orig.writingImmerse,instruction: document.getElementById(`wp_${key}_wi_instruction`)?.value || orig.writingImmerse?.instruction },
+    };
+  });
+  return plan;
+}
+
+async function saveWeekPlan() {
+  const plan = collectWeekPlanFromUI();
+  if (!plan) { toast('Сначала сгенерируйте план', 'error'); return; }
+
+  // Добавляем weekPlan в основные данные и сохраняем
+  const data = collectData();
+  data.weekPlan = plan;
+  localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
+
+  const btn = document.querySelector('#weekPlanSection .btn-primary');
+  btn.textContent = 'Сохраняю...'; btn.disabled = true;
+  const ok = await fbSet(`teacher/${currentStudent}`, data);
+  btn.textContent = '💾 Сохранить план недели'; btn.disabled = false;
+
+  toast(ok ? `План недели сохранён ✓ Ольга увидит задание своего дня` : 'Сохранено локально', ok ? 'success' : '');
 }
 
 // ── TOAST ────────────────────────────────

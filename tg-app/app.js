@@ -108,6 +108,22 @@ function render() {
         // Пост-сабмишн
         if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
       }
+      // Недельный план: берём задание сегодняшнего дня
+      if (td.weekPlan) {
+        const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
+        const todayKey = DAY_KEYS[new Date().getDay()];
+        const dayPlan = td.weekPlan[todayKey];
+        if (dayPlan) {
+          student.sprint.today = student.sprint.today || {};
+          if (dayPlan.task)          student.sprint.today.task          = dayPlan.task;
+          if (dayPlan.deepen)        student.sprint.today.deepen        = dayPlan.deepen;
+          if (dayPlan.immerse)       student.sprint.today.immerse       = dayPlan.immerse;
+          if (dayPlan.writingTask)   student.sprint.today.writingTask   = dayPlan.writingTask;
+          if (dayPlan.writingDeepen) student.sprint.today.writingDeepen = dayPlan.writingDeepen;
+          if (dayPlan.writingImmerse)student.sprint.today.writingImmerse= dayPlan.writingImmerse;
+          if (dayPlan.theme)         student.sprint.today.theme         = dayPlan.theme;
+        }
+      }
       if (td.week) student.sprint.week = td.week;
       if (td.grammarWeek?.queen) {
         student.sprint.grammarWeek = student.sprint.grammarWeek || {};
