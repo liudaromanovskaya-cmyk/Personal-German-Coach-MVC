@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Панель педагога · Personal German Coach</title>
+<script src="firebase.js"></script>
 <style>
   :root {
     --bg: #FAF9F6;
@@ -621,26 +622,48 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
-  s('weekMonday', t.weekNarrative?.monday); s('weekSaturday', t.weekNarrative?.saturday);
-  if (t.languageMarkers?.active) {
+  s('weekMonday', d.weekNarrative?.monday); s('weekSaturday', d.weekNarrative?.saturday);
+  if (d.languageMarkers?.active) {
     ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].forEach(k => {
       const el = document.getElementById('mk_'+k);
-      if (el) el.checked = t.languageMarkers.active.includes(k);
+      if (el) el.checked = d.languageMarkers.active.includes(k);
     });
   }
-  s('markerNote', t.languageMarkers?.teacherNote);
+  s('markerNote', d.languageMarkers?.teacherNote);
 }
 
 // ── SAVE / LOAD / CLEAR ──────────────────
-function saveData() {
-  localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(collectData()));
+async function saveData() {
+  const data = collectData();
+  // Сразу в localStorage — работает офлайн
+  localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
   isDirty = false; updateStatus();
-  toast(`Сохранено для ${nameOf(currentStudent)} ✓`, 'success');
+
+  // Сохраняем в Firebase — студент увидит на любом устройстве
+  const saveBtn = document.querySelector('.btn-primary');
+  const origText = saveBtn.textContent;
+  saveBtn.textContent = 'Сохраняю...';
+  saveBtn.disabled = true;
+  const ok = await fbSet(`teacher/${currentStudent}`, data);
+  saveBtn.textContent = origText;
+  saveBtn.disabled = false;
+
+  toast(ok ? `Сохранено для ${nameOf(currentStudent)} ✓` : `Сохранено локально (нет сети)`, ok ? 'success' : '');
 }
-function loadData() {
-  const raw = localStorage.getItem(`pgc_teacher_${currentStudent}`);
+async function loadData() {
   clearForm();
-  if (raw) { try { fillForm(JSON.parse(raw)); } catch(e) {} }
+  // Читаем из Firebase (основной источник)
+  let data = await fbGet(`teacher/${currentStudent}`);
+  // Если нет — берём из localStorage (резерв)
+  if (!data) {
+    const raw = localStorage.getItem(`pgc_teacher_${currentStudent}`);
+    if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
+  }
+  if (data) {
+    fillForm(data);
+    // Кешируем локально
+    localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
+  }
   isDirty = false; updateStatus();
 }
 function clearForm() {

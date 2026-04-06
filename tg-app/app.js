@@ -31,6 +31,8 @@ function applyProgress(student, id) {
 // ── Глобальный студент (для submit-функций) ───────────────────────────────
 let _student = null;
 let _studentId = '';
+// Firebase: данные педагога, загруженные до рендера
+let _firebaseTeacherData = null;
 
 // ── Student ermitteln ─────────────────────────────────────────────────────
 function getStudentId() {
@@ -79,9 +81,15 @@ function render() {
   _student = student;
 
   // ── Данные из панели педагога (teacher.html) ──────────────────────────────
+  // Firebase (основной источник) → localStorage (резерв)
   // Мержим только заполненные поля — слова из students.js не трогаем если форма пустая
   try {
-    const teacherRaw = localStorage.getItem(`pgc_teacher_${id}`);
+    let teacherRaw = null;
+    if (_firebaseTeacherData) {
+      teacherRaw = JSON.stringify(_firebaseTeacherData);
+    } else {
+      teacherRaw = localStorage.getItem(`pgc_teacher_${id}`);
+    }
     if (teacherRaw) {
       const td = JSON.parse(teacherRaw);
       student.sprint = student.sprint || {};
@@ -2170,7 +2178,14 @@ function submitDiary() {
   if (streakEl && data.streak > 0) streakEl.textContent = `🔥 ${data.streak} Tage in Folge`;
 }
 
-document.addEventListener('DOMContentLoaded', render);
+document.addEventListener('DOMContentLoaded', async () => {
+  // Загружаем данные педагога из Firebase перед рендером
+  const id = getStudentId();
+  if (id && typeof fbGet === 'function') {
+    _firebaseTeacherData = await fbGet(`teacher/${id}`);
+  }
+  render();
+});
 
 // ── Sprint P0: Фидбек + Настроение + Баннеры ────────────────────────────────
 
