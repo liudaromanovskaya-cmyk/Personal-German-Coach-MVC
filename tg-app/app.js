@@ -34,6 +34,20 @@ let _studentId = '';
 // Firebase: данные педагога, загруженные до рендера
 let _firebaseTeacherData = null;
 
+// ── Telegram-уведомление преподавателю ───────────────────────────────────
+async function notifyTeacher(text) {
+  if (typeof NOTIFY_CONFIG === 'undefined') return;
+  const { botToken, teacherChatId } = NOTIFY_CONFIG;
+  if (!botToken || !teacherChatId) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: teacherChatId, text, parse_mode: 'HTML' })
+    });
+  } catch(e) { /* тихо — не мешать студенту если нет сети */ }
+}
+
 // ── Student ermitteln ─────────────────────────────────────────────────────
 function getStudentId() {
   // Вариант 1: открыто через Telegram Mini App — t.me/PersonalGermanCoachBot/cabinet?startapp=artem
@@ -1968,7 +1982,10 @@ function submitHomework(level) {
     localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
   } catch(e) {}
 
-  // Открываем Telegram с готовым сообщением
+  // Автоматическое уведомление преподавателю через бота
+  notifyTeacher(msg);
+
+  // Открываем Telegram с готовым сообщением (fallback — студент отправляет сам)
   const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 
@@ -2172,6 +2189,9 @@ function submitDiary() {
   // Формируем сообщение в Telegram
   let msg = `📓 Tagebuch von ${_student.name} — ${new Date().toLocaleDateString('de-DE')}\n\n${text}`;
   if (data.streak > 1) msg += `\n\n🔥 ${data.streak} Tage in Folge!`;
+
+  // Автоматическое уведомление преподавателю через бота
+  notifyTeacher(msg);
 
   const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
