@@ -1,50 +1,174 @@
 const FB = 'https://personal-german-coach-default-rtdb.europe-west1.firebasedatabase.app';
 
+// Ольга: в России, готовится к переезду в Германию, сдаёт B2
+// Тон: позитивный, динамичный, страноведение, никакой депрессии
+// Тема недели: Freundschaft, Vereine, menschliche Beziehungen in Deutschland
+
 const weekPlan = {
   mon: {
-    theme: "Freundschaft im Alltag",
-    task: { topic: "Aufwaermen - Wochenende mit Freunden", prompt: "Eine Freundin fragt: Wie hast du das Wochenende verbracht? Warst du mit jemandem zusammen?", instruction: "5 Saetze. Kein Perfekt noetig - einfach erzaehlen.", hint: "Einstieg: Am Wochenende befand ich mich... Wir haben eine Fahrt gemacht... Das hat mir ermoeglicht..." },
-    deepen: { topic: "Situation - Kontakte in Deutschland", prompt: "Ihre Freundin sagt: Ich fuehle mich so einsam hier. Wie schaffst du es, Kontakte zu knuepfen?", instruction: "7-8 Saetze. Nutzen Sie alle Woerter des Tages.", hint: "Fuer mich kommt es darauf an... Ich unterhalte mich gern mit... Das ermoeglicht mir..." },
-    immerse: { topic: "Ihre Geschichte - Eine wichtige Freundschaft", prompt: "Erzaehlen Sie von einer Freundschaft, die Ihnen wichtig ist. Wie haben Sie sich kennengelernt?", instruction: "Erzaehlen Sie frei. Alle Woerter dieser Woche stehen zur Verfuegung.", hint: "Worum es in dieser Freundschaft wirklich geht... In diesem Moment ging ein Wunsch in Erfuellung..." },
-    writingTask: { topic: "Schreiben - Aufwaermen", instruction: "Schreiben Sie 5 Saetze: Beschreiben Sie eine Person, mit der Sie sich gern unterhalten. Verwenden Sie: sich befinden, sich unterhalten mit, ermoeglichten" },
-    writingDeepen: { topic: "Schreiben - Brief an eine Freundin", instruction: "Schreiben Sie 7-8 Saetze: Was bedeutet Freundschaft fuer Sie in Deutschland? Verwenden Sie: worum geht es, ankommen auf, in Erfuellung gehen, sich unterhalten mit" },
-    writingImmerse: { topic: "Schreiben - Ihre Geschichte", instruction: "Freies Schreiben. Kulturwort: Stammtisch - regelmaessiges Treffen mit Freunden, typisch deutsches Kulturgut." }
+    theme: "Freundschaft in Deutschland — wie funktioniert das?",
+    task: {
+      topic: "Aufwaermen — Was weisst du schon?",
+      prompt: "Eine Freundin fragt: Du lernst Deutsch — weisst du schon, wie Freundschaften in Deutschland so funktionieren? Was hast du darueber gelesen oder gehoert?",
+      instruction: "5 Saetze. Kein Perfekt noetig — einfach erzaehlen was Sie wissen oder sich vorstellen.",
+      hint: "Einstieg: Ich habe gehoert, dass... In Deutschland befinden sich viele Menschen in... Das ermoeglicht..."
+    },
+    deepen: {
+      topic: "Situation — Brief an eine deutsche Bekannte",
+      prompt: "Sie schreiben einer deutschen Bekannten: Ich bereite mich auf Deutschland vor. Ich haette gern gewusst: Wie lernt man dort neue Leute kennen? Worauf kommt es dabei an?",
+      instruction: "7-8 Saetze. Nutzen Sie alle Woerter des Tages. Stellen Sie echte Fragen.",
+      hint: "Worum geht es bei Freundschaften in Deutschland wirklich... Ich unterhalte mich gern ueber... Das ermoeglicht mir vorzustellen..."
+    },
+    immerse: {
+      topic: "Ihre Geschichte — Was macht eine gute Freundschaft aus?",
+      prompt: "Erzaehlen Sie von einer Freundschaft, die Ihnen besonders wichtig ist. Was schaetzen Sie an dieser Person? Worueberuntehalten Sie sich?",
+      instruction: "Erzaehlen Sie frei. Alle Woerter dieser Woche stehen zur Verfuegung.",
+      hint: "In dieser Freundschaft geht es wirklich darum... Ein Wunsch ging in Erfuellung als..."
+    },
+    writingTask: {
+      topic: "Schreiben — Aufwaermen",
+      instruction: "Schreiben Sie 5 Saetze: Was wissen Sie ueber Freundschaften in Deutschland? Verwenden Sie: sich befinden, sich unterhalten mit, ermoeglichten\nLandeskunde-Tipp: In Deutschland sagt man, Freundschaften entstehen langsamer — aber sie halten laenger."
+    },
+    writingDeepen: {
+      topic: "Schreiben — Brief an eine Freundin",
+      instruction: "Schreiben Sie 7-8 Saetze an eine Freundin: Was erwarten Sie von Freundschaften in Deutschland? Verwenden Sie: worum geht es, ankommen auf, in Erfuellung gehen, sich unterhalten mit"
+    },
+    writingImmerse: {
+      topic: "Schreiben — Ihre Geschichte",
+      instruction: "Freies Schreiben. Kulturwort einbauen: Stammtisch — ein regelmaessiges Treffen mit Freunden oder Bekannten, typisch fuer Deutschland. Oft in einem Cafe oder Restaurant, jeden Monat.\nTipp: Ein Stammtisch ermoeglicht es mir vorzustellen..."
+    }
   },
   tue: {
-    theme: "Kollegen und Zusammenhalt",
-    task: { topic: "Aufwaermen - Kollegen ausserhalb der Arbeit", prompt: "Eine Kollegin fragt in der Pause: Kennst du eigentlich jemanden hier ausserhalb der Arbeit?", instruction: "5 Saetze. Einfach und direkt erzaehlen.", hint: "Ich befinde mich gerade in einer Phase, wo... Eine Fahrt haben wir mal gemacht..." },
-    deepen: { topic: "Situation - Rat geben", prompt: "Ihre Kollegin sagt: Ich fuehle mich so isoliert. Hast du einen Tipp, wie man in Deutschland Anschluss findet?", instruction: "7-8 Saetze. Geben Sie echten Rat. Nutzen Sie alle Woerter.", hint: "Worum es dabei geht... Es ermoeglicht einem... In Erfuellung geht ein Wunsch wenn..." },
-    immerse: { topic: "Ihre Geschichte - Ein Kollege der zaehlt", prompt: "Erzaehlen Sie von einem Kollegen, mit dem Sie sich besonders gut verstehen. Was macht diese Beziehung besonders?", instruction: "Erzaehlen Sie frei.", hint: "Wir unterhalten uns oft ueber... Worum es in unserer Beziehung wirklich geht..." },
-    writingTask: { topic: "Schreiben - Aufwaermen", instruction: "Schreiben Sie 5 Saetze ueber einen Kollegen. Verwenden Sie: sich befinden, sich unterhalten mit, worum geht es" },
-    writingDeepen: { topic: "Schreiben - E-Mail an eine Freundin", instruction: "Schreiben Sie 7-8 Saetze ueber das Verhaeltnis zu Ihren Kollegen. Verwenden Sie: ermoeglichten, in Erfuellung gehen, ankommen auf" },
-    writingImmerse: { topic: "Schreiben - Ihre Geschichte", instruction: "Freies Schreiben. Kulturwort: Kollegialitaet - professionelle Solidaritaet am Arbeitsplatz. Sprichwort: Eine Hand waescht die andere." }
+    theme: "Vereinskultur — Deutschland und seine 600.000 Vereine",
+    task: {
+      topic: "Aufwaermen — Vereine in Deutschland",
+      prompt: "Eine Freundin fragt: Hast du schon von der deutschen Vereinskultur gehoert? In Deutschland gibt es ueber 600.000 Vereine — Sportvereine, Musikvereine, Gartenvereine. Was findest du daran interessant?",
+      instruction: "5 Saetze. Erzaehlen Sie was Sie sich vorstellen oder was Sie interessiert.",
+      hint: "Ich befinde mich gerade in einer Phase wo ich... Eine Fahrt zu einem deutschen Verein... Das ermoeglicht mir..."
+    },
+    deepen: {
+      topic: "Situation — Welcher Verein passt zu Ihnen?",
+      prompt: "Ihre zukuenftige Nachbarin schreibt Ihnen: Herzlich willkommen bald in Deutschland! Hier gibt es viele Moeglichkeiten, Leute kennenzulernen. Wofuer interessieren Sie sich? Ich kann einen Verein empfehlen!",
+      instruction: "7-8 Saetze. Beschreiben Sie Ihre Interessen und fragen Sie nach. Nutzen Sie alle Woerter.",
+      hint: "Worum es mir dabei geht... Ich unterhalte mich gern ueber... Das ermoeglicht mir..."
+    },
+    immerse: {
+      topic: "Ihre Geschichte — Sport, Musik oder Garten?",
+      prompt: "Stellen Sie sich vor: Sie sind in Deutschland und suchen einen Verein. Welchen wuerden Sie waehlen und warum? Erzaehlen Sie von Ihren Hobbys und Interessen.",
+      instruction: "Erzaehlen Sie frei. Positiv und konkret.",
+      hint: "In diesem Verein koennte ein Wunsch in Erfuellung gehen... Ich unterhalte mich gern mit Menschen die..."
+    },
+    writingTask: {
+      topic: "Schreiben — Aufwaermen",
+      instruction: "Schreiben Sie 5 Saetze: Welche Hobbys haben Sie? Was wuerden Sie in einem deutschen Verein machen? Verwenden Sie: sich befinden, eine Fahrt machen, ermoeglichten\nLandeskunde: Der Turnverein (TV) ist einer der aeltesten deutschen Vereinstypen — seit 1811."
+    },
+    writingDeepen: {
+      topic: "Schreiben — E-Mail an die Nachbarin",
+      instruction: "Schreiben Sie 7-8 Saetze: Antworten Sie der Nachbarin. Beschreiben Sie Ihre Interessen und fragen Sie nach einem passenden Verein. Verwenden Sie: ermoeglichten, in Erfuellung gehen, ankommen auf, worum geht es"
+    },
+    writingImmerse: {
+      topic: "Schreiben — Ihre Geschichte",
+      instruction: "Freies Schreiben. Kulturwort: Vereinsmeier — jemand, der sehr aktiv in Vereinen ist (positiv gemeint, manchmal humorvoll). Sprichwort: Viele Haende machen der Arbeit ein Ende.\nTipp: Vielleicht werde ich auch eine Vereinsmeier..."
+    }
   },
   wed: {
-    theme: "Vereine und Gemeinschaft",
-    task: { topic: "Aufwaermen - Verein oder Gruppe?", prompt: "Eine Nachbarin fragt: Bist du in einem Verein? Machst du irgendwas in der Freizeit mit anderen?", instruction: "5 Saetze. Erzaehlen Sie was Sie machen oder was Sie sich wuenschen.", hint: "Ich befinde mich gerade... Wir haben mal eine Fahrt gemacht... Das ermoeglicht mir..." },
-    deepen: { topic: "Situation - Eine Bekannte braucht Rat", prompt: "Eine Bekannte vom Kindergarten sagt: Wie findet man hier eigentlich Leute? Ich fuehle mich so fremd.", instruction: "7-8 Saetze. Beraten Sie sie - nutzen Sie alle Woerter.", hint: "Worum es geht ist... Es ermoeglicht einem... Ich unterhalte mich oft mit..." },
-    immerse: { topic: "Ihre Geschichte - Dazugehoeren", prompt: "Erzaehlen Sie von einem Moment, wo Sie sich wirklich dazugehoerig gefuehlt haben - oder wo Sie sich fremd gefuehlt haben.", instruction: "Erzaehlen Sie frei. Ehrlich und persoenlich.", hint: "In diesem Moment ging ein kleiner Wunsch in Erfuellung..." },
-    writingTask: { topic: "Schreiben - Aufwaermen", instruction: "Schreiben Sie 5 Saetze: Was machen Sie in Ihrer Freizeit? Verwenden Sie: sich befinden, eine Fahrt machen, ermoeglichten" },
-    writingDeepen: { topic: "Schreiben - Warum Vereine?", instruction: "Schreiben Sie 7-8 Saetze: Warum sind Vereine in Deutschland so wichtig? Verwenden Sie: worum geht es, ankommen auf, in Erfuellung gehen" },
-    writingImmerse: { topic: "Schreiben - Ihre Geschichte", instruction: "Freies Schreiben. Kulturwort: Vereinskultur - Deutschland hat ueber 600.000 Vereine. Sprichwort: Viele Haende machen der Arbeit ein Ende." }
+    theme: "Beziehungen am deutschen Arbeitsplatz",
+    task: {
+      topic: "Aufwaermen — Arbeitskultur in Deutschland",
+      prompt: "Eine Freundin fragt: Du arbeitest bald in Deutschland. Weisst du, wie der Umgang unter Kollegen dort ist? Was hast du gehoert oder gelesen?",
+      instruction: "5 Saetze. Erzaehlen Sie was Sie wissen oder sich vorstellen.",
+      hint: "Ich habe gehoert, dass man sich in Deutschland am Arbeitsplatz... Ich befinde mich gerade in der Vorbereitung... Das ermoeglicht mir..."
+    },
+    deepen: {
+      topic: "Situation — Email von der zukuenftigen Kollegin",
+      prompt: "Ihre zukuenftige Kollegin schreibt: Hallo! Wir freuen uns schon sehr auf Sie. Haben Sie Fragen ueber unseren Arbeitsalltag oder die Teamkultur bei uns?",
+      instruction: "7-8 Saetze. Schreiben Sie zurueck — stellen Sie echte Fragen, erzaehlen Sie von sich. Nutzen Sie alle Woerter.",
+      hint: "Worum es mir besonders geht... Ich unterhalte mich gern ueber... Das ermoeglicht mir..."
+    },
+    immerse: {
+      topic: "Ihre Geschichte — Mein erster Arbeitstag in Deutschland",
+      prompt: "Stellen Sie sich vor: Ihr erster Arbeitstag in Deutschland. Wie sieht er aus? Was passiert? Mit wem unterhalten Sie sich?",
+      instruction: "Erzaehlen Sie frei und positiv. Alle Woerter dieser Woche zur Verfuegung.",
+      hint: "An diesem Tag geht ein Wunsch in Erfuellung... Ich befinde mich im neuen Buero..."
+    },
+    writingTask: {
+      topic: "Schreiben — Aufwaermen",
+      instruction: "Schreiben Sie 5 Saetze: Was wissen Sie ueber den deutschen Arbeitsplatz? Was erwarten Sie? Verwenden Sie: sich befinden, worum geht es, ermoeglichten\nLandeskunde: In Deutschland ist Puenktlichkeit am Arbeitsplatz sehr wichtig — 'puenktlich' bedeutet sogar 5 Minuten frueher."
+    },
+    writingDeepen: {
+      topic: "Schreiben — Antwort an die Kollegin",
+      instruction: "Schreiben Sie 7-8 Saetze: Antworten Sie der Kollegin. Stellen Sie sich vor und stellen Sie Fragen. Verwenden Sie: sich unterhalten mit, ankommen auf, in Erfuellung gehen, abhaengen von"
+    },
+    writingImmerse: {
+      topic: "Schreiben — Ihre Geschichte",
+      instruction: "Freies Schreiben. Kulturwort: Feierabend — das Ende des Arbeitstages, aber auch: das Gefuehl der Freiheit danach. Sehr wichtiges deutsches Konzept.\nTipp: Nach dem Feierabend ermoeglicht mir Deutschland..."
+    }
   },
   thu: {
-    theme: "Was Beziehungen stark macht",
-    task: { topic: "Aufwaermen - Gespraech mit der Schwester", prompt: "Ihre Schwester ruft aus Russland an: Wie laeuft es bei dir? Hast du Freunde gefunden?", instruction: "5 Saetze. Ehrlich und direkt - wie im echten Gespraech.", hint: "Ich befinde mich gerade in einer guten Phase... Das hat mir ermoeglicht..." },
-    deepen: { topic: "Situation - Eine schwierige Frage", prompt: "Eine gute Freundin sagt: Ich glaube, unsere Freundschaft hat sich veraendert. Worum geht es dir eigentlich wirklich?", instruction: "7-8 Saetze. Antworten Sie ehrlich - nutzen Sie alle Woerter.", hint: "Worum es mir wirklich geht... Das ermoeglicht mir... In Erfuellung gegangen ist..." },
-    immerse: { topic: "Ihre Geschichte - Eine Beziehung die sich veraendert hat", prompt: "Erzaehlen Sie von einer menschlichen Beziehung die sich veraendert hat. Was ist passiert?", instruction: "Erzaehlen Sie frei. Alle Woerter dieser Woche zur Verfuegung.", hint: "Wir haben uns oft miteinander unterhalten... Worum es in dieser Beziehung geht..." },
-    writingTask: { topic: "Schreiben - Aufwaermen", instruction: "Schreiben Sie 5 Saetze: Was ist Ihnen in einer Freundschaft am wichtigsten? Verwenden Sie: sich befinden, worum geht es, ermoeglichten" },
-    writingDeepen: { topic: "Schreiben - Brief an eine Freundin", instruction: "Schreiben Sie 7-8 Saetze an eine Freundin, die Sie vermissen. Verwenden Sie: ankommen auf, abhaengen von, in Erfuellung gehen, sich unterhalten mit" },
-    writingImmerse: { topic: "Schreiben - Ihre Geschichte", instruction: "Freies Schreiben. Kulturwort: Herzlichkeit - echte Waerme in menschlichen Beziehungen. Sprichwort: Gleich und gleich gesellt sich gern." }
+    theme: "Vorbereitung auf den Alltag in Deutschland",
+    task: {
+      topic: "Aufwaermen — Was habe ich schon vorbereitet?",
+      prompt: "Eine Freundin fragt: Du ziehst bald um! Was hast du schon alles vorbereitet? Sprache, Dokumente, Informationen ueber Deutschland?",
+      instruction: "5 Saetze. Erzaehlen Sie stolz und konkret — was haben Sie schon getan.",
+      hint: "Ich befinde mich gerade in einer aktiven Vorbereitungsphase... Eine Fahrt nach Deutschland plane ich... Das ermoeglicht mir..."
+    },
+    deepen: {
+      topic: "Situation — Gespraech mit einer Deutschen",
+      prompt: "Sie treffen eine Deutsche, die in Russland lebt. Sie fragt: Was interessiert Sie an Deutschland am meisten? Worauf freuen Sie sich? Worauf bereiten Sie sich besonders vor?",
+      instruction: "7-8 Saetze. Antworten Sie konkret und positiv. Nutzen Sie alle Woerter.",
+      hint: "Worum es mir dabei geht... Es kommt darauf an dass... In Erfuellung gehen wird..."
+    },
+    immerse: {
+      topic: "Ihre Geschichte — Mein Weg mit der deutschen Sprache",
+      prompt: "Erzaehlen Sie von Ihrem Weg mit Deutsch. Wann haben Sie angefangen? Was war schwer? Was macht Ihnen Freude? Wo stehen Sie heute?",
+      instruction: "Erzaehlen Sie frei und persoenlich. So lang wie Sie moechten.",
+      hint: "Als ich angefangen habe Deutsch zu lernen... Worum es mir wirklich geht... Ein Wunsch geht in Erfuellung wenn..."
+    },
+    writingTask: {
+      topic: "Schreiben — Aufwaermen",
+      instruction: "Schreiben Sie 5 Saetze: Was haben Sie schon fuer den Umzug vorbereitet? Verwenden Sie: sich befinden, worum geht es, ermoeglichten\nLandeskunde: In Deutschland braucht man eine Anmeldung — innerhalb von 14 Tagen nach dem Einzug beim Einwohnermeldeamt."
+    },
+    writingDeepen: {
+      topic: "Schreiben — Brief an eine Freundin",
+      instruction: "Schreiben Sie 7-8 Saetze: Erzaehlen Sie einer Freundin von Ihrer Vorbereitung auf Deutschland. Verwenden Sie: ankommen auf, abhaengen von, in Erfuellung gehen, sich unterhalten mit"
+    },
+    writingImmerse: {
+      topic: "Schreiben — Ihre Geschichte",
+      instruction: "Freies Schreiben. Zwei Kulturwoerter: Gemutlichkeit — Gemuetlichkeit, Wohlgefuehl, Behaglichkeit in der Gesellschaft anderer. Weltoffenheit — Offenheit gegenueber anderen Kulturen und Menschen.\nTipp: Deutschland steht fuer mich fuer Gemuetlichkeit und Weltoffenheit..."
+    }
   },
   fri: {
-    theme: "Meine Beziehungen - mein Zuhause",
-    task: { topic: "Aufwaermen - Freundschaft: Russland vs. Deutschland", prompt: "Sie erklaeren einem deutschen Bekannten, wie Freundschaft in Russland funktioniert. Was ist anders?", instruction: "5 Saetze. Vergleichen Sie - kein Stress, einfach erzaehlen.", hint: "In Russland befinden sich Freunde oft... Das ermoeglicht eine andere Naehe..." },
-    deepen: { topic: "Situation - Was vermisst du? Was hast du gefunden?", prompt: "Ihr Bekannter fragt: Was vermisst du am meisten? Was hast du hier gefunden, womit du nicht gerechnet hast?", instruction: "7-8 Saetze. Alle Woerter verwenden. Ehrlich und persoenlich.", hint: "Worum es mir wirklich geht... In Erfuellung gegangen ist... Das ermoeglicht mir heute..." },
-    immerse: { topic: "Ihre Geschichte - Der Moment des Ankommens", prompt: "Erzaehlen Sie von einem Moment, der Ihnen gezeigt hat: Hier bin ich angekommen.", instruction: "Erzaehlen Sie frei - so persoenlich wie Sie moechten.", hint: "Worum es wirklich geht, habe ich erst hier verstanden..." },
-    writingTask: { topic: "Schreiben - Aufwaermen", instruction: "Schreiben Sie 5 Saetze: Vergleichen Sie Freundschaft in Russland und in Deutschland. Verwenden Sie: sich befinden, sich unterhalten mit, worum geht es" },
-    writingDeepen: { topic: "Schreiben - Was bedeutet Zuhause?", instruction: "Schreiben Sie 7-8 Saetze: Was bedeutet Zuhause fuer Sie heute? Verwenden Sie: ermoeglichten, in Erfuellung gehen, abhaengen von, ankommen auf" },
-    writingImmerse: { topic: "Schreiben - Ihre Geschichte", instruction: "Freies Schreiben. Kulturwoerter: Heimweh - Sehnsucht nach der Heimat. Fernweh - Sehnsucht nach der Ferne. Sprichwort: Wo man sich wohl fuehlt, ist man zu Hause." }
+    theme: "Meine Ziele — B2 und das neue Leben",
+    task: {
+      topic: "Aufwaermen — Meine Ziele auf Deutsch",
+      prompt: "Eine Freundin fragt: Du machst bald den B2-Test! Wie laeuft die Vorbereitung? Was machst du jeden Tag dafuer?",
+      instruction: "5 Saetze. Erzaehlen Sie konkret und motiviert.",
+      hint: "Ich befinde mich gerade in der intensiven Vorbereitungsphase... Das ermoeglicht mir jeden Tag... Eine Fahrt nach Deutschland wird moeglich wenn..."
+    },
+    deepen: {
+      topic: "Situation — Im Deutschkurs-Forum",
+      prompt: "Sie schreiben in einem Online-Forum fuer Deutschlernende: Ich bereite mich auf den B2-Test vor und plane den Umzug nach Deutschland. Hier ist mein Lernplan und meine Motivation...",
+      instruction: "7-8 Saetze. Beschreiben Sie Ihren Plan und motivieren Sie andere. Nutzen Sie alle Woerter.",
+      hint: "Worum es mir wirklich geht... Das ermoeglicht mir... In Erfuellung gehen wird der Traum wenn..."
+    },
+    immerse: {
+      topic: "Ihre Geschichte — Warum Deutschland?",
+      prompt: "Erzaehlen Sie: Warum haben Sie sich fuer Deutschland entschieden? Was erwarten Sie vom neuen Leben? Was nehmen Sie aus Russland mit?",
+      instruction: "Erzaehlen Sie frei — so persoenlich und lang wie Sie moechten. Das ist Ihre Geschichte.",
+      hint: "Worum es mir wirklich geht... Wir haben uns immer gefragt worum es geht... In Erfuellung geht ein Traum wenn..."
+    },
+    writingTask: {
+      topic: "Schreiben — Aufwaermen",
+      instruction: "Schreiben Sie 5 Saetze: Beschreiben Sie Ihren Lernplan fuer den B2-Test. Verwenden Sie: sich befinden, worum geht es, ermoeglichten\nLandeskunde: Der B2-Test wird in Deutschland von Goethe-Institut, telc oder OeSD angeboten — alle sind offiziell anerkannt."
+    },
+    writingDeepen: {
+      topic: "Schreiben — Mein Motivationsbrief",
+      instruction: "Schreiben Sie 7-8 Saetze: Warum lernen Sie Deutsch? Was sind Ihre Ziele? Verwenden Sie: ermoeglichten, in Erfuellung gehen, abhaengen von, ankommen auf"
+    },
+    writingImmerse: {
+      topic: "Schreiben — Ihre Geschichte",
+      instruction: "Freies Schreiben — alles erlaubt. Kulturwoerter: Fernweh — die Sehnsucht nach der Ferne, nach neuen Orten. Aufbruch — der Beginn von etwas Neuem, ein Neustart.\nTipp: Mein Fernweh und mein Aufbruch nach Deutschland... Das ermoeglicht mir..."
+    }
   }
 };
 
@@ -54,4 +178,4 @@ const res = await fetch(`${FB}/teacher/olga/weekPlan.json`, {
   body: JSON.stringify(weekPlan)
 });
 const result = await res.json();
-console.log(res.ok ? 'OK - план записан в Firebase!' : 'Ошибка: ' + JSON.stringify(result));
+console.log(res.ok ? 'OK — новый план записан в Firebase!' : 'Ошибка: ' + JSON.stringify(result));
