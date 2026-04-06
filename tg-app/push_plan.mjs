@@ -9,8 +9,8 @@ const weekPlan = {
     theme: "Freundschaft in Deutschland — wie funktioniert das?",
     task: {
       topic: "Aufwaermen — Was weisst du schon?",
-      prompt: "Eine Freundin fragt: Du lernst Deutsch — weisst du schon, wie Freundschaften in Deutschland so funktionieren? Was hast du darueber gelesen oder gehoert?",
-      instruction: "5 Saetze. Kein Perfekt noetig — einfach erzaehlen was Sie wissen oder sich vorstellen.",
+      prompt: "Eine Freundin fragt: Sie lernen Deutsch — wissen Sie schon, wie Freundschaften in Deutschland so funktionieren? Was haben Sie darueber gelesen oder gehoert?",
+      instruction: "5 Saetze. Kein Perfekt noetig — einfach erzaehlen, was Sie wissen oder sich vorstellen.",
       hint: "Einstieg: Ich habe gehoert, dass... In Deutschland befinden sich viele Menschen in... Das ermoeglicht..."
     },
     deepen: {
@@ -42,8 +42,8 @@ const weekPlan = {
     theme: "Vereinskultur — Deutschland und seine 600.000 Vereine",
     task: {
       topic: "Aufwaermen — Vereine in Deutschland",
-      prompt: "Eine Freundin fragt: Hast du schon von der deutschen Vereinskultur gehoert? In Deutschland gibt es ueber 600.000 Vereine — Sportvereine, Musikvereine, Gartenvereine. Was findest du daran interessant?",
-      instruction: "5 Saetze. Erzaehlen Sie was Sie sich vorstellen oder was Sie interessiert.",
+      prompt: "Eine Freundin fragt: Haben Sie schon von der deutschen Vereinskultur gehoert? In Deutschland gibt es ueber 600.000 Vereine — Sportvereine, Musikvereine, Gartenvereine. Was finden Sie daran interessant?",
+      instruction: "5 Saetze. Erzaehlen Sie, was Sie sich vorstellen oder was Sie interessiert.",
       hint: "Ich befinde mich gerade in einer Phase wo ich... Eine Fahrt zu einem deutschen Verein... Das ermoeglicht mir..."
     },
     deepen: {
@@ -108,8 +108,8 @@ const weekPlan = {
     theme: "Vorbereitung auf den Alltag in Deutschland",
     task: {
       topic: "Aufwaermen — Was habe ich schon vorbereitet?",
-      prompt: "Eine Freundin fragt: Du ziehst bald um! Was hast du schon alles vorbereitet? Sprache, Dokumente, Informationen ueber Deutschland?",
-      instruction: "5 Saetze. Erzaehlen Sie stolz und konkret — was haben Sie schon getan.",
+      prompt: "Eine Freundin fragt: Sie ziehen bald um! Was haben Sie schon alles vorbereitet? Sprache, Dokumente, Informationen ueber Deutschland?",
+      instruction: "5 Saetze. Erzaehlen Sie konkret — was haben Sie schon getan.",
       hint: "Ich befinde mich gerade in einer aktiven Vorbereitungsphase... Eine Fahrt nach Deutschland plane ich... Das ermoeglicht mir..."
     },
     deepen: {
@@ -141,7 +141,7 @@ const weekPlan = {
     theme: "Meine Ziele — B2 und das neue Leben",
     task: {
       topic: "Aufwaermen — Meine Ziele auf Deutsch",
-      prompt: "Eine Freundin fragt: Du machst bald den B2-Test! Wie laeuft die Vorbereitung? Was machst du jeden Tag dafuer?",
+      prompt: "Eine Freundin fragt: Sie machen bald den B2-Test! Wie laeuft die Vorbereitung? Was machen Sie jeden Tag dafuer?",
       instruction: "5 Saetze. Erzaehlen Sie konkret und motiviert.",
       hint: "Ich befinde mich gerade in der intensiven Vorbereitungsphase... Das ermoeglicht mir jeden Tag... Eine Fahrt nach Deutschland wird moeglich wenn..."
     },
