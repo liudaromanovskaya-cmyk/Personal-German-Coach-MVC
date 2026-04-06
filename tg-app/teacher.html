@@ -462,6 +462,9 @@
     <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='block';document.getElementById('pasteJsonSection').scrollIntoView({behavior:'smooth'})">
       📋 Вставить план вручную
     </button>
+    <button class="btn btn-outline btn-sm" id="loadWeekBtn" onclick="loadWeekPlan()">
+      👁 Посмотреть план недели
+    </button>
   </div>
 
 </div>
@@ -997,6 +1000,17 @@ async function saveWeekPlan() {
   btn.textContent = '💾 Сохранить план недели'; btn.disabled = false;
 
   toast(ok ? `План недели сохранён ✓ Ольга увидит задание своего дня` : 'Сохранено локально', ok ? 'success' : '');
+}
+
+async function loadWeekPlan() {
+  const btn = document.getElementById('loadWeekBtn');
+  btn.textContent = 'Загружаю...'; btn.disabled = true;
+  const data = await fbGet(`teacher/${currentStudent}/weekPlan`);
+  btn.textContent = '👁 Посмотреть план недели'; btn.disabled = false;
+  if (!data) { toast('Нет сохранённого плана недели', 'error'); return; }
+  _weekPlanData = data;
+  _weekPlanData._weekLabel = v('weekLabel');
+  renderWeekPlan(_weekPlanData);
 }
 
 function applyPastedJson() {
