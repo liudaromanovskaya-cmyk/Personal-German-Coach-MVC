@@ -1982,10 +1982,21 @@ function submitHomework(level) {
     localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
   } catch(e) {}
 
-  // Автоматическое уведомление преподавателю через бота
-  notifyTeacher(msg);
+  // Сохраняем в Firebase — для Eingänge в teacher.html
+  const today = new Date().toISOString().split('T')[0];
+  if (typeof fbSet === 'function') {
+    fbSet(`submissions/${_studentId}/${today}/${level}`, {
+      text, topic, level,
+      studentName: _student.name,
+      timestamp: new Date().toISOString(),
+      hasFile: hasFile || false
+    });
+  }
 
-  // Открываем Telegram с готовым сообщением (fallback — студент отправляет сам)
+  // Короткий пинг преподавателю (полный текст — в Eingänge)
+  notifyTeacher(`📬 ${_student.name} · ${levelLabel}\n📌 ${topic}\n\n👁 Откройте Eingänge в панели педагога`);
+
+  // Открываем Telegram с готовым сообщением (студент отправляет сам)
   const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 
@@ -2190,8 +2201,17 @@ function submitDiary() {
   let msg = `📓 Tagebuch von ${_student.name} — ${new Date().toLocaleDateString('de-DE')}\n\n${text}`;
   if (data.streak > 1) msg += `\n\n🔥 ${data.streak} Tage in Folge!`;
 
-  // Автоматическое уведомление преподавателю через бота
-  notifyTeacher(msg);
+  // Сохраняем в Firebase — для Eingänge в teacher.html
+  if (typeof fbSet === 'function') {
+    fbSet(`submissions/${_studentId}/${today}/diary`, {
+      text, topic: 'Tagebuch',
+      level: 'diary', studentName: _student.name,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  // Короткий пинг преподавателю
+  notifyTeacher(`📓 ${_student.name} написала Tagebuch${data.streak > 1 ? ` · 🔥 ${data.streak} Tage` : ''}\n\n👁 Откройте Eingänge в панели педагога`);
 
   const url = 'https://t.me/mila_konstanz?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');

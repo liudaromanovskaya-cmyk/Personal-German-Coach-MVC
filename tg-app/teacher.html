@@ -215,6 +215,37 @@
     .word-row > :nth-child(4) { grid-column: 2; }
     .actions { flex-direction: column; }
   }
+
+  /* Eingänge — инбокс домашних заданий */
+  .inbox-empty { color: var(--muted); font-size: 13px; padding: 4px 0; }
+  .inbox-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .inbox-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #F7FAFC;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .inbox-student { font-weight: 700; font-size: 14px; color: var(--accent); }
+  .inbox-date { font-size: 13px; color: var(--muted); }
+  .inbox-count { margin-left: auto; font-size: 12px; font-weight: 600; background: var(--accent-light); color: var(--accent); padding: 2px 8px; border-radius: 10px; }
+  .inbox-sub {
+    padding: 10px 14px;
+    border-bottom: 1px solid #F0F4F8;
+  }
+  .inbox-sub:last-child { border-bottom: none; }
+  .inbox-sub-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+  .inbox-sub-topic { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .inbox-sub-text { font-size: 13px; color: #374151; line-height: 1.5; white-space: pre-wrap; background: #FAFAFA; border-radius: 6px; padding: 8px 10px; margin-top: 4px; }
+  .inbox-sub-empty { font-size: 12px; color: var(--muted); font-style: italic; }
+  .inbox-sub-file { font-size: 12px; color: var(--amber); margin-top: 4px; }
   .marker-checks {
     display: flex;
     flex-direction: column;
@@ -265,6 +296,17 @@
   <div class="status-bar" id="statusBar">
     <div class="dot"></div>
     <span id="statusText">Загрузка...</span>
+  </div>
+
+  <!-- EINGÄNGE — инбокс домашних заданий -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📥 Eingänge — домашние задания</span>
+      <button class="btn btn-outline btn-sm" onclick="loadInbox()">🔄 Обновить</button>
+    </div>
+    <div class="section-body" id="inboxBody">
+      <div class="inbox-empty">Загрузка...</div>
+    </div>
   </div>
 
   <!-- API KEY -->
@@ -508,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildWords2Rows();
   loadApiKey();
   loadData();
+  loadInbox();
 
   document.querySelectorAll('.student-tab').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1025,6 +1068,59 @@ function applyPastedJson() {
   } catch(e) {
     toast('Ошибка в JSON — проверьте формат', 'error');
   }
+}
+
+// ── EINGÄNGE — инбокс домашних заданий ──
+const LEVEL_LABELS = {
+  task: 'Niveau 1 · Aufwärmen',
+  deepen: 'Niveau 2 · Situation',
+  immerse: 'Niveau 3 · Geschichte',
+  writing1: 'Schreiben · Niveau 1',
+  writing2: 'Schreiben · Niveau 2',
+  writing3: 'Schreiben · Niveau 3',
+  diary: 'Tagebuch'
+};
+const STUDENT_NAMES = { olga: 'Ольга', artem: 'Артём', julia: 'Юлия' };
+
+async function loadInbox() {
+  const body = document.getElementById('inboxBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю...</div>';
+  const students = ['olga', 'artem', 'julia'];
+  let html = '';
+  for (const sid of students) {
+    const data = await fbGet(`submissions/${sid}`);
+    if (!data) continue;
+    const dates = Object.keys(data).sort().reverse().slice(0, 14);
+    for (const date of dates) {
+      const dayData = data[date];
+      const levels = Object.keys(dayData).sort();
+      if (!levels.length) continue;
+      html += `<div class="inbox-card">
+        <div class="inbox-card-header">
+          <span class="inbox-student">${STUDENT_NAMES[sid] || sid}</span>
+          <span class="inbox-date">${fmtDate(date)}</span>
+          <span class="inbox-count">${levels.length} сдано</span>
+        </div>`;
+      for (const lv of levels) {
+        const sub = dayData[lv];
+        html += `<div class="inbox-sub">
+          <div class="inbox-sub-label">${LEVEL_LABELS[lv] || lv}</div>
+          <div class="inbox-sub-topic">${sub.topic || ''}</div>
+          ${sub.text
+            ? `<div class="inbox-sub-text">${sub.text.replace(/</g,'&lt;')}</div>`
+            : '<div class="inbox-sub-empty">только файл</div>'}
+          ${sub.hasFile ? '<div class="inbox-sub-file">📎 Прикреплён файл (в Telegram)</div>' : ''}
+        </div>`;
+      }
+      html += '</div>';
+    }
+  }
+  body.innerHTML = html || '<div class="inbox-empty">Пока нет домашних заданий. Как только студент нажмёт «Abschicken» — появится здесь.</div>';
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'long' });
 }
 
 // ── TOAST ────────────────────────────────
