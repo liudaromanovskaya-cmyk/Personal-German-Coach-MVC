@@ -2251,18 +2251,81 @@ function submitDiary() {
   if (streakEl && data.streak > 0) streakEl.textContent = `🔥 ${data.streak} Tage in Folge`;
 }
 
+function buildStudentFromProfile(p) {
+  const levelSkills = {
+    'A1': [
+      { name: 'Hören',     icon: '🎧', personal: 'stable', note: 'Einfache Sätze verstehen', criteria: [{ label: 'Alltagsgespräche verstehen', done: false }, { label: 'Zahlen und Zeiten hören', done: false }] },
+      { name: 'Sprechen',  icon: '🗣️', personal: 'stable', note: 'Erste Schritte', criteria: [{ label: 'Sich vorstellen', done: false }, { label: 'Einkaufen und bestellen', done: false }] },
+      { name: 'Lesen',     icon: '📖', personal: 'stable', note: 'Einfache Texte', criteria: [{ label: 'Kurze Nachrichten lesen', done: false }, { label: 'Schilder verstehen', done: false }] },
+      { name: 'Schreiben', icon: '✍️', personal: 'stable', note: 'Erste Sätze', criteria: [{ label: 'Sich vorstellen', done: false }, { label: 'Kurze Nachrichten schreiben', done: false }] },
+      { name: 'Grammatik', icon: '🔧', personal: 'stable', note: 'Grundstrukturen', criteria: [{ label: 'Verb auf Position 2', done: false }, { label: 'Artikel: der / die / das', done: false }] },
+    ],
+    'A2': [
+      { name: 'Hören',     icon: '🎧', personal: 'stable', note: 'Vertraute Themen verstehen', criteria: [{ label: 'Kurze Dialoge verstehen', done: false }, { label: 'Einfache Nachrichten verstehen', done: false }] },
+      { name: 'Sprechen',  icon: '🗣️', personal: 'stable', note: 'Einfache Kommunikation', criteria: [{ label: 'Über Alltag sprechen', done: false }, { label: 'Termine vereinbaren', done: false }] },
+      { name: 'Lesen',     icon: '📖', personal: 'stable', note: 'Kurze Texte lesen', criteria: [{ label: 'E-Mails lesen', done: false }, { label: 'Einfache Artikel verstehen', done: false }] },
+      { name: 'Schreiben', icon: '✍️', personal: 'stable', note: 'Einfache Texte schreiben', criteria: [{ label: 'E-Mails schreiben', done: false }, { label: 'Kurze Nachrichten formulieren', done: false }] },
+      { name: 'Grammatik', icon: '🔧', personal: 'stable', note: 'Grundgrammatik', criteria: [{ label: 'Perfekt bilden', done: false }, { label: 'Modalverben', done: false }] },
+    ],
+    'B1': [
+      { name: 'Hören',     icon: '🎧', personal: 'stable', note: 'Hauptpunkte verstehen', criteria: [{ label: 'Gespräche über vertraute Themen', done: false }, { label: 'Nachrichten verstehen', done: false }] },
+      { name: 'Sprechen',  icon: '🗣️', personal: 'stable', note: 'Flüssiger werden', criteria: [{ label: 'Meinungen ausdrücken', done: false }, { label: 'Über Erfahrungen berichten', done: false }] },
+      { name: 'Lesen',     icon: '📖', personal: 'stable', note: 'Texte erschließen', criteria: [{ label: 'Zeitungsartikel verstehen', done: false }, { label: 'Literarische Texte lesen', done: false }] },
+      { name: 'Schreiben', icon: '✍️', personal: 'stable', note: 'Zusammenhängende Texte', criteria: [{ label: 'Kurze Aufsätze schreiben', done: false }, { label: 'Formelle E-Mails', done: false }] },
+      { name: 'Grammatik', icon: '🔧', personal: 'stable', note: 'Strukturen festigen', criteria: [{ label: 'Konjunktiv II', done: false }, { label: 'Passiv', done: false }] },
+    ],
+    'B2': [
+      { name: 'Hören',     icon: '🎧', personal: 'stable', note: 'Komplexe Inhalte verstehen', criteria: [{ label: 'Vorträge und Debatten folgen', done: false }, { label: 'Implizite Bedeutungen erkennen', done: false }] },
+      { name: 'Sprechen',  icon: '🗣️', personal: 'stable', note: 'Klar und spontan', criteria: [{ label: 'Spontan diskutieren', done: false }, { label: 'Standpunkte begründen', done: false }] },
+      { name: 'Lesen',     icon: '📖', personal: 'stable', note: 'Anspruchsvolle Texte', criteria: [{ label: 'Fachartikeln folgen', done: false }, { label: 'Nuancen verstehen', done: false }] },
+      { name: 'Schreiben', icon: '✍️', personal: 'stable', note: 'Strukturiert schreiben', criteria: [{ label: 'Argumentative Texte', done: false }, { label: 'Formelle Briefe', done: false }] },
+      { name: 'Grammatik', icon: '🔧', personal: 'stable', note: 'Komplexe Strukturen', criteria: [{ label: 'Nominalstil', done: false }, { label: 'Relativsätze sicher', done: false }] },
+    ],
+  };
+  const level = p.level || 'B1';
+  const baseLevel = level.replace(/[^A-Z0-9]/g, '').substring(0, 2);
+  return {
+    name: p.name,
+    level,
+    progressText: 'Wir arbeiten gemeinsam — Schritt für Schritt',
+    goal: { title: p.goal || 'Deutsch sicher sprechen', deadline: p.deadline || '2026' },
+    milestones: (p.milestones || []).length
+      ? p.milestones
+      : [
+          { label: `${level} sicher erreichen`, status: 'active', sub: 'Sie sind hier' },
+          { label: 'Flüssig kommunizieren',    status: 'upcoming' },
+          { label: p.goal || 'Ziel erreichen', status: 'upcoming' },
+        ],
+    review: null,
+    task: null,
+    deepen: null,
+    immerse: null,
+    feedback: null,
+    gaps: [],
+    diary: { instruction: 'Jeden Tag 5 Sätze auf Deutsch', prompt: 'Was haben Sie heute gemacht?' },
+    skills: levelSkills[baseLevel] || levelSkills['B1'],
+    grammar: [],
+    sprint: { today: {} },
+  };
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Загружаем данные педагога из Firebase перед рендером
   const id = getStudentId();
   if (id && typeof fbGet === 'function') {
     const todayKey = new Date().toISOString().split('T')[0];
-    const [teacherData, feedback, progress] = await Promise.all([
+    const [teacherData, feedback, progress, fbProfile] = await Promise.all([
       fbGet(`teacher/${id}`),
       fbGet(`submissions/${id}/${todayKey}/teacherFeedback`),
-      fbGet(`progress/${id}`)
+      fbGet(`progress/${id}`),
+      STUDENTS[id] ? Promise.resolve(null) : fbGet(`students/${id}/profile`)
     ]);
     _firebaseTeacherData = teacherData;
     _teacherSubmissionFeedback = feedback;
+    // Если студент не в students.js — строим из Firebase профиля
+    if (!STUDENTS[id] && fbProfile) {
+      STUDENTS[id] = buildStudentFromProfile(fbProfile);
+    }
     // Сохраняем Telegram chat ID студента (если открыто через Telegram)
     const tgUserId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
     if (tgUserId) {

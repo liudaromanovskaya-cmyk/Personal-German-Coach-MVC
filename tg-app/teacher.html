@@ -341,11 +341,47 @@
     <button class="student-tab active" data-student="olga">Ольга</button>
     <button class="student-tab" data-student="artem">Артём</button>
     <button class="student-tab" data-student="julia">Юлия</button>
+    <button class="student-tab" data-student="__new__" style="background:#EDF7F1;color:#4A8C6E;border-color:#7CC8A0">➕ Новый</button>
   </div>
 </div>
 
 <div class="main">
 
+  <!-- НОВЫЙ СТУДЕНТ — скрыт по умолчанию -->
+  <div id="newStudentSection" style="display:none">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">➕ Новый студент</span>
+      </div>
+      <div class="section-body">
+        <label>Имя <span style="color:#D97706;font-size:12px">*</span></label>
+        <input type="text" id="ns_name" placeholder="Анна">
+
+        <label>ID (латиницей, без пробелов) <span style="color:#D97706;font-size:12px">*</span></label>
+        <input type="text" id="ns_id" placeholder="anna" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9]/g,'')">
+        <div style="font-size:11px;color:#718096;margin-top:-6px;margin-bottom:8px">Кабинет будет по ссылке: ?student=<span id="ns_id_preview">anna</span></div>
+
+        <label>Уровень</label>
+        <select id="ns_level">
+          <option>A1</option><option>A2</option><option selected>B1</option>
+          <option>B2</option><option>C1</option>
+        </select>
+
+        <label>Цель студента</label>
+        <input type="text" id="ns_goal" placeholder="Сдать экзамен B2, переехать в Германию...">
+
+        <label>Дедлайн цели</label>
+        <input type="text" id="ns_deadline" placeholder="Herbst 2026">
+
+        <div class="actions" style="margin-top:16px">
+          <button class="btn btn-primary" onclick="createStudent()">✅ Создать кабинет</button>
+        </div>
+        <div id="ns_result" style="margin-top:12px;font-size:13px;display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mainStudentSection">
   <div class="status-bar" id="statusBar">
     <div class="dot"></div>
     <span id="statusText">Загрузка...</span>
@@ -588,6 +624,7 @@
       <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='none'">Закрыть</button>
     </div>
   </div>
+  </div> <!-- /mainStudentSection -->
 </div>
 
 <div class="toast" id="toast"></div>
@@ -597,6 +634,47 @@ let currentStudent = 'olga';
 let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
+
+async function createStudent() {
+  const name     = document.getElementById('ns_name').value.trim();
+  const id       = document.getElementById('ns_id').value.trim();
+  const level    = document.getElementById('ns_level').value;
+  const goal     = document.getElementById('ns_goal').value.trim();
+  const deadline = document.getElementById('ns_deadline').value.trim();
+  const res      = document.getElementById('ns_result');
+
+  if (!name || !id) { res.style.display='block'; res.style.color='#C2410C'; res.textContent='Заполните имя и ID'; return; }
+  if (!/^[a-z0-9]+$/.test(id)) { res.style.display='block'; res.style.color='#C2410C'; res.textContent='ID — только латиница и цифры'; return; }
+
+  const btn = document.querySelector('#newStudentSection .btn-primary');
+  btn.textContent = 'Создаю...'; btn.disabled = true;
+
+  const profile = { name, level, goal: goal || `Deutsch ${level} sicher sprechen`, deadline: deadline || '2026', createdAt: new Date().toISOString() };
+  const ok = await fbSet(`students/${id}/profile`, profile);
+
+  btn.textContent = '✅ Создать кабинет'; btn.disabled = false;
+
+  if (ok) {
+    res.style.display = 'block'; res.style.color = '#4A8C6E';
+    const url = `${location.origin}${location.pathname.replace('teacher.html','index.html')}?student=${id}`;
+    res.innerHTML = `Кабинет создан! Ссылка для студента:<br><a href="${url}" target="_blank" style="color:#4A8C6E;word-break:break-all">${url}</a>`;
+    // Добавляем таб
+    const tabs = document.getElementById('studentTabs');
+    const newBtn = document.querySelector('[data-student="__new__"]');
+    const tab = document.createElement('button');
+    tab.className = 'student-tab'; tab.dataset.student = id; tab.textContent = name;
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.student-tab').forEach(b => b.classList.remove('active'));
+      tab.classList.add('active'); currentStudent = id;
+      document.getElementById('newStudentSection').style.display = 'none';
+      document.getElementById('mainStudentSection').style.display = 'block';
+      loadData();
+    });
+    tabs.insertBefore(tab, newBtn);
+  } else {
+    res.style.display = 'block'; res.style.color = '#C2410C'; res.textContent = 'Ошибка — проверьте авторизацию';
+  }
+}
 
 async function notifyStudent(studentId, text) {
   try {
@@ -665,8 +743,20 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.student-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentStudent = btn.dataset.student;
-      loadData();
+      if (currentStudent === '__new__') {
+        document.getElementById('newStudentSection').style.display = 'block';
+        document.getElementById('mainStudentSection').style.display = 'none';
+      } else {
+        document.getElementById('newStudentSection').style.display = 'none';
+        document.getElementById('mainStudentSection').style.display = 'block';
+        loadData();
+      }
     });
+  });
+
+  // Превью ID в форме
+  document.getElementById('ns_id')?.addEventListener('input', e => {
+    document.getElementById('ns_id_preview').textContent = e.target.value || 'anna';
   });
 
   document.querySelectorAll('input[type=text], textarea').forEach(el => {
