@@ -1,0 +1,19 @@
+{
+  "name": "Mein Bereich — Deutsch",
+  "short_name": "Deutsch",
+  "description": "Личный кабинет студента — Personal German Coach",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4A8C6E",
+  "background_color": "#FAF9F6",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

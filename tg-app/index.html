@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mein Bereich</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4A8C6E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Deutsch">
+<link rel="apple-touch-icon" href="icon.svg">
 
 <!-- Telegram Web App SDK — обязательно, даёт доступ к теме и данным пользователя -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -39,6 +45,12 @@
 
 <!-- Вся логика приложения: отрисовка, вкладки, Kultur, Grammatik, Lücken -->
 <script src="app.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+</script>
 
 </body>
 </html>
