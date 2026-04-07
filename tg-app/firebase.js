@@ -13,14 +13,14 @@ function fbRestoreAuth() {
   return false;
 }
 
-// Войти как учитель (email + password + Web API Key из notify-config.js)
+// Firebase Web API Key — публичный, безопасность обеспечивают Security Rules
+const FB_API_KEY = 'AIzaSyAPb_8FZzgE9gmSa91pD_AwQQwRJsbvhTQ';
+
+// Войти как учитель (email + password)
 async function fbSignIn(email, password) {
-  if (typeof NOTIFY_CONFIG === 'undefined' || !NOTIFY_CONFIG.firebaseApiKey) {
-    return { ok: false, error: 'Нет firebaseApiKey в notify-config.js' };
-  }
   try {
     const res = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${NOTIFY_CONFIG.firebaseApiKey}`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FB_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
