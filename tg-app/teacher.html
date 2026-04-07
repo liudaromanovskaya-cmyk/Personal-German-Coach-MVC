@@ -598,6 +598,19 @@ let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
 
+async function notifyStudent(studentId, text) {
+  try {
+    const chatIdData = await fbGet(`progress/${studentId}/tgChatId`);
+    if (!chatIdData) return; // Студент ещё не открывал кабинет через Telegram
+    const { botToken } = NOTIFY_CONFIG;
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatIdData, text, parse_mode: 'HTML' })
+    });
+  } catch(e) {}
+}
+
 async function sendFeedback(sid, date, textareaId) {
   const text = document.getElementById(textareaId)?.value?.trim();
   if (!text) { toast('Напишите текст фидбека', 'error'); return; }
@@ -608,6 +621,7 @@ async function sendFeedback(sid, date, textareaId) {
     sentAt: new Date().toISOString()
   });
   if (ok) {
+    notifyStudent(sid, `💬 Лиуда ответила на ваше задание — откройте кабинет, чтобы прочитать`);
     toast(`Фидбек отправлен — ${sid} увидит в кабинете ✓`, 'success');
     if (btn) { btn.textContent = '✏️ Обновить'; btn.disabled = false; }
   } else {
@@ -838,6 +852,9 @@ async function saveData() {
   saveBtn.textContent = origText;
   saveBtn.disabled = false;
 
+  if (ok) {
+    notifyStudent(currentStudent, `📚 Ваше задание на сегодня готово — открывайте кабинет!`);
+  }
   toast(ok ? `Сохранено для ${nameOf(currentStudent)} ✓` : `Сохранено локально (нет сети)`, ok ? 'success' : '');
 }
 async function loadData() {

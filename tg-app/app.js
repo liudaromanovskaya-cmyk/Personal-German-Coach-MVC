@@ -2263,6 +2263,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     ]);
     _firebaseTeacherData = teacherData;
     _teacherSubmissionFeedback = feedback;
+    // Сохраняем Telegram chat ID студента (если открыто через Telegram)
+    const tgUserId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+    if (tgUserId) {
+      fbSetPublic(`progress/${id}/tgChatId`, tgUserId).catch(() => {});
+    }
     // Синхронизируем прогресс из Firebase в localStorage
     if (progress) {
       try {
