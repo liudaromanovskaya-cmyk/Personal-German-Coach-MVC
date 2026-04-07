@@ -35,6 +35,25 @@ let _studentId = '';
 let _firebaseTeacherData = null;
 // Firebase: фидбек педагога на сегодняшние домашки
 let _teacherSubmissionFeedback = null;
+// Расписание повторений слов
+let _wordSchedule = {};
+
+// Ключ слова для Firebase (без спецсимволов)
+function wordKey(w) { return w.replace(/[.#$\/\[\] ]/g, '_'); }
+
+// Интервал повторения по статусу
+function nextReviewDays(status) {
+  if (status === 'forgotten') return 1;
+  if (status === 'red')       return 2;
+  if (status === 'yellow')    return 4;
+  if (status === 'green')     return 10;
+  return 2;
+}
+function addDays(dateStr, n) {
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate() + n);
+  return d.toISOString().split('T')[0];
+}
 
 // ── Telegram-уведомление преподавателю ───────────────────────────────────
 async function notifyTeacher(text) {
@@ -789,15 +808,24 @@ function render() {
       let ws = {};
       try { ws = JSON.parse(localStorage.getItem('pgc_words_' + id) || '{}'); } catch(e) {}
 
+      const todayISO2 = new Date().toISOString().split('T')[0];
       const rows = weekWords.map(w => {
-        const st = ws[w.word] || 'red';
+        const st = ws[w.word] || 'none';
+        const wk = wordKey(w.word);
+        const sched = _wordSchedule[wk];
+        const isRepeat = sched && sched.introduced && sched.introduced < todayISO2;
+        const esc = w.word.replace(/'/g,"\\'");
         return `
         <div class="wordbank-row" id="wb-${w.word.replace(/\s/g,'_')}">
-          <div class="wordbank-word">${w.word}</div>
+          <div class="wordbank-word">
+            ${w.word}
+            ${isRepeat ? '<span class="repeat-badge">🔄 повторение</span>' : ''}
+          </div>
           <div class="wordbank-btns">
-            <button class="wb-btn ${st === 'green' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','green','${id}')">🟢</button>
-            <button class="wb-btn ${st === 'yellow' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','yellow','${id}')">🟡</button>
-            <button class="wb-btn ${st === 'red' ? 'active' : ''}" onclick="setWordStatus('${w.word.replace(/'/g,"\\'")}','red','${id}')">🔴</button>
+            <button class="wb-btn ${st === 'forgotten' ? 'active' : ''}" onclick="setWordStatus('${esc}','forgotten','${id}')" title="Совсем забыла">⬛</button>
+            <button class="wb-btn ${st === 'red'      ? 'active' : ''}" onclick="setWordStatus('${esc}','red','${id}')">🔴</button>
+            <button class="wb-btn ${st === 'yellow'   ? 'active' : ''}" onclick="setWordStatus('${esc}','yellow','${id}')">🟡</button>
+            <button class="wb-btn ${st === 'green'    ? 'active' : ''}" onclick="setWordStatus('${esc}','green','${id}')">🟢</button>
           </div>
         </div>`;
       }).join('');
@@ -2320,6 +2348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       fbGet(`progress/${id}`),
       STUDENTS[id] ? Promise.resolve(null) : fbGet(`students/${id}/profile`)
     ]);
+    if (progress?.wordSchedule) _wordSchedule = progress.wordSchedule;
     _firebaseTeacherData = teacherData;
     _teacherSubmissionFeedback = feedback;
     // Если студент не в students.js — строим из Firebase профиля
@@ -2493,9 +2522,24 @@ function setWordStatus(word, status, studentId) {
     ws[word] = status;
     localStorage.setItem(key, JSON.stringify(ws));
   } catch(e) {}
-  // Сохраняем в Firebase (без авторизации — прогресс студента)
+  // Обновляем расписание повторений
+  const today = new Date().toISOString().split('T')[0];
+  const wk = wordKey(word);
+  const existing = _wordSchedule[wk] || {};
+  const student = STUDENTS[studentId];
+  const chunk = student?.sprint?.today?.words?.find(w => w.word === word)?.chunks?.[0] || null;
+  _wordSchedule[wk] = {
+    word,
+    chunk,
+    introduced: existing.introduced || today,
+    lastDate: today,
+    lastStatus: status,
+    nextReview: addDays(today, nextReviewDays(status)),
+    timesUsed: existing.timesUsed || 0
+  };
   if (typeof fbSetPublic === 'function') {
     fbSetPublic(`progress/${studentId}/words`, ws).catch(() => {});
+    fbSetPublic(`progress/${studentId}/wordSchedule`, _wordSchedule).catch(() => {});
   }
   // Обновить кнопки визуально без полного ре-рендера
   const rowId = 'wb-' + word.replace(/\s/g,'_');
@@ -2522,7 +2566,7 @@ function _refreshMarkerStats(id) {
       const st = ws[w.word];
       if (st === 'green') green++;
       else if (st === 'yellow') yellow++;
-      else red++;
+      else if (st === 'red' || st === 'forgotten') red++;
     });
   } catch(e) {}
   // Обновить только цифры если блок виден

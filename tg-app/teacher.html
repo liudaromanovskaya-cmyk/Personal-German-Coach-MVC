@@ -645,6 +645,17 @@
       <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='none'">Закрыть</button>
     </div>
   </div>
+  <!-- ИНТЕРВАЛЬНОЕ ПОВТОРЕНИЕ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🔄 На повторение сегодня</span>
+      <button class="btn btn-outline btn-sm" onclick="loadRepeatWords()">Загрузить</button>
+    </div>
+    <div class="section-body" id="repeatBody">
+      <div class="inbox-empty">Нажмите "Загрузить" — увидите слова которые пора повторить</div>
+    </div>
+  </div>
+
   <!-- ИСТОРИЯ — Lernjournal -->
   <div class="section">
     <div class="section-header">
@@ -666,6 +677,55 @@ let currentStudent = 'olga';
 let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
+
+async function loadRepeatWords() {
+  const body = document.getElementById('repeatBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю...</div>';
+  const schedule = await fbGet(`progress/${currentStudent}/wordSchedule`);
+  if (!schedule) { body.innerHTML = '<div class="inbox-empty">Нет данных — слова появятся после первого сохранения задания.</div>'; return; }
+
+  const today = new Date().toISOString().split('T')[0];
+  const due = Object.values(schedule).filter(w => w.nextReview && w.nextReview <= today && w.lastStatus !== 'none');
+  const upcoming = Object.values(schedule).filter(w => w.nextReview && w.nextReview > today);
+
+  if (!due.length && !upcoming.length) {
+    body.innerHTML = '<div class="inbox-empty">Пока нет слов на повторение.</div>'; return;
+  }
+
+  const statusIcon = s => s === 'green' ? '🟢' : s === 'yellow' ? '🟡' : s === 'red' ? '🔴' : s === 'forgotten' ? '⬛' : '—';
+
+  let html = '';
+  if (due.length) {
+    html += `<div style="font-size:11px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">⚠️ Пора повторить (${due.length})</div>`;
+    due.sort((a,b) => (a.nextReview||'').localeCompare(b.nextReview||'')).forEach(w => {
+      const daysAgo = Math.round((new Date(today) - new Date(w.lastDate + 'T12:00:00')) / 86400000);
+      html += `<div class="inbox-sub" style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-weight:700;font-size:14px">${w.word}</span>
+          <span>${statusIcon(w.lastStatus)}</span>
+          <span style="font-size:12px;color:#718096">${daysAgo} дн. назад</span>
+          ${w.timesUsed > 0 ? `<span style="font-size:11px;background:#EDF7F1;color:#4A8C6E;padding:1px 6px;border-radius:8px">в речи ${w.timesUsed}×</span>` : ''}
+        </div>
+        ${w.chunk ? `<div style="font-size:12px;color:#374151;margin-top:4px;font-style:italic">„${w.chunk}"</div>` : ''}
+      </div>`;
+    });
+  }
+
+  if (upcoming.length) {
+    html += `<div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:0.4px;margin:12px 0 8px">Скоро (${upcoming.length})</div>`;
+    upcoming.sort((a,b) => (a.nextReview||'').localeCompare(b.nextReview||'')).slice(0,5).forEach(w => {
+      const daysLeft = Math.round((new Date(w.nextReview + 'T12:00:00') - new Date(today)) / 86400000);
+      html += `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #F0F4F8">
+        <span style="font-size:13px;font-weight:600">${w.word}</span>
+        <span>${statusIcon(w.lastStatus)}</span>
+        <span style="font-size:12px;color:#718096">через ${daysLeft} дн.</span>
+        ${w.timesUsed > 0 ? `<span style="font-size:11px;background:#EDF7F1;color:#4A8C6E;padding:1px 6px;border-radius:8px">в речи ${w.timesUsed}×</span>` : ''}
+      </div>`;
+    });
+  }
+
+  body.innerHTML = html;
+}
 
 async function loadArchive() {
   const body = document.getElementById('archiveBody');
@@ -1047,6 +1107,25 @@ async function saveData() {
 
   if (ok) {
     notifyStudent(currentStudent, `📚 Ваше задание на сегодня готово — открывайте кабинет!`);
+    // Регистрируем новые слова в расписании повторений
+    const todayKey2 = new Date().toISOString().split('T')[0];
+    const existingSchedule = await fbGet(`progress/${currentStudent}/wordSchedule`) || {};
+    const words = data.today?.words || [];
+    words.forEach(w => {
+      const wk = w.word.replace(/[.#$\/\[\] ]/g, '_');
+      if (!existingSchedule[wk]) {
+        existingSchedule[wk] = {
+          word: w.word,
+          chunk: w.chunks?.[0] || null,
+          introduced: todayKey2,
+          lastDate: todayKey2,
+          lastStatus: 'none',
+          nextReview: todayKey2,
+          timesUsed: 0
+        };
+      }
+    });
+    await fbSet(`progress/${currentStudent}/wordSchedule`, existingSchedule);
     // Сохраняем полный срез дня в архив
     const todayKey = new Date().toISOString().split('T')[0];
     const [submissions, wordStatus, teacherFeedback] = await Promise.all([

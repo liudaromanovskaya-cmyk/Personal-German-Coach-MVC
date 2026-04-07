@@ -2851,3 +2851,16 @@ a.optional-send-btn:active {
   color: #718096;
   margin-top: 8px;
 }
+
+/* Интервальное повторение */
+.repeat-badge {
+  display: inline-block;
+  font-size: 10px;
+  background: #FEF3C7;
+  color: #92400E;
+  border-radius: 8px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  font-weight: 600;
+  vertical-align: middle;
+}
