@@ -33,6 +33,8 @@ let _student = null;
 let _studentId = '';
 // Firebase: данные педагога, загруженные до рендера
 let _firebaseTeacherData = null;
+// Firebase: фидбек педагога на сегодняшние домашки
+let _teacherSubmissionFeedback = null;
 
 // ── Telegram-уведомление преподавателю ───────────────────────────────────
 async function notifyTeacher(text) {
@@ -665,6 +667,13 @@ function render() {
     </div>
       `;
     })() : ''}
+
+    ${_teacherSubmissionFeedback ? `
+    <div class="teacher-reply-card">
+      <div class="teacher-reply-label">💬 Kommentar der Lehrerin</div>
+      <div class="teacher-reply-text">${_teacherSubmissionFeedback.text.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
+      <div class="teacher-reply-meta">${_teacherSubmissionFeedback.sentAt ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : ''}</div>
+    </div>` : ''}
 
     ${feedbackHTML}
 
@@ -2238,7 +2247,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Загружаем данные педагога из Firebase перед рендером
   const id = getStudentId();
   if (id && typeof fbGet === 'function') {
-    _firebaseTeacherData = await fbGet(`teacher/${id}`);
+    const todayKey = new Date().toISOString().split('T')[0];
+    [_firebaseTeacherData, _teacherSubmissionFeedback] = await Promise.all([
+      fbGet(`teacher/${id}`),
+      fbGet(`submissions/${id}/${todayKey}/teacherFeedback`)
+    ]);
   }
   render();
 });

@@ -2824,3 +2824,30 @@ a.optional-send-btn:active {
   cursor: pointer;
   min-height: 48px;
 }
+
+/* Фидбек педагога на домашнее задание */
+.teacher-reply-card {
+  background: #EDF7F1;
+  border: 1px solid #7CC8A0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.teacher-reply-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4A8C6E;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.teacher-reply-text {
+  font-size: 14px;
+  color: #1A1A1A;
+  line-height: 1.6;
+}
+.teacher-reply-meta {
+  font-size: 11px;
+  color: #718096;
+  margin-top: 8px;
+}

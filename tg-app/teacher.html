@@ -246,6 +246,28 @@
   .inbox-sub-text { font-size: 13px; color: #374151; line-height: 1.5; white-space: pre-wrap; background: #FAFAFA; border-radius: 6px; padding: 8px 10px; margin-top: 4px; }
   .inbox-sub-empty { font-size: 12px; color: var(--muted); font-style: italic; }
   .inbox-sub-file { font-size: 12px; color: var(--amber); margin-top: 4px; }
+  .inbox-feedback {
+    padding: 12px 14px;
+    background: #F0FDF4;
+    border-top: 1px solid #D1FAE5;
+  }
+  .inbox-feedback-label { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+  .inbox-feedback-sent { font-size: 13px; color: #374151; background: white; border: 1px solid #D1FAE5; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; white-space: pre-wrap; line-height: 1.5; }
+  .inbox-feedback-sent-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .inbox-feedback textarea {
+    width: 100%; box-sizing: border-box; min-height: 72px;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-size: 13px; font-family: inherit;
+    resize: vertical; background: white;
+  }
+  .inbox-feedback textarea:focus { outline: none; border-color: var(--accent); }
+  .inbox-feedback-btn {
+    margin-top: 8px; padding: 8px 16px;
+    background: var(--accent); color: white;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; min-height: 36px;
+  }
+  .inbox-feedback-btn:hover { background: #3d7a5e; }
   .marker-checks {
     display: flex;
     flex-direction: column;
@@ -575,6 +597,24 @@ let currentStudent = 'olga';
 let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
+
+async function sendFeedback(sid, date, textareaId) {
+  const text = document.getElementById(textareaId)?.value?.trim();
+  if (!text) { toast('Напишите текст фидбека', 'error'); return; }
+  const btn = document.querySelector(`button[onclick="sendFeedback('${sid}','${date}','${textareaId}')"]`);
+  if (btn) { btn.textContent = 'Отправляю...'; btn.disabled = true; }
+  const ok = await fbSet(`submissions/${sid}/${date}/teacherFeedback`, {
+    text,
+    sentAt: new Date().toISOString()
+  });
+  if (ok) {
+    toast(`Фидбек отправлен — ${sid} увидит в кабинете ✓`, 'success');
+    if (btn) { btn.textContent = '✏️ Обновить'; btn.disabled = false; }
+  } else {
+    toast('Ошибка — попробуйте ещё раз', 'error');
+    if (btn) { btn.textContent = '✉️ Отправить фидбек'; btn.disabled = false; }
+  }
+}
 
 async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
@@ -1156,6 +1196,7 @@ async function loadInbox() {
           <span class="inbox-count">${levels.length} сдано</span>
         </div>`;
       for (const lv of levels) {
+        if (lv === 'teacherFeedback') continue;
         const sub = dayData[lv];
         html += `<div class="inbox-sub">
           <div class="inbox-sub-label">${LEVEL_LABELS[lv] || lv}</div>
@@ -1166,6 +1207,17 @@ async function loadInbox() {
           ${sub.hasFile ? '<div class="inbox-sub-file">📎 Прикреплён файл (в Telegram)</div>' : ''}
         </div>`;
       }
+      const existing = dayData.teacherFeedback;
+      const fbId = `fb-${sid}-${date}`;
+      html += `<div class="inbox-feedback">
+        <div class="inbox-feedback-label">Мой ответ студенту</div>
+        ${existing ? `<div class="inbox-feedback-sent">${existing.text.replace(/</g,'&lt;')}</div>
+        <div class="inbox-feedback-sent-meta">Отправлено ${existing.sentAt ? new Date(existing.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : ''}</div>` : ''}
+        <textarea id="${fbId}" placeholder="Напишите фидбек — студент увидит его в кабинете">${existing ? existing.text : ''}</textarea>
+        <button class="inbox-feedback-btn" onclick="sendFeedback('${sid}','${date}','${fbId}')">
+          ${existing ? '✏️ Обновить' : '✉️ Отправить фидбек'}
+        </button>
+      </div>`;
       html += '</div>';
     }
   }
