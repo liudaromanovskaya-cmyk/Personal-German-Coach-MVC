@@ -694,20 +694,52 @@ async function loadRepeatWords() {
 
   const statusIcon = s => s === 'green' ? '🟢' : s === 'yellow' ? '🟡' : s === 'red' ? '🔴' : s === 'forgotten' ? '⬛' : '—';
 
+  // Стадия слова по методологии (Involvement Load Hypothesis, Nation 2001)
+  function wordStage(w) {
+    const used = w.timesUsed || 0;
+    const st = w.lastStatus;
+    if (used >= 3)
+      return { badge: '✅ В речи', color: '#4A8C6E', bg: '#EDF7F1',
+               task: 'Слово активное — можно включать реже, как фоновое' };
+    if (st === 'green' && used === 0)
+      return { badge: '⚡ Активизировать', color: '#D97706', bg: '#FFF7ED',
+               task: 'Знает — но не произносит сама. Задача: использовать в Sprechen или Schreiben без подсказки' };
+    if (st === 'green' && used > 0)
+      return { badge: '⚡ Активизировать', color: '#D97706', bg: '#FFF7ED',
+               task: `В речи ${used}× — продолжать. Цель: 3+ раза → слово становится активным` };
+    if (st === 'yellow')
+      return { badge: '🔄 Повторение (пассив)', color: '#7C3AED', bg: '#F5F3FF',
+               task: 'Задача: объяснить своими словами или сравнить с синонимом — без подглядывания' };
+    if (st === 'red' || st === 'forgotten')
+      return { badge: '🆕 Закрепить', color: '#DC2626', bg: '#FEF2F2',
+               task: 'Задача: написать своё предложение про свою жизнь — личный контекст фиксирует лучше всего' };
+    return { badge: '🔄 Повторение', color: '#718096', bg: '#F7FAFC',
+             task: 'Включить в задание дня' };
+  }
+
+  function wordCard(w, extraInfo) {
+    const stage = wordStage(w);
+    return `<div class="inbox-sub" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-weight:700;font-size:14px">${w.word}</span>
+        <span>${statusIcon(w.lastStatus)}</span>
+        <span style="font-size:11px;font-weight:600;color:${stage.color};background:${stage.bg};padding:2px 8px;border-radius:10px">${stage.badge}</span>
+        ${extraInfo}
+        ${w.timesUsed > 0 ? `<span style="font-size:11px;background:#EDF7F1;color:#4A8C6E;padding:1px 6px;border-radius:8px">в речи ${w.timesUsed}×</span>` : ''}
+      </div>
+      ${w.chunk ? `<div style="font-size:12px;color:#374151;margin-top:4px;font-style:italic">„${w.chunk}"</div>` : ''}
+      <div style="font-size:11px;color:#4A8C6E;margin-top:5px;padding:4px 8px;background:#F0F9F4;border-left:3px solid #7CC8A0;border-radius:0 6px 6px 0">
+        💡 ${stage.task}
+      </div>
+    </div>`;
+  }
+
   let html = '';
   if (due.length) {
     html += `<div style="font-size:11px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">⚠️ Пора повторить (${due.length})</div>`;
     due.sort((a,b) => (a.nextReview||'').localeCompare(b.nextReview||'')).forEach(w => {
       const daysAgo = Math.round((new Date(today) - new Date(w.lastDate + 'T12:00:00')) / 86400000);
-      html += `<div class="inbox-sub" style="margin-bottom:6px">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span style="font-weight:700;font-size:14px">${w.word}</span>
-          <span>${statusIcon(w.lastStatus)}</span>
-          <span style="font-size:12px;color:#718096">${daysAgo} дн. назад</span>
-          ${w.timesUsed > 0 ? `<span style="font-size:11px;background:#EDF7F1;color:#4A8C6E;padding:1px 6px;border-radius:8px">в речи ${w.timesUsed}×</span>` : ''}
-        </div>
-        ${w.chunk ? `<div style="font-size:12px;color:#374151;margin-top:4px;font-style:italic">„${w.chunk}"</div>` : ''}
-      </div>`;
+      html += wordCard(w, `<span style="font-size:12px;color:#718096">${daysAgo} дн. назад</span>`);
     });
   }
 
@@ -715,12 +747,7 @@ async function loadRepeatWords() {
     html += `<div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:0.4px;margin:12px 0 8px">Скоро (${upcoming.length})</div>`;
     upcoming.sort((a,b) => (a.nextReview||'').localeCompare(b.nextReview||'')).slice(0,5).forEach(w => {
       const daysLeft = Math.round((new Date(w.nextReview + 'T12:00:00') - new Date(today)) / 86400000);
-      html += `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #F0F4F8">
-        <span style="font-size:13px;font-weight:600">${w.word}</span>
-        <span>${statusIcon(w.lastStatus)}</span>
-        <span style="font-size:12px;color:#718096">через ${daysLeft} дн.</span>
-        ${w.timesUsed > 0 ? `<span style="font-size:11px;background:#EDF7F1;color:#4A8C6E;padding:1px 6px;border-radius:8px">в речи ${w.timesUsed}×</span>` : ''}
-      </div>`;
+      html += wordCard(w, `<span style="font-size:12px;color:#718096">через ${daysLeft} дн.</span>`);
     });
   }
 
