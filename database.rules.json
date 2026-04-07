@@ -11,6 +11,12 @@
         ".read": "auth != null",
         ".write": true
       }
+    },
+    "progress": {
+      "$studentId": {
+        ".read": true,
+        ".write": true
+      }
     }
   }
 }

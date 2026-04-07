@@ -1600,6 +1600,9 @@ function toggleGrammarSelf(cardId, state) {
   try { saved = JSON.parse(localStorage.getItem('pgc_grammar_' + sid) || '{}'); } catch {}
   saved[cardId] = saved[cardId] === state ? null : state;
   localStorage.setItem('pgc_grammar_' + sid, JSON.stringify(saved));
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${sid}/grammar`, saved).catch(() => {});
+  }
 
   // DOM: update both buttons in this card's row
   const body = document.getElementById('gb-' + cardId);
@@ -1985,11 +1988,16 @@ function submitHomework(level) {
   if (hasFile) msg += `\n\n[Screenshot/Datei folgt]`;
 
   // Сохраняем в localStorage
+  let subData = {};
   try {
-    const sub = JSON.parse(localStorage.getItem('pgc_sub_' + _studentId) || '{}');
-    sub[level] = { date: new Date().toISOString(), text, hasFile, topic };
-    localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
+    subData = JSON.parse(localStorage.getItem('pgc_sub_' + _studentId) || '{}');
+    subData[level] = { date: new Date().toISOString(), text, hasFile, topic };
+    localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(subData));
   } catch(e) {}
+  // Синхронизируем статус сданных заданий в Firebase
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${_studentId}/submissions`, subData).catch(() => {});
+  }
 
   // Сохраняем в Firebase — для Eingänge в teacher.html (публично, без токена)
   const today = new Date().toISOString().split('T')[0];
@@ -2248,10 +2256,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   const id = getStudentId();
   if (id && typeof fbGet === 'function') {
     const todayKey = new Date().toISOString().split('T')[0];
-    [_firebaseTeacherData, _teacherSubmissionFeedback] = await Promise.all([
+    const [teacherData, feedback, progress] = await Promise.all([
       fbGet(`teacher/${id}`),
-      fbGet(`submissions/${id}/${todayKey}/teacherFeedback`)
+      fbGet(`submissions/${id}/${todayKey}/teacherFeedback`),
+      fbGet(`progress/${id}`)
     ]);
+    _firebaseTeacherData = teacherData;
+    _teacherSubmissionFeedback = feedback;
+    // Синхронизируем прогресс из Firebase в localStorage
+    if (progress) {
+      try {
+        if (progress.words) localStorage.setItem('pgc_words_' + id, JSON.stringify(progress.words));
+        if (progress.grammar) localStorage.setItem('pgc_grammar_' + id, JSON.stringify(progress.grammar));
+        if (progress.submissions) localStorage.setItem('pgc_sub_' + id, JSON.stringify(progress.submissions));
+      } catch(e) {}
+    }
   }
   render();
 });
@@ -2399,12 +2418,17 @@ function submitFeedbackResponse(idx) {
 
 // ── Банк слов — оценка студента ───────────────────────────────────────────
 function setWordStatus(word, status, studentId) {
+  let ws = {};
   try {
     const key = 'pgc_words_' + studentId;
-    const ws = JSON.parse(localStorage.getItem(key) || '{}');
+    ws = JSON.parse(localStorage.getItem(key) || '{}');
     ws[word] = status;
     localStorage.setItem(key, JSON.stringify(ws));
   } catch(e) {}
+  // Сохраняем в Firebase (без авторизации — прогресс студента)
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${studentId}/words`, ws).catch(() => {});
+  }
   // Обновить кнопки визуально без полного ре-рендера
   const rowId = 'wb-' + word.replace(/\s/g,'_');
   const row = document.getElementById(rowId);
