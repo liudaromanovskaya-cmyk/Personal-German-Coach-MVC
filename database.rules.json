@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "teacher": {
+      "$studentId": {
+        ".read": true,
+        ".write": "auth != null"
+      }
+    },
+    "submissions": {
+      "$studentId": {
+        ".read": "auth != null",
+        ".write": true
+      }
+    }
+  }
+}
