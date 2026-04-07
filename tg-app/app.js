@@ -827,7 +827,6 @@ function render() {
             <button class="wb-btn ${st === 'yellow'   ? 'active' : ''}" onclick="setWordStatus('${esc}','yellow','${id}')">🟡</button>
             <button class="wb-btn ${st === 'green'    ? 'active' : ''}" onclick="setWordStatus('${esc}','green','${id}')">🟢</button>
           </div>
-          ${w.taskHint ? `<div style="font-size:11px;color:#4A8C6E;margin-top:4px;padding:3px 8px;background:#F0F9F4;border-left:2px solid #7CC8A0;border-radius:0 4px 4px 0">💡 ${w.taskHint}</div>` : ''}
         </div>`;
       }).join('');
 

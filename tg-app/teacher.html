@@ -510,6 +510,12 @@
     </div>
     <div class="section-body">
 
+      <!-- Слова дня — напоминание при составлении промптов -->
+      <div id="wordReminderPanel" style="background:#F0F9F4;border:1px solid #B8E4CC;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:none">
+        <div style="font-size:11px;font-weight:700;color:#4A8C6E;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">Слова дня — вплети в промпты</div>
+        <div id="wordReminderChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+
       <div class="level-label level-green">AUFWÄRMEN · Niveau 1</div>
       <label>Заголовок</label>
       <input type="text" id="task1Topic" placeholder="Aufwärmen — Wo warst du am Wochenende?">
@@ -968,8 +974,6 @@ function buildWordRows() {
       <div class="word-chunks" id="chunks${i}">
         <div class="word-chunks-label">Чанки (AI) — редактировать можно</div>
         <textarea id="chunksText${i}" placeholder="Пример 1&#10;Пример 2&#10;Пример 3"></textarea>
-        <div class="word-chunks-label" style="margin-top:8px;color:#D97706">💡 Задача встречи — студент увидит рядом со словом</div>
-        <input type="text" id="taskHint${i}" placeholder="Используй это слово в ответе про свои планы" style="font-size:12px;color:#374151">
       </div>`;
   }
   c.innerHTML = html;
@@ -993,8 +997,24 @@ function buildWords2Rows() {
     el.addEventListener('input', () => { isDirty = true; updateStatus(); });
   });
   document.getElementById('wordsContainer').querySelectorAll('input, textarea').forEach(el => {
-    el.addEventListener('input', () => { isDirty = true; updateStatus(); });
+    el.addEventListener('input', () => { isDirty = true; updateStatus(); updateWordReminder(); });
   });
+}
+
+function updateWordReminder() {
+  const chips = document.getElementById('wordReminderChips');
+  const panel = document.getElementById('wordReminderPanel');
+  if (!chips || !panel) return;
+  const words = [];
+  for (let i = 0; i < WORD_COUNT; i++) {
+    const w = (document.getElementById(`word${i}`)?.value || '').trim();
+    if (w) words.push(w);
+  }
+  if (!words.length) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  chips.innerHTML = words.map(w =>
+    `<span style="font-size:12px;font-weight:600;background:#fff;border:1px solid #B8E4CC;color:#2D5A45;padding:3px 10px;border-radius:12px">${w}</span>`
+  ).join('');
 }
 
 // ── API KEY ──────────────────────────────
@@ -1043,7 +1063,6 @@ function collectData() {
       word: w,
       hint: v(`hint${i}`),
       grammarTag: v(`grammarTag${i}`),
-      taskHint: v(`taskHint${i}`) || '',
       verbForms: [],
       chunks: raw.split('\n').map(s => s.trim()).filter(Boolean),
     });
@@ -1093,13 +1112,13 @@ function fillForm(d) {
 
   (d.today?.words || []).forEach((w, i) => {
     s(`word${i}`, w.word); s(`hint${i}`, w.hint); s(`grammarTag${i}`, w.grammarTag);
-    if (w.taskHint) s(`taskHint${i}`, w.taskHint);
     if (w.chunks?.length) {
       s(`chunksText${i}`, w.chunks.join('\n'));
       document.getElementById(`chunks${i}`)?.classList.add('visible');
     }
   });
   (d.today?.words2 || []).forEach((w, i) => { s(`word2_${i}`, w.word); s(`hint2_${i}`, w.hint); });
+  updateWordReminder();
 
   const t = d.today;
   if (!t) return;
