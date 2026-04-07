@@ -278,9 +278,40 @@
     flex-shrink: 0;
     accent-color: #4A8C6E;
   }
+
+  /* Экран логина */
+  .login-overlay {
+    position: fixed; inset: 0; background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .login-box {
+    background: white; border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; width: 100%; max-width: 360px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .login-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .login-error { color: var(--red); font-size: 13px; margin-top: 10px; display: none; }
 </style>
 </head>
 <body>
+
+<!-- Экран входа — скрывается после успешного логина -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-title">Панель педагога</div>
+    <div class="login-sub">Personal German Coach</div>
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="ваш@email.com" autocomplete="email">
+    <label>Пароль</label>
+    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+    <div class="login-error" id="loginError"></div>
+    <div class="actions" style="margin-top:16px">
+      <button class="btn btn-primary" onclick="doLogin()" style="width:100%">Войти</button>
+    </div>
+  </div>
+</div>
 
 <div class="header">
   <h1>Панель педагога</h1>
@@ -545,7 +576,30 @@ let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
 
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Введите email и пароль'; errEl.style.display = 'block'; return; }
+  const btn = document.querySelector('#loginOverlay .btn-primary');
+  btn.textContent = 'Вхожу...'; btn.disabled = true;
+  const result = await fbSignIn(email, password);
+  btn.textContent = 'Войти'; btn.disabled = false;
+  if (!result.ok) { errEl.textContent = result.error; errEl.style.display = 'block'; return; }
+  document.getElementById('loginOverlay').style.display = 'none';
+  toast('Добро пожаловать! ✓', 'success');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Проверяем авторизацию
+  fbRestoreAuth();
+  if (fbIsAuthed()) {
+    document.getElementById('loginOverlay').style.display = 'none';
+  }
+  // Логин по Enter
+  document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
   buildWordRows();
   buildWords2Rows();
   loadApiKey();

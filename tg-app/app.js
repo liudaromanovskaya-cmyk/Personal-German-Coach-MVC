@@ -1982,10 +1982,10 @@ function submitHomework(level) {
     localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(sub));
   } catch(e) {}
 
-  // Сохраняем в Firebase — для Eingänge в teacher.html
+  // Сохраняем в Firebase — для Eingänge в teacher.html (публично, без токена)
   const today = new Date().toISOString().split('T')[0];
-  if (typeof fbSet === 'function') {
-    fbSet(`submissions/${_studentId}/${today}/${level}`, {
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`submissions/${_studentId}/${today}/${level}`, {
       text, topic, level,
       studentName: _student.name,
       timestamp: new Date().toISOString(),
@@ -2201,9 +2201,9 @@ function submitDiary() {
   let msg = `📓 Tagebuch von ${_student.name} — ${new Date().toLocaleDateString('de-DE')}\n\n${text}`;
   if (data.streak > 1) msg += `\n\n🔥 ${data.streak} Tage in Folge!`;
 
-  // Сохраняем в Firebase — для Eingänge в teacher.html
-  if (typeof fbSet === 'function') {
-    fbSet(`submissions/${_studentId}/${today}/diary`, {
+  // Сохраняем в Firebase — для Eingänge в teacher.html (публично, без токена)
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`submissions/${_studentId}/${today}/diary`, {
       text, topic: 'Tagebuch',
       level: 'diary', studentName: _student.name,
       timestamp: new Date().toISOString()
