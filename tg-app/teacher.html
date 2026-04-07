@@ -246,6 +246,27 @@
   .inbox-sub-text { font-size: 13px; color: #374151; line-height: 1.5; white-space: pre-wrap; background: #FAFAFA; border-radius: 6px; padding: 8px 10px; margin-top: 4px; }
   .inbox-sub-empty { font-size: 12px; color: var(--muted); font-style: italic; }
   .inbox-sub-file { font-size: 12px; color: var(--amber); margin-top: 4px; }
+  /* История — архив */
+  .archive-day { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .archive-day-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #F7FAFC; cursor: pointer; user-select: none; }
+  .archive-day-date { font-weight: 700; font-size: 14px; color: var(--text); }
+  .archive-day-theme { font-size: 13px; color: var(--muted); flex: 1; }
+  .archive-day-chips { display: flex; gap: 6px; }
+  .archive-chip { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .archive-chip-sub { background: #EDF7F1; color: #4A8C6E; }
+  .archive-chip-fb { background: #FEF3C7; color: #D97706; }
+  .archive-body { display: none; padding: 12px 14px; border-top: 1px solid var(--border); }
+  .archive-body.open { display: block; }
+  .archive-section { margin-bottom: 14px; }
+  .archive-section-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .archive-words { display: flex; flex-wrap: wrap; gap: 6px; }
+  .archive-word { font-size: 12px; padding: 3px 10px; border-radius: 10px; font-weight: 600; }
+  .archive-word-green { background: #D1FAE5; color: #065F46; }
+  .archive-word-yellow { background: #FEF3C7; color: #92400E; }
+  .archive-word-red { background: #FEE2E2; color: #991B1B; }
+  .archive-word-none { background: #F1F5F9; color: #64748B; }
+  .archive-submission { background: #FAFAFA; border-radius: 6px; padding: 8px 10px; font-size: 13px; color: #374151; line-height: 1.5; white-space: pre-wrap; margin-top: 4px; }
+  .archive-feedback-text { background: #EDF7F1; border-radius: 6px; padding: 8px 10px; font-size: 13px; color: #374151; line-height: 1.5; margin-top: 4px; }
   .inbox-feedback {
     padding: 12px 14px;
     background: #F0FDF4;
@@ -624,6 +645,17 @@
       <button class="btn btn-outline btn-sm" onclick="document.getElementById('pasteJsonSection').style.display='none'">Закрыть</button>
     </div>
   </div>
+  <!-- ИСТОРИЯ — Lernjournal -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📅 История — Lernjournal</span>
+      <button class="btn btn-outline btn-sm" onclick="loadArchive()">🔄 Загрузить</button>
+    </div>
+    <div class="section-body" id="archiveBody">
+      <div class="inbox-empty">Нажмите "Загрузить" чтобы увидеть историю заданий</div>
+    </div>
+  </div>
+
   </div> <!-- /mainStudentSection -->
 </div>
 
@@ -634,6 +666,77 @@ let currentStudent = 'olga';
 let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
+
+async function loadArchive() {
+  const body = document.getElementById('archiveBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю...</div>';
+  const data = await fbGet(`archive/${currentStudent}`);
+  if (!data) { body.innerHTML = '<div class="inbox-empty">История пока пустая — появится после первого сохранения задания.</div>'; return; }
+
+  const dates = Object.keys(data).sort().reverse();
+  let html = '';
+  for (const date of dates) {
+    const day = data[date];
+    const theme = day.task?.today?.theme || day.task?.today?.task?.topic || '—';
+    const hasSub = !!day.submissions && Object.keys(day.submissions).filter(k => k !== 'teacherFeedback').length > 0;
+    const hasFb  = !!day.feedback;
+    const words  = day.words || {};
+    const taskWords = day.task?.today?.words || [];
+
+    // Слова со статусами
+    const wordsHtml = taskWords.length ? taskWords.map(w => {
+      const st = words[w.word];
+      const cls = st === 'green' ? 'archive-word-green' : st === 'yellow' ? 'archive-word-yellow' : st === 'red' ? 'archive-word-red' : 'archive-word-none';
+      const icon = st === 'green' ? '🟢' : st === 'yellow' ? '🟡' : st === 'red' ? '🔴' : '⬜';
+      return `<span class="archive-word ${cls}">${icon} ${w.word}</span>`;
+    }).join('') : '<span style="color:#718096;font-size:12px">слова не записаны</span>';
+
+    // Сдачи студента
+    let subsHtml = '';
+    if (day.submissions) {
+      for (const [lv, sub] of Object.entries(day.submissions)) {
+        if (lv === 'teacherFeedback') continue;
+        if (sub?.text) subsHtml += `<div style="margin-bottom:8px"><div class="archive-section-title">${LEVEL_LABELS[lv] || lv}</div><div class="archive-submission">${sub.text.replace(/</g,'&lt;')}</div></div>`;
+      }
+    }
+
+    // Фидбек педагога
+    const fbHtml = day.feedback?.text
+      ? `<div class="archive-section"><div class="archive-section-title">Мой фидбек</div><div class="archive-feedback-text">${day.feedback.text.replace(/</g,'&lt;')}</div></div>`
+      : '';
+
+    const d = new Date(date + 'T12:00:00');
+    const dateStr = d.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+
+    html += `
+    <div class="archive-day">
+      <div class="archive-day-header" onclick="toggleArchiveDay('ad-${date}')">
+        <div>
+          <div class="archive-day-date">${dateStr}</div>
+          <div class="archive-day-theme">${theme}</div>
+        </div>
+        <div class="archive-day-chips">
+          ${hasSub ? '<span class="archive-chip archive-chip-sub">✅ сдано</span>' : ''}
+          ${hasFb  ? '<span class="archive-chip archive-chip-fb">💬 фидбек</span>' : ''}
+        </div>
+      </div>
+      <div class="archive-body" id="ad-${date}">
+        <div class="archive-section">
+          <div class="archive-section-title">Слова — статус студента</div>
+          <div class="archive-words">${wordsHtml}</div>
+        </div>
+        ${subsHtml ? `<div class="archive-section"><div class="archive-section-title">Работы студента</div>${subsHtml}</div>` : ''}
+        ${fbHtml}
+      </div>
+    </div>`;
+  }
+  body.innerHTML = html || '<div class="inbox-empty">История пуста.</div>';
+}
+
+function toggleArchiveDay(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
 
 async function createStudent() {
   const name     = document.getElementById('ns_name').value.trim();
@@ -944,6 +1047,20 @@ async function saveData() {
 
   if (ok) {
     notifyStudent(currentStudent, `📚 Ваше задание на сегодня готово — открывайте кабинет!`);
+    // Сохраняем полный срез дня в архив
+    const todayKey = new Date().toISOString().split('T')[0];
+    const [submissions, wordStatus, teacherFeedback] = await Promise.all([
+      fbGet(`submissions/${currentStudent}/${todayKey}`),
+      fbGet(`progress/${currentStudent}/words`),
+      fbGet(`submissions/${currentStudent}/${todayKey}/teacherFeedback`)
+    ]);
+    await fbSet(`archive/${currentStudent}/${todayKey}`, {
+      savedAt: new Date().toISOString(),
+      task: data,
+      submissions: submissions || null,
+      feedback: teacherFeedback || null,
+      words: wordStatus || null
+    });
   }
   toast(ok ? `Сохранено для ${nameOf(currentStudent)} ✓` : `Сохранено локально (нет сети)`, ok ? 'success' : '');
 }
