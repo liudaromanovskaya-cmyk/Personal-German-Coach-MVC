@@ -968,6 +968,8 @@ function buildWordRows() {
       <div class="word-chunks" id="chunks${i}">
         <div class="word-chunks-label">Чанки (AI) — редактировать можно</div>
         <textarea id="chunksText${i}" placeholder="Пример 1&#10;Пример 2&#10;Пример 3"></textarea>
+        <div class="word-chunks-label" style="margin-top:8px;color:#D97706">💡 Задача встречи — студент увидит рядом со словом</div>
+        <input type="text" id="taskHint${i}" placeholder="Используй это слово в ответе про свои планы" style="font-size:12px;color:#374151">
       </div>`;
   }
   c.innerHTML = html;
@@ -1041,6 +1043,7 @@ function collectData() {
       word: w,
       hint: v(`hint${i}`),
       grammarTag: v(`grammarTag${i}`),
+      taskHint: v(`taskHint${i}`) || '',
       verbForms: [],
       chunks: raw.split('\n').map(s => s.trim()).filter(Boolean),
     });
@@ -1090,6 +1093,7 @@ function fillForm(d) {
 
   (d.today?.words || []).forEach((w, i) => {
     s(`word${i}`, w.word); s(`hint${i}`, w.hint); s(`grammarTag${i}`, w.grammarTag);
+    if (w.taskHint) s(`taskHint${i}`, w.taskHint);
     if (w.chunks?.length) {
       s(`chunksText${i}`, w.chunks.join('\n'));
       document.getElementById(`chunks${i}`)?.classList.add('visible');
