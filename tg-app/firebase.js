@@ -14,7 +14,7 @@ function fbRestoreAuth() {
 }
 
 // Firebase Web API Key — публичный, безопасность обеспечивают Security Rules
-const FB_API_KEY = 'AIzaSyAPb_8FZzgE9gmSa91pD_AwQQwRJsbvhTQ';
+const FB_API_KEY = 'AIzaSyAPb_8FZzgE9qmSa01pD_AwQQwRJsbvhTQ';
 
 // Войти как учитель (email + password)
 async function fbSignIn(email, password) {
