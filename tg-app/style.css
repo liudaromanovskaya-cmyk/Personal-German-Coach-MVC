@@ -2825,6 +2825,123 @@ a.optional-send-btn:active {
   min-height: 48px;
 }
 
+/* ── Опросник студента ───────────────────────────────────────────────── */
+.survey-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.survey-opt {
+  width: 100%;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 44px;
+}
+.survey-opt:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.survey-opt:active {
+  transform: scale(0.98);
+}
+.survey-multi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 44px;
+}
+.survey-multi:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.survey-multi input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.survey-input,
+.survey-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+}
+.survey-textarea {
+  min-height: 100px;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+.survey-input:focus,
+.survey-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.survey-next {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+}
+.survey-back {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+.survey-scale {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 16px 0;
+}
+.survey-scale-btn {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.survey-scale-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.survey-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 8px;
+}
+
 /* Фидбек педагога на домашнее задание */
 .teacher-reply-card {
   background: #EDF7F1;

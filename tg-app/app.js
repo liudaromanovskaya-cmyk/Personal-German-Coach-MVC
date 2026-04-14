@@ -994,7 +994,13 @@ function render() {
   initDrafts();
 
   // Онбординг — только при первом входе
-  showOnboarding(id, student.name);
+  const onboardingKey = `pgc_onboarded_${id}`;
+  if (localStorage.getItem(onboardingKey)) {
+    // Онбординг уже пройден — проверить опросник
+    checkAndShowSurvey(id);
+  } else {
+    showOnboarding(id, student.name);
+  }
 
   // Telegram MainButton
   if (tg) {
@@ -2650,5 +2656,178 @@ function dismissOnboarding() {
   localStorage.setItem(key, '1');
   const el = document.getElementById('onboarding-overlay');
   if (el) el.remove();
+  // После онбординга — проверить есть ли опросник
+  checkAndShowSurvey(_studentId);
+}
+
+// ── ОПРОСНИК СТУДЕНТА ───────────────────────────────────────────────────────
+const SURVEY_QUESTIONS = [
+  { id: 'q1', cat: 'Мотивация', q: 'Зачем вам немецкий?', type: 'single', opts: ['Работа','Переезд/интеграция','Экзамен','Учёба в вузе','Семья/партнёр','Путешествия/культура'], other: true },
+  { id: 'q2', cat: 'Мотивация', q: 'Что хотите уметь через 3 месяца?', type: 'text' },
+  { id: 'q3', cat: 'Мотивация', q: 'Есть ли дедлайн?', type: 'single', opts: ['Экзамен','Собеседование','Переезд','Требование на работе','Нет дедлайна'], date: true },
+  { id: 'q4', cat: 'Мотивация', q: 'Какие ситуации самые важные?', type: 'multi', opts: ['Коллеги','Совещания','Врачи/чиновники','Smalltalk','Emails','Понимать на слух','Читать'], other: true },
+  { id: 'q5', cat: 'Опыт', q: 'Как учили немецкий до этого?', type: 'multi', opts: ['Курсы','Репетитор','Самостоятельно','Приложения','В школе','Интеграционный курс','Не учил(а)'], other: true },
+  { id: 'q6', cat: 'Опыт', q: 'Что помогало учиться эффективнее всего?', type: 'text' },
+  { id: 'q7', cat: 'Опыт', q: 'Что точно НЕ работало?', type: 'text' },
+  { id: 'q8', cat: 'Опыт', q: 'Какой примерный уровень?', type: 'single', opts: ['A1 — базовые фразы','A2 — простые ситуации','B1 — понимаю главное','B2 — свободно с ошибками','C1 — почти всё понимаю','Не знаю'] },
+  { id: 'q9', cat: 'Время', q: 'Сколько времени в день реально?', type: 'single', opts: ['10-15 мин','20-30 мин','30-45 мин','Час+','Только выходные','Нерегулярно'] },
+  { id: 'q10', cat: 'Время', q: 'Когда обычно занимаетесь?', type: 'multi', opts: ['Утро','Обед','Вечер','В дороге','Выходные','Когда получится'] },
+  { id: 'q11', cat: 'Время', q: 'Где обычно учитесь?', type: 'multi', opts: ['Дома','На работе','В транспорте','Кафе/коворкинг','На прогулке'] },
+  { id: 'q12', cat: 'Время', q: 'Можете говорить вслух там где учитесь?', type: 'single', opts: ['Да, свободно','Иногда','Редко','Нет'] },
+  { id: 'q13', cat: 'Психология', q: 'Что мешает говорить прямо сейчас?', type: 'multi', opts: ['Боюсь ошибки','Не подбираю слова','Нервничаю с носителями','Стесняюсь акцента','Мало слов','Путаюсь в грамматике','Нет практики','Не уверен(а) в уровне','Ничего не мешает'] },
+  { id: 'q14', cat: 'Психология', q: 'Когда не можете найти слово — что происходит?', type: 'single', opts: ['Нервничаю, замолкаю','Описываю иначе','Жду пока вспомню','Перехожу на другой язык','Спрашиваю'] },
+  { id: 'q15', cat: 'Психология', q: 'Насколько комфортно делать ошибки?', type: 'scale', min: 1, max: 5, labels: ['Очень некомфортно','','Нормально','','Спокойно'] },
+  { id: 'q16', cat: 'Психология', q: 'Как относитесь к акценту?', type: 'single', opts: ['Стесняюсь','Немного беспокоит','Не думаю об этом','Нормально'] },
+  { id: 'q17', cat: 'Ожидания', q: 'Как исправлять ошибки?', type: 'single', opts: ['Сразу во время речи','После того как договорю','Письменно после урока','Только критичные','На ваше усмотрение'] },
+  { id: 'q18', cat: 'Ожидания', q: 'Нужна строгость и дедлайны?', type: 'single', opts: ['Да — нужен контроль','Умеренно','Нет — сам(а) организую','Не знаю'] },
+  { id: 'q19', cat: 'Ожидания', q: 'Что важнее сейчас?', type: 'single', opts: ['Говорить правильно','Говорить свободно','Баланс'] },
+  { id: 'q20', cat: 'Ожидания', q: 'Что точно НЕ хотите в работе со мной?', type: 'text' },
+  { id: 'q21', cat: 'Форматы', q: 'Какие форматы заданий нравятся?', type: 'multi', opts: ['Говорить','Диалоги','Слушать','Читать','Писать','Грамматика','Карточки','Свободный разговор'] },
+  { id: 'q22', cat: 'Форматы', q: 'Какие форматы НЕ любите?', type: 'multi', opts: ['Таблицы','Зубрёжка','Переводить','Длинные тексты','Спонтанно говорить','Слушать без текста','Готов(а) ко всему'], other: true },
+  { id: 'q23', cat: 'Форматы', q: 'Как запоминаете слова лучше всего?', type: 'multi', opts: ['Карточки','В контексте','Аудио','Пишу от руки','Сразу в речи','Образы','Плохо запоминаю'] },
+  { id: 'q24', cat: 'Форматы', q: 'Какие ресурсы уже используете?', type: 'multi', opts: ['Duolingo','Babbel','Anki/Quizlet','YouTube','Подкасты','Netflix','Книги','Ничего'], other: true },
+  { id: 'q25a', cat: 'Самооценка', q: 'Понимание на слух (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25b', cat: 'Самооценка', q: 'Понимание текста (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25c', cat: 'Самооценка', q: 'Говорение (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25d', cat: 'Самооценка', q: 'Письмо (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q26', cat: 'Самооценка', q: 'Какой навык приоритетный?', type: 'single', opts: ['Говорение','Слушание','Чтение','Письмо','Грамматика','Словарный запас'] },
+  { id: 'q27', cat: 'Самооценка', q: 'В чём уже чувствуете уверенность?', type: 'text' },
+  { id: 'q28', cat: 'Самооценка', q: 'Как выглядит для вас "я знаю немецкий"?', type: 'text' },
+];
+
+let _surveyConfig = [];
+let _surveyAnswers = {};
+let _surveyStep = 0;
+
+async function checkAndShowSurvey(studentId) {
+  if (typeof fbGet !== 'function') return;
+  // Проверяем: есть ли конфиг опросника, но нет ответов
+  const [config, answers] = await Promise.all([
+    fbGet(`students/${studentId}/surveyConfig`),
+    fbGet(`students/${studentId}/survey`)
+  ]);
+  if (!config || answers) return; // нет конфига или уже заполнен
+  _surveyConfig = SURVEY_QUESTIONS.filter(q => config.includes(q.id));
+  if (!_surveyConfig.length) return;
+  _surveyAnswers = {};
+  _surveyStep = 0;
+  renderSurveyStep();
+}
+
+function renderSurveyStep() {
+  const existing = document.getElementById('survey-overlay');
+  if (existing) existing.remove();
+
+  if (_surveyStep >= _surveyConfig.length) {
+    submitSurvey();
+    return;
+  }
+
+  const q = _surveyConfig[_surveyStep];
+  const progress = `${_surveyStep + 1} из ${_surveyConfig.length}`;
+
+  let inputHtml = '';
+  if (q.type === 'single') {
+    inputHtml = q.opts.map((opt, i) => `
+      <button class="survey-opt" onclick="surveySelectSingle('${q.id}','${opt.replace(/'/g, "\\'")}')">
+        ${opt}
+      </button>
+    `).join('');
+    if (q.other) {
+      inputHtml += `<div style="margin-top:10px"><input type="text" id="survey-other" class="survey-input" placeholder="Другое..."></div>`;
+    }
+  } else if (q.type === 'multi') {
+    inputHtml = q.opts.map((opt, i) => `
+      <label class="survey-multi">
+        <input type="checkbox" value="${opt}"> ${opt}
+      </label>
+    `).join('');
+    if (q.other) {
+      inputHtml += `<div style="margin-top:10px"><input type="text" id="survey-other" class="survey-input" placeholder="Другое..."></div>`;
+    }
+    inputHtml += `<button class="survey-next" onclick="surveySelectMulti('${q.id}')">Далее →</button>`;
+  } else if (q.type === 'scale') {
+    const labels = q.labels || [];
+    inputHtml = '<div class="survey-scale">';
+    for (let i = q.min; i <= q.max; i++) {
+      inputHtml += `<button class="survey-scale-btn" onclick="surveySelectSingle('${q.id}','${i}')">${i}</button>`;
+    }
+    inputHtml += '</div>';
+    if (labels[0] || labels[q.max - 1]) {
+      inputHtml += `<div class="survey-scale-labels"><span>${labels[0] || ''}</span><span>${labels[q.max - 1] || ''}</span></div>`;
+    }
+  } else if (q.type === 'text') {
+    inputHtml = `
+      <textarea id="survey-text" class="survey-textarea" placeholder="Напишите здесь..."></textarea>
+      <button class="survey-next" onclick="surveySelectText('${q.id}')">Далее →</button>
+    `;
+  }
+
+  const el = document.createElement('div');
+  el.id = 'survey-overlay';
+  el.className = 'onboarding-overlay';
+  el.innerHTML = `
+    <div class="onboarding-card" style="max-width:380px">
+      <div style="font-size:12px;color:#718096;margin-bottom:12px">${progress}</div>
+      <div class="onboarding-title" style="font-size:17px;margin-bottom:16px">${q.q}</div>
+      <div class="survey-options">${inputHtml}</div>
+      ${_surveyStep > 0 ? `<button class="survey-back" onclick="surveyBack()">← Назад</button>` : ''}
+    </div>
+  `;
+  document.body.appendChild(el);
+}
+
+function surveySelectSingle(qId, value) {
+  const otherEl = document.getElementById('survey-other');
+  const other = otherEl ? otherEl.value.trim() : '';
+  _surveyAnswers[qId] = other ? { value, other } : value;
+  _surveyStep++;
+  renderSurveyStep();
+}
+
+function surveySelectMulti(qId) {
+  const checks = document.querySelectorAll('#survey-overlay .survey-multi input:checked');
+  const values = Array.from(checks).map(c => c.value);
+  const otherEl = document.getElementById('survey-other');
+  const other = otherEl ? otherEl.value.trim() : '';
+  if (other) values.push(other);
+  if (!values.length) return; // нужен хотя бы один
+  _surveyAnswers[qId] = values;
+  _surveyStep++;
+  renderSurveyStep();
+}
+
+function surveySelectText(qId) {
+  const el = document.getElementById('survey-text');
+  const val = el ? el.value.trim() : '';
+  if (!val) return; // нужен текст
+  _surveyAnswers[qId] = val;
+  _surveyStep++;
+  renderSurveyStep();
+}
+
+function surveyBack() {
+  if (_surveyStep > 0) {
+    _surveyStep--;
+    renderSurveyStep();
+  }
+}
+
+async function submitSurvey() {
+  const el = document.getElementById('survey-overlay');
+  if (el) {
+    el.innerHTML = `<div class="onboarding-card" style="text-align:center">
+      <div class="onboarding-icon">✅</div>
+      <div class="onboarding-title">Спасибо!</div>
+      <div class="onboarding-body">Ваши ответы сохранены. Педагог увидит их.</div>
+    </div>`;
+  }
+  _surveyAnswers._completedAt = new Date().toISOString();
+  if (typeof fbSetPublic === 'function') {
+    await fbSetPublic(`students/${_studentId}/survey`, _surveyAnswers);
+  }
+  setTimeout(() => {
+    if (el) el.remove();
+  }, 2000);
 }
 

@@ -673,6 +673,20 @@
     </div>
   </div>
 
+  <!-- ОПРОСНИК СТУДЕНТА -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📋 Опросник студента</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="toggleSurveyConfig()">Настроить</button>
+        <button class="btn btn-outline btn-sm" onclick="loadSurveyAnswers()">Ответы</button>
+      </div>
+    </div>
+    <div class="section-body" id="surveyBody">
+      <div class="inbox-empty">Нажмите "Настроить" чтобы выбрать вопросы для студента</div>
+    </div>
+  </div>
+
   </div> <!-- /mainStudentSection -->
 </div>
 
@@ -683,6 +697,50 @@ let currentStudent = 'olga';
 let isDirty = false;
 const WORD_COUNT = 6;
 const WORD2_COUNT = 6;
+
+// ── ОПРОСНИК — вопросы ─────────────────────────────────────────────────────
+const SURVEY_QUESTIONS = [
+  // Категория 1: Мотивация
+  { id: 'q1', cat: 'Мотивация', q: 'Зачем вам немецкий?', type: 'single', opts: ['Работа','Переезд/интеграция','Экзамен','Учёба в вузе','Семья/партнёр','Путешествия/культура'], other: true },
+  { id: 'q2', cat: 'Мотивация', q: 'Что хотите уметь через 3 месяца?', type: 'text' },
+  { id: 'q3', cat: 'Мотивация', q: 'Есть ли дедлайн?', type: 'single', opts: ['Экзамен','Собеседование','Переезд','Требование на работе','Нет дедлайна'], date: true },
+  { id: 'q4', cat: 'Мотивация', q: 'Какие ситуации самые важные?', type: 'multi', opts: ['Коллеги','Совещания','Врачи/чиновники','Smalltalk','Emails','Понимать на слух','Читать'], other: true },
+  // Категория 2: Опыт
+  { id: 'q5', cat: 'Опыт', q: 'Как учили немецкий до этого?', type: 'multi', opts: ['Курсы','Репетитор','Самостоятельно','Приложения','В школе','Интеграционный курс','Не учил(а)'], other: true },
+  { id: 'q6', cat: 'Опыт', q: 'Что помогало учиться эффективнее всего?', type: 'text' },
+  { id: 'q7', cat: 'Опыт', q: 'Что точно НЕ работало?', type: 'text' },
+  { id: 'q8', cat: 'Опыт', q: 'Какой примерный уровень?', type: 'single', opts: ['A1 — базовые фразы','A2 — простые ситуации','B1 — понимаю главное','B2 — свободно с ошибками','C1 — почти всё понимаю','Не знаю'] },
+  // Категория 3: Время
+  { id: 'q9', cat: 'Время', q: 'Сколько времени в день реально?', type: 'single', opts: ['10-15 мин','20-30 мин','30-45 мин','Час+','Только выходные','Нерегулярно'] },
+  { id: 'q10', cat: 'Время', q: 'Когда обычно занимаетесь?', type: 'multi', opts: ['Утро','Обед','Вечер','В дороге','Выходные','Когда получится'] },
+  { id: 'q11', cat: 'Время', q: 'Где обычно учитесь?', type: 'multi', opts: ['Дома','На работе','В транспорте','Кафе/коворкинг','На прогулке (аудио)'] },
+  { id: 'q12', cat: 'Время', q: 'Можете говорить вслух там где учитесь?', type: 'single', opts: ['Да, свободно','Иногда','Редко','Нет'] },
+  // Категория 4: Психология
+  { id: 'q13', cat: 'Психология', q: 'Что мешает говорить прямо сейчас?', type: 'multi', opts: ['Боюсь ошибки','Не подбираю слова','Нервничаю с носителями','Стесняюсь акцента','Мало слов','Путаюсь в грамматике','Нет практики','Не уверен(а) в уровне','Ничего не мешает'] },
+  { id: 'q14', cat: 'Психология', q: 'Когда не можете найти слово — что происходит?', type: 'single', opts: ['Нервничаю, замолкаю','Описываю иначе','Жду пока вспомню','Перехожу на другой язык','Спрашиваю'] },
+  { id: 'q15', cat: 'Психология', q: 'Насколько комфортно делать ошибки?', type: 'scale', min: 1, max: 5, labels: ['Очень некомфортно','','Нормально','','Спокойно'] },
+  { id: 'q16', cat: 'Психология', q: 'Как относитесь к акценту?', type: 'single', opts: ['Стесняюсь','Немного беспокоит','Не думаю об этом','Нормально — это часть меня'] },
+  // Категория 5: Ожидания
+  { id: 'q17', cat: 'Ожидания', q: 'Как исправлять ошибки?', type: 'single', opts: ['Сразу во время речи','После того как договорю','Письменно после урока','Только критичные','На ваше усмотрение'] },
+  { id: 'q18', cat: 'Ожидания', q: 'Нужна строгость и дедлайны?', type: 'single', opts: ['Да — нужен контроль','Умеренно','Нет — сам(а) организую','Не знаю'] },
+  { id: 'q19', cat: 'Ожидания', q: 'Что важнее сейчас?', type: 'single', opts: ['Говорить правильно','Говорить свободно','Баланс'] },
+  { id: 'q20', cat: 'Ожидания', q: 'Что точно НЕ хотите в работе со мной?', type: 'text' },
+  // Категория 6: Форматы
+  { id: 'q21', cat: 'Форматы', q: 'Какие форматы заданий нравятся?', type: 'multi', opts: ['Говорить','Диалоги/ролевые игры','Слушать','Читать','Писать','Грамматика','Карточки','Свободный разговор'] },
+  { id: 'q22', cat: 'Форматы', q: 'Какие форматы НЕ любите?', type: 'multi', opts: ['Грамматические таблицы','Зубрёжка списков','Переводить','Длинные тексты','Спонтанно говорить','Слушать без текста','Ничего — готов(а) ко всему'], other: true },
+  { id: 'q23', cat: 'Форматы', q: 'Как запоминаете слова лучше всего?', type: 'multi', opts: ['Карточки','В контексте','Аудио','Пишу от руки','Сразу в речи','Образы/истории','Плохо запоминаю'] },
+  { id: 'q24', cat: 'Форматы', q: 'Какие ресурсы уже используете?', type: 'multi', opts: ['Duolingo','Babbel','Anki/Quizlet','YouTube','Подкасты','Netflix','Книги','Ничего'], other: true },
+  // Категория 7: Самооценка
+  { id: 'q25a', cat: 'Самооценка', q: 'Понимание на слух (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25b', cat: 'Самооценка', q: 'Понимание текста (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25c', cat: 'Самооценка', q: 'Говорение (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q25d', cat: 'Самооценка', q: 'Письмо (1-5)', type: 'scale', min: 1, max: 5 },
+  { id: 'q26', cat: 'Самооценка', q: 'Какой навык приоритетный?', type: 'single', opts: ['Говорение','Слушание','Чтение','Письмо','Грамматика','Словарный запас'] },
+  { id: 'q27', cat: 'Самооценка', q: 'В чём уже чувствуете уверенность?', type: 'text' },
+  { id: 'q28', cat: 'Самооценка', q: 'Как выглядит для вас "я знаю немецкий"?', type: 'text' },
+];
+
+const SURVEY_DEFAULTS = ['q1','q3','q8','q9','q12','q13','q15','q17','q19','q26']; // минимальный набор
 
 async function loadRepeatWords() {
   const body = document.getElementById('repeatBody');
@@ -829,6 +887,131 @@ async function loadArchive() {
 function toggleArchiveDay(id) {
   const el = document.getElementById(id);
   if (el) el.classList.toggle('open');
+}
+
+// ── ОПРОСНИК — функции ─────────────────────────────────────────────────────
+let _surveyConfigMode = false;
+
+async function toggleSurveyConfig() {
+  const body = document.getElementById('surveyBody');
+  _surveyConfigMode = !_surveyConfigMode;
+
+  if (!_surveyConfigMode) {
+    body.innerHTML = '<div class="inbox-empty">Нажмите "Настроить" чтобы выбрать вопросы</div>';
+    return;
+  }
+
+  // Загружаем текущую конфигурацию из Firebase
+  body.innerHTML = '<div class="inbox-empty">Загружаю...</div>';
+  const config = await fbGet(`students/${currentStudent}/surveyConfig`) || SURVEY_DEFAULTS;
+  const selected = new Set(Array.isArray(config) ? config : SURVEY_DEFAULTS);
+
+  // Группируем по категориям
+  const cats = {};
+  SURVEY_QUESTIONS.forEach(q => {
+    if (!cats[q.cat]) cats[q.cat] = [];
+    cats[q.cat].push(q);
+  });
+
+  let html = '<div style="font-size:12px;color:#718096;margin-bottom:12px">Отметьте вопросы которые увидит этот студент при первом входе</div>';
+
+  for (const [cat, qs] of Object.entries(cats)) {
+    html += `<div style="font-weight:600;font-size:13px;color:#4A8C6E;margin:14px 0 8px;border-bottom:1px solid #E2E8F0;padding-bottom:4px">${cat}</div>`;
+    qs.forEach(q => {
+      const checked = selected.has(q.id) ? 'checked' : '';
+      const typeIcon = q.type === 'text' ? '✏️' : q.type === 'scale' ? '📊' : q.type === 'multi' ? '☑️' : '○';
+      html += `<label style="display:flex;align-items:flex-start;gap:8px;margin:6px 0;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="sq_${q.id}" ${checked} style="margin-top:3px">
+        <span>${typeIcon} ${q.q}</span>
+      </label>`;
+    });
+  }
+
+  html += `<div style="margin-top:16px;display:flex;gap:10px">
+    <button class="btn btn-primary" onclick="saveSurveyConfig()">💾 Сохранить опросник</button>
+    <button class="btn btn-outline" onclick="selectDefaultSurvey()">Минимум (10)</button>
+    <button class="btn btn-outline" onclick="selectAllSurvey()">Все</button>
+  </div>`;
+
+  body.innerHTML = html;
+}
+
+function selectDefaultSurvey() {
+  SURVEY_QUESTIONS.forEach(q => {
+    const el = document.getElementById('sq_' + q.id);
+    if (el) el.checked = SURVEY_DEFAULTS.includes(q.id);
+  });
+}
+
+function selectAllSurvey() {
+  SURVEY_QUESTIONS.forEach(q => {
+    const el = document.getElementById('sq_' + q.id);
+    if (el) el.checked = true;
+  });
+}
+
+async function saveSurveyConfig() {
+  const selected = SURVEY_QUESTIONS.filter(q => document.getElementById('sq_' + q.id)?.checked).map(q => q.id);
+  if (!selected.length) { toast('Выберите хотя бы один вопрос', 'error'); return; }
+
+  const ok = await fbSet(`students/${currentStudent}/surveyConfig`, selected);
+  if (ok) {
+    toast(`Опросник сохранён (${selected.length} вопросов)`, 'success');
+    _surveyConfigMode = false;
+    document.getElementById('surveyBody').innerHTML = `<div class="inbox-empty">✅ Сохранено ${selected.length} вопросов. Студент увидит их при первом входе.</div>`;
+  } else {
+    toast('Ошибка сохранения', 'error');
+  }
+}
+
+async function loadSurveyAnswers() {
+  const body = document.getElementById('surveyBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю ответы...</div>';
+  _surveyConfigMode = false;
+
+  const answers = await fbGet(`students/${currentStudent}/survey`);
+  if (!answers) {
+    body.innerHTML = '<div class="inbox-empty">Студент ещё не заполнил опросник</div>';
+    return;
+  }
+
+  // Группируем по категориям
+  const cats = {};
+  SURVEY_QUESTIONS.forEach(q => {
+    if (!cats[q.cat]) cats[q.cat] = [];
+    cats[q.cat].push(q);
+  });
+
+  let html = '<div style="font-size:12px;color:#718096;margin-bottom:12px">Ответы студента</div>';
+  let hasAny = false;
+
+  for (const [cat, qs] of Object.entries(cats)) {
+    const catAnswers = qs.filter(q => answers[q.id] !== undefined);
+    if (!catAnswers.length) continue;
+    hasAny = true;
+
+    html += `<div style="font-weight:600;font-size:13px;color:#4A8C6E;margin:14px 0 8px;border-bottom:1px solid #E2E8F0;padding-bottom:4px">${cat}</div>`;
+    catAnswers.forEach(q => {
+      const a = answers[q.id];
+      let answerText = '';
+      if (Array.isArray(a)) answerText = a.join(', ');
+      else if (typeof a === 'object' && a.value) answerText = a.other ? `${a.value} (${a.other})` : a.value;
+      else answerText = String(a);
+
+      html += `<div style="margin:8px 0;font-size:13px">
+        <div style="color:#718096;font-size:11px">${q.q}</div>
+        <div style="margin-top:2px;color:#1A1A1A">${answerText || '—'}</div>
+      </div>`;
+    });
+  }
+
+  if (!hasAny) {
+    body.innerHTML = '<div class="inbox-empty">Студент ещё не заполнил опросник</div>';
+    return;
+  }
+
+  html += `<div style="font-size:11px;color:#718096;margin-top:16px">Заполнено: ${answers._completedAt || '—'}</div>`;
+  body.innerHTML = html;
 }
 
 async function createStudent() {
