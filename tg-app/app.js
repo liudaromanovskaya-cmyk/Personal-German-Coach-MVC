@@ -368,12 +368,13 @@ function render() {
     </div>
     <div class="submit-form" id="submit-form-task">
       <div class="submit-form-label">🎙 Aufnehmen oder schreiben</div>
-      <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie Ihre Antwort hier..."></textarea>
-      <label class="submit-file-label">
-        <input type="file" accept="audio/*" id="submit-file-task" onchange="handleFileSelect('task', this)">
-        <span class="submit-file-btn" id="submit-file-btn-task">🎤 Sprachnachricht anhängen</span>
-      </label>
-      <div class="submit-file-preview" id="submit-preview-task"></div>
+      <div class="rec-zone" id="rec-zone-task">
+        <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
+        <span class="rec-timer" id="rec-timer-task"></span>
+        <div class="rec-live" id="rec-live-task"></div>
+        <div class="rec-status" id="rec-status-task"></div>
+      </div>
+      <textarea class="submit-textarea" id="submit-text-task" placeholder="Oder schreiben Sie hier..."></textarea>
       <button class="action-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
       <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
       <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
@@ -397,12 +398,13 @@ function render() {
         </div>
         ${s.deepen.hint ? `<div class="hint-body" style="display:block;margin-top:8px">💡 ${s.deepen.hint}</div>` : ''}
         <div class="submit-form submit-form--optional" id="submit-form-deepen">
-          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Ihre Antwort..."></textarea>
-          <label class="submit-file-label">
-            <input type="file" accept="audio/*" id="submit-file-deepen" onchange="handleFileSelect('deepen', this)">
-            <span class="submit-file-btn" id="submit-file-btn-deepen">🎤 Sprachnachricht</span>
-          </label>
-          <div class="submit-file-preview" id="submit-preview-deepen"></div>
+          <div class="rec-zone" id="rec-zone-deepen">
+            <button class="rec-btn" id="rec-btn-deepen" onclick="toggleRecording('deepen')">🎙 Aufnehmen</button>
+            <span class="rec-timer" id="rec-timer-deepen"></span>
+            <div class="rec-live" id="rec-live-deepen"></div>
+            <div class="rec-status" id="rec-status-deepen"></div>
+          </div>
+          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Oder schreiben Sie hier..."></textarea>
           <button class="optional-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
           <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
         </div>
@@ -427,12 +429,13 @@ function render() {
           ${(s.words3 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--deep">${w.word}</span>`).join('')}
         </div>
         <div class="submit-form submit-form--optional" id="submit-form-immerse">
-          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Ihre Geschichte..."></textarea>
-          <label class="submit-file-label">
-            <input type="file" accept="audio/*" id="submit-file-immerse" onchange="handleFileSelect('immerse', this)">
-            <span class="submit-file-btn" id="submit-file-btn-immerse">🎤 Sprachnachricht</span>
-          </label>
-          <div class="submit-file-preview" id="submit-preview-immerse"></div>
+          <div class="rec-zone" id="rec-zone-immerse">
+            <button class="rec-btn" id="rec-btn-immerse" onclick="toggleRecording('immerse')">🎙 Aufnehmen</button>
+            <span class="rec-timer" id="rec-timer-immerse"></span>
+            <div class="rec-live" id="rec-live-immerse"></div>
+            <div class="rec-status" id="rec-status-immerse"></div>
+          </div>
+          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Oder schreiben Sie hier..."></textarea>
           <button class="optional-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
           <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
         </div>
@@ -2040,7 +2043,9 @@ function submitHomework(level) {
       text, topic, level,
       studentName: _student.name,
       timestamp: new Date().toISOString(),
-      hasFile: hasFile || false
+      audioUrl: _audioUrls[level] || null,
+      transcript: _liveTranscripts[level] || null,
+      hasFile: false
     });
   }
 
@@ -2892,5 +2897,134 @@ function renderCheckinIntro() {
     </div>
   `;
   document.body.appendChild(el);
+}
+
+// ── ЗАПИСЬ ГОЛОСА ──────────────────────────────────────────────────────────
+const REC_MAX_SECONDS = 90;
+let _recMediaRecorder = null;
+let _recChunks = [];
+let _recLevel = null;
+let _recTimerInterval = null;
+let _recSeconds = 0;
+let _recRecognition = null;
+let _audioUrls = {};
+let _liveTranscripts = {};
+
+async function toggleRecording(level) {
+  if (_recMediaRecorder && _recMediaRecorder.state === 'recording') {
+    stopRecording(level);
+  } else {
+    if (_recMediaRecorder && _recLevel && _recLevel !== level) stopRecording(_recLevel);
+    await startRecording(level);
+  }
+}
+
+async function startRecording(level) {
+  const btn = document.getElementById('rec-btn-' + level);
+  const status = document.getElementById('rec-status-' + level);
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    _recChunks = [];
+    _recLevel = level;
+    _liveTranscripts[level] = '';
+
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus'
+                   : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+                   : MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
+
+    _recMediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+    _recMediaRecorder.ondataavailable = e => { if (e.data.size > 0) _recChunks.push(e.data); };
+    _recMediaRecorder.onstop = () => handleRecordingStop(level);
+    _recMediaRecorder.start(200);
+
+    if (btn) { btn.textContent = '⏹ Stopp'; btn.classList.add('recording'); }
+
+    _recSeconds = 0;
+    updateRecTimer(level);
+    _recTimerInterval = setInterval(() => {
+      _recSeconds++;
+      updateRecTimer(level);
+      if (_recSeconds >= REC_MAX_SECONDS) stopRecording(level);
+    }, 1000);
+
+    startLiveTranscript(level);
+  } catch(e) {
+    if (status) status.textContent = 'Нет доступа к микрофону — напишите текст';
+    if (btn) { btn.textContent = '🎙 Aufnehmen'; btn.classList.remove('recording'); }
+  }
+}
+
+function stopRecording(level) {
+  if (_recMediaRecorder && _recMediaRecorder.state !== 'inactive') {
+    _recMediaRecorder.stop();
+    _recMediaRecorder.stream?.getTracks().forEach(t => t.stop());
+  }
+  clearInterval(_recTimerInterval);
+  const btn = document.getElementById('rec-btn-' + level);
+  const timer = document.getElementById('rec-timer-' + level);
+  if (btn) { btn.textContent = '🎙 Aufnehmen'; btn.classList.remove('recording'); }
+  if (timer) timer.textContent = '';
+  if (_recRecognition) { try { _recRecognition.stop(); } catch {} _recRecognition = null; }
+}
+
+function updateRecTimer(level) {
+  const timer = document.getElementById('rec-timer-' + level);
+  if (!timer) return;
+  const m = Math.floor(_recSeconds / 60);
+  const s = String(_recSeconds % 60).padStart(2, '0');
+  timer.textContent = `${m}:${s} / 1:30`;
+  if (REC_MAX_SECONDS - _recSeconds <= 10) timer.style.color = '#E53E3E';
+}
+
+async function handleRecordingStop(level) {
+  if (!_recChunks.length) return;
+  const mimeType = _recChunks[0]?.type || 'audio/webm';
+  const blob = new Blob(_recChunks, { type: mimeType });
+  _recChunks = [];
+
+  // Локальный плеер сразу
+  const zone = document.getElementById('rec-zone-' + level);
+  const status = document.getElementById('rec-status-' + level);
+  const localUrl = URL.createObjectURL(blob);
+  if (zone) {
+    const old = zone.querySelector('.rec-audio-preview');
+    if (old) old.remove();
+    const preview = document.createElement('div');
+    preview.className = 'rec-audio-preview';
+    preview.innerHTML = `🎙 <audio controls src="${localUrl}"></audio>`;
+    zone.appendChild(preview);
+  }
+
+  // Загрузить в Firebase Storage
+  if (status) status.textContent = 'Загружаю аудио...';
+  if (typeof fbUploadAudio === 'function') {
+    const url = await fbUploadAudio(blob, _studentId, level);
+    if (url) {
+      _audioUrls[level] = url;
+      if (status) status.textContent = '✓ Готово к отправке';
+    } else {
+      if (status) status.textContent = 'Аудио сохранено локально';
+    }
+  }
+}
+
+function startLiveTranscript(level) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  try {
+    _recRecognition = new SR();
+    _recRecognition.lang = 'de-DE';
+    _recRecognition.continuous = true;
+    _recRecognition.interimResults = true;
+    _recRecognition.onresult = e => {
+      let text = '';
+      for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript + ' ';
+      _liveTranscripts[level] = text.trim();
+      const el = document.getElementById('rec-live-' + level);
+      if (el) el.textContent = text.trim();
+    };
+    _recRecognition.onerror = () => {};
+    _recRecognition.start();
+  } catch {}
 }
 

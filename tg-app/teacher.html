@@ -431,6 +431,11 @@
         <button class="btn btn-outline btn-sm" onclick="saveApiKey()">Сохранить</button>
       </div>
       <div class="api-status" id="apiStatus">Получить бесплатно: aistudio.google.com → Get API key</div>
+      <div class="api-row" style="margin-top:10px">
+        <input type="password" id="whisperKey" placeholder="sk-... (OpenAI Whisper)">
+        <button class="btn btn-outline btn-sm" onclick="saveWhisperKey()">Сохранить</button>
+      </div>
+      <div style="font-size:11px;color:#718096;margin-top:4px">OpenAI ключ для транскрипции аудио. platform.openai.com → API keys</div>
     </div>
   </div>
 
@@ -1213,6 +1218,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildWordRows();
   buildWords2Rows();
   loadApiKey();
+  loadWhisperKey();
   loadData();
   loadInbox();
 
@@ -1833,13 +1839,29 @@ async function loadInbox() {
       for (const lv of levels) {
         if (lv === 'teacherFeedback') continue;
         const sub = dayData[lv];
+        const subId = `${sid}-${date}-${lv}`;
         html += `<div class="inbox-sub">
           <div class="inbox-sub-label">${LEVEL_LABELS[lv] || lv}</div>
           <div class="inbox-sub-topic">${sub.topic || ''}</div>
+          ${sub.audioUrl ? `
+            <div style="margin:8px 0">
+              <audio controls src="${sub.audioUrl}" style="width:100%;height:36px"></audio>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+              <button class="btn btn-outline btn-sm" onclick="transcribeWhisper('${subId}','${sub.audioUrl}','${sid}','${date}','${lv}')">
+                🎙 Транскрибировать (Whisper)
+              </button>
+              <button class="btn btn-outline btn-sm" id="analyze-btn-${subId}" onclick="analyzeWithGemini('${subId}','${sid}','${date}','${lv}')" style="display:none">
+                🤖 Анализировать
+              </button>
+            </div>
+            <div class="inbox-sub-text" id="transcript-${subId}" style="${sub.transcript ? '' : 'display:none'}">${sub.transcript ? '🎙 Web Speech: ' + sub.transcript.replace(/</g,'&lt;') : ''}</div>
+            <div class="inbox-sub-text" id="whisper-${subId}" style="display:none;border-left:3px solid #4A8C6E"></div>
+            <div id="analysis-${subId}" style="display:none;margin-top:8px;padding:12px;background:#F0FDF4;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
+          ` : ''}
           ${sub.text
             ? `<div class="inbox-sub-text">${sub.text.replace(/</g,'&lt;')}</div>`
-            : '<div class="inbox-sub-empty">только файл</div>'}
-          ${sub.hasFile ? '<div class="inbox-sub-file">📎 Прикреплён файл (в Telegram)</div>' : ''}
+            : (!sub.audioUrl ? '<div class="inbox-sub-empty">пусто</div>' : '')}
         </div>`;
       }
       const existing = dayData.teacherFeedback;
@@ -1862,6 +1884,162 @@ async function loadInbox() {
 function fmtDate(iso) {
   const d = new Date(iso + 'T12:00:00');
   return d.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'long' });
+}
+
+// ── WHISPER KEY ──────────────────────────
+function saveWhisperKey() {
+  const k = document.getElementById('whisperKey').value.trim();
+  if (k) { localStorage.setItem('pgc_whisper_key', k); toast('Whisper ключ сохранён', 'success'); }
+}
+function loadWhisperKey() {
+  const k = localStorage.getItem('pgc_whisper_key') || '';
+  if (k) document.getElementById('whisperKey').value = k;
+}
+
+// ── ТРАНСКРИПЦИЯ ЧЕРЕЗ WHISPER ────────────────────────
+async function transcribeWhisper(subId, audioUrl, sid, date, level) {
+  const apiKey = localStorage.getItem('pgc_whisper_key');
+  if (!apiKey) { toast('Введите OpenAI ключ (Whisper) в настройках', 'error'); return; }
+
+  const btn = document.querySelector(`button[onclick*="transcribeWhisper('${subId}"]`);
+  if (btn) { btn.textContent = '⏳ Транскрибирую...'; btn.disabled = true; }
+
+  try {
+    // Скачать аудио как blob через proxy (Firebase Storage поддерживает CORS)
+    const audioRes = await fetch(audioUrl);
+    const blob = await audioRes.blob();
+    const ext = blob.type.includes('mp4') || blob.type.includes('m4a') ? 'm4a' : 'webm';
+
+    const form = new FormData();
+    form.append('file', blob, `audio.${ext}`);
+    form.append('model', 'whisper-1');
+    form.append('language', 'de');
+
+    const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}` },
+      body: form
+    });
+
+    if (!res.ok) throw new Error(`Whisper error: ${res.status}`);
+    const data = await res.json();
+    const transcript = data.text || '';
+
+    // Показать транскрипцию
+    const el = document.getElementById('whisper-' + subId);
+    if (el) { el.style.display = ''; el.textContent = '✅ Whisper: ' + transcript; }
+
+    // Сохранить в Firebase
+    await fbSet(`submissions/${sid}/${date}/${level}/whisperTranscript`, transcript);
+
+    // Показать кнопку анализа
+    const analyzeBtn = document.getElementById('analyze-btn-' + subId);
+    if (analyzeBtn) analyzeBtn.style.display = '';
+
+    if (btn) { btn.textContent = '✅ Транскрибировано'; btn.disabled = false; }
+    toast('Транскрипция готова');
+  } catch(e) {
+    if (btn) { btn.textContent = '🎙 Транскрибировать (Whisper)'; btn.disabled = false; }
+    toast('Ошибка Whisper: ' + e.message, 'error');
+  }
+}
+
+// ── AI АНАЛИЗ ЧЕРЕЗ GEMINI ────────────────────────────
+async function analyzeWithGemini(subId, sid, date, level) {
+  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
+  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+
+  const btn = document.getElementById('analyze-btn-' + subId);
+  if (btn) { btn.textContent = '⏳ Анализирую...'; btn.disabled = true; }
+
+  try {
+    // Получить транскрипцию
+    const whisperEl = document.getElementById('whisper-' + subId);
+    const transcriptEl = document.getElementById('transcript-' + subId);
+    let transcript = '';
+    if (whisperEl?.textContent) transcript = whisperEl.textContent.replace('✅ Whisper: ', '');
+    else if (transcriptEl?.textContent) transcript = transcriptEl.textContent.replace('🎙 Web Speech: ', '');
+
+    if (!transcript) { toast('Нет транскрипции для анализа', 'error'); return; }
+
+    // Получить данные спринта из Firebase
+    const teacherData = await fbGet(`teacher/${sid}`);
+    const today = teacherData?.today || {};
+    const grammarWeek = teacherData?.grammarWeek || {};
+    const sprintWords = (today.words || []).map(w => w.word).join(', ');
+    const grammarTopic = grammarWeek.queen || '';
+    const taskData = today[level] || today.task || {};
+    const taskPrompt = taskData.prompt || taskData.topic || '';
+    const theme = today.theme || '';
+    const level_label = LEVEL_LABELS[level] || level;
+
+    // Получить уровень студента
+    const studentProfile = await fbGet(`students/${sid}/profile`);
+    const studentLevel = studentProfile?.level || 'B1';
+
+    const prompt = `Ты опытный преподаватель немецкого языка. Студент выполнил задание на говорение.
+
+═══ КОНТЕКСТ ЗАДАНИЯ ═══
+Уровень студента: ${studentLevel}
+Тема спринта: ${theme}
+Задание (${level_label}): ${taskPrompt}
+Грамматика недели: ${grammarTopic}
+Слова спринта (должны появиться в речи): ${sprintWords}
+
+═══ ТРАНСКРИПЦИЯ ═══
+${transcript}
+
+═══ АНАЛИЗ (пиши по-русски) ═══
+
+**1. ГРАММАТИКА — конкретные ошибки**
+Для каждой ошибки: → Что сказал: "цитата" → Как правильно: исправление → Почему: одно предложение
+Если ошибок нет: написать "Грамматических ошибок не обнаружено".
+
+**2. ЛЕКСИКА — естественность**
+→ Неестественные фразы (так по-немецки не говорят): цитата → как говорят немцы
+→ Слова спринта использованы: отметить каждое (да/нет)
+→ Регистр (деловой/разговорный): соответствует ли заданию?
+
+**3. NATIVE CHECK**
+→ Фраза которая звучит как дословный перевод с русского: цитата → нативный вариант
+→ Общее ощущение: "звучит как ${studentLevel} немецкий" / "звучит как прямой перевод" / "звучит естественно"
+
+**4. ЧТО ХОРОШО (обязательно 2-3 конкретных момента)**
+Конкретные фразы или структуры из транскрипции которые удались. Не абстрактно.
+
+**5. ОДИН ПРИОРИТЕТ НА СЛЕДУЮЩУЮ НЕДЕЛЮ**
+Самое важное для отработки. Одно, не список. Конкретное упражнение или действие.
+
+Тон: поддерживающий, профессиональный. "Точнее будет..." вместо "неверно".`;
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      }
+    );
+    if (!res.ok) throw new Error(`Gemini error: ${res.status}`);
+    const data = await res.json();
+    const analysis = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    // Показать анализ
+    const el = document.getElementById('analysis-' + subId);
+    if (el) { el.style.display = ''; el.textContent = analysis; }
+
+    // Сохранить в Firebase как черновик фидбека
+    const fbTextarea = document.getElementById(`fb-${sid}-${date}`);
+    if (fbTextarea && !fbTextarea.value) {
+      fbTextarea.value = '🤖 ЧЕРНОВИК (проверьте и отредактируйте):\n\n' + analysis;
+    }
+
+    if (btn) { btn.textContent = '✅ Анализ готов'; btn.disabled = false; }
+    toast('Анализ готов — проверьте черновик фидбека');
+  } catch(e) {
+    if (btn) { btn.textContent = '🤖 Анализировать'; btn.disabled = false; }
+    toast('Ошибка анализа: ' + e.message, 'error');
+  }
 }
 
 // ── TOAST ────────────────────────────────

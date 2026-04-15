@@ -72,3 +72,23 @@ async function fbSetPublic(path, data) {
     return res.ok;
   } catch { return false; }
 }
+
+// Firebase Storage — загрузка аудио (без авторизации, правила разрешают)
+// Bucket: найти в Firebase Console → Storage → gs://personal-german-coach.appspot.com
+const FB_STORAGE_BUCKET = 'personal-german-coach.appspot.com';
+
+async function fbUploadAudio(blob, studentId, level) {
+  const ext = (blob.type || '').includes('mp4') || (blob.type || '').includes('m4a') ? 'm4a' : 'webm';
+  const path = `audio/${studentId}/${Date.now()}_${level}.${ext}`;
+  const encoded = encodeURIComponent(path);
+  try {
+    const res = await fetch(
+      `https://firebasestorage.googleapis.com/v0/b/${FB_STORAGE_BUCKET}/o?uploadType=media&name=${encoded}`,
+      { method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob }
+    );
+    if (!res.ok) return null;
+    const j = await res.json();
+    if (!j.downloadTokens) return null;
+    return `https://firebasestorage.googleapis.com/v0/b/${FB_STORAGE_BUCKET}/o/${encoded}?alt=media&token=${j.downloadTokens}`;
+  } catch { return null; }
+}

@@ -1930,6 +1930,75 @@ a.optional-send-btn:active {
   color: var(--muted);
   padding: 6px 0;
 }
+/* ── Запись голоса ──────────────────────────────────────── */
+.rec-zone {
+  margin: 10px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rec-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-radius: 24px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  align-self: flex-start;
+}
+.rec-btn:hover { background: var(--accent-light); }
+.rec-btn.recording {
+  background: #FEF2F2;
+  border-color: #E53E3E;
+  color: #E53E3E;
+  animation: rec-pulse 1.5s ease-in-out infinite;
+}
+@keyframes rec-pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .65; }
+}
+.rec-timer {
+  font-size: 13px;
+  color: #E53E3E;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-height: 18px;
+}
+.rec-live {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-style: italic;
+  min-height: 0;
+  transition: min-height .2s;
+}
+.rec-live:not(:empty) { min-height: 20px; }
+.rec-status {
+  font-size: 12px;
+  color: var(--accent);
+  min-height: 0;
+}
+.rec-audio-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.rec-audio-preview audio {
+  height: 32px;
+  flex: 1;
+}
+
 .submit-confirm {
   font-size: 14px;
   color: var(--accent);
