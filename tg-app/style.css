@@ -3014,28 +3014,30 @@ a.optional-send-btn:active {
 /* Фидбек педагога на домашнее задание */
 .teacher-reply-card {
   background: #EDF7F1;
-  border: 1px solid #7CC8A0;
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
+  border: 2px solid #4A8C6E;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
 }
 .teacher-reply-label {
   font-size: 11px;
   font-weight: 700;
   color: #4A8C6E;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
 }
 .teacher-reply-text {
-  font-size: 14px;
+  font-size: 16px;
   color: #1A1A1A;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 500;
+  white-space: pre-wrap;
 }
 .teacher-reply-meta {
-  font-size: 11px;
+  font-size: 12px;
   color: #718096;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 /* Интервальное повторение */
