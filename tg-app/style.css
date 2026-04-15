@@ -3011,13 +3011,33 @@ a.optional-send-btn:active {
   padding: 0 8px;
 }
 
-/* Фидбек педагога на домашнее задание */
+/* Фидбек педагога — аккордеон */
 .teacher-reply-card {
   background: #FFF6F0;
   border: 2px solid #C4714A;
   border-radius: 14px;
-  padding: 18px 20px;
   margin-bottom: 20px;
+  overflow: hidden;
+}
+.teacher-reply-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 16px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: inherit;
+  text-align: left;
+}
+.teacher-reply-toggle-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 .teacher-reply-label {
   font-size: 11px;
@@ -3025,14 +3045,34 @@ a.optional-send-btn:active {
   color: #A85A35;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin-bottom: 10px;
 }
+.teacher-reply-preview {
+  font-size: 14px;
+  color: #5A3A2A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.teacher-reply-arrow {
+  font-size: 18px;
+  color: #C4714A;
+  transition: transform .25s ease;
+  flex-shrink: 0;
+}
+.teacher-reply-card.open .teacher-reply-arrow { transform: rotate(180deg); }
+.teacher-reply-body {
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px solid #F0D0C0;
+}
+.teacher-reply-body.visible { display: block; }
 .teacher-reply-text {
   font-size: 16px;
   color: #1A1A1A;
-  line-height: 1.7;
-  font-weight: 500;
+  line-height: 1.75;
+  font-weight: 400;
   white-space: pre-wrap;
+  padding-top: 14px;
 }
 .teacher-reply-meta {
   font-size: 12px;

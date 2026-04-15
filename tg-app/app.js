@@ -195,12 +195,28 @@ function render() {
       <div class="greeting-date">${today}</div>
     </div>
 
-    ${_teacherSubmissionFeedback ? `
-    <div class="teacher-reply-card">
-      <div class="teacher-reply-label">💬 Kommentar der Lehrerin</div>
-      <div class="teacher-reply-text">${_teacherSubmissionFeedback.text.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
-      <div class="teacher-reply-meta">${_teacherSubmissionFeedback.sentAt ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : ''}</div>
-    </div>` : ''}
+    ${_teacherSubmissionFeedback ? (() => {
+      const fbText = _teacherSubmissionFeedback.text || '';
+      const preview = fbText.length > 55 ? fbText.slice(0, 55).replace(/</g,'&lt;') + '…' : fbText.replace(/</g,'&lt;');
+      const fullText = fbText.replace(/</g,'&lt;').replace(/\n/g,'<br>');
+      const sentDate = _teacherSubmissionFeedback.sentAt
+        ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})
+        : '';
+      return `
+    <div class="teacher-reply-card" id="teacher-reply-card">
+      <button class="teacher-reply-toggle" onclick="toggleTeacherReply()">
+        <div class="teacher-reply-toggle-left">
+          <div class="teacher-reply-label">💬 Kommentar der Lehrerin</div>
+          <div class="teacher-reply-preview">${preview}</div>
+        </div>
+        <div class="teacher-reply-arrow">⌄</div>
+      </button>
+      <div class="teacher-reply-body" id="teacher-reply-body">
+        <div class="teacher-reply-text">${fullText}</div>
+        ${sentDate ? `<div class="teacher-reply-meta">${sentDate}</div>` : ''}
+      </div>
+    </div>`;
+    })() : ''}
 
     ${student.review ? `
     <div class="review-card">
@@ -1985,6 +2001,14 @@ function toggleFeedback() {
   const body = document.getElementById('fb-body');
   const open = body.classList.toggle('visible');
   btn.classList.toggle('open', open);
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleTeacherReply() {
+  const card = document.getElementById('teacher-reply-card');
+  const body = document.getElementById('teacher-reply-body');
+  const open = body.classList.toggle('visible');
+  card.classList.toggle('open', open);
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
