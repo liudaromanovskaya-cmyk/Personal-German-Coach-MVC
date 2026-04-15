@@ -2063,14 +2063,20 @@ function submitHomework(level) {
   // Сохраняем в Firebase — для Eingänge в teacher.html (публично, без токена)
   const today = new Date().toISOString().split('T')[0];
   if (typeof fbSetPublic === 'function') {
-    fbSetPublic(`submissions/${_studentId}/${today}/${level}`, {
+    const submission = {
       text, topic, level,
       studentName: _student.name,
       timestamp: new Date().toISOString(),
       audioUrl: _audioUrls[level] || null,
       transcript: _liveTranscripts[level] || null,
       hasFile: false
-    });
+    };
+    // Если Cloudinary не сработал — сохраняем base64 прямо в Firebase
+    if (!submission.audioUrl && _audioData[level]) {
+      submission.audioData = _audioData[level].data;
+      submission.audioType = _audioData[level].type;
+    }
+    fbSetPublic(`submissions/${_studentId}/${today}/${level}`, submission);
   }
 
   // Короткий пинг преподавателю (полный текст — в Eingänge)
@@ -2931,6 +2937,7 @@ let _recTimerInterval = null;
 let _recSeconds = 0;
 let _recRecognition = null;
 let _audioUrls = {};
+let _audioData = {}; // base64 резерв если Cloudinary недоступен
 let _liveTranscripts = {};
 
 async function toggleRecording(level) {
@@ -3018,7 +3025,7 @@ async function handleRecordingStop(level) {
     zone.appendChild(preview);
   }
 
-  // Загрузить в Firebase Storage
+  // Сначала пробуем Cloudinary, при неудаче — base64 в Firebase
   if (status) status.textContent = 'Загружаю аудио...';
   if (typeof fbUploadAudio === 'function') {
     const url = await fbUploadAudio(blob, _studentId, level);
@@ -3026,7 +3033,18 @@ async function handleRecordingStop(level) {
       _audioUrls[level] = url;
       if (status) status.textContent = '✓ Готово к отправке';
     } else {
-      if (status) status.textContent = 'Аудио сохранено локально';
+      // Cloudinary недоступен — сохраняем как base64
+      if (status) status.textContent = 'Конвертирую...';
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          _audioData[level] = { data: reader.result, type: blob.type };
+          if (status) status.textContent = '✓ Готово к отправке';
+        };
+        reader.readAsDataURL(blob);
+      } catch(e) {
+        if (status) status.textContent = '⚠ Не удалось сохранить аудио';
+      }
     }
   }
 }

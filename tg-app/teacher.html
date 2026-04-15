@@ -1878,12 +1878,15 @@ async function loadInbox() {
         html += `<div class="inbox-sub">
           <div class="inbox-sub-label">${LEVEL_LABELS[lv] || lv}</div>
           <div class="inbox-sub-topic">${sub.topic || ''}</div>
-          ${sub.audioUrl ? `
+          ${(sub.audioUrl || sub.audioData) ? (() => {
+            const audioSrc = sub.audioUrl || `data:${sub.audioType || 'audio/webm'};base64,${sub.audioData.split(',')[1] || sub.audioData}`;
+            const srcAttr = sub.audioUrl ? sub.audioUrl : audioSrc;
+            return `
             <div style="margin:8px 0">
-              <audio controls src="${sub.audioUrl}" style="width:100%;height:36px"></audio>
+              <audio controls src="${srcAttr}" style="width:100%;height:36px"></audio>
             </div>
             <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap">
-              <button class="btn btn-outline btn-sm" onclick="transcribeWhisper('${subId}','${sub.audioUrl}','${sid}','${date}','${lv}')">
+              <button class="btn btn-outline btn-sm" onclick="transcribeWhisper('${subId}','${srcAttr}','${sid}','${date}','${lv}')">
                 🎙 Транскрибировать (Whisper)
               </button>
               <button class="btn btn-outline btn-sm" id="analyze-btn-${subId}" onclick="analyzeWithGemini('${subId}','${sid}','${date}','${lv}')" style="display:none">
@@ -1893,11 +1896,12 @@ async function loadInbox() {
             <div class="inbox-sub-text" id="transcript-${subId}" style="${sub.transcript ? '' : 'display:none'}">${sub.transcript ? '🎙 Web Speech: ' + sub.transcript.replace(/</g,'&lt;') : ''}</div>
             <div class="inbox-sub-text" id="whisper-${subId}" style="display:none;border-left:3px solid #4A8C6E"></div>
             <div id="analysis-${subId}" style="display:none;margin-top:8px;padding:12px;background:#F0FDF4;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
-          ` : ''}
+            `;
+          })() : ''}
           ${sub.text
             ? `<div class="inbox-sub-text">${sub.text.replace(/</g,'&lt;')}</div>`
-            : (!sub.audioUrl ? '<div class="inbox-sub-empty">пусто</div>' : '')}
-          ${!sub.audioUrl && sub.text ? `
+            : (!(sub.audioUrl || sub.audioData) ? '<div class="inbox-sub-empty">пусто</div>' : '')}
+          ${!(sub.audioUrl || sub.audioData) && sub.text ? `
             <div style="display:flex;gap:8px;margin-top:6px">
               <button class="btn btn-outline btn-sm" id="analyze-btn-${subId}" onclick="analyzeWithGemini('${subId}','${sid}','${date}','${lv}')">
                 🤖 Анализировать текст
