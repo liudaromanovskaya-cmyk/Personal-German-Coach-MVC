@@ -1998,11 +1998,11 @@ async function analyzeWithGemini(subId, sid, date, level) {
     const studentGender = studentProfile?.gender || null; // 'f' / 'm' / null
     const genderHint = studentGender === 'f' ? 'Студентка (она).' : studentGender === 'm' ? 'Студент (он).' : '';
 
-    // Язык объяснений: B1 → немецкий (Sie-форма), B2+ → русский
-    const isB2plus = ['B2','C1','C2'].includes(studentLevel);
-    const langInstruction = isB2plus
-      ? `Пиши по-русски. Цитаты из речи студента — на немецком.`
-      : `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede der Studentin — auf Deutsch.`;
+    // Язык объяснений: B1/B2 → русский, C1/C2 → немецкий (Sie-форма)
+    const isC1plus = ['C1','C2'].includes(studentLevel);
+    const langInstruction = isC1plus
+      ? `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede — auf Deutsch.`
+      : `Пиши по-русски. Цитаты из речи студента — на немецком.`;
 
     const prompt = `Du bist ein erfahrener Deutschlehrer. ${genderHint}
 
