@@ -394,6 +394,12 @@
         <label>Дедлайн цели</label>
         <input type="text" id="ns_deadline" placeholder="Herbst 2026">
 
+        <label>Обращение к студенту</label>
+        <select id="ns_addressStyle">
+          <option value="ty" selected>На "ты" — тёплые близкие отношения</option>
+          <option value="vy">На "Вы" — официальное обращение</option>
+        </select>
+
         <label>Язык объяснений в AI-анализе</label>
         <select id="ns_feedbackLang">
           <option value="ru">Русский (по умолчанию для B1–B2)</option>
@@ -1139,7 +1145,8 @@ async function createStudent() {
   btn.textContent = 'Создаю...'; btn.disabled = true;
 
   const feedbackLang = document.getElementById('ns_feedbackLang').value || 'ru';
-  const profile = { name, level, goal: goal || `Deutsch ${level} sicher sprechen`, deadline: deadline || '2026', feedbackLang, createdAt: new Date().toISOString() };
+  const addressStyle = document.getElementById('ns_addressStyle').value || 'ty';
+  const profile = { name, level, goal: goal || `Deutsch ${level} sicher sprechen`, deadline: deadline || '2026', feedbackLang, addressStyle, createdAt: new Date().toISOString() };
   const ok = await fbSet(`students/${id}/profile`, profile);
 
   btn.textContent = '✅ Создать кабинет'; btn.disabled = false;
@@ -2017,9 +2024,15 @@ async function analyzeWithGemini(subId, sid, date, level) {
       ? `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede — auf Deutsch.`
       : `Пиши по-русски. Цитаты из речи студента — на немецком.`;
 
-    const prompt = `Ты опытный преподаватель немецкого языка с глубоким уважением к студентам. ${genderHint}
-Твой стиль: честный и конкретный, но всегда тёплый и поддерживающий. Ошибки — это нормальный этап роста, не повод для критики. Каждый разбор должен оставлять студента с ощущением "я могу, я расту".
-ВАЖНО: обращайся к студенту на "Вы" (уважительно). Никакого "ты" — только "Вы", "Вам", "Ваш".
+    const addressStyle = studentProfile?.addressStyle || 'ty'; // 'ty' = тёплое ты, 'vy' = официальное вы
+    const addressInstruction = addressStyle === 'vy'
+      ? `Обращайся к студенту на "Вы" (официально).`
+      : `Обращайся к студенту на "ты" — тепло, как близкий наставник. Никакого "Вы".`;
+
+    const prompt = `Ты — преподаватель немецкого языка (женщина). ${genderHint}
+Твои отношения со студентом — тёплые, открытые, личные. Ты искренне радуешься успехам и честно говоришь о том что можно улучшить — но всегда с заботой.
+Стиль: живой, человечный, не как учебник. Ошибки — это нормально, это рост.
+${addressInstruction}
 
 ═══ КОНТЕКСТ ЗАДАНИЯ ═══
 Уровень студента: ${studentLevel}
@@ -2053,7 +2066,7 @@ ${langInstruction}
 Найди любую личную деталь которую он упомянул — место, человека, ситуацию, профессию, чувство, воспоминание.
 Используй ИМЕННО ЭТУ деталь чтобы объяснить одну ошибку или одно новое слово.
 Не выдумывай биографию — бери только то что студент сам сказал в этом ответе.
-Формат: "Вы написали про [деталь из ответа] — вот как это связано с [правило/слово]: [история-объяснение]."
+Формат (адаптируй под стиль обращения): "Ты написал/а про [деталь из ответа] — вот как это связано с [правило/слово]: [история-объяснение]."
 Если в ответе нет личных деталей (ответ очень короткий) — скажи об этом и предложи студенту в следующий раз рассказать чуть больше о себе: это сделает объяснения живее.
 Цель: студент узнаёт себя в объяснении — это запоминается в 5 раз лучше чем абстрактное правило.
 
