@@ -394,6 +394,12 @@
         <label>Дедлайн цели</label>
         <input type="text" id="ns_deadline" placeholder="Herbst 2026">
 
+        <label>Язык объяснений в AI-анализе</label>
+        <select id="ns_feedbackLang">
+          <option value="ru">Русский (по умолчанию для B1–B2)</option>
+          <option value="de">Немецкий — Sie-форма (для C1+ или по желанию)</option>
+        </select>
+
         <div class="actions" style="margin-top:16px">
           <button class="btn btn-primary" onclick="createStudent()">✅ Создать кабинет</button>
         </div>
@@ -1132,7 +1138,8 @@ async function createStudent() {
   const btn = document.querySelector('#newStudentSection .btn-primary');
   btn.textContent = 'Создаю...'; btn.disabled = true;
 
-  const profile = { name, level, goal: goal || `Deutsch ${level} sicher sprechen`, deadline: deadline || '2026', createdAt: new Date().toISOString() };
+  const feedbackLang = document.getElementById('ns_feedbackLang').value || 'ru';
+  const profile = { name, level, goal: goal || `Deutsch ${level} sicher sprechen`, deadline: deadline || '2026', feedbackLang, createdAt: new Date().toISOString() };
   const ok = await fbSet(`students/${id}/profile`, profile);
 
   btn.textContent = '✅ Создать кабинет'; btn.disabled = false;
@@ -1998,47 +2005,53 @@ async function analyzeWithGemini(subId, sid, date, level) {
     const studentGender = studentProfile?.gender || null; // 'f' / 'm' / null
     const genderHint = studentGender === 'f' ? 'Студентка (она).' : studentGender === 'm' ? 'Студент (он).' : '';
 
-    // Язык объяснений: B1/B2 → русский, C1/C2 → немецкий (Sie-форма)
-    const isC1plus = ['C1','C2'].includes(studentLevel);
-    const langInstruction = isC1plus
+    // Язык объяснений: из профиля студента, или по умолчанию B1/B2=ru, C1/C2=de
+    const preferredLang = studentProfile?.feedbackLang || (['C1','C2'].includes(studentLevel) ? 'de' : 'ru');
+    const langInstruction = preferredLang === 'de'
       ? `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede — auf Deutsch.`
       : `Пиши по-русски. Цитаты из речи студента — на немецком.`;
 
-    const prompt = `Du bist ein erfahrener Deutschlehrer. ${genderHint}
+    const prompt = `Ты опытный преподаватель немецкого языка с глубоким уважением к студентам. ${genderHint}
+Твой стиль: честный и конкретный, но всегда тёплый и поддерживающий. Ошибки — это нормальный этап роста, не повод для критики. Каждый разбор должен оставлять студента с ощущением "я могу, я расту".
 
-═══ AUFGABENKONTEXT / КОНТЕКСТ ЗАДАНИЯ ═══
-Niveau: ${studentLevel}
-Thema: ${theme}
-Aufgabe (${level_label}): ${taskPrompt}
-Grammatik der Woche: ${grammarTopic}
-Sprint-Wörter (sollten vorkommen): ${sprintWords}
+═══ КОНТЕКСТ ЗАДАНИЯ ═══
+Уровень студента: ${studentLevel}
+Тема спринта: ${theme}
+Задание (${level_label}): ${taskPrompt}
+Грамматика недели: ${grammarTopic}
+Слова спринта (должны появиться в ответе): ${sprintWords}
 
-═══ ANTWORT DES STUDENTEN / ОТВЕТ СТУДЕНТА ═══
+═══ ОТВЕТ СТУДЕНТА ═══
 ${transcript}
 
-═══ ANALYSE ═══
+═══ АНАЛИЗ ═══
 ${langInstruction}
 
-**1. GRAMMATIK — konkrete Fehler / ГРАММАТИКА — конкретные ошибки**
-Für jeden Fehler: → Gesagt: "Zitat" → Richtig: Korrektur → Warum: ein Satz
-Keine Fehler: entsprechend schreiben.
+**1. ГРАММАТИКА — что поправить**
+Для каждой ошибки:
+→ Студент сказал: "цитата"
+→ Точнее будет: исправление
+→ Почему: одно предложение, объяснение как для человека (не как учебник)
+Если ошибок нет — написать что-то тёплое об этом.
 
-**2. LEXIK — Natürlichkeit / ЛЕКСИКА — естественность**
-→ Unnatürliche Phrasen: Zitat → natürliche Alternative
-→ Sprint-Wörter verwendet: jedes markieren (ja/nein)
-→ Register (formell/informell): passt zur Aufgabe?
+**2. ЛЕКСИКА — живость речи**
+→ Фразы которые звучат как дословный перевод: цитата → как говорят немцы в жизни
+→ Слова спринта: отметить каждое (использовано / не использовано)
+→ Регистр: соответствует ли ситуации?
 
-**3. NATIVE CHECK**
-→ Wörtliche Übersetzung aus dem Russischen: Zitat → native Alternative
-→ Gesamteindruck: klingt wie ${studentLevel}-Deutsch / klingt wie direkte Übersetzung / klingt natürlich
+**3. NATIVE CHECK — ощущение языка**
+→ Одна фраза которая выдаёт "нерусский немецкий": цитата → нативный вариант + почему так говорят
+→ Общее ощущение от ответа: одно предложение честно и с теплом
 
-**4. WAS GUT WAR / ЧТО ХОРОШО (2-3 konkrete Momente)**
-Konkrete Phrasen aus der Antwort. Nicht abstrakt.
+**4. ЧТО ПОЛУЧИЛОСЬ ХОРОШО (обязательно — 2-3 момента)**
+Конкретные фразы или структуры из ответа студента которые удались.
+Назвать их — студент должен знать что именно работает.
 
-**5. EIN PRIORITÄT / ОДИН ПРИОРИТЕТ — nächste Woche**
-Das Wichtigste. Eines, keine Liste. Konkrete Übung.
+**5. ОДИН ШАГ НА СЛЕДУЮЩУЮ НЕДЕЛЮ**
+Самое важное для роста. Одно конкретное действие или упражнение.
+Не список. Одно — и с объяснением почему именно это.
 
-Ton: unterstützend, professionell.`;
+Помни: студент уже сделал задание и пришёл за обратной связью — это уже смелость.`;
 
     const analysis = await callAI(prompt, 2000);
 
