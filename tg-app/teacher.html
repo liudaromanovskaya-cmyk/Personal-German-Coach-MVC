@@ -1875,14 +1875,21 @@ async function loadInbox() {
       }
       const existing = dayData.teacherFeedback;
       const fbId = `fb-${sid}-${date}`;
+      const firstSubId = `${sid}-${date}-${levels.filter(l=>l!=='teacherFeedback')[0]}`;
       html += `<div class="inbox-feedback">
         <div class="inbox-feedback-label">Мой ответ студенту</div>
         ${existing ? `<div class="inbox-feedback-sent">${existing.text.replace(/</g,'&lt;')}</div>
         <div class="inbox-feedback-sent-meta">Отправлено ${existing.sentAt ? new Date(existing.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : ''}</div>` : ''}
         <textarea id="${fbId}" placeholder="Напишите фидбек — студент увидит его в кабинете">${existing ? existing.text : ''}</textarea>
-        <button class="inbox-feedback-btn" onclick="sendFeedback('${sid}','${date}','${fbId}')">
-          ${existing ? '✏️ Обновить' : '✉️ Отправить фидбек'}
-        </button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button class="inbox-feedback-btn" onclick="sendFeedback('${sid}','${date}','${fbId}')">
+            ${existing ? '✏️ Обновить' : '✉️ Отправить фидбек'}
+          </button>
+          <button class="btn btn-outline btn-sm" id="analyze-btn-${firstSubId}" onclick="analyzeWithGemini('${firstSubId}','${sid}','${date}','task')" style="height:44px;padding:0 16px">
+            🤖 Черновик фидбека (AI)
+          </button>
+        </div>
+        <div id="analysis-${firstSubId}" style="display:none;margin-top:8px;padding:12px;background:#F0FDF4;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
       </div>`;
       html += '</div>';
     }
