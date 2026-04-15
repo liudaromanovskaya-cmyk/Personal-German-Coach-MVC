@@ -1863,6 +1863,14 @@ async function loadInbox() {
           ${sub.text
             ? `<div class="inbox-sub-text">${sub.text.replace(/</g,'&lt;')}</div>`
             : (!sub.audioUrl ? '<div class="inbox-sub-empty">пусто</div>' : '')}
+          ${!sub.audioUrl && sub.text ? `
+            <div style="display:flex;gap:8px;margin-top:6px">
+              <button class="btn btn-outline btn-sm" id="analyze-btn-${subId}" onclick="analyzeWithGemini('${subId}','${sid}','${date}','${lv}')">
+                🤖 Анализировать текст
+              </button>
+            </div>
+            <div id="analysis-${subId}" style="display:none;margin-top:8px;padding:12px;background:#F0FDF4;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
+          ` : ''}
         </div>`;
       }
       const existing = dayData.teacherFeedback;
@@ -1953,14 +1961,18 @@ async function analyzeWithGemini(subId, sid, date, level) {
   if (btn) { btn.textContent = '⏳ Анализирую...'; btn.disabled = true; }
 
   try {
-    // Получить транскрипцию
+    // Получить текст ответа — из транскрипции (аудио) или из текстового поля
     const whisperEl = document.getElementById('whisper-' + subId);
     const transcriptEl = document.getElementById('transcript-' + subId);
     let transcript = '';
     if (whisperEl?.textContent) transcript = whisperEl.textContent.replace('✅ Whisper: ', '');
     else if (transcriptEl?.textContent) transcript = transcriptEl.textContent.replace('🎙 Web Speech: ', '');
-
-    if (!transcript) { toast('Нет транскрипции для анализа', 'error'); return; }
+    // Fallback: взять текст из карточки Eingänge
+    if (!transcript) {
+      const textEl = document.querySelector(`#analyze-btn-${subId}`)?.closest('.inbox-sub')?.querySelector('.inbox-sub-text');
+      if (textEl) transcript = textEl.textContent.trim();
+    }
+    if (!transcript) { toast('Нет текста для анализа', 'error'); return; }
 
     // Получить данные спринта из Firebase
     const teacherData = await fbGet(`teacher/${sid}`);
