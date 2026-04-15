@@ -687,6 +687,20 @@
     </div>
   </div>
 
+  <!-- ЕЖЕМЕСЯЧНЫЙ ЧЕК-ИН -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📊 Ежемесячный чек-ин</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="sendMonthlyCheckin()">Отправить</button>
+        <button class="btn btn-outline btn-sm" onclick="loadMonthlyCheckinAnswers()">Ответы</button>
+      </div>
+    </div>
+    <div class="section-body" id="checkinBody">
+      <div class="inbox-empty">8 вопросов · 5-7 минут · отправлять за 3-5 дней до нового месяца</div>
+    </div>
+  </div>
+
   </div> <!-- /mainStudentSection -->
 </div>
 
@@ -1011,6 +1025,91 @@ async function loadSurveyAnswers() {
   }
 
   html += `<div style="font-size:11px;color:#718096;margin-top:16px">Заполнено: ${answers._completedAt || '—'}</div>`;
+  body.innerHTML = html;
+}
+
+// ── ЕЖЕМЕСЯЧНЫЙ ЧЕК-ИН ────────────────────────────────────────────────────
+const MONTHLY_CHECKIN_QUESTIONS = [
+  { id: 'm1', q: 'Как в целом ощущается этот месяц?', type: 'scale' },
+  { id: 'm2', q: 'Вспомните один момент когда немецкий вам помог или удивил вас', type: 'text', hint: 'Даже маленький момент: поняли что-то, сказали фразу, прочитали знак — что угодно.' },
+  { id: 'm3', q: 'Что до сих пор кажется самым трудным?', type: 'text', hint: 'Конкретная ситуация или момент — когда чувствуете что не хватает языка.' },
+  { id: 'm4', q: 'Каких заданий хотелось бы больше в следующем месяце?', type: 'multi', opts: ['Говорить — монологи','Ролевые диалоги','Слушать — аудио, видео','Читать тексты','Писать','Больше грамматики','Больше слов','Разбор моих ошибок','Всё устраивает'] },
+  { id: 'm5', q: 'Есть что-то чего не хватает — чего мы вообще не делали?', type: 'text', hint: 'Тема, формат, ситуация — что хотелось бы, но ещё не было в наших занятиях.' },
+  { id: 'm6', q: 'Как было бы лучше для вас лично?', type: 'text', hint: 'Что изменить в том как мы работаем — темп, сложность, формат заданий, обратная связь?' },
+  { id: 'm7', q: 'Изменилось ли что-то в вашей жизни или расписании?', type: 'single', opts: ['Нет, всё как прежде','Стало меньше времени','Стало больше времени','Изменилась ситуация или цель'] },
+  { id: 'm8', q: 'Что мне важно знать о вас прямо сейчас?', type: 'text', hint: 'Настроение, усталость, изменения на работе, сомнения — всё что влияет на учёбу.' },
+];
+
+async function sendMonthlyCheckin() {
+  const body = document.getElementById('checkinBody');
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  // Проверяем — не отправляли ли уже в этом месяце
+  const existing = await fbGet(`students/${currentStudent}/monthlyCheckin/${monthKey}`);
+  if (existing?._completedAt) {
+    body.innerHTML = `<div style="font-size:13px;color:#4A8C6E;padding:12px 0">
+      ✅ Студент уже заполнил чек-ин за ${monthKey}<br>
+      <span style="color:#718096;font-size:11px">Нажмите "Ответы" чтобы посмотреть</span>
+    </div>`;
+    return;
+  }
+
+  // Сохраняем конфиг — студент увидит чек-ин при следующем входе
+  await fbSet(`students/${currentStudent}/monthlyCheckinConfig/${monthKey}`, {
+    sentAt: new Date().toISOString(),
+    month: monthKey
+  });
+
+  body.innerHTML = `<div style="font-size:13px;color:#4A8C6E;padding:12px 0">
+    ✅ Чек-ин отправлен — месяц ${monthKey}<br>
+    <span style="color:#718096;font-size:11px">Студент увидит 8 вопросов при следующем входе в кабинет</span>
+  </div>`;
+  toast('Чек-ин отправлен');
+}
+
+async function loadMonthlyCheckinAnswers() {
+  const body = document.getElementById('checkinBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю...</div>';
+
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  // Ищем ответы — сначала текущий месяц, потом предыдущие
+  const allCheckins = await fbGet(`students/${currentStudent}/monthlyCheckin`);
+  if (!allCheckins) {
+    body.innerHTML = '<div class="inbox-empty">Чек-инов ещё не было</div>';
+    return;
+  }
+
+  const months = Object.keys(allCheckins).sort().reverse();
+  let html = '';
+
+  months.forEach(m => {
+    const answers = allCheckins[m];
+    if (!answers || !answers._completedAt) return;
+
+    html += `<div style="font-weight:600;font-size:13px;color:#4A8C6E;margin:14px 0 8px;border-bottom:1px solid #E2E8F0;padding-bottom:4px">${m}</div>`;
+
+    MONTHLY_CHECKIN_QUESTIONS.forEach(q => {
+      const a = answers[q.id];
+      if (a === undefined || a === '') return;
+      let answerText = Array.isArray(a) ? a.join(', ') : String(a);
+      if (q.type === 'scale') answerText = '★'.repeat(Number(a)) + '☆'.repeat(5 - Number(a)) + ` (${a}/5)`;
+
+      html += `<div style="margin:8px 0;font-size:13px">
+        <div style="color:#718096;font-size:11px">${q.q}</div>
+        <div style="margin-top:2px;color:#1A1A1A">${answerText}</div>
+      </div>`;
+    });
+
+    html += `<div style="font-size:11px;color:#718096;margin-top:8px">Заполнено: ${answers._completedAt}</div>`;
+  });
+
+  if (!html) {
+    body.innerHTML = '<div class="inbox-empty">Студент ещё не заполнил ни одного чек-ина</div>';
+    return;
+  }
   body.innerHTML = html;
 }
 

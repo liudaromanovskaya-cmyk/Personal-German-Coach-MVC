@@ -2706,7 +2706,11 @@ async function checkAndShowSurvey(studentId) {
     fbGet(`students/${studentId}/surveyConfig`),
     fbGet(`students/${studentId}/survey`)
   ]);
-  if (!config || answers) return; // нет конфига или уже заполнен
+  if (!config || answers) {
+    // Входящий опросник не нужен — проверить ежемесячный чек-ин
+    checkAndShowMonthlyCheckin(studentId);
+    return;
+  }
   _surveyConfig = SURVEY_QUESTIONS.filter(q => config.includes(q.id));
   if (!_surveyConfig.length) return;
   _surveyAnswers = {};
@@ -2769,7 +2773,8 @@ function renderSurveyStep() {
   el.innerHTML = `
     <div class="onboarding-card" style="max-width:380px">
       <div style="font-size:12px;color:#718096;margin-bottom:12px">${progress}</div>
-      <div class="onboarding-title" style="font-size:17px;margin-bottom:16px">${q.q}</div>
+      <div class="onboarding-title" style="font-size:17px;margin-bottom:${q.hint ? '8px' : '16px'}">${q.q}</div>
+      ${q.hint ? `<div style="font-size:12px;color:#718096;margin-bottom:14px;line-height:1.5">${q.hint}</div>` : ''}
       <div class="survey-options">${inputHtml}</div>
       ${_surveyStep > 0 ? `<button class="survey-back" onclick="surveyBack()">← Назад</button>` : ''}
     </div>
@@ -2824,10 +2829,68 @@ async function submitSurvey() {
   }
   _surveyAnswers._completedAt = new Date().toISOString();
   if (typeof fbSetPublic === 'function') {
-    await fbSetPublic(`students/${_studentId}/survey`, _surveyAnswers);
+    if (_checkinMode && _checkinMonthKey) {
+      await fbSetPublic(`students/${_studentId}/monthlyCheckin/${_checkinMonthKey}`, _surveyAnswers);
+    } else {
+      await fbSetPublic(`students/${_studentId}/survey`, _surveyAnswers);
+    }
   }
+  _checkinMode = false;
   setTimeout(() => {
     if (el) el.remove();
   }, 2000);
+}
+
+// ── ЕЖЕМЕСЯЧНЫЙ ЧЕК-ИН ────────────────────────────────────────────────────
+let _checkinMode = false;
+let _checkinMonthKey = '';
+
+const MONTHLY_CHECKIN_QUESTIONS = [
+  { id: 'm1', q: 'Как в целом ощущается этот месяц?', type: 'scale', min: 1, max: 5, labels: ['Тяжело, ничего не клеится', 'Здорово, чувствую что расту'] },
+  { id: 'm2', q: 'Вспомните один момент когда немецкий вам помог или удивил вас', type: 'text', hint: 'Даже маленький момент: поняли что-то, сказали фразу — что угодно.' },
+  { id: 'm3', q: 'Что до сих пор кажется самым трудным?', type: 'text', hint: 'Конкретная ситуация — когда чувствуете что не хватает языка.' },
+  { id: 'm4', q: 'Каких заданий хотелось бы больше в следующем месяце?', type: 'multi', opts: ['Говорить — монологи', 'Ролевые диалоги', 'Слушать — аудио, видео', 'Читать тексты', 'Писать', 'Больше грамматики', 'Больше слов', 'Разбор моих ошибок', 'Всё устраивает'] },
+  { id: 'm5', q: 'Есть что-то чего не хватает — чего мы вообще не делали?', type: 'text', hint: 'Тема, формат, ситуация — что хотелось бы, но ещё не было.' },
+  { id: 'm6', q: 'Как было бы лучше для вас лично?', type: 'text', hint: 'Темп, сложность, формат заданий, обратная связь — что изменить?' },
+  { id: 'm7', q: 'Изменилось ли что-то в вашей жизни или расписании?', type: 'single', opts: ['Нет, всё как прежде', 'Стало меньше времени', 'Стало больше времени', 'Изменилась ситуация или цель'] },
+  { id: 'm8', q: 'Что мне важно знать о вас прямо сейчас?', type: 'text', hint: 'Настроение, усталость, изменения на работе — всё что влияет на учёбу.' },
+];
+
+async function checkAndShowMonthlyCheckin(studentId) {
+  if (typeof fbGet !== 'function') return;
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  const [config, existing] = await Promise.all([
+    fbGet(`students/${studentId}/monthlyCheckinConfig/${monthKey}`),
+    fbGet(`students/${studentId}/monthlyCheckin/${monthKey}`)
+  ]);
+
+  if (!config || existing?._completedAt) return; // нет запроса или уже заполнен
+
+  _checkinMode = true;
+  _checkinMonthKey = monthKey;
+  _surveyConfig = MONTHLY_CHECKIN_QUESTIONS;
+  _surveyAnswers = {};
+  _surveyStep = 0;
+  renderCheckinIntro();
+}
+
+function renderCheckinIntro() {
+  const existing = document.getElementById('survey-overlay');
+  if (existing) existing.remove();
+
+  const el = document.createElement('div');
+  el.id = 'survey-overlay';
+  el.className = 'onboarding-overlay';
+  el.innerHTML = `
+    <div class="onboarding-card" style="max-width:380px">
+      <div class="onboarding-icon">📊</div>
+      <div class="onboarding-title">Чек-ин за месяц</div>
+      <div class="onboarding-body">8 вопросов · 5-7 минут<br>Педагог читает каждый ответ — пишите честно.</div>
+      <button class="survey-next" onclick="renderSurveyStep()" style="margin-top:20px">Начать →</button>
+    </div>
+  `;
+  document.body.appendChild(el);
 }
 
