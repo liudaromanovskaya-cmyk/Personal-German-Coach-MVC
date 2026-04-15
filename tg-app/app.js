@@ -2352,20 +2352,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Загружаем данные педагога из Firebase перед рендером
   const id = getStudentId();
   if (id && typeof fbGet === 'function') {
-    const todayKey = new Date().toISOString().split('T')[0];
-    const yesterdayKey = new Date(Date.now() - 864e5).toISOString().split('T')[0];
-    const [teacherData, feedbackToday, feedbackYest, progress, fbProfile] = await Promise.all([
+    const [teacherData, progress, fbProfile] = await Promise.all([
       fbGet(`teacher/${id}`),
-      fbGet(`submissions/${id}/${todayKey}/teacherFeedback`),
-      fbGet(`submissions/${id}/${yesterdayKey}/teacherFeedback`),
       fbGet(`progress/${id}`),
       STUDENTS[id] ? Promise.resolve(null) : fbGet(`students/${id}/profile`)
     ]);
     if (progress?.wordSchedule) _wordSchedule = progress.wordSchedule;
     _firebaseTeacherData = teacherData;
-    // Показываем фидбек сегодня или вчера — берём свежее по sentAt
-    const feedback = feedbackToday || feedbackYest || null;
-    _teacherSubmissionFeedback = feedback;
+    // Фидбек педагога хранится в progress (читается без авторизации)
+    _teacherSubmissionFeedback = progress?.lastTeacherFeedback || null;
     // Если студент не в students.js — строим из Firebase профиля
     if (!STUDENTS[id] && fbProfile) {
       STUDENTS[id] = buildStudentFromProfile(fbProfile);

@@ -1191,10 +1191,13 @@ async function sendFeedback(sid, date, textareaId) {
   if (!text) { toast('Напишите текст фидбека', 'error'); return; }
   const btn = document.querySelector(`button[onclick="sendFeedback('${sid}','${date}','${textareaId}')"]`);
   if (btn) { btn.textContent = 'Отправляю...'; btn.disabled = true; }
-  const ok = await fbSet(`submissions/${sid}/${date}/teacherFeedback`, {
-    text,
-    sentAt: new Date().toISOString()
-  });
+  const payload = { text, sentAt: new Date().toISOString(), date };
+  // Сохраняем в submissions (для панели учителя) + в progress (студент читает без авторизации)
+  const [ok1, ok2] = await Promise.all([
+    fbSet(`submissions/${sid}/${date}/teacherFeedback`, payload),
+    fbSet(`progress/${sid}/lastTeacherFeedback`, payload)
+  ]);
+  const ok = ok1 || ok2;
   if (ok) {
     notifyStudent(sid, `💬 Лиуда ответила на ваше задание — откройте кабинет, чтобы прочитать`);
     toast(`Фидбек отправлен — ${sid} увидит в кабинете ✓`, 'success');
