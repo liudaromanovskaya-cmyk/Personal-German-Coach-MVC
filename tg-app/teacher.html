@@ -1334,7 +1334,7 @@ async function callAI(prompt, maxTokens = 4000) {
       'X-Title': 'Personal German Coach'
     },
     body: JSON.stringify({
-      model: 'google/gemini-2.0-flash-exp:free',
+      model: 'meta-llama/llama-3.3-70b-instruct:free',
       messages: [{ role: 'user', content: prompt }],
       max_tokens: maxTokens
     })
