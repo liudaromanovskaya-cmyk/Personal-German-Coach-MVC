@@ -1850,6 +1850,17 @@ async function loadInbox() {
     const data = await fbGet(`submissions/${sid}`);
     if (!data) continue;
     const dates = Object.keys(data).sort().reverse().slice(0, 14);
+    // Автосинхронизация: копируем teacherFeedback в progress/ (студент читает без авторизации)
+    for (const date of dates) {
+      const fb = data[date]?.teacherFeedback;
+      if (fb) {
+        const stored = await fbGet(`progress/${sid}/lastTeacherFeedback`);
+        // Обновляем только если это более свежий фидбек
+        if (!stored || (fb.sentAt && (!stored.sentAt || fb.sentAt > stored.sentAt))) {
+          fbSet(`progress/${sid}/lastTeacherFeedback`, { ...fb, date });
+        }
+      }
+    }
     for (const date of dates) {
       const dayData = data[date];
       const levels = Object.keys(dayData).sort();
