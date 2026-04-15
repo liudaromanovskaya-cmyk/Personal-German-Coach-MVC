@@ -39,10 +39,11 @@ async function fbSignIn(email, password) {
 function fbIsAuthed() { return !!_fbToken; }
 function fbSignOut()  { _fbToken = null; localStorage.removeItem('pgc_fb_token'); localStorage.removeItem('pgc_fb_token_exp'); }
 
-// Читать данные (открыто — студенты читают задания)
+// Читать данные (открыто — студенты читают задания; с токеном — учитель читает защищённые пути)
 async function fbGet(path) {
+  const authSuffix = _fbToken ? `?auth=${_fbToken}` : '';
   try {
-    const res = await fetch(`${FB_URL}/${path}.json`);
+    const res = await fetch(`${FB_URL}/${path}.json${authSuffix}`);
     if (!res.ok) return null;
     return await res.json();
   } catch { return null; }
