@@ -396,8 +396,8 @@
 
         <label>Обращение к студенту</label>
         <select id="ns_addressStyle">
-          <option value="ty" selected>На "ты" — тёплые близкие отношения</option>
-          <option value="vy">На "Вы" — официальное обращение</option>
+          <option value="vy" selected>На "Вы" — тепло и уважительно</option>
+          <option value="ty">На "ты" — близкие неформальные отношения</option>
         </select>
 
         <label>Язык объяснений в AI-анализе</label>
@@ -2024,10 +2024,10 @@ async function analyzeWithGemini(subId, sid, date, level) {
       ? `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede — auf Deutsch.`
       : `Пиши по-русски. Цитаты из речи студента — на немецком.`;
 
-    const addressStyle = studentProfile?.addressStyle || 'ty'; // 'ty' = тёплое ты, 'vy' = официальное вы
-    const addressInstruction = addressStyle === 'vy'
-      ? `Обращайся к студенту на "Вы" (официально).`
-      : `Обращайся к студенту на "ты" — тепло, как близкий наставник. Никакого "Вы".`;
+    const addressStyle = studentProfile?.addressStyle || 'vy'; // 'vy' = Вы (default), 'ty' = ты
+    const addressInstruction = addressStyle === 'ty'
+      ? `Обращайся к студенту на "ты" — тепло, как близкий наставник.`
+      : `Обращайся к студенту на "Вы" — тепло и уважительно, без холодной дистанции.`;
 
     const prompt = `Ты — преподаватель немецкого языка (женщина). ${genderHint}
 Твои отношения со студентом — тёплые, открытые, личные. Ты искренне радуешься успехам и честно говоришь о том что можно улучшить — но всегда с заботой.
