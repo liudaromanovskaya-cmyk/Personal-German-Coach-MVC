@@ -2004,6 +2004,14 @@ function toggleFeedback() {
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
+function toggleArchiveItem(i) {
+  const body = document.getElementById(`fb-archive-body-${i}`);
+  const arrow = document.getElementById(`fb-archive-arrow-${i}`);
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
 function toggleTeacherReply() {
   const card = document.getElementById('teacher-reply-card');
   const body = document.getElementById('teacher-reply-body');
@@ -2382,15 +2390,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Загружаем данные педагога из Firebase перед рендером
   const id = getStudentId();
   if (id && typeof fbGet === 'function') {
-    const [teacherData, progress, fbProfile] = await Promise.all([
+    const [teacherData, progress, feedbackArchive, fbProfile] = await Promise.all([
       fbGet(`teacher/${id}`),
       fbGet(`progress/${id}`),
+      fbGet(`feedback/${id}`),
       STUDENTS[id] ? Promise.resolve(null) : fbGet(`students/${id}/profile`)
     ]);
     if (progress?.wordSchedule) _wordSchedule = progress.wordSchedule;
     _firebaseTeacherData = teacherData;
     // Фидбек педагога хранится в progress (читается без авторизации)
     _teacherSubmissionFeedback = progress?.lastTeacherFeedback || null;
+    _feedbackArchive = feedbackArchive || null;
     // Если студент не в students.js — строим из Firebase профиля
     if (!STUDENTS[id] && fbProfile) {
       STUDENTS[id] = buildStudentFromProfile(fbProfile);
@@ -2480,6 +2490,36 @@ function buildFeedbackHTML(student, id) {
     </div>
   ` : '';
 
+  // Архив фидбека из Firebase
+  const archiveHTML = (() => {
+    if (!_feedbackArchive) return '';
+    const entries = Object.entries(_feedbackArchive)
+      .sort(([a],[b]) => b.localeCompare(a));
+    if (!entries.length) return '';
+    const items = entries.map(([date, fb], i) => {
+      const d = new Date(fb.sentAt || date);
+      const dateLabel = d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
+      const preview = (fb.text || '').slice(0, 60).replace(/\n/g,' ') + ((fb.text||'').length > 60 ? '…' : '');
+      const fullText = (fb.text || '').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+      return `
+        <div class="fb-archive-item">
+          <button class="fb-archive-toggle" onclick="toggleArchiveItem(${i})">
+            <div class="fb-archive-toggle-left">
+              <div class="fb-archive-date">${dateLabel}</div>
+              <div class="fb-archive-preview">${preview.replace(/</g,'&lt;')}</div>
+            </div>
+            <div class="fb-archive-arrow" id="fb-archive-arrow-${i}">⌄</div>
+          </button>
+          <div class="fb-archive-body" id="fb-archive-body-${i}">
+            <div class="fb-archive-text">${fullText}</div>
+          </div>
+        </div>`;
+    }).join('');
+    return `
+      <div class="section-title" style="margin-top:24px">Feedback-Archiv</div>
+      <div class="fb-archive">${items}</div>`;
+  })();
+
   return `
     <div class="section-title">Feedback</div>
     <button class="feedback-toggle" id="fb-toggle" onclick="toggleFeedback()">
@@ -2493,6 +2533,7 @@ function buildFeedbackHTML(student, id) {
       ${blocksHTML}
       ${wordsHTML}
     </div>
+    ${archiveHTML}
   `;
 }
 
@@ -2939,6 +2980,7 @@ let _recRecognition = null;
 let _audioUrls = {};
 let _audioData = {}; // base64 резерв если Cloudinary недоступен
 let _liveTranscripts = {};
+let _feedbackArchive = null;
 
 async function toggleRecording(level) {
   if (_recMediaRecorder && _recMediaRecorder.state === 'recording') {

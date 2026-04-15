@@ -29,6 +29,12 @@
         ".read": "auth != null",
         ".write": "auth != null"
       }
+    },
+    "feedback": {
+      "$studentId": {
+        ".read": true,
+        ".write": "auth != null"
+      }
     }
   }
 }

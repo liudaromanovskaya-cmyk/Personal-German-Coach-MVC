@@ -1186,16 +1186,73 @@ async function notifyStudent(studentId, text) {
   } catch(e) {}
 }
 
+async function analyzeWeeklyFeedback(sid) {
+  const el = document.getElementById(`weekly-analysis-${sid}`);
+  if (!el) return;
+  el.style.display = 'block';
+  el.textContent = '⏳ Читаю архив фидбека...';
+
+  // Читаем весь архив фидбека студента
+  const archive = await fbGet(`feedback/${sid}`);
+  if (!archive || !Object.keys(archive).length) {
+    el.textContent = 'Архив пуст — отправьте хотя бы один фидбек.';
+    return;
+  }
+
+  // Берём последние 14 фидбеков
+  const entries = Object.entries(archive)
+    .sort(([a],[b]) => b.localeCompare(a))
+    .slice(0, 14);
+
+  const studentName = STUDENT_NAMES[sid] || sid;
+  const feedbackBlock = entries.map(([date, fb]) =>
+    `--- ${date} ---\n${fb.text}`
+  ).join('\n\n');
+
+  const prompt = `Ты — методист по немецкому языку. Проанализируй накопленный фидбек преподавателя студентке ${studentName}.
+
+АРХИВ ФИДБЕКА (последние ${entries.length} записей):
+${feedbackBlock}
+
+Сделай структурированный анализ:
+
+1. ПОВТОРЯЮЩИЕСЯ ГРАММАТИЧЕСКИЕ ОШИБКИ
+Перечисли паттерны, которые встречаются больше одного раза. Для каждого: что делает неправильно → как правильно. Приоритизируй по частоте.
+
+2. РЕКОМЕНДУЕМАЯ ГРАММАТИЧЕСКАЯ ТЕМА НЕДЕЛИ
+Одна тема, которую нужно проработать в следующем спринте. Почему именно она.
+
+3. ЛЕКСИКА ИЗ ФИДБЕКА → В СЛЕДУЮЩИЙ СПРИНТ
+Конкретные слова, выражения, Redewendungen, которые фигурировали в фидбеке как "так говорит немец" или "лучше сказать так". Это готовые слова для следующего спринта.
+
+4. ПРОГРЕСС
+Что улучшилось по сравнению с ранними фидбеками. Что стало лучше.
+
+5. ПРИОРИТЕТ НА СЛЕДУЮЩУЮ НЕДЕЛЮ
+Один главный фокус: что важнее всего отработать.
+
+Отвечай по-русски, конкретно, без воды.`;
+
+  el.textContent = '⏳ AI анализирует паттерны...';
+  try {
+    const result = await callAI(prompt, 2000);
+    el.textContent = result;
+  } catch(e) {
+    el.textContent = 'Ошибка: ' + e.message;
+  }
+}
+
 async function sendFeedback(sid, date, textareaId) {
   const text = document.getElementById(textareaId)?.value?.trim();
   if (!text) { toast('Напишите текст фидбека', 'error'); return; }
   const btn = document.querySelector(`button[onclick="sendFeedback('${sid}','${date}','${textareaId}')"]`);
   if (btn) { btn.textContent = 'Отправляю...'; btn.disabled = true; }
   const payload = { text, sentAt: new Date().toISOString(), date };
-  // Сохраняем в submissions (для панели учителя) + в progress (студент читает без авторизации)
-  const [ok1, ok2] = await Promise.all([
+  // Сохраняем в 3 места: submissions (учитель), progress (студент-текущий), feedback (архив)
+  const [ok1, ok2, ok3] = await Promise.all([
     fbSet(`submissions/${sid}/${date}/teacherFeedback`, payload),
-    fbSet(`progress/${sid}/lastTeacherFeedback`, payload)
+    fbSet(`progress/${sid}/lastTeacherFeedback`, payload),
+    fbSet(`feedback/${sid}/${date}`, payload)
   ]);
   const ok = ok1 || ok2;
   if (ok) {
@@ -1926,8 +1983,12 @@ async function loadInbox() {
           <button class="btn btn-outline btn-sm" id="analyze-btn-${firstSubId}" onclick="analyzeWithGemini('${firstSubId}','${sid}','${date}','task')" style="height:44px;padding:0 16px">
             🤖 Черновик фидбека (AI)
           </button>
+          <button class="btn btn-outline btn-sm" onclick="analyzeWeeklyFeedback('${sid}')" style="height:44px;padding:0 16px;border-color:#D97706;color:#D97706">
+            📊 Анализ архива
+          </button>
         </div>
         <div id="analysis-${firstSubId}" style="display:none;margin-top:8px;padding:12px;background:#F0FDF4;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
+        <div id="weekly-analysis-${sid}" style="display:none;margin-top:8px;padding:14px;background:#FFFBEB;border:1px solid #D97706;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap"></div>
       </div>`;
       html += '</div>';
     }
