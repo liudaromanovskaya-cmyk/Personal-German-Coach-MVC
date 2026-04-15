@@ -1334,7 +1334,7 @@ async function callAI(prompt, maxTokens = 4000) {
       'X-Title': 'Personal German Coach'
     },
     body: JSON.stringify({
-      model: 'deepseek/deepseek-r1:free',
+      model: 'google/gemma-3-27b-it:free',
       messages: [{ role: 'user', content: prompt }],
       max_tokens: maxTokens
     })
