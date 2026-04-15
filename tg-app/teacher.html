@@ -2066,20 +2066,22 @@ ${langInstruction}
 
 Помни: студент уже сделал задание — это уже смелость. Каждый разбор должен оставлять ощущение "я расту".`;
 
-    const analysis = await callAI(prompt, 2000);
+    const analysis = await callAI(prompt, 3000);
 
-    // Показать анализ
+    // Показать анализ (для педагога)
     const el = document.getElementById('analysis-' + subId);
     if (el) { el.style.display = ''; el.textContent = analysis; }
 
-    // Сохранить в Firebase как черновик фидбека
+    // Всегда копировать в поле "МОЙ ОТВЕТ СТУДЕНТУ" как черновик
     const fbTextarea = document.getElementById(`fb-${sid}-${date}`);
-    if (fbTextarea && !fbTextarea.value) {
-      fbTextarea.value = '🤖 ЧЕРНОВИК (проверьте и отредактируйте):\n\n' + analysis;
+    if (fbTextarea) {
+      fbTextarea.value = analysis;
+      fbTextarea.style.borderColor = '#4A8C6E';
+      fbTextarea.focus();
     }
 
     if (btn) { btn.textContent = '✅ Анализ готов'; btn.disabled = false; }
-    toast('Анализ готов — проверьте черновик фидбека');
+    toast('Черновик готов — отредактируйте и отправьте студенту');
   } catch(e) {
     if (btn) { btn.textContent = '🤖 Анализировать'; btn.disabled = false; }
     toast('Ошибка анализа: ' + e.message, 'error');
