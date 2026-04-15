@@ -1992,44 +1992,53 @@ async function analyzeWithGemini(subId, sid, date, level) {
     const theme = today.theme || '';
     const level_label = LEVEL_LABELS[level] || level;
 
-    // Получить уровень студента
+    // Получить уровень и пол студента
     const studentProfile = await fbGet(`students/${sid}/profile`);
     const studentLevel = studentProfile?.level || 'B1';
+    const studentGender = studentProfile?.gender || null; // 'f' / 'm' / null
+    const genderHint = studentGender === 'f' ? 'Студентка (она).' : studentGender === 'm' ? 'Студент (он).' : '';
 
-    const prompt = `Ты опытный преподаватель немецкого языка. Студент выполнил задание на говорение.
+    // Язык объяснений: B1 → немецкий (Sie-форма), B2+ → русский
+    const isB2plus = ['B2','C1','C2'].includes(studentLevel);
+    const langInstruction = isB2plus
+      ? `Пиши по-русски. Цитаты из речи студента — на немецком.`
+      : `Schreibe auf Deutsch, benutze die Sie-Form. Zitate aus der Rede der Studentin — auf Deutsch.`;
 
-═══ КОНТЕКСТ ЗАДАНИЯ ═══
-Уровень студента: ${studentLevel}
-Тема спринта: ${theme}
-Задание (${level_label}): ${taskPrompt}
-Грамматика недели: ${grammarTopic}
-Слова спринта (должны появиться в речи): ${sprintWords}
+    const prompt = `Du bist ein erfahrener Deutschlehrer. ${genderHint}
 
-═══ ТРАНСКРИПЦИЯ ═══
+═══ AUFGABENKONTEXT / КОНТЕКСТ ЗАДАНИЯ ═══
+Niveau: ${studentLevel}
+Thema: ${theme}
+Aufgabe (${level_label}): ${taskPrompt}
+Grammatik der Woche: ${grammarTopic}
+Sprint-Wörter (sollten vorkommen): ${sprintWords}
+
+═══ ANTWORT DES STUDENTEN / ОТВЕТ СТУДЕНТА ═══
 ${transcript}
 
-═══ АНАЛИЗ (пиши по-русски) ═══
+═══ ANALYSE ═══
+${langInstruction}
 
-**1. ГРАММАТИКА — конкретные ошибки**
-Для каждой ошибки: → Что сказал: "цитата" → Как правильно: исправление → Почему: одно предложение
-Если ошибок нет: написать "Грамматических ошибок не обнаружено".
+**1. GRAMMATIK — konkrete Fehler / ГРАММАТИКА — конкретные ошибки**
+Für jeden Fehler: → Gesagt: "Zitat" → Richtig: Korrektur → Warum: ein Satz
+Keine Fehler: entsprechend schreiben.
 
-**2. ЛЕКСИКА — естественность**
-→ Неестественные фразы (так по-немецки не говорят): цитата → как говорят немцы
-→ Слова спринта использованы: отметить каждое (да/нет)
-→ Регистр (деловой/разговорный): соответствует ли заданию?
+**2. LEXIK — Natürlichkeit / ЛЕКСИКА — естественность**
+→ Unnatürliche Phrasen: Zitat → natürliche Alternative
+→ Sprint-Wörter verwendet: jedes markieren (ja/nein)
+→ Register (formell/informell): passt zur Aufgabe?
 
 **3. NATIVE CHECK**
-→ Фраза которая звучит как дословный перевод с русского: цитата → нативный вариант
-→ Общее ощущение: "звучит как ${studentLevel} немецкий" / "звучит как прямой перевод" / "звучит естественно"
+→ Wörtliche Übersetzung aus dem Russischen: Zitat → native Alternative
+→ Gesamteindruck: klingt wie ${studentLevel}-Deutsch / klingt wie direkte Übersetzung / klingt natürlich
 
-**4. ЧТО ХОРОШО (обязательно 2-3 конкретных момента)**
-Конкретные фразы или структуры из транскрипции которые удались. Не абстрактно.
+**4. WAS GUT WAR / ЧТО ХОРОШО (2-3 konkrete Momente)**
+Konkrete Phrasen aus der Antwort. Nicht abstrakt.
 
-**5. ОДИН ПРИОРИТЕТ НА СЛЕДУЮЩУЮ НЕДЕЛЮ**
-Самое важное для отработки. Одно, не список. Конкретное упражнение или действие.
+**5. EIN PRIORITÄT / ОДИН ПРИОРИТЕТ — nächste Woche**
+Das Wichtigste. Eines, keine Liste. Konkrete Übung.
 
-Тон: поддерживающий, профессиональный. "Точнее будет..." вместо "неверно".`;
+Ton: unterstützend, professionell.`;
 
     const analysis = await callAI(prompt, 2000);
 
