@@ -422,15 +422,15 @@
   <!-- API KEY -->
   <div class="section">
     <div class="section-header">
-      <span class="section-title">Gemini API ключ</span>
+      <span class="section-title">OpenRouter API ключ</span>
       <span class="section-hint">вводится один раз, сохраняется в браузере</span>
     </div>
     <div class="section-body">
       <div class="api-row">
-        <input type="password" id="apiKey" placeholder="AIza...">
+        <input type="password" id="apiKey" placeholder="sk-or-v1-...">
         <button class="btn btn-outline btn-sm" onclick="saveApiKey()">Сохранить</button>
       </div>
-      <div class="api-status" id="apiStatus">Получить бесплатно: aistudio.google.com → Get API key</div>
+      <div class="api-status" id="apiStatus">Получить бесплатно: openrouter.ai → Keys → Create Key</div>
       <div class="api-row" style="margin-top:10px">
         <input type="password" id="whisperKey" placeholder="sk-... (OpenAI Whisper)">
         <button class="btn btn-outline btn-sm" onclick="saveWhisperKey()">Сохранить</button>
@@ -1307,18 +1307,41 @@ function updateWordReminder() {
 
 // ── API KEY ──────────────────────────────
 function loadApiKey() {
-  const k = localStorage.getItem('pgc_gemini_key') || '';
+  const k = localStorage.getItem('pgc_openrouter_key') || '';
   document.getElementById('apiKey').value = k;
   updateApiStatus(!!k);
 }
 function saveApiKey() {
   const k = document.getElementById('apiKey').value.trim();
-  if (k) { localStorage.setItem('pgc_gemini_key', k); updateApiStatus(true); toast('Ключ сохранён', 'success'); }
+  if (k) { localStorage.setItem('pgc_openrouter_key', k); updateApiStatus(true); toast('Ключ сохранён', 'success'); }
 }
 function updateApiStatus(ok) {
   const el = document.getElementById('apiStatus');
-  el.textContent = ok ? 'Ключ сохранён ✓' : 'Получить бесплатно: aistudio.google.com → Get API key';
+  el.textContent = ok ? 'Ключ сохранён ✓' : 'Получить бесплатно: openrouter.ai → Keys → Create Key';
   el.className = 'api-status' + (ok ? ' ok' : '');
+}
+
+// ── AI HELPER (OpenRouter) ────────────────
+async function callAI(prompt, maxTokens = 4000) {
+  const apiKey = localStorage.getItem('pgc_openrouter_key') || document.getElementById('apiKey').value.trim();
+  if (!apiKey) throw new Error('Введите OpenRouter API ключ');
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://personalgermancoachmvc.vercel.app',
+      'X-Title': 'Personal German Coach'
+    },
+    body: JSON.stringify({
+      model: 'google/gemini-2.0-flash-exp:free',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: maxTokens
+    })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
 }
 
 // ── STATUS ───────────────────────────────
@@ -1512,10 +1535,9 @@ function clearData() {
 function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
 function s(id, val) { const el = document.getElementById(id); if (el && val != null) el.value = val; }
 
-// ── GEMINI ───────────────────────────────
+// ── AI ГЕНЕРАЦИЯ ─────────────────────────
 async function generateWithGemini() {
-  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
-  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) { toast('Введите OpenRouter API ключ', 'error'); return; }
 
   const words = [];
   for (let i = 0; i < WORD_COUNT; i++) {
@@ -1565,17 +1587,7 @@ ${words.map((w,i) => `${i+1}. ${w.word}${w.hint ? ' — ' + w.hint : ''}`).join(
 - 3 примера на каждое слово`;
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 3000 } })
-      }
-    );
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
-    const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const text = await callAI(prompt, 3000);
     parseAndFill(text);
     isDirty = true; updateStatus();
     toast('Готово! Проверьте и нажмите «Сохранить»', 'success');
@@ -1584,7 +1596,7 @@ ${words.map((w,i) => `${i+1}. ${w.word}${w.hint ? ' — ' + w.hint : ''}`).join(
     toast('Ошибка: ' + e.message, 'error');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '✨ Сгенерировать через Gemini';
+    btn.innerHTML = '✨ Сгенерировать через AI';
   }
 }
 
@@ -1622,8 +1634,7 @@ const DAY_NAMES = { mon: 'Понедельник', tue: 'Вторник', wed: '
 const DAY_DATES_OFFSETS = { mon: 0, tue: 1, wed: 2, thu: 3, fri: 4 }; // от понедельника
 
 async function generateWeekPlan() {
-  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
-  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) { toast('Введите OpenRouter API ключ', 'error'); return; }
 
   const words = [];
   for (let i = 0; i < WORD_COUNT; i++) {
@@ -1681,17 +1692,7 @@ async function generateWeekPlan() {
 }`;
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, maxOutputTokens: 6000 } })
-      }
-    );
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
-    const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const text = await callAI(prompt, 6000);
     const m = text.match(/\{[\s\S]*\}/);
     if (!m) throw new Error('Не удалось разобрать ответ');
     _weekPlanData = JSON.parse(m[0]);
@@ -1944,10 +1945,9 @@ async function transcribeWhisper(subId, audioUrl, sid, date, level) {
   }
 }
 
-// ── AI АНАЛИЗ ЧЕРЕЗ GEMINI ────────────────────────────
+// ── AI АНАЛИЗ ────────────────────────────────────────
 async function analyzeWithGemini(subId, sid, date, level) {
-  const apiKey = localStorage.getItem('pgc_gemini_key') || document.getElementById('apiKey').value.trim();
-  if (!apiKey) { toast('Введите Gemini API ключ', 'error'); return; }
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) { toast('Введите OpenRouter API ключ', 'error'); return; }
 
   const btn = document.getElementById('analyze-btn-' + subId);
   if (btn) { btn.textContent = '⏳ Анализирую...'; btn.disabled = true; }
@@ -2012,17 +2012,7 @@ ${transcript}
 
 Тон: поддерживающий, профессиональный. "Точнее будет..." вместо "неверно".`;
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      }
-    );
-    if (!res.ok) throw new Error(`Gemini error: ${res.status}`);
-    const data = await res.json();
-    const analysis = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const analysis = await callAI(prompt, 2000);
 
     // Показать анализ
     const el = document.getElementById('analysis-' + subId);
