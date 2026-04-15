@@ -73,22 +73,23 @@ async function fbSetPublic(path, data) {
   } catch { return false; }
 }
 
-// Firebase Storage — загрузка аудио (без авторизации, правила разрешают)
-// Bucket: найти в Firebase Console → Storage → gs://personal-german-coach.appspot.com
-const FB_STORAGE_BUCKET = 'personal-german-coach.appspot.com';
+// Cloudinary — загрузка аудио (бесплатно, без авторизации)
+const CLOUDINARY_CLOUD = 'dwdbhfvs';
+const CLOUDINARY_PRESET = 'ml_default';
 
 async function fbUploadAudio(blob, studentId, level) {
-  const ext = (blob.type || '').includes('mp4') || (blob.type || '').includes('m4a') ? 'm4a' : 'webm';
-  const path = `audio/${studentId}/${Date.now()}_${level}.${ext}`;
-  const encoded = encodeURIComponent(path);
+  const form = new FormData();
+  form.append('file', blob);
+  form.append('upload_preset', CLOUDINARY_PRESET);
+  form.append('folder', `audio/${studentId}`);
+  form.append('public_id', `${Date.now()}_${level}`);
   try {
     const res = await fetch(
-      `https://firebasestorage.googleapis.com/v0/b/${FB_STORAGE_BUCKET}/o?uploadType=media&name=${encoded}`,
-      { method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob }
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`,
+      { method: 'POST', body: form }
     );
     if (!res.ok) return null;
     const j = await res.json();
-    if (!j.downloadTokens) return null;
-    return `https://firebasestorage.googleapis.com/v0/b/${FB_STORAGE_BUCKET}/o/${encoded}?alt=media&token=${j.downloadTokens}`;
+    return j.secure_url || null;
   } catch { return null; }
 }
