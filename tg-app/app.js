@@ -195,6 +195,13 @@ function render() {
       <div class="greeting-date">${today}</div>
     </div>
 
+    ${_teacherSubmissionFeedback ? `
+    <div class="teacher-reply-card">
+      <div class="teacher-reply-label">💬 Kommentar der Lehrerin</div>
+      <div class="teacher-reply-text">${_teacherSubmissionFeedback.text.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
+      <div class="teacher-reply-meta">${_teacherSubmissionFeedback.sentAt ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : ''}</div>
+    </div>` : ''}
+
     ${student.review ? `
     <div class="review-card">
       <button class="review-toggle" id="review-toggle" onclick="toggleReview()">
@@ -689,13 +696,6 @@ function render() {
     </div>
       `;
     })() : ''}
-
-    ${_teacherSubmissionFeedback ? `
-    <div class="teacher-reply-card">
-      <div class="teacher-reply-label">💬 Kommentar der Lehrerin</div>
-      <div class="teacher-reply-text">${_teacherSubmissionFeedback.text.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
-      <div class="teacher-reply-meta">${_teacherSubmissionFeedback.sentAt ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}) : ''}</div>
-    </div>` : ''}
 
     ${feedbackHTML}
 
