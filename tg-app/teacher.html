@@ -1968,16 +1968,16 @@ async function analyzeWithGemini(subId, sid, date, level) {
   if (btn) { btn.textContent = '⏳ Анализирую...'; btn.disabled = true; }
 
   try {
-    // Получить текст ответа — из транскрипции (аудио) или из текстового поля
+    // Получить текст ответа — Whisper > Web Speech > текст сдачи из Firebase
     const whisperEl = document.getElementById('whisper-' + subId);
     const transcriptEl = document.getElementById('transcript-' + subId);
     let transcript = '';
-    if (whisperEl?.textContent) transcript = whisperEl.textContent.replace('✅ Whisper: ', '');
-    else if (transcriptEl?.textContent) transcript = transcriptEl.textContent.replace('🎙 Web Speech: ', '');
-    // Fallback: взять текст из карточки Eingänge
+    if (whisperEl?.textContent?.trim()) transcript = whisperEl.textContent.replace('✅ Whisper: ', '').trim();
+    else if (transcriptEl?.textContent?.trim()) transcript = transcriptEl.textContent.replace('🎙 Web Speech: ', '').trim();
+    // Читать текст сдачи напрямую из Firebase
     if (!transcript) {
-      const textEl = document.querySelector(`#analyze-btn-${subId}`)?.closest('.inbox-sub')?.querySelector('.inbox-sub-text');
-      if (textEl) transcript = textEl.textContent.trim();
+      const subData = await fbGet(`submissions/${sid}/${date}/${level}`);
+      transcript = subData?.text || subData?.transcript || '';
     }
     if (!transcript) { toast('Нет текста для анализа', 'error'); return; }
 
