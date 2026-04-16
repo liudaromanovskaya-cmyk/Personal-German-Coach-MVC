@@ -650,16 +650,13 @@ function render() {
       `;
     })() : ''}
 
-    <div class="section-title">Fortschritt zum Ziel</div>
-    <div class="goal-card">
-      <div class="goal-icon">🎯</div>
-      <div>
-        <div class="goal-title">${student.goal.title}</div>
-        <div class="goal-deadline">bis ${student.goal.deadline}</div>
-      </div>
-    </div>
-
-    <div class="milestones">
+    <button class="goal-star" onclick="toggleGoalTask()">
+      <span class="goal-star-icon">✦</span>
+      <span class="goal-star-text">${student.goal.title}</span>
+      <span class="goal-star-deadline">bis ${student.goal.deadline}</span>
+      <span class="goal-star-arrow" id="goal-star-arrow-task">›</span>
+    </button>
+    <div class="goal-star-body" id="goal-star-body-task" style="display:none">
       ${student.milestones.map(m => `
         <div class="milestone ${m.status}">
           <div class="milestone-dot">${m.status === 'done' ? '✓' : m.status === 'active' ? '▶' : '○'}</div>
@@ -668,8 +665,6 @@ function render() {
         </div>
       `).join('')}
     </div>
-
-    <div class="progress-note">${student.progressText}</div>
   </div>
 
   <div class="screen" id="screen-grammar">
@@ -890,16 +885,13 @@ function render() {
       })(student.skills.slice(4))}
     </div>
 
-    <button class="goal-card goal-card--toggle" onclick="toggleMilestones()" style="width:100%;text-align:left;border:none;cursor:pointer;margin-bottom:0">
-      <div class="goal-icon">🎯</div>
-      <div style="flex:1">
-        <div class="goal-title">${student.goal.title}</div>
-        <div class="goal-deadline">bis ${student.goal.deadline}</div>
-      </div>
-      <div class="goal-toggle-arrow" id="goal-toggle-arrow">⌄</div>
+    <button class="goal-star" onclick="toggleMilestones()">
+      <span class="goal-star-icon">✦</span>
+      <span class="goal-star-text">${student.goal.title}</span>
+      <span class="goal-star-deadline">bis ${student.goal.deadline}</span>
+      <span class="goal-star-arrow" id="goal-toggle-arrow">›</span>
     </button>
-
-    <div class="milestones" id="milestones-body" style="display:none;margin-bottom:20px">
+    <div class="goal-star-body" id="milestones-body" style="display:none;margin-bottom:20px">
       ${student.milestones.map(m => `
         <div class="milestone ${m.status}">
           <div class="milestone-dot">${m.status === 'done' ? '✓' : m.status === 'active' ? '▶' : '○'}</div>
@@ -1726,7 +1718,17 @@ function toggleMilestones() {
   if (!body) return;
   const open = body.style.display === 'none' || body.style.display === '';
   body.style.display = open ? 'block' : 'none';
-  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (arrow) arrow.style.transform = open ? 'rotate(-90deg)' : '';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
+function toggleGoalTask() {
+  const body = document.getElementById('goal-star-body-task');
+  const arrow = document.getElementById('goal-star-arrow-task');
+  if (!body) return;
+  const open = body.style.display === 'none' || body.style.display === '';
+  body.style.display = open ? 'block' : 'none';
+  if (arrow) arrow.style.transform = open ? 'rotate(-90deg)' : '';
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 

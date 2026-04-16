@@ -858,7 +858,58 @@ a.optional-send-btn:active {
   color: var(--accent);
 }
 
-/* GOAL */
+/* GOAL STAR — delicate guiding strip */
+.goal-star {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 0 16px;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.goal-star:hover, .goal-star:active {
+  background: var(--accent-light);
+}
+.goal-star-icon {
+  font-size: 13px;
+  color: var(--accent);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.goal-star-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.goal-star-deadline {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.goal-star-arrow {
+  font-size: 15px;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-left: 2px;
+  transition: transform 0.2s;
+}
+.goal-star-body {
+  margin: 0 16px 0 31px;
+  padding-top: 8px;
+}
+
+/* GOAL (old card, kept for reference) */
 .goal-card {
   margin: 0 16px;
   background: var(--nav);
