@@ -1,62 +1,64 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* ═══════════════════════════════════════════════════
-   DESIGN SYSTEM — Phase A  ·  Approved direction
+   DESIGN SYSTEM — Warm Premium direction
    ═══════════════════════════════════════════════════ */
 :root {
   /* ─── ПОВЕРХНОСТИ ─── */
-  --bg:              #F5F5F2;
-  --surface:         #FFFFFF;
-  --surface-soft:    #FAFAF8;
-  --surface-tint:    #EAF1EC;
-  --surface-lavender:#EEEDF8;
+  --bg:              #F8F6F1;
+  --surface:         #FFFDFC;
+  --surface-soft:    #F5F1EA;
+  --surface-warm:    #F3EADF;
+  --surface-tint:    #EAEFE8;    /* legacy alias */
 
   /* ─── PRIMARY ─── */
-  --primary:         #2F5D46;
-  --primary-hover:   #274F3C;
-  --primary-light:   #EAF1EC;
-  --primary-subtle:  #C8DDD1;
+  --primary:         #48624E;
+  --primary-hover:   #3E5543;
+  --primary-light:   #EAEFE8;
+  --primary-subtle:  #D6E1D6;
 
   /* ─── ALIASES (backward compat — не удалять) ─── */
   --card:            var(--surface);
   --accent:          var(--primary);
   --accent-light:    var(--primary-light);
   --accent-hover:    var(--primary-hover);
-  --highlight:       #477A50;
+  --highlight:       var(--primary);     /* was #477A50 — now alias */
+  --surface-lavender:var(--info-light);  /* was lavender — now warm sage */
 
   /* ─── НАВИГАЦИЯ ─── */
-  --nav:             #1A2820;
-  --nav-text:        rgba(255,255,255,0.55);
+  --nav:             #314237;
+  --nav-text:        rgba(255,255,255,0.72);
   --nav-text-active: #FFFFFF;
 
   /* ─── ТЕКСТ ─── */
-  --text:            #1C2B22;
-  --text-secondary:  #4E5E57;
-  --text-muted:      #7B8880;
+  --text:            #243028;
+  --text-secondary:  #5E695F;
+  --text-muted:      #8A9187;
   --muted:           var(--text-muted);   /* alias */
 
   /* ─── ГРАНИЦЫ ─── */
-  --border:          #D6DDD9;
-  --border-soft:     #E4E9E6;
+  --border:          #DED9D0;
+  --border-soft:     #ECE7DF;
 
   /* ─── СИГНАЛЬНЫЕ (только по функции) ─── */
-  --success:         #3D7A52;
-  --success-light:   #E4F1E9;
-  --warning:         #B8861F;
-  --warning-light:   #FBF0D8;
-  --error:           #B84B42;
-  --error-light:     #FBECEB;
-  --info:            #5B60B8;
-  --info-light:      #EEEDF8;
+  --success:         #5B7A60;
+  --success-light:   #EDF3EC;
+  --warning:         #B89252;
+  --warning-light:   #F6EBDD;
+  --error:           #B65C52;
+  --error-light:     #F8E8E5;
+  --info:            #6E7C70;
+  --info-light:      #EEF1EC;
   --urgent:          var(--warning);      /* alias */
 
   /* ─── ТЕНИ ─── */
-  --shadow-card:  0 1px 3px rgba(0,0,0,0.05), 0 0 0 1px var(--border-soft);
-  --shadow-focus: 0 2px 14px rgba(47,93,70,0.10), 0 0 0 1px var(--border-soft);
+  --shadow-card:  0 1px 4px rgba(36,48,40,0.05), 0 0 0 1px var(--border-soft);
+  --shadow-hero:  0 4px 14px rgba(36,48,40,0.08);
+  --shadow-focus: 0 0 0 3px rgba(72,98,78,0.12);  /* focus ring only */
 
   /* ─── СЕМАНТИЧЕСКИЕ ГРАНИЦЫ ─── */
-  --warning-border: #D9B060;
-  --info-border:    #B0B4E0;
+  --warning-border: #C9A870;
+  --info-border:    #B4C0B5;
 
   /* ─── ОТСТУПЫ ─── */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
@@ -66,7 +68,9 @@
   --r-card:    18px;
   --r-card-sm: 12px;
   --r-btn:     14px;
+  --r-input:   14px;
   --r-pill:    999px;
+  --r-chip:    8px;
 
   /* ─── ТИПОГРАФИКА ─── */
   --font-h1:    30px;
@@ -84,41 +88,63 @@
 /* ТЁМНАЯ ТЕМА — вариант 1: системная тема телефона тёмная */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:              #161A16;
-    --card:            #1F2620;
-    --surface-soft:    #232A24;
+    --bg:              #191C18;
+    --surface:         #21261F;
+    --surface-soft:    #282D26;
+    --surface-warm:    #2E2820;
     --surface-tint:    #1E2B1E;
-    --accent:          #5A8A62;
+    --primary:         #6B8C72;
+    --primary-hover:   #5E7D65;
+    --primary-light:   #1E2B1E;
+    --primary-subtle:  #2A3B2A;
+    --card:            #21261F;
+    --accent:          #6B8C72;
     --accent-light:    #1E2B1E;
-    --accent-hover:    #4E7A56;
-    --highlight:       #7AA87D;
-    --nav:             #0F1510;
-    --text:            #EAE8E0;
-    --text-secondary:  #9AA89A;
-    --muted:           #6A7A6A;
-    --border:          #2E3830;
-    --border-soft:     #263028;
-    --urgent:          #C4902A;
+    --accent-hover:    #5E7D65;
+    --highlight:       #6B8C72;
+    --nav:             #141A14;
+    --text:            #E8E4DC;
+    --text-secondary:  #9AA49A;
+    --text-muted:      #6A726A;
+    --muted:           #6A726A;
+    --border:          #303830;
+    --border-soft:     #282E28;
+    --warning:         #C4A060;
+    --warning-light:   #2C2416;
+    --urgent:          #C4A060;
+    --info:            #7A8C7C;
+    --info-light:      #1E2B1E;
   }
 }
 
 /* ТЁМНАЯ ТЕМА — вариант 2: Telegram в тёмном режиме (класс добавляет app.js) */
 body.dark {
-  --bg:              #161A16;
-  --card:            #1F2620;
-  --surface-soft:    #232A24;
+  --bg:              #191C18;
+  --surface:         #21261F;
+  --surface-soft:    #282D26;
+  --surface-warm:    #2E2820;
   --surface-tint:    #1E2B1E;
-  --accent:          #5A8A62;
+  --primary:         #6B8C72;
+  --primary-hover:   #5E7D65;
+  --primary-light:   #1E2B1E;
+  --primary-subtle:  #2A3B2A;
+  --card:            #21261F;
+  --accent:          #6B8C72;
   --accent-light:    #1E2B1E;
-  --accent-hover:    #4E7A56;
-  --highlight:       #7AA87D;
-  --nav:             #0F1510;
-  --text:            #EAE8E0;
-  --text-secondary:  #9AA89A;
-  --muted:           #6A7A6A;
-  --border:          #2E3830;
-  --border-soft:     #263028;
-  --urgent:          #C4902A;
+  --accent-hover:    #5E7D65;
+  --highlight:       #6B8C72;
+  --nav:             #141A14;
+  --text:            #E8E4DC;
+  --text-secondary:  #9AA49A;
+  --text-muted:      #6A726A;
+  --muted:           #6A726A;
+  --border:          #303830;
+  --border-soft:     #282E28;
+  --warning:         #C4A060;
+  --warning-light:   #2C2416;
+  --urgent:          #C4A060;
+  --info:            #7A8C7C;
+  --info-light:      #1E2B1E;
 }
 
 /* Запрет горизонтальной прокрутки — обязательно для мобильных */
@@ -214,15 +240,18 @@ a.optional-send-btn:active {
   color: var(--muted);
 }
 .grammar-card {
-  margin: 0 16px 10px;
-  background: #fff;
-  border-radius: 14px;
-  border: 1.5px solid var(--border);
+  margin: 0 16px 8px;
+  background: var(--surface);
+  border-radius: var(--r-card-sm);
+  border: 1px solid var(--border-soft);
   overflow: hidden;
-  transition: border-color .15s;
+  transition: border-color .2s, box-shadow .2s;
 }
-.grammar-card.current { border-color: var(--accent); }
-.grammar-card.upcoming { opacity: .6; }
+.grammar-card.current {
+  border-color: var(--primary-subtle);
+  box-shadow: var(--shadow-card);
+}
+.grammar-card.upcoming { opacity: .55; }
 .grammar-toggle {
   width: 100%;
   padding: 14px 18px;
@@ -242,7 +271,7 @@ a.optional-send-btn:active {
   flex-shrink: 0;
 }
 .grammar-card.done .grammar-status-dot { background: var(--accent); }
-.grammar-card.current .grammar-status-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(74,140,110,.2); }
+.grammar-card.current .grammar-status-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(72,98,78,.18); }
 .grammar-card.upcoming .grammar-status-dot { background: var(--border); }
 .grammar-toggle-label {
   flex: 1;
@@ -268,9 +297,10 @@ a.optional-send-btn:active {
 .grammar-toggle.open .grammar-arrow { transform: rotate(180deg); }
 .grammar-body {
   display: none;
-  padding: 0 18px 16px;
-  border-top: 1px solid var(--border);
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--border-soft);
   padding-top: 14px;
+  background: var(--surface-soft);
 }
 .grammar-body.visible { display: block; }
 .grammar-summary {
@@ -280,13 +310,13 @@ a.optional-send-btn:active {
   margin-bottom: 12px;
 }
 .grammar-example {
-  background: var(--accent-light);
-  border-left: 3px solid var(--highlight);
-  border-radius: 0 8px 8px 0;
+  background: var(--surface-warm);
+  border-left: 2px solid var(--primary-subtle);
+  border-radius: 0 var(--r-chip) var(--r-chip) 0;
   padding: 10px 14px;
-  font-size: 13px;
-  color: var(--primary-hover);
-  line-height: 1.6;
+  font-size: var(--font-small);
+  color: var(--text-secondary);
+  line-height: 1.65;
   font-style: italic;
 }
 
@@ -305,7 +335,7 @@ a.optional-send-btn:active {
 .mod-legend { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
 #mod-container { padding: 8px 16px 24px; display: flex; flex-direction: column; gap: 8px; }
 .mod-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.mod-card.mod-current { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(74,140,110,0.15); }
+.mod-card.mod-current { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(72,98,78,0.14); }
 .mod-header { display: flex; align-items: center; gap: 10px; padding: 14px 14px; cursor: pointer; user-select: none; }
 .mod-header:active { background: var(--accent-light); }
 .mod-header-text { flex: 1; min-width: 0; }
@@ -400,7 +430,7 @@ a.optional-send-btn:active {
 }
 .gpath-body.visible { display: block; }
 .gpath-node.current .gpath-body { border-color: rgba(217,119,6,.3); }
-.gpath-node.done    .gpath-body { border-color: rgba(74,140,110,.3); }
+.gpath-node.done    .gpath-body { border-color: rgba(72,98,78,.25); }
 
 /* GRAMMAR SELF-ASSESSMENT */
 .grammar-self-row {
@@ -480,42 +510,45 @@ a.optional-send-btn:active {
 /* HEADER */
 .header {
   background: var(--nav);
-  padding: 14px 20px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .header-title {
-  color: rgba(255,255,255,.9);
-  font-size: 15px;
+  color: var(--nav-text-active);
+  font-size: var(--font-body);
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .header-level {
-  background: var(--accent);
-  color: #fff;
-  font-size: 11px;
+  background: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.85);
+  font-size: var(--font-micro);
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: .3px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* GREETING */
 .greeting {
-  padding: 28px 20px 20px;
+  padding: 32px 20px 16px;
 }
 .greeting-name {
   font-size: var(--font-h1);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   line-height: var(--lh-h1);
   color: var(--text);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 .greeting-date {
-  font-size: 13px;
-  color: var(--muted);
+  font-size: var(--font-small);
+  color: var(--text-muted);
   line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 
 /* TASK CARD */
@@ -607,12 +640,12 @@ a.optional-send-btn:active {
   display: none;
   margin: 0 18px 16px;
   padding: 12px 14px;
-  background: var(--accent-light);
-  border-radius: 10px;
-  font-size: 13px;
-  color: var(--primary-hover);
-  line-height: 1.6;
-  border-left: 3px solid var(--highlight);
+  background: var(--surface-warm);
+  border-radius: var(--r-chip);
+  font-size: var(--font-small);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  border-left: 2px solid var(--primary-subtle);
 }
 .hint-body.visible { display: block; }
 
@@ -665,10 +698,11 @@ a.optional-send-btn:active {
 
 /* REVIEW CARD (level 0) */
 .review-card {
-  margin: 16px 16px 0;
-  border: 1.5px dashed var(--border);
-  border-radius: 14px;
+  margin: 12px 16px 0;
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--r-card-sm);
   overflow: hidden;
+  background: var(--surface-soft);
 }
 .review-toggle {
   width: 100%;
@@ -718,7 +752,7 @@ a.optional-send-btn:active {
 /* LEVEL SWITCHER */
 .level-switcher {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin: 16px 16px 0;
 }
 .level-btn {
@@ -765,7 +799,7 @@ a.optional-send-btn:active {
   border: 1px solid var(--border-soft);
   border-radius: var(--r-card);
   padding: 24px 20px 20px;
-  box-shadow: var(--shadow-focus);
+  box-shadow: var(--shadow-hero);
 }
 .level-topic {
   font-size: var(--font-h3);
@@ -2270,8 +2304,8 @@ a.optional-send-btn:active {
 .post-submit-msg {
   margin-top: 16px;
   padding: 16px;
-  background: var(--surface-lavender);
-  border-left: 3px solid var(--info);
+  background: var(--surface-warm);
+  border-left: 3px solid var(--primary-subtle);
   border-radius: var(--r-card-sm);
 }
 .post-submit-done {
@@ -2841,36 +2875,36 @@ a.optional-send-btn:active {
 
 /* Грамматическая царица недели */
 .grammar-queen-banner {
-  background: var(--surface-lavender);
-  border: 1.5px solid var(--info-light);
-  border-radius: 14px;
-  padding: 12px 14px;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-subtle);
+  border-radius: var(--r-card-sm);
+  padding: 14px 16px;
   margin-bottom: 14px;
 }
 .grammar-queen-label {
-  font-size: 10px;
+  font-size: var(--font-micro);
   font-weight: 700;
-  color: var(--info);
-  letter-spacing: 1px;
+  color: var(--primary);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 .grammar-queen-title {
-  font-size: 17px;
-  font-weight: 800;
+  font-size: var(--font-h3);
+  font-weight: 700;
   color: var(--text);
-  font-family: Georgia, serif;
   margin-bottom: 8px;
+  line-height: var(--lh-tight);
 }
 .grammar-queen-sentence {
-  font-size: 17px;
-  line-height: 1.8;
+  font-size: var(--font-body);
+  line-height: 1.75;
   color: var(--text);
   margin-bottom: 6px;
 }
 .grammar-queen-note {
-  font-size: 12px;
-  color: var(--info);
+  font-size: var(--font-small);
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 .grammar-queen-note2 {
@@ -3333,7 +3367,7 @@ a.optional-send-btn:active {
 
 /* Фидбек педагога — личная заметка наставника */
 .teacher-reply-card {
-  background: var(--surface);
+  background: var(--surface-warm);
   border: 1px solid var(--border-soft);
   border-left: 3px solid var(--primary);
   border-radius: var(--r-card-sm);
@@ -3343,7 +3377,7 @@ a.optional-send-btn:active {
   transition: box-shadow .2s;
 }
 .teacher-reply-card.open {
-  box-shadow: var(--shadow-focus);
+  box-shadow: var(--shadow-hero);
 }
 .teacher-reply-toggle {
   width: 100%;
@@ -3391,7 +3425,7 @@ a.optional-send-btn:active {
   display: none;
   padding: 0 16px 18px;
   border-top: 1px solid var(--border-soft);
-  background: var(--surface-soft);
+  background: var(--surface-warm);
 }
 .teacher-reply-body.visible { display: block; }
 .teacher-reply-text {
