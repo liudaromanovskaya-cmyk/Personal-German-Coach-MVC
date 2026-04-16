@@ -619,6 +619,14 @@ a.optional-send-btn:active {
   line-height: 1.6;
 }
 
+/* NIVEAU 1 — primary required task */
+.optional-card--niveau1 {
+  border-color: var(--accent) !important;
+}
+.optional-toggle--niveau1 .optional-toggle-title {
+  font-size: 15px;
+}
+
 /* OPTIONAL LEVEL CARDS (level 2 & 3) */
 .optional-card {
   margin: 12px 16px 0;

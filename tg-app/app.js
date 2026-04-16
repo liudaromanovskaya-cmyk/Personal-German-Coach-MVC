@@ -317,30 +317,35 @@ function render() {
       </div>
     </div>
 
-    <div class="task-card">
-      <div class="task-card-header">
-        <div class="task-card-label">🎤 Niveau 1 · <span style="opacity:.8;font-weight:400">Aufwärmen</span></div>
-      </div>
-      <div class="task-card-topic">${s.task.topic}</div>
-      <div class="task-card-body">${s.task.prompt}</div>
-      <div class="task-card-body" style="margin-top:8px;opacity:.8;font-size:14px">${s.task.instruction}</div>
-      <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()" ${!s.task.hint ? 'style="display:none"' : ''}>
-        💡 Tipp — wenn es gar nicht klappt
+    <div class="optional-card optional-card--niveau1">
+      <button class="optional-toggle optional-toggle--niveau1 open" id="task-toggle" onclick="toggleOptional('task')">
+        <div class="optional-toggle-left">
+          <div class="optional-toggle-title">🎤 Niveau 1 — Aufwärmen</div>
+          <div class="optional-toggle-sub">${s.task.topic}</div>
+        </div>
+        <div class="optional-toggle-arrow">⌃</div>
       </button>
-      <div class="hint-body" id="hint-body">${s.task.hint || ''}</div>
-    </div>
-    <div class="submit-form" id="submit-form-task">
-      <div class="rec-zone" id="rec-zone-task">
-        <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
-        <span class="rec-timer" id="rec-timer-task"></span>
-        <div class="rec-live" id="rec-live-task"></div>
-        <div class="rec-status" id="rec-status-task"></div>
+      <div class="optional-body visible" id="task-body">
+        <div class="optional-text">${s.task.prompt}</div>
+        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.task.instruction}</div>
+        <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()" ${!s.task.hint ? 'style="display:none"' : ''}>
+          💡 Tipp — wenn es gar nicht klappt
+        </button>
+        <div class="hint-body" id="hint-body">${s.task.hint || ''}</div>
+        <div class="submit-form submit-form--optional" id="submit-form-task">
+          <div class="rec-zone" id="rec-zone-task">
+            <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
+            <span class="rec-timer" id="rec-timer-task"></span>
+            <div class="rec-live" id="rec-live-task"></div>
+            <div class="rec-status" id="rec-status-task"></div>
+          </div>
+          <button class="write-toggle-link" onclick="toggleWriteMode('task')">✍️ Lieber schreiben</button>
+          <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
+          <button class="optional-send-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
+          <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
+          <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
+        </div>
       </div>
-      <button class="write-toggle-link" onclick="toggleWriteMode('task')">✍️ Lieber schreiben</button>
-      <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
-      <button class="action-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
-      <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
-      <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
     </div>
 
     <div class="optional-card">
