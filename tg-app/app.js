@@ -657,8 +657,6 @@ function render() {
       `;
     })() : ''}
 
-    ${feedbackHTML}
-
     <div class="section-title">Fortschritt zum Ziel</div>
     <div class="goal-card">
       <div class="goal-icon">🎯</div>
@@ -917,6 +915,9 @@ function render() {
         </div>
       `).join('')}
     </div>
+
+    <div id="feedback-archive-section"></div>
+
   </div>
 
   <div class="screen" id="screen-gaps">
@@ -954,6 +955,7 @@ function render() {
   renderLexikScreen(student);
   renderGapsScreen();
   renderKulturScreen(student);
+  renderFeedbackArchiveSection();
   initDrafts();
 
   // Онбординг — только при первом входе
@@ -1422,6 +1424,50 @@ const METHODIK_SKILLS = [
   { key: 'schreiben', label: 'Schreiben', icon: '✍️' },
   { key: 'sprechen',  label: 'Sprechen',  icon: '🗣️' },
 ];
+
+function renderFeedbackArchiveSection() {
+  const el = document.getElementById('feedback-archive-section');
+  if (!el) return;
+
+  const entries = _feedbackArchive
+    ? Object.entries(_feedbackArchive).sort(([a],[b]) => b.localeCompare(a))
+    : [];
+
+  if (!entries.length) return; // ничего нет — блок скрыт
+
+  const items = entries.map(([date, fb], i) => {
+    const d = new Date(fb.sentAt || date);
+    const dateLabel = isNaN(d) ? date : d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
+    const preview = (fb.text || '').slice(0, 70).replace(/\n/g,' ') + ((fb.text||'').length > 70 ? '…' : '');
+    const fullText = (fb.text || '').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    return `
+      <div class="fb-archive-item">
+        <button class="fb-archive-toggle" onclick="toggleFortschrittArchive(${i})">
+          <div class="fb-archive-toggle-left">
+            <div class="fb-archive-date">${dateLabel}</div>
+            <div class="fb-archive-preview">${preview.replace(/</g,'&lt;')}</div>
+          </div>
+          <div class="fb-archive-arrow" id="fpa-arrow-${i}">⌄</div>
+        </button>
+        <div class="fb-archive-body" id="fpa-body-${i}">
+          <div class="fb-archive-text">${fullText}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="progress-section-title" style="margin-top:24px">Kommentare der Lehrerin</div>
+    <div class="fb-archive" style="margin-bottom:20px">${items}</div>`;
+}
+
+function toggleFortschrittArchive(i) {
+  const body = document.getElementById('fpa-body-' + i);
+  const arrow = document.getElementById('fpa-arrow-' + i);
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
 
 function renderKulturScreen(student) {
   const el = document.getElementById('kultur-content');
@@ -2438,116 +2484,51 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ── Sprint P0: Фидбек + Настроение + Баннеры ────────────────────────────────
 
 function buildFeedbackHTML(student, id) {
-  if (!student.feedback) return '';
-  const fb = student.feedback;
+  // Вкладка Feedback = только архив комментариев педагога из Firebase
+  if (!_feedbackArchive && !_teacherSubmissionFeedback) return `
+    <div class="fb-empty">
+      <div class="fb-empty-icon">💬</div>
+      <div class="fb-empty-text">Kommentare der Lehrerin erscheinen hier</div>
+    </div>`;
 
-  const blocksHTML = (fb.blocks || []).map((b, i) => `
-    <div class="fb-block">
-      <div class="fb-row">
-        <div class="fb-icon">✨</div>
-        <div class="fb-row-content">
-          <div class="fb-row-label">Вы сказали:</div>
-          <div class="fb-row-text fb-said-text">"${b.said}"</div>
-        </div>
-      </div>
-      <div class="fb-row fb-row--accent">
-        <div class="fb-icon">🇩🇪</div>
-        <div class="fb-row-content">
-          <div class="fb-row-label">Немец скажет:</div>
-          <div class="fb-row-text fb-native-text">"${b.native}"</div>
-          ${b.nativeNote ? `<div class="fb-row-note">${b.nativeNote}</div>` : ''}
-        </div>
-      </div>
-      <div class="fb-row">
-        <div class="fb-icon">✅</div>
-        <div class="fb-row-content">
-          <div class="fb-row-label">Вы молодец:</div>
-          <div class="fb-row-text">${b.praise}</div>
-        </div>
-      </div>
-      <div class="fb-row fb-row--anchor">
-        <div class="fb-icon">🎯</div>
-        <div class="fb-row-content">
-          <div class="fb-row-label">Образ-якорь:</div>
-          <div class="fb-row-text">${b.anchor}</div>
-        </div>
-      </div>
-      <div class="fb-row fb-row--question">
-        <div class="fb-icon">❓</div>
-        <div class="fb-row-content">
-          <div class="fb-row-label">Теперь вы:</div>
-          <div class="fb-row-text">${b.question}</div>
-          <div class="fb-question-de">${b.questionDE}</div>
-          ${b.questionHint ? `<div class="fb-question-hint">💡 ${b.questionHint}</div>` : ''}
-        </div>
-      </div>
-      <div class="fb-response-form">
-        <textarea class="submit-textarea" id="fb-response-text-${i}" placeholder="Ваш ответ голосом или текстом..."></textarea>
-        <label class="submit-file-label">
-          <input type="file" accept="audio/*" id="submit-file-fbresponse${i}" onchange="handleFileSelect('fbresponse${i}', this)">
-          <span class="submit-file-btn" id="submit-file-btn-fbresponse${i}">🎤 Sprachnachricht</span>
-        </label>
-        <div class="submit-file-preview" id="submit-preview-fbresponse${i}"></div>
-        <button class="action-btn" style="margin-top:8px" onclick="submitFeedbackResponse(${i})">✉️ Abschicken</button>
-        <div class="submit-confirm" id="fb-response-confirm-${i}" style="display:none">✅ Gesendet! Sehr gut!</div>
-      </div>
-    </div>
-  `).join('');
+  // Собираем все записи архива
+  const archiveEntries = _feedbackArchive
+    ? Object.entries(_feedbackArchive).sort(([a],[b]) => b.localeCompare(a))
+    : [];
 
-  const wordsHTML = fb.feedbackWords?.length ? `
-    <div class="feedback-words-next">
-      <div class="feedback-words-next-label">Wörter aus dem Feedback → nächster Sprint</div>
-      <div class="feedback-words-next-list">
-        ${fb.feedbackWords.map(w => `<span class="feedback-word-chip">${w}</span>`).join('')}
-      </div>
-    </div>
-  ` : '';
+  // Если в архиве нет последнего фидбека — добавляем его первым
+  let entries = archiveEntries;
+  if (_teacherSubmissionFeedback && entries.length === 0) {
+    entries = [['latest', _teacherSubmissionFeedback]];
+  }
 
-  // Архив фидбека из Firebase
-  const archiveHTML = (() => {
-    if (!_feedbackArchive) return '';
-    const entries = Object.entries(_feedbackArchive)
-      .sort(([a],[b]) => b.localeCompare(a));
-    if (!entries.length) return '';
-    const items = entries.map(([date, fb], i) => {
-      const d = new Date(fb.sentAt || date);
-      const dateLabel = d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
-      const preview = (fb.text || '').slice(0, 60).replace(/\n/g,' ') + ((fb.text||'').length > 60 ? '…' : '');
-      const fullText = (fb.text || '').replace(/</g,'&lt;').replace(/\n/g,'<br>');
-      return `
-        <div class="fb-archive-item">
-          <button class="fb-archive-toggle" onclick="toggleArchiveItem(${i})">
-            <div class="fb-archive-toggle-left">
-              <div class="fb-archive-date">${dateLabel}</div>
-              <div class="fb-archive-preview">${preview.replace(/</g,'&lt;')}</div>
-            </div>
-            <div class="fb-archive-arrow" id="fb-archive-arrow-${i}">⌄</div>
-          </button>
-          <div class="fb-archive-body" id="fb-archive-body-${i}">
-            <div class="fb-archive-text">${fullText}</div>
-          </div>
-        </div>`;
-    }).join('');
+  if (!entries.length) return `
+    <div class="fb-empty">
+      <div class="fb-empty-icon">💬</div>
+      <div class="fb-empty-text">Kommentare der Lehrerin erscheinen hier</div>
+    </div>`;
+
+  const items = entries.map(([date, fb], i) => {
+    const d = new Date(fb.sentAt || date);
+    const dateLabel = isNaN(d) ? date : d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
+    const preview = (fb.text || '').slice(0, 70).replace(/\n/g,' ') + ((fb.text||'').length > 70 ? '…' : '');
+    const fullText = (fb.text || '').replace(/</g,'&lt;').replace(/\n/g,'<br>');
     return `
-      <div class="section-title" style="margin-top:24px">Feedback-Archiv</div>
-      <div class="fb-archive">${items}</div>`;
-  })();
+      <div class="fb-archive-item">
+        <button class="fb-archive-toggle" onclick="toggleArchiveItem(${i})">
+          <div class="fb-archive-toggle-left">
+            <div class="fb-archive-date">${dateLabel}</div>
+            <div class="fb-archive-preview">${preview.replace(/</g,'&lt;')}</div>
+          </div>
+          <div class="fb-archive-arrow" id="fb-archive-arrow-${i}">⌄</div>
+        </button>
+        <div class="fb-archive-body" id="fb-archive-body-${i}">
+          <div class="fb-archive-text">${fullText}</div>
+        </div>
+      </div>`;
+  }).join('');
 
-  return `
-    <div class="section-title">Feedback</div>
-    <button class="feedback-toggle" id="fb-toggle" onclick="toggleFeedback()">
-      <div class="feedback-toggle-left">
-        <div class="feedback-toggle-label">Kommentar — ${fb.date}</div>
-        <div class="feedback-toggle-date">Tippen zum Öffnen ⌄</div>
-      </div>
-      <div class="feedback-toggle-arrow">⌄</div>
-    </button>
-    <div class="feedback-body" id="fb-body">
-      ${blocksHTML}
-      ${wordsHTML}
-    </div>
-    ${archiveHTML}
-  `;
+  return `<div class="fb-archive">${items}</div>`;
 }
 
 function setMood(mood) {
