@@ -17,6 +17,10 @@ function loadProgress(studentId) {
 }
 function saveProgress(studentId, data) {
   localStorage.setItem('pgc_' + studentId, JSON.stringify(data));
+  // Mirror to Firebase — works across devices
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${studentId}/criteria`, data).catch(() => {});
+  }
 }
 function applyProgress(student, id) {
   const saved = loadProgress(id);
@@ -1829,6 +1833,9 @@ function loadGaps(studentId) {
 }
 function saveGaps(studentId, gaps) {
   localStorage.setItem('pgc_gaps_' + studentId, JSON.stringify(gaps));
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${studentId}/gaps`, gaps).catch(() => {});
+  }
 }
 function loadGapStatus(studentId) {
   try { return JSON.parse(localStorage.getItem('pgc_gap_st_' + studentId) || '{}'); }
@@ -1836,6 +1843,9 @@ function loadGapStatus(studentId) {
 }
 function saveGapStatus(studentId, data) {
   localStorage.setItem('pgc_gap_st_' + studentId, JSON.stringify(data));
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${studentId}/gapStatus`, data).catch(() => {});
+  }
 }
 
 function renderGapsScreen() {
@@ -2373,6 +2383,10 @@ function submitDiary() {
     data.total = (data.total || 0) + 1;
     data.lastDate = today;
     localStorage.setItem(diaryKey, JSON.stringify(data));
+    // Mirror to Firebase — streak survives device change
+    if (typeof fbSetPublic === 'function') {
+      fbSetPublic(`progress/${_studentId}/diary`, data).catch(() => {});
+    }
   }
 
   // Формируем сообщение в Telegram
@@ -2494,12 +2508,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (tgUserId) {
       fbSetPublic(`progress/${id}/tgChatId`, tgUserId).catch(() => {});
     }
-    // Синхронизируем прогресс из Firebase в localStorage
+    // Синхронизируем прогресс из Firebase в localStorage — работает при смене устройства
     if (progress) {
       try {
-        if (progress.words) localStorage.setItem('pgc_words_' + id, JSON.stringify(progress.words));
-        if (progress.grammar) localStorage.setItem('pgc_grammar_' + id, JSON.stringify(progress.grammar));
-        if (progress.submissions) localStorage.setItem('pgc_sub_' + id, JSON.stringify(progress.submissions));
+        if (progress.words)       localStorage.setItem('pgc_words_' + id,   JSON.stringify(progress.words));
+        if (progress.grammar)     localStorage.setItem('pgc_grammar_' + id, JSON.stringify(progress.grammar));
+        if (progress.submissions) localStorage.setItem('pgc_sub_' + id,     JSON.stringify(progress.submissions));
+        if (progress.criteria)    localStorage.setItem('pgc_' + id,         JSON.stringify(progress.criteria));
+        if (progress.gaps)        localStorage.setItem('pgc_gaps_' + id,    JSON.stringify(progress.gaps));
+        if (progress.gapStatus)   localStorage.setItem('pgc_gap_st_' + id,  JSON.stringify(progress.gapStatus));
+        if (progress.diary)       localStorage.setItem(`pgc_diary_${id}`,   JSON.stringify(progress.diary));
+        if (progress.mood) {
+          // Восстанавливаем настроение только если оно за сегодня
+          const todayISO = new Date().toISOString().split('T')[0];
+          if (progress.mood.date === todayISO) {
+            localStorage.setItem('pgc_mood_' + id, JSON.stringify(progress.mood));
+          }
+        }
       } catch(e) {}
     }
   }
@@ -2562,6 +2587,9 @@ function setMood(mood) {
   try {
     localStorage.setItem('pgc_mood_' + id, JSON.stringify({ date: todayISO, mood }));
   } catch(e) {}
+  if (typeof fbSetPublic === 'function') {
+    fbSetPublic(`progress/${id}/mood`, { date: todayISO, mood }).catch(() => {});
+  }
 
   const labels = {
     tired: '😰 Erschöpft — heute nur Niveau 1',
