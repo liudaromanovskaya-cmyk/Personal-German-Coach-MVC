@@ -774,6 +774,12 @@ a.optional-send-btn:active {
   align-items: flex-start;
   gap: 14px;
 }
+.goal-toggle-arrow {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 .goal-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
 .goal-title {
   font-size: 16px;

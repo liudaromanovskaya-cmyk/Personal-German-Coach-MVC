@@ -897,16 +897,16 @@ function render() {
       })(student.skills.slice(4))}
     </div>
 
-    <div class="progress-section-title">Ziel</div>
-    <div class="goal-card" style="margin-bottom:0">
+    <button class="goal-card goal-card--toggle" onclick="toggleMilestones()" style="width:100%;text-align:left;border:none;cursor:pointer;margin-bottom:0">
       <div class="goal-icon">🎯</div>
-      <div>
+      <div style="flex:1">
         <div class="goal-title">${student.goal.title}</div>
         <div class="goal-deadline">bis ${student.goal.deadline}</div>
       </div>
-    </div>
+      <div class="goal-toggle-arrow" id="goal-toggle-arrow">⌄</div>
+    </button>
 
-    <div class="milestones" style="margin-bottom:20px">
+    <div class="milestones" id="milestones-body" style="display:none;margin-bottom:20px">
       ${student.milestones.map(m => `
         <div class="milestone ${m.status}">
           <div class="milestone-dot">${m.status === 'done' ? '✓' : m.status === 'active' ? '▶' : '○'}</div>
@@ -1705,6 +1705,16 @@ function toggleGrammarSelf(cardId, state) {
   btns[0]?.classList.toggle('active-ueben',  saved[cardId] === 'ueben');
   btns[1]?.classList.toggle('active-ok',      saved[cardId] === 'verstanden');
   if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleMilestones() {
+  const body = document.getElementById('milestones-body');
+  const arrow = document.getElementById('goal-toggle-arrow');
+  if (!body) return;
+  const open = body.style.display === 'none' || body.style.display === '';
+  body.style.display = open ? 'block' : 'none';
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
 function toggleDiary() {
