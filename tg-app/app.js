@@ -330,14 +330,14 @@ function render() {
       <div class="hint-body" id="hint-body">${s.task.hint || ''}</div>
     </div>
     <div class="submit-form" id="submit-form-task">
-      <div class="submit-form-label">🎙 Aufnehmen oder schreiben</div>
       <div class="rec-zone" id="rec-zone-task">
         <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
         <span class="rec-timer" id="rec-timer-task"></span>
         <div class="rec-live" id="rec-live-task"></div>
         <div class="rec-status" id="rec-status-task"></div>
       </div>
-      <textarea class="submit-textarea" id="submit-text-task" placeholder="Oder schreiben Sie hier..."></textarea>
+      <button class="write-toggle-link" onclick="toggleWriteMode('task')">✍️ Lieber schreiben</button>
+      <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
       <button class="action-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
       <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
       <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
@@ -367,7 +367,8 @@ function render() {
             <div class="rec-live" id="rec-live-deepen"></div>
             <div class="rec-status" id="rec-status-deepen"></div>
           </div>
-          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Oder schreiben Sie hier..."></textarea>
+          <button class="write-toggle-link" onclick="toggleWriteMode('deepen')">✍️ Lieber schreiben</button>
+          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
           <button class="optional-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
           <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
         </div>
@@ -398,7 +399,8 @@ function render() {
             <div class="rec-live" id="rec-live-immerse"></div>
             <div class="rec-status" id="rec-status-immerse"></div>
           </div>
-          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Oder schreiben Sie hier..."></textarea>
+          <button class="write-toggle-link" onclick="toggleWriteMode('immerse')">✍️ Lieber schreiben</button>
+          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
           <button class="optional-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
           <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
         </div>
@@ -1705,6 +1707,16 @@ function toggleGrammarSelf(cardId, state) {
   btns[0]?.classList.toggle('active-ueben',  saved[cardId] === 'ueben');
   btns[1]?.classList.toggle('active-ok',      saved[cardId] === 'verstanden');
   if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleWriteMode(level) {
+  const ta = document.getElementById('submit-text-' + level);
+  const btn = event.target;
+  if (!ta) return;
+  const show = ta.style.display === 'none';
+  ta.style.display = show ? 'block' : 'none';
+  btn.textContent = show ? '✍️ Schreiben schließen' : '✍️ Lieber schreiben';
+  if (show) ta.focus();
 }
 
 function toggleMilestones() {
