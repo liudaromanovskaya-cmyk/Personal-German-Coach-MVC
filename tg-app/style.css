@@ -1,60 +1,71 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* ═══════════════════════════════════════════════════
-   DESIGN SYSTEM — Warm Premium direction
+   DESIGN SYSTEM — Clear Adult Premium
+   Locked direction: clean, structured, focused, decisive
    ═══════════════════════════════════════════════════ */
 :root {
-  /* ─── ПОВЕРХНОСТИ ─── */
-  --bg:              #F8F6F1;
-  --surface:         #FFFDFC;
-  --surface-soft:    #F5F1EA;
-  --surface-warm:    #F3EADF;
-  --surface-tint:    #EAEFE8;    /* legacy alias */
+  /* ─── BASE SURFACES ─── */
+  --bg:              #F1F3F4;
+  --surface:         #FFFFFF;
+  --surface-soft:    #ECEFED;
+  --surface-quiet:   #F6F8F7;
 
-  /* ─── PRIMARY ─── */
-  --primary:         #48624E;
-  --primary-hover:   #3E5543;
-  --primary-light:   #EAEFE8;
-  --primary-subtle:  #D6E1D6;
+  /* ─── STRUCTURE / PRIMARY ─── */
+  --primary:         #243947;
+  --primary-hover:   #1D2F3A;
+  --primary-light:   #E8EDF0;
+  --primary-subtle:  #D5DEE3;
+
+  /* ─── COPPER ACCENT (use very sparingly: current markers, badges) ─── */
+  --accent-copper:        #B87444;
+  --accent-copper-hover:  #9E633A;
+  --accent-copper-light:  #F2E3D8;
+  --accent-copper-subtle: #E7CCB7;
+
+  /* ─── QUIET SAGE (secondary supporting zones, small doses) ─── */
+  --sage-soft:       #EEF1EF;
 
   /* ─── ALIASES (backward compat — не удалять) ─── */
   --card:            var(--surface);
-  --accent:          var(--primary);
+  --accent:          var(--primary);           /* structural alias: keeps all existing var(--accent) as dark teal */
   --accent-light:    var(--primary-light);
   --accent-hover:    var(--primary-hover);
-  --highlight:       var(--primary);     /* was #477A50 — now alias */
-  --surface-lavender:var(--info-light);  /* was lavender — now warm sage */
+  --highlight:       var(--primary);
+  --surface-lavender:var(--info-light);
+  --surface-warm:    var(--surface-soft);      /* was beige #F3EADF — now neutral */
+  --surface-tint:    var(--surface-soft);      /* legacy alias */
 
   /* ─── НАВИГАЦИЯ ─── */
-  --nav:             #314237;
-  --nav-text:        rgba(255,255,255,0.72);
+  --nav:             #233640;
+  --nav-text:        rgba(255,255,255,0.76);
   --nav-text-active: #FFFFFF;
 
   /* ─── ТЕКСТ ─── */
-  --text:            #243028;
-  --text-secondary:  #5E695F;
-  --text-muted:      #8A9187;
-  --muted:           var(--text-muted);   /* alias */
+  --text:            #1F2A30;
+  --text-secondary:  #5C666B;
+  --text-muted:      #8A9190;
+  --muted:           var(--text-muted);
 
   /* ─── ГРАНИЦЫ ─── */
-  --border:          #DED9D0;
-  --border-soft:     #ECE7DF;
+  --border:          #DADDD8;
+  --border-soft:     #E6E9E4;
 
-  /* ─── СИГНАЛЬНЫЕ (только по функции) ─── */
-  --success:         #5B7A60;
-  --success-light:   #EDF3EC;
-  --warning:         #B89252;
-  --warning-light:   #F6EBDD;
-  --error:           #B65C52;
-  --error-light:     #F8E8E5;
-  --info:            #6E7C70;
-  --info-light:      #EEF1EC;
-  --urgent:          var(--warning);      /* alias */
+  /* ─── СИГНАЛЬНЫЕ (только по смыслу) ─── */
+  --success:         #617A69;
+  --success-light:   #EEF3EF;
+  --warning:         #B78A4C;
+  --warning-light:   #F5E8D8;
+  --error:           #B85D52;
+  --error-light:     #F8E6E4;
+  --info:            #607480;
+  --info-light:      #EAF0F3;
+  --urgent:          var(--warning);
 
   /* ─── ТЕНИ ─── */
-  --shadow-card:  0 1px 4px rgba(36,48,40,0.05), 0 0 0 1px var(--border-soft);
-  --shadow-hero:  0 4px 14px rgba(36,48,40,0.08);
-  --shadow-focus: 0 0 0 3px rgba(72,98,78,0.12);  /* focus ring only */
+  --shadow-card:  0 1px 4px rgba(31,42,48,0.05), 0 0 0 1px var(--border-soft);
+  --shadow-hero:  0 4px 14px rgba(31,42,48,0.08);
+  --shadow-focus: 0 0 0 3px rgba(36,57,71,0.10);
 
   /* ─── СЕМАНТИЧЕСКИЕ ГРАНИЦЫ ─── */
   --warning-border: #C9A870;
@@ -88,63 +99,71 @@
 /* ТЁМНАЯ ТЕМА — вариант 1: системная тема телефона тёмная */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:              #191C18;
-    --surface:         #21261F;
-    --surface-soft:    #282D26;
-    --surface-warm:    #2E2820;
-    --surface-tint:    #1E2B1E;
-    --primary:         #6B8C72;
-    --primary-hover:   #5E7D65;
-    --primary-light:   #1E2B1E;
-    --primary-subtle:  #2A3B2A;
-    --card:            #21261F;
-    --accent:          #6B8C72;
-    --accent-light:    #1E2B1E;
-    --accent-hover:    #5E7D65;
-    --highlight:       #6B8C72;
-    --nav:             #141A14;
-    --text:            #E8E4DC;
-    --text-secondary:  #9AA49A;
-    --text-muted:      #6A726A;
-    --muted:           #6A726A;
-    --border:          #303830;
-    --border-soft:     #282E28;
-    --warning:         #C4A060;
-    --warning-light:   #2C2416;
-    --urgent:          #C4A060;
-    --info:            #7A8C7C;
-    --info-light:      #1E2B1E;
+    --bg:              #1A1E21;
+    --surface:         #222A30;
+    --surface-soft:    #2A3038;
+    --surface-quiet:   #252C32;
+    --primary:         #7BAABB;
+    --primary-hover:   #6B9AAB;
+    --primary-light:   #1E2A32;
+    --primary-subtle:  #253040;
+    --accent-copper:        #C98855;
+    --accent-copper-light:  #2C1E14;
+    --sage-soft:       #1E2830;
+    --card:            #222A30;
+    --accent:          #7BAABB;
+    --accent-light:    #1E2A32;
+    --accent-hover:    #6B9AAB;
+    --highlight:       #7BAABB;
+    --surface-warm:    #2A3038;
+    --surface-tint:    #2A3038;
+    --nav:             #181E22;
+    --text:            #E2E8EB;
+    --text-secondary:  #8A9498;
+    --text-muted:      #62686E;
+    --muted:           #62686E;
+    --border:          #2E3438;
+    --border-soft:     #262C30;
+    --warning:         #C49A58;
+    --warning-light:   #2A2010;
+    --urgent:          #C49A58;
+    --info:            #7A8C92;
+    --info-light:      #1E2730;
   }
 }
 
 /* ТЁМНАЯ ТЕМА — вариант 2: Telegram в тёмном режиме (класс добавляет app.js) */
 body.dark {
-  --bg:              #191C18;
-  --surface:         #21261F;
-  --surface-soft:    #282D26;
-  --surface-warm:    #2E2820;
-  --surface-tint:    #1E2B1E;
-  --primary:         #6B8C72;
-  --primary-hover:   #5E7D65;
-  --primary-light:   #1E2B1E;
-  --primary-subtle:  #2A3B2A;
-  --card:            #21261F;
-  --accent:          #6B8C72;
-  --accent-light:    #1E2B1E;
-  --accent-hover:    #5E7D65;
-  --highlight:       #6B8C72;
-  --nav:             #141A14;
-  --text:            #E8E4DC;
-  --text-secondary:  #9AA49A;
-  --text-muted:      #6A726A;
-  --muted:           #6A726A;
-  --border:          #303830;
-  --border-soft:     #282E28;
-  --warning:         #C4A060;
-  --warning-light:   #2C2416;
-  --urgent:          #C4A060;
-  --info:            #7A8C7C;
-  --info-light:      #1E2B1E;
+  --bg:              #1A1E21;
+  --surface:         #222A30;
+  --surface-soft:    #2A3038;
+  --surface-quiet:   #252C32;
+  --primary:         #7BAABB;
+  --primary-hover:   #6B9AAB;
+  --primary-light:   #1E2A32;
+  --primary-subtle:  #253040;
+  --accent-copper:        #C98855;
+  --accent-copper-light:  #2C1E14;
+  --sage-soft:       #1E2830;
+  --card:            #222A30;
+  --accent:          #7BAABB;
+  --accent-light:    #1E2A32;
+  --accent-hover:    #6B9AAB;
+  --highlight:       #7BAABB;
+  --surface-warm:    #2A3038;
+  --surface-tint:    #2A3038;
+  --nav:             #181E22;
+  --text:            #E2E8EB;
+  --text-secondary:  #8A9498;
+  --text-muted:      #62686E;
+  --muted:           #62686E;
+  --border:          #2E3438;
+  --border-soft:     #262C30;
+  --warning:         #C49A58;
+  --warning-light:   #2A2010;
+  --urgent:          #C49A58;
+  --info:            #7A8C92;
+  --info-light:      #1E2730;
 }
 
 /* Запрет горизонтальной прокрутки — обязательно для мобильных */
@@ -271,7 +290,7 @@ a.optional-send-btn:active {
   flex-shrink: 0;
 }
 .grammar-card.done .grammar-status-dot { background: var(--accent); }
-.grammar-card.current .grammar-status-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(72,98,78,.18); }
+.grammar-card.current .grammar-status-dot { background: var(--accent-copper); box-shadow: 0 0 0 3px rgba(184,116,68,.20); }
 .grammar-card.upcoming .grammar-status-dot { background: var(--border); }
 .grammar-toggle-label {
   flex: 1;
@@ -310,7 +329,7 @@ a.optional-send-btn:active {
   margin-bottom: 12px;
 }
 .grammar-example {
-  background: var(--surface-warm);
+  background: var(--primary-light);
   border-left: 2px solid var(--primary-subtle);
   border-radius: 0 var(--r-chip) var(--r-chip) 0;
   padding: 10px 14px;
@@ -335,7 +354,7 @@ a.optional-send-btn:active {
 .mod-legend { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
 #mod-container { padding: 8px 16px 24px; display: flex; flex-direction: column; gap: 8px; }
 .mod-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.mod-card.mod-current { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(72,98,78,0.14); }
+.mod-card.mod-current { border-color: var(--primary-subtle); box-shadow: 0 0 0 2px rgba(36,57,71,0.10); }
 .mod-header { display: flex; align-items: center; gap: 10px; padding: 14px 14px; cursor: pointer; user-select: none; }
 .mod-header:active { background: var(--accent-light); }
 .mod-header-text { flex: 1; min-width: 0; }
@@ -353,9 +372,9 @@ a.optional-send-btn:active {
 .mod-dot { font-size: 18px; flex-shrink: 0; cursor: pointer; transition: transform .1s; line-height: 1; }
 .mod-dot:active { transform: scale(1.3); }
 .mod-dot-main { font-size: 22px; }
-.mod-grey   { color: #C0C8D2; }
-.mod-orange { color: #D97706; }
-.mod-green  { color: #4A8C6E; }
+.mod-grey   { color: var(--text-muted); }
+.mod-orange { color: var(--accent-copper); }
+.mod-green  { color: var(--success); }
 .mod-infografik-btn {
   display: block; margin: 0 0 12px;
   padding: 10px 14px; background: var(--accent-light);
@@ -390,7 +409,7 @@ a.optional-send-btn:active {
   flex-shrink: 0;
 }
 .gpath-dot.done    { background: var(--accent); color: #fff; }
-.gpath-dot.current { background: var(--urgent); color: #fff; box-shadow: 0 0 0 4px rgba(217,119,6,.15); }
+.gpath-dot.current { background: var(--accent-copper); color: #fff; box-shadow: 0 0 0 4px rgba(184,116,68,.18); }
 .gpath-dot.upcoming{ background: var(--border); color: var(--muted); }
 
 .gpath-info { flex: 1; min-width: 0; }
@@ -429,8 +448,8 @@ a.optional-send-btn:active {
   padding: 14px;
 }
 .gpath-body.visible { display: block; }
-.gpath-node.current .gpath-body { border-color: rgba(217,119,6,.3); }
-.gpath-node.done    .gpath-body { border-color: rgba(72,98,78,.25); }
+.gpath-node.current .gpath-body { border-color: rgba(184,116,68,.30); }
+.gpath-node.done    .gpath-body { border-color: rgba(36,57,71,.20); }
 
 /* GRAMMAR SELF-ASSESSMENT */
 .grammar-self-row {
@@ -769,8 +788,8 @@ a.optional-send-btn:active {
   transition: border-color .15s, background .15s;
 }
 .level-btn--active {
-  background: var(--nav);
-  border-color: var(--nav);
+  background: var(--accent-copper);
+  border-color: var(--accent-copper);
 }
 .level-btn:not(.level-btn--active):hover {
   border-color: var(--primary-subtle);
@@ -1110,9 +1129,9 @@ a.optional-send-btn:active {
   color: #fff;
 }
 .milestone.active .milestone-dot {
-  background: var(--nav);
-  color: var(--highlight);
-  border: 2px solid var(--highlight);
+  background: var(--accent-copper);
+  color: #fff;
+  border: 2px solid var(--accent-copper);
 }
 .milestone.upcoming .milestone-dot {
   background: var(--bg);
@@ -1632,26 +1651,27 @@ a.optional-send-btn:active {
 
 .kultur-card {
   margin: 12px 16px 0;
-  background: #fff;
+  background: var(--surface);
   border-radius: 16px;
   border: 1.5px solid var(--border);
   overflow: hidden;
   transition: border-color .15s;
 }
-.kultur-card.open { border-color: var(--accent); }
+.kultur-card.open { border-color: var(--primary-subtle); }
 
-.kultur-card-wort        { border-left: 4px solid #7CC8A0; }
-.kultur-card-sprichwort  { border-left: 4px solid #F6AD55; }
-.kultur-card-redewendung { border-left: 4px solid #76E4F7; }
-.kultur-card-wussten     { border-left: 4px solid #B794F4; }
-.kultur-card-warum       { border-left: 4px solid #FC8181; }
-.kultur-card-landeskunde { border-left: 4px solid #68D391; }
-.kultur-card-literatur   { border-left: 4px solid #F687B3; }
-.kultur-card-gesundheit  { border-left: 4px solid #4FD1C5; }
-.kultur-card-buerokratie { border-left: 4px solid #F6AD55; }
-.kultur-card-finanzen    { border-left: 4px solid #63B3ED; }
-.kultur-card-politik     { border-left: 4px solid #A0AEC0; }
-.kultur-card-kunst       { border-left: 4px solid #ED8936; }
+/* Category left-border colors — muted, within system palette */
+.kultur-card-wort        { border-left: 4px solid var(--primary); }
+.kultur-card-sprichwort  { border-left: 4px solid var(--accent-copper); }
+.kultur-card-redewendung { border-left: 4px solid var(--info); }
+.kultur-card-wussten     { border-left: 4px solid var(--primary-subtle); }
+.kultur-card-warum       { border-left: 4px solid var(--error); }
+.kultur-card-landeskunde { border-left: 4px solid var(--success); }
+.kultur-card-literatur   { border-left: 4px solid var(--text-muted); }
+.kultur-card-gesundheit  { border-left: 4px solid var(--info); }
+.kultur-card-buerokratie { border-left: 4px solid var(--warning); }
+.kultur-card-finanzen    { border-left: 4px solid var(--info); }
+.kultur-card-politik     { border-left: 4px solid var(--text-muted); }
+.kultur-card-kunst       { border-left: 4px solid var(--accent-copper); }
 
 .kultur-toggle {
   width: 100%;
@@ -2478,11 +2498,12 @@ a.optional-send-btn:active {
 
 /* ── SPEAKING SPRINT ───────────────────────────────────────── */
 .sprint-day-card {
-  background: var(--card);
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 12px;
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--accent-copper);
 }
 .sprint-day-header {
   display: flex;
@@ -2493,7 +2514,7 @@ a.optional-send-btn:active {
 .sprint-day-label {
   font-size: 12px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-copper);
   text-transform: uppercase;
   letter-spacing: .04em;
 }
@@ -2662,7 +2683,7 @@ a.optional-send-btn:active {
 /* ── Sprint P0: Notification banner ─────────────────────────────────────── */
 .sprint-notif-banner {
   margin: 0 16px 12px;
-  background: linear-gradient(135deg, var(--nav) 0%, #3A4A40 100%);
+  background: linear-gradient(135deg, var(--nav) 0%, #2E4A5E 100%);
   border-radius: 14px;
   padding: 14px 16px;
   display: flex;
@@ -2696,7 +2717,7 @@ a.optional-send-btn:active {
 .not-done-banner {
   margin: 0 16px 12px;
   background: var(--warning-light);
-  border: 1.5px solid #D9B060;
+  border: 1.5px solid var(--warning-border);
   border-radius: 14px;
   padding: 12px 16px;
   display: flex;
@@ -3045,7 +3066,7 @@ a.optional-send-btn:active {
 
 /* ── Блок "Ваш немецкий сейчас" ──────────────────────────────────────── */
 .lang-markers-block {
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface-tint) 100%);
+  background: var(--primary-light);
   border: 1px solid var(--primary-subtle);
   border-radius: 16px;
   padding: 20px 18px 16px;
@@ -3367,9 +3388,9 @@ a.optional-send-btn:active {
 
 /* Фидбек педагога — личная заметка наставника */
 .teacher-reply-card {
-  background: var(--surface-warm);
+  background: var(--surface);
   border: 1px solid var(--border-soft);
-  border-left: 3px solid var(--primary);
+  border-left: 3px solid var(--accent-copper);
   border-radius: var(--r-card-sm);
   margin: 0 16px 16px;
   overflow: hidden;
@@ -3402,7 +3423,7 @@ a.optional-send-btn:active {
 .teacher-reply-label {
   font-size: var(--font-micro);
   font-weight: 700;
-  color: var(--primary);
+  color: var(--accent-copper);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -3425,7 +3446,7 @@ a.optional-send-btn:active {
   display: none;
   padding: 0 16px 18px;
   border-top: 1px solid var(--border-soft);
-  background: var(--surface-warm);
+  background: var(--surface-quiet);
 }
 .teacher-reply-body.visible { display: block; }
 .teacher-reply-text {
@@ -3595,7 +3616,7 @@ a.optional-send-btn:active {
   background: var(--surface);
   color: var(--primary);
   font-weight: 700;
-  box-shadow: 0 1px 4px rgba(36,48,40,0.10), 0 0 0 1px var(--border-soft);
+  box-shadow: 0 1px 4px rgba(31,42,48,0.10), 0 0 0 1px var(--border-soft);
 }
 /* Оба варианта active — одинаковый стиль */
 .mode-btn--speaking.mode-btn--active,
