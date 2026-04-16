@@ -289,6 +289,71 @@
     cursor: pointer; min-height: 36px;
   }
   .inbox-feedback-btn:hover { background: #3d7a5e; }
+
+  /* ── Dashboard ─────────────────────────────────────────────────────────── */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .dashboard-card {
+    background: #F7FAFC;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .dash-student-name { font-weight: 700; font-size: 16px; color: var(--accent); margin-bottom: 2px; }
+  .dash-last { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .dash-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .dash-metric {
+    background: white;
+    border-radius: 8px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .dash-metric-value { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .dash-metric-label { font-size: 10px; color: var(--muted); margin-top: 1px; }
+  .dash-words-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+    background: var(--border);
+  }
+  .dash-words-segment { min-width: 2px; }
+  .dash-words-green  { background: #4A8C6E; }
+  .dash-words-yellow { background: #D97706; }
+  .dash-words-red    { background: #E53E3E; }
+  .dash-words-legend { display: flex; gap: 10px; font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .dash-spark { display: flex; gap: 2px; align-items: flex-end; height: 22px; margin-bottom: 3px; }
+  .spark-bar { flex: 1; height: 6px; border-radius: 2px; background: var(--border); transition: height 0.1s; }
+  .spark-bar.spark-sub { background: var(--accent); height: 14px; }
+  .spark-bar.spark-sub.spark-fb { background: var(--blue); height: 20px; }
+  .spark-bar.spark-fb:not(.spark-sub) { background: #CBD5E0; height: 10px; }
+  .dash-spark-label { font-size: 10px; color: var(--muted); }
+  .dash-no-data { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0; }
+
+  /* ── Sprint archive note ──── */
+  .sprint-archive-note {
+    display: none;
+    background: #FFFBEB;
+    border: 1px solid #D97706;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #92400E;
+    line-height: 1.5;
+    margin-top: 10px;
+    white-space: pre-wrap;
+  }
+
   .marker-checks {
     display: flex;
     flex-direction: column;
@@ -428,6 +493,17 @@
     </div>
     <div class="section-body" id="inboxBody">
       <div class="inbox-empty">Загрузка...</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📊 Статистика студентов</span>
+      <button class="btn btn-outline btn-sm" onclick="loadDashboard()">🔄 Обновить</button>
+    </div>
+    <div class="section-body" id="dashboardBody">
+      <div class="inbox-empty">Нажмите «Обновить» — загружу активность за месяц</div>
     </div>
   </div>
 
@@ -622,6 +698,9 @@
     <button class="btn btn-secondary" id="generateBtn" onclick="generateWithGemini()">
       ✨ Сгенерировать день
     </button>
+    <button class="btn btn-accent" id="sprintArchiveBtn" onclick="generateSprintFromArchive()">
+      🧠 Спринт из архива
+    </button>
     <button class="btn btn-accent" id="weekBtn" onclick="generateWeekPlan()">
       🗓 Сгенерировать план недели (пн–пт)
     </button>
@@ -641,6 +720,7 @@
       👁 Посмотреть план недели
     </button>
   </div>
+  <div class="sprint-archive-note" id="sprintArchiveNote"></div>
 
 </div>
 
@@ -2189,6 +2269,272 @@ ${langInstruction}
   } catch(e) {
     if (btn) { btn.textContent = '🤖 Анализировать'; btn.disabled = false; }
     toast('Ошибка анализа: ' + e.message, 'error');
+  }
+}
+
+// ── DASHBOARD — статистика студентов ──────────────────────────────────────
+async function loadDashboard() {
+  const body = document.getElementById('dashboardBody');
+  body.innerHTML = '<div class="inbox-empty">Загружаю статистику...</div>';
+
+  const students = ['olga', 'artem', 'julia'];
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const todayKey = now.toISOString().split('T')[0];
+
+  let html = '<div class="dashboard-grid">';
+
+  for (const sid of students) {
+    const [submissions, diary, wordSchedule] = await Promise.all([
+      fbGet(`submissions/${sid}`),
+      fbGet(`progress/${sid}/diary`),
+      fbGet(`progress/${sid}/wordSchedule`)
+    ]);
+
+    const allDates = submissions ? Object.keys(submissions) : [];
+    const thisMonthDates = allDates.filter(d => d.startsWith(currentMonth));
+
+    // Дней активности в этом месяце (хотя бы одна сдача)
+    const daysActiveThisMonth = thisMonthDates.filter(d => {
+      const day = submissions[d];
+      return day && Object.keys(day).some(k => k !== 'teacherFeedback');
+    }).length;
+
+    // Фидбеков в этом месяце
+    const fbCount = thisMonthDates.filter(d => !!submissions[d]?.teacherFeedback).length;
+
+    // Последняя активность
+    const lastDate = allDates.filter(d => {
+      const day = submissions[d];
+      return day && Object.keys(day).some(k => k !== 'teacherFeedback');
+    }).sort().reverse()[0];
+    const daysSinceLast = lastDate
+      ? Math.floor((now - new Date(lastDate + 'T12:00:00')) / 86400000)
+      : null;
+    const lastText = daysSinceLast === null ? 'нет записей'
+      : daysSinceLast === 0 ? 'сегодня'
+      : daysSinceLast === 1 ? 'вчера'
+      : `${daysSinceLast} дн. назад`;
+
+    // Серия дней
+    const streak = diary?.streak || 0;
+
+    // Слова: распределение по статусам
+    const wordEntries = wordSchedule ? Object.values(wordSchedule) : [];
+    const wGreen  = wordEntries.filter(w => w.lastStatus === 'green').length;
+    const wYellow = wordEntries.filter(w => w.lastStatus === 'yellow').length;
+    const wRed    = wordEntries.filter(w => w.lastStatus === 'red' || w.lastStatus === 'forgotten').length;
+    const wTotal  = wordEntries.length;
+
+    // % активности в месяце
+    const daysElapsed = now.getDate();
+    const actPct = daysElapsed > 0 ? Math.round((daysActiveThisMonth / daysElapsed) * 100) : 0;
+    const actColor = actPct >= 70 ? '#4A8C6E' : actPct >= 40 ? '#D97706' : '#E53E3E';
+
+    // Спарклайн — последние 14 дней
+    const sparkHtml = Array.from({length: 14}, (_, i) => {
+      const d = new Date(now);
+      d.setDate(d.getDate() - (13 - i));
+      const dk = d.toISOString().split('T')[0];
+      const hasSub = submissions?.[dk] && Object.keys(submissions[dk]).some(k => k !== 'teacherFeedback');
+      const hasFb  = !!submissions?.[dk]?.teacherFeedback;
+      const cls = hasSub && hasFb ? 'spark-sub spark-fb' : hasSub ? 'spark-sub' : hasFb ? 'spark-fb' : '';
+      return `<div class="spark-bar ${cls}" title="${dk}"></div>`;
+    }).join('');
+
+    // Слова на повторение сегодня
+    const dueToday = wordEntries.filter(w => w.nextReview && w.nextReview <= todayKey && w.lastStatus !== 'none').length;
+
+    html += `
+    <div class="dashboard-card">
+      <div class="dash-student-name">${STUDENT_NAMES[sid] || sid}</div>
+      <div class="dash-last">последняя активность: ${lastText}</div>
+      <div class="dash-metrics">
+        <div class="dash-metric">
+          <div class="dash-metric-value" style="color:${actColor}">${daysActiveThisMonth}</div>
+          <div class="dash-metric-label">дней в апреле</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-value">${streak > 0 ? '🔥' : ''}${streak}</div>
+          <div class="dash-metric-label">серия дней</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-value">${fbCount}</div>
+          <div class="dash-metric-label">фидбеков</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-value">${dueToday > 0 ? '<span style="color:#D97706">'+dueToday+'</span>' : wTotal}</div>
+          <div class="dash-metric-label">${dueToday > 0 ? 'на повторение' : 'слов в банке'}</div>
+        </div>
+      </div>
+      ${wTotal > 0 ? `
+      <div class="dash-words-bar">
+        <div class="dash-words-segment dash-words-green"  style="flex:${wGreen}"></div>
+        <div class="dash-words-segment dash-words-yellow" style="flex:${wYellow}"></div>
+        <div class="dash-words-segment dash-words-red"    style="flex:${wRed || 0}"></div>
+      </div>
+      <div class="dash-words-legend">
+        <span>🟢 ${wGreen}</span>
+        <span>🟡 ${wYellow}</span>
+        <span>🔴 ${wRed}</span>
+        <span style="margin-left:auto;color:#718096">всего ${wTotal}</span>
+      </div>` : '<div class="dash-no-data">нет данных по словам</div>'}
+      <div class="dash-spark">${sparkHtml}</div>
+      <div class="dash-spark-label">14 дней · 🟢 сдала · 🔵 + фидбек</div>
+    </div>`;
+  }
+
+  html += '</div>';
+  body.innerHTML = html;
+}
+
+// ── СПРИНТ ИЗ АРХИВА ── AI генерация из паттернов ошибок ──────────────────
+async function generateSprintFromArchive() {
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) {
+    toast('Введите OpenRouter API ключ', 'error'); return;
+  }
+
+  const btn = document.getElementById('sprintArchiveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Читаю архив...';
+
+  const noteEl = document.getElementById('sprintArchiveNote');
+  if (noteEl) noteEl.style.display = 'none';
+
+  try {
+    // 1. Профиль студента
+    const studentProfile = await fbGet(`students/${currentStudent}/profile`);
+    const studentName = studentProfile?.name || STUDENT_NAMES[currentStudent] || currentStudent;
+    const studentLevel = studentProfile?.level || 'B1';
+    const studentGoal = studentProfile?.goal || '';
+
+    // 2. Архив фидбека (последние 10 записей)
+    const feedbackArchive = await fbGet(`feedback/${currentStudent}`);
+    const feedbackEntries = feedbackArchive
+      ? Object.entries(feedbackArchive).sort(([a],[b]) => b.localeCompare(a)).slice(0, 10)
+      : [];
+
+    if (!feedbackEntries.length) {
+      toast('Архив фидбека пуст — сначала отправьте хотя бы один фидбек', 'error');
+      btn.disabled = false; btn.innerHTML = '🧠 Спринт из архива';
+      return;
+    }
+
+    // 3. Слова на повторение
+    const wordSchedule = await fbGet(`progress/${currentStudent}/wordSchedule`);
+    const todayKey = new Date().toISOString().split('T')[0];
+    const dueWords = wordSchedule
+      ? Object.values(wordSchedule)
+          .filter(w => w.nextReview && w.nextReview <= todayKey && w.lastStatus !== 'none')
+          .slice(0, 4)
+      : [];
+
+    // 4. Прошлые слова — не дублировать
+    const lastData = await fbGet(`teacher/${currentStudent}`);
+    const lastWords = (lastData?.today?.words || []).map(w => w.word);
+    const lastTheme = lastData?.today?.theme || '';
+
+    btn.innerHTML = '<span class="spinner"></span> AI анализирует ошибки...';
+
+    const feedbackBlock = feedbackEntries
+      .map(([date, fb]) => `--- ${date} ---\n${fb.text}`)
+      .join('\n\n');
+
+    const repeatBlock = dueWords.length
+      ? `Слова которые пора повторить (включи 1-2 в новый спринт):\n${dueWords.map(w => `- ${w.word} (статус: ${w.lastStatus}, использовано ${w.timesUsed||0}×)`).join('\n')}`
+      : '';
+
+    const lastWordsBlock = lastWords.length
+      ? `Слова прошлого спринта (не повторять):\n${lastWords.join(', ')}`
+      : '';
+
+    const prompt = `Ты — ассистент преподавателя немецкого языка (методология Speaking Sprint).
+
+СТУДЕНТ: ${studentName}, уровень ${studentLevel}${studentGoal ? ', цель: ' + studentGoal : ''}
+${lastTheme ? `Последняя тема: ${lastTheme}` : ''}
+${lastWordsBlock}
+
+МЕТОДОЛОГИЯ (обязательно):
+- 6 слов: бытовые B1→B2, реальный контекст жизни в немецкоязычной стране
+- Niveau 1 (Aufwärmen): знакомая ситуация, любой ответ засчитывается, снять страх, 5 предложений
+- Niveau 2 (Situation): TBLT — коммуникативная задача без всех слов не решить, 7-8 предложений
+- Niveau 3 (Geschichte): реальное воспоминание из жизни студента, не придуманное, свободно
+- Пост-сабмишн: зрелый наставник, без "Молодец!", что закрыли + почему важно в маршруте
+
+АРХИВ ФИДБЕКА (${feedbackEntries.length} записей):
+${feedbackBlock}
+
+${repeatBlock}
+
+ЗАДАЧА:
+1. Найди главный паттерн ошибок (грамматика, лексика, кальки с русского)
+2. Выбери грамматическую тему для отработки на этой неделе
+3. Подбери 6 слов: тема → актуальная для студента, ${repeatBlock ? '+ 1-2 слова из повторения' : 'новые слова уровня'}
+4. Создай задание дня по всем 3 уровням Sprechen
+
+Верни ТОЛЬКО JSON (без markdown):
+{
+  "theme": "Тема дня на немецком",
+  "grammarQueen": "Грамматическая тема недели",
+  "grammarContext": "Почему эта тема сейчас — 1 предложение",
+  "grammarSentence": "Пример с этой грамматикой",
+  "grammarNote": "Подсказка под примером",
+  "words": [
+    { "word": "слово", "hint": "значение по-русски", "grammarTag": "тип (reflexiv/Dativ...)", "chunks": ["Пример с [подсветкой].", "Пример 2.", "Пример 3."] }
+  ],
+  "task":   { "topic": "Aufwärmen — заголовок", "prompt": "промпт на немецком", "instruction": "5 Sätze. Kein Perfekt nötig.", "hint": "Einstieg: ..." },
+  "deepen": { "topic": "Situation — заголовок", "prompt": "ситуация на немецком", "instruction": "7–8 Sätze. Nutzen Sie alle Wörter.", "hint": "..." },
+  "immerse":{ "topic": "Ihre Geschichte — заголовок", "prompt": "открытый вопрос про реальный момент", "instruction": "Erzählen Sie frei.", "hint": "..." },
+  "postSubmit": { "done": "Что закрыли сегодня — 1 предложение конкретно", "why": "Почему этот шаг важен в маршруте" },
+  "analysisNote": "Для педагога: главный паттерн ошибок из архива + почему выбрала именно эти слова и грамматику. По-русски, 2-3 предложения."
+}
+
+Чанки: ключевое слово в [квадратных скобках]. 3 чанка на слово. Бытовые, B1-B2.`;
+
+    const text = await callAI(prompt, 5000);
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Не удалось разобрать ответ AI');
+    const json = JSON.parse(m[0]);
+
+    // Заполняем форму
+    s('weekTheme',       json.theme);
+    s('grammarQueen',    json.grammarQueen);
+    s('grammarContext',  json.grammarContext);
+    s('grammarSentence', json.grammarSentence);
+    s('grammarNote',     json.grammarNote);
+
+    (json.words || []).forEach((w, i) => {
+      if (i >= WORD_COUNT) return;
+      s(`word${i}`,      w.word);
+      s(`hint${i}`,      w.hint);
+      s(`grammarTag${i}`, w.grammarTag || '');
+      if (w.chunks?.length) {
+        s(`chunksText${i}`, w.chunks.join('\n'));
+        document.getElementById(`chunks${i}`)?.classList.add('visible');
+      }
+    });
+    updateWordReminder();
+
+    if (json.task)       { s('task1Topic',json.task.topic);    s('task1Prompt',json.task.prompt);    s('task1Instruction',json.task.instruction);    s('task1Hint',json.task.hint); }
+    if (json.deepen)     { s('task2Topic',json.deepen.topic);  s('task2Prompt',json.deepen.prompt);  s('task2Instruction',json.deepen.instruction);  s('task2Hint',json.deepen.hint); }
+    if (json.immerse)    { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
+    if (json.postSubmit) { s('postDone',  json.postSubmit.done); s('postWhy', json.postSubmit.why); }
+
+    if (json.analysisNote && noteEl) {
+      noteEl.textContent = '🧠 AI-анализ: ' + json.analysisNote;
+      noteEl.style.display = 'block';
+    }
+
+    isDirty = true; updateStatus();
+    toast('Спринт из архива готов — проверьте и сохраните', 'success');
+    document.getElementById('weekTheme')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  } catch(e) {
+    console.error(e);
+    toast('Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🧠 Спринт из архива';
   }
 }
 
