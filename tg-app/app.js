@@ -317,98 +317,84 @@ function render() {
       </div>
     </div>
 
-    <div class="optional-card optional-card--niveau1">
-      <button class="optional-toggle optional-toggle--niveau1" id="task-toggle" onclick="toggleOptional('task')">
-        <div class="optional-toggle-left">
-          <div class="optional-toggle-title">🎤 Niveau 1 — Aufwärmen</div>
-          <div class="optional-toggle-sub">${s.task.topic}</div>
-        </div>
-        <div class="optional-toggle-arrow">⌄</div>
+    <div class="level-switcher" id="level-switcher">
+      <button class="level-btn level-btn--active" id="lbtn-1" onclick="switchSpeakLevel(1)">
+        <div class="level-btn-num">1</div>
+        <div class="level-btn-name">Aufwärmen</div>
       </button>
-      <div class="optional-body" id="task-body">
-        <div class="optional-text">${s.task.prompt}</div>
-        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.task.instruction}</div>
-        <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()" ${!s.task.hint ? 'style="display:none"' : ''}>
-          💡 Tipp — wenn es gar nicht klappt
-        </button>
-        <div class="hint-body" id="hint-body">${s.task.hint || ''}</div>
-        <div class="submit-form submit-form--optional" id="submit-form-task">
-          <div class="rec-zone" id="rec-zone-task">
-            <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
-            <span class="rec-timer" id="rec-timer-task"></span>
-            <div class="rec-live" id="rec-live-task"></div>
-            <div class="rec-status" id="rec-status-task"></div>
-          </div>
-          <button class="write-toggle-link" onclick="toggleWriteMode('task')">✍️ Lieber schreiben</button>
-          <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
-          <button class="optional-send-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
-          <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
-          <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
+      <button class="level-btn" id="lbtn-2" onclick="switchSpeakLevel(2)">
+        <div class="level-btn-num">2</div>
+        <div class="level-btn-name">Situation</div>
+      </button>
+      <button class="level-btn" id="lbtn-3" onclick="switchSpeakLevel(3)">
+        <div class="level-btn-num">3</div>
+        <div class="level-btn-name">Geschichte</div>
+      </button>
+    </div>
+
+    <div class="level-content" id="level-content-1">
+      <div class="level-topic">${s.task.topic}</div>
+      <div class="level-prompt">${s.task.prompt}</div>
+      <div class="level-instruction">${s.task.instruction}</div>
+      ${s.task.hint ? `<button class="hint-toggle" id="hint-toggle" onclick="toggleHint()">💡 Tipp — wenn es gar nicht klappt</button><div class="hint-body" id="hint-body">${s.task.hint}</div>` : ''}
+      <div class="level-submit" id="submit-form-task">
+        <div class="rec-zone" id="rec-zone-task">
+          <button class="rec-btn" id="rec-btn-task" onclick="toggleRecording('task')">🎙 Aufnehmen</button>
+          <span class="rec-timer" id="rec-timer-task"></span>
+          <div class="rec-live" id="rec-live-task"></div>
+          <div class="rec-status" id="rec-status-task"></div>
         </div>
+        <button class="write-toggle-link" onclick="toggleWriteMode('task')">✍️ Lieber schreiben</button>
+        <textarea class="submit-textarea" id="submit-text-task" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
+        <button class="level-send-btn" onclick="submitHomework('task')">✉️ Abschicken</button>
+        <div class="submit-confirm" id="submit-confirm-task" style="display:none">✅ Gesendet!</div>
+        <div class="post-submit-msg" id="post-submit-msg" style="display:none"></div>
       </div>
     </div>
 
-    <div class="optional-card">
-      <button class="optional-toggle" id="deepen-toggle" onclick="toggleOptional('deepen')">
-        <div class="optional-toggle-left">
-          <div class="optional-toggle-title">🎤 Niveau 2 — Situation</div>
-          <div class="optional-toggle-sub">Bereit für mehr?</div>
+    <div class="level-content" id="level-content-2" style="display:none">
+      <div class="level-topic">${s.deepen.topic}</div>
+      <div class="level-prompt">${s.deepen.prompt}</div>
+      <div class="level-instruction">${s.deepen.instruction}</div>
+      <div class="sprint-word-chips" style="margin-top:10px">
+        ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
+        ${(s.words2 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--new">${w.word}</span>`).join('')}
+      </div>
+      ${s.deepen.hint ? `<div class="hint-body" style="display:block;margin-top:8px">💡 ${s.deepen.hint}</div>` : ''}
+      <div class="level-submit" id="submit-form-deepen">
+        <div class="rec-zone" id="rec-zone-deepen">
+          <button class="rec-btn" id="rec-btn-deepen" onclick="toggleRecording('deepen')">🎙 Aufnehmen</button>
+          <span class="rec-timer" id="rec-timer-deepen"></span>
+          <div class="rec-live" id="rec-live-deepen"></div>
+          <div class="rec-status" id="rec-status-deepen"></div>
         </div>
-        <div class="optional-toggle-arrow">⌄</div>
-      </button>
-      <div class="optional-body" id="deepen-body">
-        <div class="optional-topic">${s.deepen.topic}</div>
-        <div class="optional-text">${s.deepen.prompt}</div>
-        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.deepen.instruction}</div>
-        <div class="sprint-word-chips">
-          ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
-          ${(s.words2 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--new">${w.word}</span>`).join('')}
-        </div>
-        ${s.deepen.hint ? `<div class="hint-body" style="display:block;margin-top:8px">💡 ${s.deepen.hint}</div>` : ''}
-        <div class="submit-form submit-form--optional" id="submit-form-deepen">
-          <div class="rec-zone" id="rec-zone-deepen">
-            <button class="rec-btn" id="rec-btn-deepen" onclick="toggleRecording('deepen')">🎙 Aufnehmen</button>
-            <span class="rec-timer" id="rec-timer-deepen"></span>
-            <div class="rec-live" id="rec-live-deepen"></div>
-            <div class="rec-status" id="rec-status-deepen"></div>
-          </div>
-          <button class="write-toggle-link" onclick="toggleWriteMode('deepen')">✍️ Lieber schreiben</button>
-          <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
-          <button class="optional-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
-          <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
-        </div>
+        <button class="write-toggle-link" onclick="toggleWriteMode('deepen')">✍️ Lieber schreiben</button>
+        <textarea class="submit-textarea" id="submit-text-deepen" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
+        <button class="level-send-btn" onclick="submitHomework('deepen')">✉️ Abschicken</button>
+        <div class="submit-confirm" id="submit-confirm-deepen" style="display:none">✅ Gesendet!</div>
       </div>
     </div>
 
-    <div class="optional-card">
-      <button class="optional-toggle" id="immerse-toggle" onclick="toggleOptional('immerse')">
-        <div class="optional-toggle-left">
-          <div class="optional-toggle-title">🎤 Niveau 3 — Ihre Geschichte</div>
-          <div class="optional-toggle-sub">Freies Sprechen — alle Wörter zur Auswahl</div>
+    <div class="level-content" id="level-content-3" style="display:none">
+      <div class="level-topic">${s.immerse.topic}</div>
+      <div class="level-prompt">${s.immerse.prompt}</div>
+      <div class="level-instruction">${s.immerse.instruction}</div>
+      <div class="sprint-word-chips" style="margin-top:10px">
+        ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
+        ${(s.words2 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--new">${w.word}</span>`).join('')}
+        ${(s.words3 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--deep">${w.word}</span>`).join('')}
+      </div>
+      <div class="level-submit" id="submit-form-immerse">
+        <div class="rec-zone" id="rec-zone-immerse">
+          <button class="rec-btn" id="rec-btn-immerse" onclick="toggleRecording('immerse')">🎙 Aufnehmen</button>
+          <span class="rec-timer" id="rec-timer-immerse"></span>
+          <div class="rec-live" id="rec-live-immerse"></div>
+          <div class="rec-status" id="rec-status-immerse"></div>
         </div>
-        <div class="optional-toggle-arrow">⌄</div>
-      </button>
-      <div class="optional-body" id="immerse-body">
-        <div class="optional-topic">${s.immerse.topic}</div>
-        <div class="optional-text">${s.immerse.prompt}</div>
-        <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.immerse.instruction}</div>
-        <div class="sprint-word-chips">
-          ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
-          ${(s.words2 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--new">${w.word}</span>`).join('')}
-          ${(s.words3 || []).map(w => `<span class="sprint-word-chip sprint-word-chip--deep">${w.word}</span>`).join('')}
-        </div>
-        <div class="submit-form submit-form--optional" id="submit-form-immerse">
-          <div class="rec-zone" id="rec-zone-immerse">
-            <button class="rec-btn" id="rec-btn-immerse" onclick="toggleRecording('immerse')">🎙 Aufnehmen</button>
-            <span class="rec-timer" id="rec-timer-immerse"></span>
-            <div class="rec-live" id="rec-live-immerse"></div>
-            <div class="rec-status" id="rec-status-immerse"></div>
-          </div>
-          <button class="write-toggle-link" onclick="toggleWriteMode('immerse')">✍️ Lieber schreiben</button>
-          <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
-          <button class="optional-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
-          <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
-        </div>
+        <button class="write-toggle-link" onclick="toggleWriteMode('immerse')">✍️ Lieber schreiben</button>
+        <textarea class="submit-textarea" id="submit-text-immerse" placeholder="Schreiben Sie hier..." style="display:none"></textarea>
+        <button class="level-send-btn" onclick="submitHomework('immerse')">✉️ Abschicken</button>
+        <div class="submit-confirm" id="submit-confirm-immerse" style="display:none">✅ Gesendet!</div>
       </div>
     </div>
       `;
@@ -1714,6 +1700,16 @@ function toggleGrammarSelf(cardId, state) {
   if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 }
 
+function switchSpeakLevel(n) {
+  [1,2,3].forEach(i => {
+    const content = document.getElementById('level-content-' + i);
+    const btn = document.getElementById('lbtn-' + i);
+    if (content) content.style.display = i === n ? 'block' : 'none';
+    if (btn) btn.classList.toggle('level-btn--active', i === n);
+  });
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+}
+
 function toggleWriteMode(level) {
   const ta = document.getElementById('submit-text-' + level);
   const btn = event.target;
@@ -2573,11 +2569,17 @@ function setMood(mood) {
   const sel = document.getElementById('mood-selector');
   if (sel) sel.innerHTML = `<div class="mood-selected">${labels[mood]}</div>`;
 
-  const optionals = document.querySelectorAll('#speaking-tasks .optional-card');
   if (mood === 'tired') {
-    optionals.forEach(el => { el.style.display = 'none'; });
+    ['lbtn-2','lbtn-3','level-content-2','level-content-3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    switchSpeakLevel(1);
   } else {
-    optionals.forEach(el => { el.style.display = ''; });
+    ['lbtn-2','lbtn-3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
   }
 
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
