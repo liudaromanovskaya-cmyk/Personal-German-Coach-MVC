@@ -1,17 +1,17 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* СВЕТЛАЯ ТЕМА — тёплый европейский */
+/* СВЕТЛАЯ ТЕМА — crisp warm premium */
 :root {
-  --bg:           #F7F3EC;
+  --bg:           #FAFAF8;
   --card:         #FFFFFF;
-  --nav:          #1E2B1A;
-  --accent:       #3B6640;
-  --accent-light: #E8EFE5;
-  --highlight:    #5C865F;
-  --urgent:       #8B5E1A;
-  --text:         #1C1917;
-  --muted:        #6B6358;
-  --border:       #DDD5C8;
+  --nav:          #1C2020;
+  --accent:       #2F5233;
+  --accent-light: #EBF0E8;
+  --highlight:    #4A7A4E;
+  --urgent:       #9B6B1A;
+  --text:         #111210;
+  --muted:        #8A8078;
+  --border:       #E5E0D8;
 }
 
 /* ТЁМНАЯ ТЕМА — вариант 1: системная тема телефона тёмная */
@@ -51,7 +51,11 @@ html, body {
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -417,8 +421,9 @@ a.optional-send-btn:active {
   padding: 24px 20px 0;
 }
 .greeting-name {
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--text);
   margin-bottom: 4px;
 }
@@ -445,8 +450,9 @@ a.optional-send-btn:active {
 .task-card-label {
   color: rgba(255,255,255,.85);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.07em;
   letter-spacing: .8px;
 }
 .task-card-topic {
@@ -783,9 +789,10 @@ a.optional-send-btn:active {
 /* FEEDBACK */
 .section-title {
   padding: 28px 20px 12px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
   letter-spacing: .8px;
   color: var(--muted);
 }
@@ -970,8 +977,9 @@ a.optional-send-btn:active {
 .progress-section-title {
   padding: 24px 20px 12px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
   letter-spacing: .8px;
   color: var(--muted);
 }
