@@ -636,19 +636,23 @@ function render() {
       const pct = Math.min(100, Math.round((total / goal) * 100));
       return `
     <div class="diary-card">
-      <div class="diary-header">
-        <div class="diary-title">📓 ${student.diary.title}</div>
-        <div class="diary-streak">${streak > 0 ? `🔥 ${streak} Tage in Folge` : '&nbsp;'}</div>
-      </div>
+      <button class="diary-toggle" onclick="toggleDiary()">
+        <div class="diary-toggle-left">
+          <div class="diary-title">📓 ${student.diary.title}</div>
+          <div class="diary-streak">${streak > 0 ? `🔥 ${streak} Tage in Folge` : `${total} von ${goal} Tagen`}</div>
+        </div>
+        <div class="diary-toggle-arrow" id="diary-toggle-arrow">⌄</div>
+      </button>
       <div class="diary-progress-bar-wrap">
         <div class="diary-progress-bar" style="width:${pct}%"></div>
       </div>
-      <div class="diary-progress-label">${total} von ${goal} Tagen · ${pct}%</div>
-      <div class="diary-instruction">${student.diary.instruction}</div>
-      <div class="diary-prompt">💬 ${student.diary.prompt}</div>
-      <textarea class="submit-textarea" id="diary-textarea" placeholder="5 Sätze auf Deutsch — los geht's..."></textarea>
-      <button class="action-btn diary-send-btn" onclick="submitDiary()">✉️ Heute abschicken</button>
-      <div class="submit-confirm" id="diary-confirm" style="display:none">✅ Super! Gesendet. Kommen Sie morgen wieder 💪</div>
+      <div class="diary-body" id="diary-body">
+        <div class="diary-instruction">${student.diary.instruction}</div>
+        <div class="diary-prompt">💬 ${student.diary.prompt}</div>
+        <textarea class="submit-textarea" id="diary-textarea" placeholder="5 Sätze auf Deutsch — los geht's..."></textarea>
+        <button class="action-btn diary-send-btn" onclick="submitDiary()">✉️ Heute abschicken</button>
+        <div class="submit-confirm" id="diary-confirm" style="display:none">✅ Super! Gesendet. Kommen Sie morgen wieder 💪</div>
+      </div>
     </div>
       `;
     })() : ''}
@@ -1655,6 +1659,15 @@ function toggleGrammarSelf(cardId, state) {
   btns[0]?.classList.toggle('active-ueben',  saved[cardId] === 'ueben');
   btns[1]?.classList.toggle('active-ok',      saved[cardId] === 'verstanden');
   if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleDiary() {
+  const body = document.getElementById('diary-body');
+  const arrow = document.getElementById('diary-toggle-arrow');
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
 function toggleWordsAccordion() {
