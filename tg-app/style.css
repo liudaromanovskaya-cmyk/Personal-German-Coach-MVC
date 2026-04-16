@@ -3521,3 +3521,86 @@ a.optional-send-btn:active {
   font-weight: 600;
   vertical-align: middle;
 }
+
+/* ═══════════════════════════════════════════════════
+   HOME SCREEN COMPOSITION
+   Цель: одно главное действие видно сразу.
+   Подход: CSS flexbox order — нулевых изменений в JS/DOM.
+   ═══════════════════════════════════════════════════ */
+
+/* #screen-task становится flex-колонкой, чтобы
+   .review-card можно было опустить ниже */
+#screen-task.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting              { order: 1; }
+.teacher-reply-card    { order: 2; }
+.mode-switcher         { order: 3; }
+#speaking-tasks        { order: 4; }
+#writing-tasks         { order: 5; }
+.review-card           { order: 6; }  /* было перед mood — теперь ниже */
+.diary-card            { order: 7; }
+.goal-star             { order: 8; }
+
+/* #speaking-tasks становится flex-колонкой, чтобы
+   level-switcher + level-content поднять наверх */
+#speaking-tasks {
+  display: flex;
+  flex-direction: column;
+}
+
+.level-switcher        { order: 1; }
+.level-content         { order: 2; }
+.not-done-banner       { order: 3; }   /* остаётся рядом с заданием */
+.sprint-notif-banner   { order: 4; }
+.mood-selector         { order: 5; }
+.week-narrative-banner { order: 6; }
+.sprint-day-card       { order: 7; }
+
+/* review-card внутри #speaking-tasks — если вдруг рендерится там */
+#speaking-tasks .review-card { order: 8; }
+
+/* ── Mode switcher → сегментный контрол ────────────── */
+/* Контейнер: pill-shaped track */
+.mode-switcher {
+  background: var(--surface-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  gap: 4px;
+  margin: 0 16px 16px;
+}
+/* Неактивная кнопка: прозрачная, текст приглушён */
+.mode-btn {
+  flex: 1;
+  padding: 9px 10px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .18s, color .18s, box-shadow .18s;
+  min-height: 40px;
+}
+.mode-btn:hover:not(.mode-btn--active) {
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+/* Активная кнопка: белый pill с тенью */
+.mode-btn--active {
+  background: var(--surface);
+  color: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(36,48,40,0.10), 0 0 0 1px var(--border-soft);
+}
+/* Оба варианта active — одинаковый стиль */
+.mode-btn--speaking.mode-btn--active,
+.mode-btn--writing.mode-btn--active {
+  background: var(--surface);
+  border-color: transparent;
+  color: var(--primary);
+}
