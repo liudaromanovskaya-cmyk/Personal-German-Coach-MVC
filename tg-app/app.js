@@ -231,56 +231,6 @@ function render() {
     </div>
     ` : ''}
 
-    ${student.sprint?.grammarWeek ? (() => {
-      const gw = student.sprint.grammarWeek;
-      const typeColors = { verb: '#4A8C6E', refl: '#4A8C6E', prep: '#7C3AED', T: '#D97706', K: '#DC2626', M: '#0369A1', Lo: '#0369A1' };
-      const typeBg    = { verb: '#EDF7F1', refl: '#EDF7F1', prep: '#EDE9FE', T: '#FEF3C7', K: '#FEE2E2', M: '#E0F2FE', Lo: '#E0F2FE' };
-      const mkSentence = (parts) => parts.map(p => {
-        if (p.type === 'plain') return `<span>${p.text}</span>`;
-        const col = typeColors[p.type] || '#333';
-        const bg  = typeBg[p.type] || 'transparent';
-        const italic = p.type === 'refl' ? 'font-style:italic;' : '';
-        return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700;${italic}">${p.text}</span>`;
-      }).join('');
-
-      const tekamoloLegend = `<span style="color:${typeColors.T};font-weight:700">Te</span><span style="color:#718096">·</span><span style="color:#DC2626;font-weight:700">Ka</span><span style="color:#718096">·</span><span style="color:${typeColors.M};font-weight:700">Mo</span><span style="color:#718096">·</span><span style="color:${typeColors.Lo};font-weight:700">Lo</span>`;
-
-      return `
-    <div class="grammar-queen-banner">
-      <div class="grammar-queen-top-row">
-        <div>
-          <div class="grammar-queen-label">Грамматика недели</div>
-          <div class="grammar-queen-title">${gw.queen}</div>
-        </div>
-        <button class="grammar-infographic-btn" onclick="openInfographic()">📊 Схема</button>
-      </div>
-      <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
-      ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
-      ${gw.sentenceNote2 ? `<div class="grammar-queen-note2">${gw.sentenceNote2}</div>` : ''}
-      ${gw.sentence2 ? `
-      <div class="grammar-queen-divider"></div>
-      <div class="grammar-queen-teka-label">${tekamoloLegend}</div>
-      <div class="grammar-queen-sentence">${mkSentence(gw.sentence2)}</div>` : ''}
-    </div>
-    <div class="infographic-modal" id="infographic-modal" onclick="closeInfographic()">
-      <div class="infographic-modal-inner" onclick="event.stopPropagation()">
-        <button class="infographic-close" onclick="closeInfographic()">×</button>
-        ${gw.infographic
-          ? `<img src="${gw.infographic}" class="infographic-img" alt="Infografik">`
-          : `<div class="infographic-upload-zone">
-              <div class="infographic-upload-icon">📊</div>
-              <div class="infographic-upload-text">Выберите картинку для схемы</div>
-              <label class="infographic-upload-btn">
-                Открыть файл
-                <input type="file" accept="image/*" style="display:none" onchange="previewInfographic(this)">
-              </label>
-              <img id="infographic-preview" class="infographic-img" style="display:none">
-            </div>`
-        }
-      </div>
-    </div>`;
-    })() : ''}
-
     <div class="mode-switcher">
       <button class="mode-btn mode-btn--speaking mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
       <button class="mode-btn mode-btn--writing" id="mode-writing" onclick="switchMode('writing')">✍️ Schreiben</button>
@@ -333,20 +283,6 @@ function render() {
       const moodLabels = { tired: '😰 Erschöpft — heute nur Niveau 1', ok: '😐 Es geht — los geht\'s!', good: '😊 Gut! — alle Levels offen' };
 
       return `
-    ${showNotif ? `
-    <div class="sprint-notif-banner" id="sprint-notif-banner">
-      <div class="sprint-notif-text">🎯 ${student.feedback.notifText}</div>
-      <button class="sprint-notif-close" onclick="dismissFeedbackNotif()">×</button>
-    </div>
-    ` : ''}
-
-    ${!taskDoneToday ? `
-    <div class="not-done-banner" id="not-done-banner">
-      <span>Aufgaben von heute warten noch — kein Stress, los geht's!</span>
-      <button class="not-done-btn" onclick="dismissNotDone()">Weitermachen →</button>
-    </div>
-    ` : ''}
-
     <div class="mood-selector" id="mood-selector">
       ${moodToday ? `
       <div class="mood-selected">${moodLabels[moodToday]}</div>
@@ -373,8 +309,12 @@ function render() {
         <div class="sprint-day-theme">${s.theme}</div>
       </div>
       ${student.sprint?.grammarWeek?.context ? `<div class="sprint-narrative">${student.sprint.grammarWeek.context}</div>` : ''}
-      <div class="sprint-words-intro">Слова дня — прочитайте перед тем как говорить:</div>
-      <div class="chunk-words-grid">${chunksHTML}</div>
+      <button class="words-toggle" onclick="toggleWordsAccordion()">
+        📖 Wörter von heute (${s.words.length}) <span class="words-toggle-arrow" id="words-toggle-arrow">⌄</span>
+      </button>
+      <div class="words-accordion-body" id="words-accordion-body">
+        <div class="chunk-words-grid">${chunksHTML}</div>
+      </div>
     </div>
 
     <div class="task-card">
@@ -1193,6 +1133,55 @@ const KULTUR_CATEGORY_POOL = [
   { type:'kunst',        emoji:'🎨', label:'Kunst & Sehenswürdigkeiten', arr: KULTUR_KUNST },
 ];
 
+function buildGrammarWeekHTML(student) {
+  if (!student.sprint?.grammarWeek) return '';
+  const gw = student.sprint.grammarWeek;
+  const typeColors = { verb: '#4A8C6E', refl: '#4A8C6E', prep: '#7C3AED', T: '#D97706', K: '#DC2626', M: '#0369A1', Lo: '#0369A1' };
+  const typeBg    = { verb: '#EDF7F1', refl: '#EDF7F1', prep: '#EDE9FE', T: '#FEF3C7', K: '#FEE2E2', M: '#E0F2FE', Lo: '#E0F2FE' };
+  const mkSentence = (parts) => parts.map(p => {
+    if (p.type === 'plain') return `<span>${p.text}</span>`;
+    const col = typeColors[p.type] || '#333';
+    const bg  = typeBg[p.type] || 'transparent';
+    const italic = p.type === 'refl' ? 'font-style:italic;' : '';
+    return `<span style="color:${col};background:${bg};border-radius:4px;padding:1px 5px;font-weight:700;${italic}">${p.text}</span>`;
+  }).join('');
+  const tekamoloLegend = `<span style="color:${typeColors.T};font-weight:700">Te</span><span style="color:#718096">·</span><span style="color:#DC2626;font-weight:700">Ka</span><span style="color:#718096">·</span><span style="color:${typeColors.M};font-weight:700">Mo</span><span style="color:#718096">·</span><span style="color:${typeColors.Lo};font-weight:700">Lo</span>`;
+  return `
+    <div class="grammar-queen-banner">
+      <div class="grammar-queen-top-row">
+        <div>
+          <div class="grammar-queen-label">Грамматика недели</div>
+          <div class="grammar-queen-title">${gw.queen}</div>
+        </div>
+        <button class="grammar-infographic-btn" onclick="openInfographic()">📊 Схема</button>
+      </div>
+      <div class="grammar-queen-sentence">${mkSentence(gw.sentence || [])}</div>
+      ${gw.sentenceNote ? `<div class="grammar-queen-note">${gw.sentenceNote}</div>` : ''}
+      ${gw.sentenceNote2 ? `<div class="grammar-queen-note2">${gw.sentenceNote2}</div>` : ''}
+      ${gw.sentence2 ? `
+      <div class="grammar-queen-divider"></div>
+      <div class="grammar-queen-teka-label">${tekamoloLegend}</div>
+      <div class="grammar-queen-sentence">${mkSentence(gw.sentence2)}</div>` : ''}
+    </div>
+    <div class="infographic-modal" id="infographic-modal" onclick="closeInfographic()">
+      <div class="infographic-modal-inner" onclick="event.stopPropagation()">
+        <button class="infographic-close" onclick="closeInfographic()">×</button>
+        ${gw.infographic
+          ? `<img src="${gw.infographic}" class="infographic-img" alt="Infografik">`
+          : `<div class="infographic-upload-zone">
+              <div class="infographic-upload-icon">📊</div>
+              <div class="infographic-upload-text">Выберите картинку для схемы</div>
+              <label class="infographic-upload-btn">
+                Открыть файл
+                <input type="file" accept="image/*" style="display:none" onchange="previewInfographic(this)">
+              </label>
+              <img id="infographic-preview" class="infographic-img" style="display:none">
+            </div>`
+        }
+      </div>
+    </div>`;
+}
+
 function renderGrammarScreen() {
   const el = document.getElementById('grammar-content');
   if (!el) return;
@@ -1251,7 +1240,8 @@ function renderGrammarScreen() {
       + '</div>';
   }).join('');
 
-  el.innerHTML = '<div class="gpath-header-block">'
+  el.innerHTML = buildGrammarWeekHTML(student)
+    + '<div class="gpath-header-block">'
     + '<div class="gpath-title">Ihr Grammatikweg</div>'
     + '<div class="gpath-progress">' + doneCount + ' von ' + ordered.length + ' Themen abgeschlossen</div>'
     + '</div>'
@@ -1316,7 +1306,8 @@ function renderGrammarModules(el, id, student) {
       + '</div>';
   }).join('');
 
-  el.innerHTML = '<div class="gpath-header-block">'
+  el.innerHTML = buildGrammarWeekHTML(student)
+    + '<div class="gpath-header-block">'
     + '<div class="gpath-title">Grammatikprogramm · ' + level.name + '</div>'
     + '<div class="gpath-progress">'
       + '<span class="mod-legend"><span class="mod-dot mod-green">●</span> automatisiert</span>'
@@ -1664,6 +1655,15 @@ function toggleGrammarSelf(cardId, state) {
   btns[0]?.classList.toggle('active-ueben',  saved[cardId] === 'ueben');
   btns[1]?.classList.toggle('active-ok',      saved[cardId] === 'verstanden');
   if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleWordsAccordion() {
+  const body = document.getElementById('words-accordion-body');
+  const arrow = document.getElementById('words-toggle-arrow');
+  if (!body) return;
+  const open = body.classList.toggle('visible');
+  if (arrow) arrow.textContent = open ? '⌃' : '⌄';
+  if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
 function toggleReview() {
