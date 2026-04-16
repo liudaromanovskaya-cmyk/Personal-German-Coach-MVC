@@ -318,14 +318,14 @@ function render() {
     </div>
 
     <div class="optional-card optional-card--niveau1">
-      <button class="optional-toggle optional-toggle--niveau1 open" id="task-toggle" onclick="toggleOptional('task')">
+      <button class="optional-toggle optional-toggle--niveau1" id="task-toggle" onclick="toggleOptional('task')">
         <div class="optional-toggle-left">
           <div class="optional-toggle-title">🎤 Niveau 1 — Aufwärmen</div>
           <div class="optional-toggle-sub">${s.task.topic}</div>
         </div>
-        <div class="optional-toggle-arrow">⌃</div>
+        <div class="optional-toggle-arrow">⌄</div>
       </button>
-      <div class="optional-body visible" id="task-body">
+      <div class="optional-body" id="task-body">
         <div class="optional-text">${s.task.prompt}</div>
         <div class="optional-text" style="opacity:.8;font-size:14px;margin-top:6px">${s.task.instruction}</div>
         <button class="hint-toggle" id="hint-toggle" onclick="toggleHint()" ${!s.task.hint ? 'style="display:none"' : ''}>
