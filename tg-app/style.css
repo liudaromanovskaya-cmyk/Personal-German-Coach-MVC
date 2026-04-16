@@ -23,9 +23,6 @@
   --accent-copper-light:  #F2E3D8;
   --accent-copper-subtle: #E7CCB7;
 
-  /* ─── QUIET SAGE (secondary supporting zones, small doses) ─── */
-  --sage-soft:       #EEF1EF;
-
   /* ─── ALIASES (backward compat — не удалять) ─── */
   --card:            var(--surface);
   --accent:          var(--primary);           /* structural alias: keeps all existing var(--accent) as dark teal */
@@ -109,7 +106,6 @@
     --primary-subtle:  #253040;
     --accent-copper:        #C98855;
     --accent-copper-light:  #2C1E14;
-    --sage-soft:       #1E2830;
     --card:            #222A30;
     --accent:          #7BAABB;
     --accent-light:    #1E2A32;
@@ -144,7 +140,6 @@ body.dark {
   --primary-subtle:  #253040;
   --accent-copper:        #C98855;
   --accent-copper-light:  #2C1E14;
-  --sage-soft:       #1E2830;
   --card:            #222A30;
   --accent:          #7BAABB;
   --accent-light:    #1E2A32;
@@ -289,8 +284,8 @@ a.optional-send-btn:active {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.grammar-card.done .grammar-status-dot { background: var(--accent); }
-.grammar-card.current .grammar-status-dot { background: var(--accent-copper); box-shadow: 0 0 0 3px rgba(184,116,68,.20); }
+.grammar-card.done    .grammar-status-dot { background: var(--primary); }
+.grammar-card.current .grammar-status-dot { background: var(--primary); box-shadow: 0 0 0 3px rgba(36,57,71,.15); }
 .grammar-card.upcoming .grammar-status-dot { background: var(--border); }
 .grammar-toggle-label {
   flex: 1;
@@ -329,7 +324,7 @@ a.optional-send-btn:active {
   margin-bottom: 12px;
 }
 .grammar-example {
-  background: var(--primary-light);
+  background: var(--surface-soft);
   border-left: 2px solid var(--primary-subtle);
   border-radius: 0 var(--r-chip) var(--r-chip) 0;
   padding: 10px 14px;
@@ -2346,37 +2341,7 @@ a.optional-send-btn:active {
   font-style: italic;
 }
 
-/* ── Mode switcher ──────────────────────────────────── */
-.mode-switcher {
-  display: flex;
-  gap: 8px;
-  margin: 0 16px 16px;
-}
-.mode-btn {
-  flex: 1;
-  padding: 11px 10px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-card-sm);
-  background: var(--surface);
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .18s;
-  min-height: 46px;
-}
-.mode-btn--active {
-  background: var(--nav);
-  border-color: var(--nav);
-  color: #FFFFFF;
-}
-/* Speaking и Writing — одинаковый стиль активного состояния */
-.mode-btn--speaking.mode-btn--active,
-.mode-btn--writing.mode-btn--active {
-  background: var(--nav);
-  border-color: var(--nav);
-  color: #FFFFFF;
-}
+/* ── Mode switcher — правила перенесены в конец файла (HOME SCREEN COMPOSITION) ── */
 #writing-tasks {
   border-top: 2px solid var(--border-soft);
   padding-top: 4px;
@@ -2498,12 +2463,11 @@ a.optional-send-btn:active {
 
 /* ── SPEAKING SPRINT ───────────────────────────────────────── */
 .sprint-day-card {
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
+  background: var(--surface-quiet);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 12px;
-  border-left: 4px solid var(--accent-copper);
+  border-left: 3px solid var(--primary-subtle);
 }
 .sprint-day-header {
   display: flex;
@@ -2514,7 +2478,7 @@ a.optional-send-btn:active {
 .sprint-day-label {
   font-size: 12px;
   font-weight: 700;
-  color: var(--accent-copper);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: .04em;
 }
@@ -3446,7 +3410,7 @@ a.optional-send-btn:active {
   display: none;
   padding: 0 16px 18px;
   border-top: 1px solid var(--border-soft);
-  background: var(--surface-quiet);
+  background: var(--surface-soft);
 }
 .teacher-reply-body.visible { display: block; }
 .teacher-reply-text {
@@ -3556,14 +3520,15 @@ a.optional-send-btn:active {
   flex-direction: column;
 }
 
-.greeting              { order: 1; }
-.teacher-reply-card    { order: 2; }
-.mode-switcher         { order: 3; }
-#speaking-tasks        { order: 4; }
-#writing-tasks         { order: 5; }
-.review-card           { order: 6; }  /* было перед mood — теперь ниже */
-.diary-card            { order: 7; }
-.goal-star             { order: 8; }
+/* Прямые дочерние элементы #screen-task — скоупировано, не глобально */
+#screen-task.active > .greeting           { order: 1; }
+#screen-task.active > .teacher-reply-card { order: 2; }
+#screen-task.active > .mode-switcher      { order: 3; }
+#screen-task.active > #speaking-tasks     { order: 4; }
+#screen-task.active > #writing-tasks      { order: 5; }
+#screen-task.active > .review-card        { order: 6; }
+#screen-task.active > .diary-card         { order: 7; }
+#screen-task.active > .goal-star          { order: 8; }
 
 /* #speaking-tasks становится flex-колонкой, чтобы
    level-switcher + level-content поднять наверх */
@@ -3572,16 +3537,14 @@ a.optional-send-btn:active {
   flex-direction: column;
 }
 
-.level-switcher        { order: 1; }
-.level-content         { order: 2; }
-.not-done-banner       { order: 3; }   /* остаётся рядом с заданием */
-.sprint-notif-banner   { order: 4; }
-.mood-selector         { order: 5; }
-.week-narrative-banner { order: 6; }
-.sprint-day-card       { order: 7; }
-
-/* review-card внутри #speaking-tasks — если вдруг рендерится там */
-#speaking-tasks .review-card { order: 8; }
+#speaking-tasks > .level-switcher        { order: 1; }
+#speaking-tasks > .level-content         { order: 2; }
+#speaking-tasks > .not-done-banner       { order: 3; }
+#speaking-tasks > .sprint-notif-banner   { order: 4; }
+#speaking-tasks > .mood-selector         { order: 5; }
+#speaking-tasks > .week-narrative-banner { order: 6; }
+#speaking-tasks > .sprint-day-card       { order: 7; }
+#speaking-tasks > .review-card           { order: 8; }
 
 /* ── Mode switcher → сегментный контрол ────────────── */
 /* Контейнер: pill-shaped track */
