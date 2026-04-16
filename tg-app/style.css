@@ -784,7 +784,7 @@ a.optional-send-btn:active {
 }
 .level-btn--active {
   background: var(--accent-copper);
-  border-color: var(--accent-copper);
+  border-color: var(--accent-copper-hover);
 }
 .level-btn:not(.level-btn--active):hover {
   border-color: var(--primary-subtle);
@@ -805,7 +805,7 @@ a.optional-send-btn:active {
   font-weight: 500;
 }
 .level-btn--active .level-btn-name {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.85);
 }
 .level-content {
   margin: 12px 16px 0;
@@ -2467,7 +2467,7 @@ a.optional-send-btn:active {
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 12px;
-  border-left: 3px solid var(--primary-subtle);
+  border-left: 3px solid var(--accent-copper);
 }
 .sprint-day-header {
   display: flex;
