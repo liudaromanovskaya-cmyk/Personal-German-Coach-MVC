@@ -2795,6 +2795,34 @@ a.optional-send-btn:active {
   line-height: 1.5;
 }
 
+/* ── Мини-история Lesetext ──────────────────────────────────────────── */
+.lesetext-card {
+  margin: 12px 16px 4px;
+  border: 1px solid #B7E0CB;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.lesetext-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 14px;
+  background: #F0FAF5;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #276749;
+  text-align: left;
+}
+.lt-arrow { font-size: 16px; transition: transform .2s; }
+.lt-arrow.open { transform: rotate(180deg); }
+.lesetext-body { display: none; padding: 12px 16px; font-size: 14px; line-height: 1.7; color: var(--text); }
+.lesetext-body.open { display: block; }
+.lt-word { background: #D1FAE5; color: #065F46; border-radius: 3px; padding: 0 2px; font-style: normal; }
+
 /* ── Roter Faden — гармошка в кабинете студента ─────────────────────── */
 .rf-student-card {
   margin: 12px 16px 4px;

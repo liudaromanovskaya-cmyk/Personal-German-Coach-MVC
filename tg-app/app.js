@@ -175,7 +175,8 @@ function render() {
         if (td.today.words2?.length) student.sprint.today.words2 = td.today.words2;
         // Пост-сабмишн
         if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
-        // Roter Faden + дополнительные материалы
+        // Мини-история + Roter Faden + дополнительные материалы
+        if (td.today.lesetext) student.sprint.today.lesetext = td.today.lesetext;
         if (td.today.roterfaden?.length) student.sprint.today.roterfaden = td.today.roterfaden;
         if (td.today.extras?.length) student.sprint.today.extras = td.today.extras;
       }
@@ -449,6 +450,20 @@ function render() {
     </div>
       `;
     })() : ''}
+
+    ${(() => {
+      const lt = student.sprint?.today?.lesetext;
+      if (!lt) return '';
+      // Слова в [скобках] подсвечиваем
+      const html = lt.replace(/\[([^\]]+)\]/g, '<mark class="lt-word">$1</mark>').replace(/\n/g,'<br>');
+      return `<div class="lesetext-card" id="lesetext-card">
+        <button class="lesetext-toggle" onclick="document.getElementById('lesetext-body').classList.toggle('open');this.querySelector('.lt-arrow').classList.toggle('open')">
+          <span>📖 Lesen — alle Wörter im Kontext</span>
+          <span class="lt-arrow">⌄</span>
+        </button>
+        <div class="lesetext-body" id="lesetext-body">${html}</div>
+      </div>`;
+    })()}
 
     ${(() => {
       const rf = student.sprint?.today?.roterfaden;

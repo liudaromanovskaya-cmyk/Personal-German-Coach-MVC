@@ -641,6 +641,10 @@ auf etw. warten, laut Bescheid sagen, die Verabredung, absagen, verschieben, aus
         </button>
         <span style="font-size:12px;color:var(--muted)">AI раскидает слова по уровням, придумает задания, заполнит все поля</span>
       </div>
+      <div id="lesetext-preview" style="display:none;margin-top:12px">
+        <label style="color:#276749;font-weight:600;font-size:12px">📖 Мини-история (AI сгенерировал — можно редактировать)</label>
+        <textarea id="lesetext" rows="5" style="margin-top:4px;border-color:#B7E0CB;background:#F0FAF5" placeholder="Короткий текст с целевыми словами — появится после «Заполнить всё»"></textarea>
+      </div>
     </div>
   </div>
 
@@ -1787,6 +1791,7 @@ function collectData() {
       deepen:  { topic: v('task2Topic'), prompt: v('task2Prompt'), instruction: v('task2Instruction'), hint: v('task2Hint') },
       immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
       postSubmit: { done: v('postDone'), why: v('postWhy') },
+      lesetext: v('lesetext'),
       roterfaden: getRf(),
       extras: getExtras(),
     },
@@ -1826,6 +1831,10 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
+  if (t.lesetext) {
+    s('lesetext', t.lesetext);
+    document.getElementById('lesetext-preview').style.display = 'block';
+  }
   fillRf(t.roterfaden);
   fillExtras(t.extras);
   s('weekMonday', d.weekNarrative?.monday); s('weekSaturday', d.weekNarrative?.saturday);
@@ -1989,10 +1998,19 @@ ${raw}
   "task":    {"topic": "Aufwärmen — заголовок", "prompt": "Вопрос от собеседника", "instruction": "5 Sätze.", "hint": "Einstieg: ..."},
   "deepen":  {"topic": "Situation — заголовок", "prompt": "Ситуация", "instruction": "7–8 Sätze. Alle Wörter.", "hint": "..."},
   "immerse": {"topic": "Ihre Geschichte — заголовок", "prompt": "Открытый вопрос из жизни", "instruction": "Erzählen Sie frei.", "hint": "..."},
-  "postSubmit": {"done": "Что закрыли — 1 предложение", "why": "Почему важно"}
+  "postSubmit": {"done": "Что закрыли — 1 предложение", "why": "Почему важно"},
+  "lesetext": "Короткий текст 6–8 предложений на немецком где живут ВСЕ слова из words и words2. Реалистичная сцена из жизни взрослого человека — не учебная. Все целевые слова выделены в формате [слово]."
 }
 
-Правила: words ровно 6 штук. words2 от 3 до 6. Все тексты на немецком кроме hint (там можно по-русски).`;
+Правила:
+- words ровно 6 штук. words2 от 3 до 6.
+- Все тексты на немецком кроме hint (там по-русски).
+- ФОРМАТ СЛОВ ОБЯЗАТЕЛЬНО:
+  * Глагол → с управлением: "warten auf + Akk", "helfen + Dat", "sich freuen auf + Akk"
+  * Существительное → с родом и множественным: "die Verbindung, -en", "der Bescheid, -e", "das Gespräch, ¨e"
+  * Правило мн.ч. сокращённо: - (без изменений), -e, ¨e, -er, ¨er, -en, -n, -s
+  * Прилагательное → с типичным управлением если есть: "verantwortlich für + Akk"
+- lesetext: все целевые слова заключить в [квадратные скобки] прямо в тексте.`;
 
   try {
     const text = await callAI(prompt, 4000);
@@ -2026,8 +2044,12 @@ ${raw}
       s(`hint2_${i}`, w.hint || '');
     });
 
-    // Задания
+    // Задания + lesetext
     parseAndFill(JSON.stringify(json));
+    if (json.lesetext) {
+      s('lesetext', json.lesetext);
+      document.getElementById('lesetext-preview').style.display = 'block';
+    }
 
     isDirty = true; updateStatus();
     document.getElementById('quickInput').value = '';
