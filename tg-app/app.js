@@ -2333,6 +2333,193 @@ function submitHomework(level) {
     unlockNextLevel('deepen');
   }
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+  // После сдачи Niveau 1 — показать tap-drill если есть ошибки
+  if (level === 'task') {
+    setTimeout(() => loadAndShowDrill(), 1200);
+  }
+}
+
+// ── TAP-DRILL ─────────────────────────────────────────────────────────────────
+
+const DRILL_QUESTIONS = {
+  VERBZWEIT: {
+    label: 'Verbzweit',
+    q: 'Welcher Satz ist richtig?',
+    options: [
+      { text: 'Jeden Tag trinke ich Kaffee.', correct: true,  hint: '✓ Глагол на 2-м месте — как якорь.' },
+      { text: 'Jeden Tag ich trinke Kaffee.', correct: false, hint: '✗ Глагол съехал на 3-е место.' },
+      { text: 'Jeden Tag Kaffee trinke ich.', correct: false, hint: '✗ Подлежащее потерялось.' }
+    ]
+  },
+  NEBENSATZ: {
+    label: 'Nebensatz (weil/dass)',
+    q: 'Welcher Satz ist richtig?',
+    options: [
+      { text: 'Ich weiß, dass er morgen kommt.', correct: true,  hint: '✓ Глагол в конце придаточного — замок закрыт.' },
+      { text: 'Ich weiß, dass er kommt morgen.', correct: false, hint: '✗ Наречие не выталкивает глагол.' },
+      { text: 'Ich weiß, dass kommt er morgen.', correct: false, hint: '✗ Подлежащее должно быть перед глаголом.' }
+    ]
+  },
+  ARTIKEL_FEHLT: {
+    label: 'Artikel',
+    q: 'Ergänzen Sie den Artikel: "___ Nachbar grüßt mich immer."',
+    options: [
+      { text: 'Mein', correct: true,  hint: '✓ Притяжательный артикль для мужского рода.' },
+      { text: 'Meinen', correct: false, hint: '✗ Akkusativ — но здесь подлежащее (Nominativ).' },
+      { text: '(kein Artikel)', correct: false, hint: '✗ Существительные всегда идут с артиклем.' }
+    ]
+  },
+  MIT_BEI_VON_ZU: {
+    label: 'mit / bei / von / zu + Dativ',
+    q: 'Welcher Satz ist richtig?',
+    options: [
+      { text: 'Ich fahre mit meiner Schwester.', correct: true,  hint: '✓ mit + Dativ: meiner (не meine).' },
+      { text: 'Ich fahre mit meine Schwester.', correct: false, hint: '✗ После mit всегда Dativ.' },
+      { text: 'Ich fahre mit meines Schwester.', correct: false, hint: '✗ meines — это Genitiv.' }
+    ]
+  },
+  KALKIERUNG_ARBEIT: {
+    label: 'zur Arbeit (nicht: auf die Arbeit)',
+    q: 'Wie sagt man das auf Deutsch?',
+    options: [
+      { text: 'Ich gehe zur Arbeit.', correct: true,  hint: '✓ К учреждениям → zu: zur Arbeit, zur Schule, zum Arzt.' },
+      { text: 'Ich gehe auf die Arbeit.', correct: false, hint: '✗ Калька с русского. По-немецки: zur Arbeit.' },
+      { text: 'Ich gehe in die Arbeit.', correct: false, hint: '✗ in — для зданий (ins Büro), не для понятия "работа".' }
+    ]
+  },
+  KALKIERUNG_KALT: {
+    label: 'Mir ist kalt (nicht: Ich bin kalt)',
+    q: 'Wie sagt man das auf Deutsch?',
+    options: [
+      { text: 'Mir ist kalt.', correct: true,  hint: '✓ Ощущения тела → Dativ: mir/ihm/ihr ist kalt/warm/schlecht.' },
+      { text: 'Ich bin kalt.', correct: false, hint: '✗ "Ich bin kalt" = я холодный человек (по характеру).' },
+      { text: 'Ich habe kalt.', correct: false, hint: '✗ Калька с русского "мне холодно".' }
+    ]
+  },
+  SEIN_HABEN_PERFEKT: {
+    label: 'sein / haben im Perfekt',
+    q: 'Welches Hilfsverb ist richtig? "___ Sie gut geschlafen?"',
+    options: [
+      { text: 'Haben', correct: true,  hint: '✓ schlafen — нет движения, нет перемены состояния → haben.' },
+      { text: 'Sind', correct: false,  hint: '✗ sein — для движения (gehen/kommen) и перемены (werden/aufwachen).' },
+      { text: 'War', correct: false,   hint: '✗ war — это Präteritum от sein, не вспомогательный глагол.' }
+    ]
+  },
+  TRENNBAR: {
+    label: 'Trennbare Verben',
+    q: 'Welcher Satz ist richtig?',
+    options: [
+      { text: 'Ich rufe dich morgen an.', correct: true,  hint: '✓ Приставка — последний вагон, всегда в конце.' },
+      { text: 'Ich anrufe dich morgen.', correct: false, hint: '✗ Приставка не отделилась.' },
+      { text: 'Ich rufe an dich morgen.', correct: false, hint: '✗ Приставка в конце, но дополнение должно быть перед ней.' }
+    ]
+  },
+  WECHSELPRÄP: {
+    label: 'Wechselpräpositionen (in/auf/an…)',
+    q: '"Das Buch liegt ___ dem Tisch." — Wohin oder Wo?',
+    options: [
+      { text: 'auf dem (Wo? → Dativ)', correct: true,  hint: '✓ Wo? точка → Dativ. Wohin? стрела → Akkusativ.' },
+      { text: 'auf den (Wohin? → Akkusativ)', correct: false, hint: '✗ liegt = лежит, это место, не движение.' },
+      { text: 'auf der (falsch)', correct: false, hint: '✗ der Tisch — мужской род, Dativ = dem.' }
+    ]
+  }
+};
+
+let _drillStartTime = 0;
+
+async function loadAndShowDrill() {
+  if (!_studentId || typeof fbGetPublic !== 'function') return;
+  const errors = await fbGetPublic(`progress/${_studentId}/errors`).catch(() => null);
+  if (!errors) return;
+
+  // Берём самую красную ошибку
+  const order = { red: 0, yellow: 1, green: 2 };
+  const sorted = Object.entries(errors)
+    .filter(([tag]) => DRILL_QUESTIONS[tag])
+    .sort((a, b) => (order[a[1].status] || 1) - (order[b[1].status] || 1));
+  if (!sorted.length) return;
+
+  const [topTag] = sorted[0];
+  showDrillModal(topTag);
+}
+
+function showDrillModal(tag) {
+  const q = DRILL_QUESTIONS[tag];
+  if (!q) return;
+
+  // Перемешать варианты
+  const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+  _drillStartTime = Date.now();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'drill-overlay';
+  overlay.id = 'drillOverlay';
+  overlay.innerHTML = `
+    <div class="drill-card">
+      <div class="drill-header">
+        <span class="drill-badge">⚡ Kurze Übung</span>
+        <span class="drill-skip" onclick="closeDrill()">Überspringen</span>
+      </div>
+      <div class="drill-topic">${q.label}</div>
+      <div class="drill-question">${q.q}</div>
+      <div class="drill-options" id="drillOptions">
+        ${shuffled.map((opt, i) => `
+          <button class="drill-btn" onclick="answerDrill(${opt.correct}, '${tag}', this, '${opt.hint.replace(/'/g,"&#39;")}')">${opt.text}</button>
+        `).join('')}
+      </div>
+      <div class="drill-result" id="drillResult" style="display:none"></div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function answerDrill(correct, tag, btn, hint) {
+  const timeMs = Date.now() - _drillStartTime;
+  // Блокируем все кнопки
+  document.querySelectorAll('.drill-btn').forEach(b => b.disabled = true);
+  btn.classList.add(correct ? 'drill-btn--correct' : 'drill-btn--wrong');
+
+  const resultEl = document.getElementById('drillResult');
+  resultEl.style.display = 'block';
+  resultEl.className = 'drill-result ' + (correct ? 'drill-result--correct' : 'drill-result--wrong');
+  resultEl.innerHTML = hint;
+
+  // Кнопка закрыть
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'drill-next-btn';
+  nextBtn.textContent = 'Weiter →';
+  nextBtn.onclick = () => closeDrill();
+  resultEl.after(nextBtn);
+
+  // Сохраняем в Firebase
+  const today = new Date().toISOString().split('T')[0];
+  if (typeof fbSetPublic === 'function') {
+    fbGetPublic(`progress/${_studentId}/drills/${tag}`).then(existing => {
+      const attempts = (existing?.attempts || []);
+      attempts.push({ date: today, timeMs, correct });
+      const streak = correct ? (existing?.streak || 0) + 1 : 0;
+      fbSetPublic(`progress/${_studentId}/drills/${tag}`, {
+        attempts: attempts.slice(-20), // последние 20
+        streak,
+        lastDate: today,
+        automatized: streak >= 5
+      });
+      // Если 5 правильных подряд — обновляем статус ошибки на green
+      if (streak >= 5) {
+        fbGetPublic(`progress/${_studentId}/errors`).then(errs => {
+          if (errs?.[tag]) {
+            errs[tag].status = 'green';
+            fbSetPublic(`progress/${_studentId}/errors`, errs);
+          }
+        });
+      }
+    }).catch(() => {});
+  }
+}
+
+function closeDrill() {
+  const overlay = document.getElementById('drillOverlay');
+  if (overlay) overlay.remove();
 }
 
 // ── Черновики — автосохранение и восстановление ──────────────────────────────

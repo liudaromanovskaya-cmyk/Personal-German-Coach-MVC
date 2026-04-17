@@ -62,6 +62,15 @@ async function fbSet(path, data) {
   } catch { return false; }
 }
 
+// Читать данные без авторизации (студент видит свой прогресс)
+async function fbGetPublic(path) {
+  try {
+    const res = await fetch(`${FB_URL}/${path}.json`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch { return null; }
+}
+
 // Записать данные студента (без авторизации — студент сдаёт задание)
 async function fbSetPublic(path, data) {
   try {
