@@ -2849,18 +2849,23 @@ ${langInstruction}
 КОНЕЦ: Одна тёплая конкретная фраза с энергией. Не "удачи".
 Помни: студент уже сделал задание — это уже смелость.
 
-═══ ТЕГИ ОШИБОК (только для системы — студент не видит) ═══
-ПОСЛЕ всего текста фидбека добавь отдельной строкой:
+═══ ТЕГИ ОШИБОК (системная строка — обязательно) ═══
+ПОСЛЕДНЯЯ строка ответа ДОЛЖНА быть точно в таком формате:
 ERRORS: КОД1, КОД2
-Коды — ТОЛЬКО из библиотеки выше (VERBZWEIT, NEBENSATZ, RAHMEN, WECHSELPRÄP, MIT_BEI_VON_ZU, HELFEN_DATIV, SEIN_HABEN_PERFEKT, TRENNBAR, ARTIKEL_FEHLT, KALKIERUNG_ALTER, KALKIERUNG_ARBEIT, KALKIERUNG_KALT, KALKIERUNG_INTERESSIEREN, KALKIERUNG_WARTEN, HOEFLICHKEIT, MODALPARTIKELN).
-Максимум 3 кода. Только реальные ошибки из этого ответа. Если ошибок нет — ERRORS: (пусто).`;
+
+Допустимые коды (только из этого списка, ЗАГЛАВНЫМИ): VERBZWEIT, NEBENSATZ, RAHMEN, WECHSELPRÄP, MIT_BEI_VON_ZU, HELFEN_DATIV, SEIN_HABEN_PERFEKT, TRENNBAR, ARTIKEL_FEHLT, KALKIERUNG_ALTER, KALKIERUNG_ARBEIT, KALKIERUNG_KALT, KALKIERUNG_INTERESSIEREN, KALKIERUNG_WARTEN, HOEFLICHKEIT, MODALPARTIKELN
+Максимум 3 кода. Только ошибки из этого конкретного ответа.
+Если ошибок нет: ERRORS:
+Эта строка системная — студент её не увидит.`;
 
     const rawAnalysis = await callAI(prompt, 3000);
 
-    // Извлечь теги ошибок из ответа
-    const errMatch = rawAnalysis.match(/ERRORS:\s*([A-Z_,\s]*)(?:\n|$)/);
-    const errorTags = errMatch ? errMatch[1].split(',').map(s => s.trim()).filter(Boolean) : [];
-    const analysis = rawAnalysis.replace(/\n?ERRORS:[^\n]*/g, '').trim();
+    // Извлечь теги ошибок из ответа (ищем в любом месте, регистр не важен)
+    const errMatch = rawAnalysis.match(/ERRORS:\s*([^\n]*)/i);
+    const errorTags = errMatch
+      ? errMatch[1].split(',').map(s => s.trim().toUpperCase().replace(/[^A-Z_ÄÖÜWECHSELPRÄP]/g, '')).filter(s => s.length > 2)
+      : [];
+    const analysis = rawAnalysis.replace(/\n?ERRORS:[^\n]*/gi, '').trim();
 
     // Показать анализ (для педагога)
     const el = document.getElementById('analysis-' + subId);
