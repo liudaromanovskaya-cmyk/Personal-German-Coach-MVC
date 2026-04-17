@@ -1892,6 +1892,25 @@ async function saveData() {
   }
   toast(ok ? `Сохранено для ${nameOf(currentStudent)} ✓` : `Сохранено локально (нет сети)`, ok ? 'success' : '');
 }
+// ── Авто-заполнение даты ──────────────────
+function autoFillToday() {
+  const now = new Date();
+  // "17. April" — немецкий формат
+  const dayFmt = now.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
+  // Номер недели в году
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const weekNum = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  const monthName = now.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+  const weekLabel = `${monthName} — Woche ${weekNum}`;
+
+  const dateField = document.getElementById('weekDate');
+  const labelField = document.getElementById('weekLabel');
+
+  // Заполняем только если пусто или дата из прошлого
+  if (dateField && !dateField.value) dateField.value = dayFmt;
+  if (labelField && !labelField.value) labelField.value = weekLabel;
+}
+
 async function loadData() {
   clearForm();
   // Читаем из Firebase (основной источник)
@@ -1906,6 +1925,8 @@ async function loadData() {
     // Кешируем локально
     localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
   }
+  // Дата: если не заполнена — подставляем сегодня автоматически
+  autoFillToday();
   isDirty = false; updateStatus();
 }
 function clearForm() {
@@ -1983,6 +2004,7 @@ ${raw}
     if (!json) { toast('Нет данных в ответе', 'error'); return; }
 
     // Заполняем тему и грамматику
+    autoFillToday(); // дата если пустая
     if (json.weekTheme)    s('weekTheme', json.weekTheme);
     if (json.grammarQueen) s('grammarQueen', json.grammarQueen);
     if (json.grammarContext) s('grammarContext', json.grammarContext);
