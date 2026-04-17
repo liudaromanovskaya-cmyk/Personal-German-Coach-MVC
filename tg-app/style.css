@@ -3456,6 +3456,35 @@ a.optional-send-btn:active {
   cursor: pointer;
   min-height: 48px;
 }
+.onboarding-choices {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.onboarding-choice {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  min-height: 48px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.onboarding-choice:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.onboarding-choice-icon {
+  font-size: 22px;
+}
 
 /* ── Опросник студента ───────────────────────────────────────────────── */
 .survey-options {

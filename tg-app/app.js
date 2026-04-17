@@ -3177,18 +3177,29 @@ function _refreshMarkerStats(id) {
 const ONBOARDING_SCREENS = [
   {
     icon: '👋',
-    title: (name) => `${name}, добро пожаловать в ваш кабинет`,
-    body: 'Это ваше личное пространство с педагогом. Здесь живут <strong>задания, прогресс</strong> и <strong>обратная связь</strong> — всё в одном месте.',
+    title: (name) => `${name}, добро пожаловать`,
+    body: 'Это ваш личный кабинет с педагогом.<br><br>Здесь нет оценок и нет "неправильных" ответов — только практика. <strong>Ошибки здесь нормальны</strong> — именно на них строится прогресс.',
   },
   {
-    icon: '📅',
-    title: () => 'Как это работает',
-    body: '<strong>Каждый день</strong> — 6 слов и задание на говорение.<br>Три уровня сложности: начинаете с лёгкого, идёте дальше если готовы.<br><strong>Грамматика недели</strong> — всегда перед глазами.',
+    icon: '📋',
+    title: () => 'Как устроен кабинет',
+    body: '<strong>Уровень 1</strong> — всегда лёгкий. Подходит для метро или перерыва.<br><strong>Уровень 2</strong> — реальная ситуация с новыми словами.<br><strong>Уровень 3</strong> — свободный рассказ.<br><br>Одно задание — <strong>15–20 минут</strong>.',
+  },
+  {
+    icon: '⏰',
+    title: () => 'Когда вам удобнее заниматься?',
+    body: 'Это поможет выстроить привычку — мозг лучше запоминает когда занятия происходят в одно и то же время.',
+    type: 'choice',
+    choices: [
+      { icon: '🌅', label: 'Утром', value: 'morning' },
+      { icon: '🌙', label: 'Вечером', value: 'evening' },
+      { icon: '🕐', label: 'По-разному', value: 'flexible' },
+    ],
   },
   {
     icon: '🚀',
-    title: () => 'Ваше первое задание уже здесь',
-    body: 'Прокрутите вниз — там слова дня и задание. Начните когда удобно: в метро, дома, в паузе.',
+    title: () => 'Всё готово — задание уже здесь',
+    body: 'Прокрутите вниз — там слова дня и первое задание. Педагог увидит вашу запись и ответит с разбором.',
   },
 ];
 
@@ -3213,6 +3224,19 @@ function _renderOnboardingStep(name) {
     `<div class="onboarding-dot ${i === _onboardStep ? 'active' : ''}"></div>`
   ).join('');
 
+  const actionHtml = screen.type === 'choice'
+    ? `<div class="onboarding-choices">
+        ${screen.choices.map(c =>
+          `<button class="onboarding-choice" onclick="selectOnboardingChoice('${c.value}', '${name}')">
+            <span class="onboarding-choice-icon">${c.icon}</span>
+            <span>${c.label}</span>
+          </button>`
+        ).join('')}
+      </div>`
+    : `<button class="onboarding-next" onclick="onboardNext('${name}')">
+        ${isLast ? 'Начать →' : 'Далее'}
+      </button>`;
+
   const el = document.createElement('div');
   el.id = 'onboarding-overlay';
   el.className = 'onboarding-overlay';
@@ -3223,12 +3247,15 @@ function _renderOnboardingStep(name) {
       <div class="onboarding-title">${screen.title(name)}</div>
       <div class="onboarding-body">${screen.body}</div>
       <div class="onboarding-dots">${dots}</div>
-      <button class="onboarding-next" onclick="onboardNext('${name}')">
-        ${isLast ? 'Начать →' : 'Далее'}
-      </button>
+      ${actionHtml}
     </div>
   `;
   document.body.appendChild(el);
+}
+
+function selectOnboardingChoice(value, name) {
+  localStorage.setItem(`pgc_pref_${_studentId}`, JSON.stringify({ preference: value }));
+  onboardNext(name);
 }
 
 function onboardNext(name) {
