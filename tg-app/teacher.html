@@ -623,6 +623,27 @@
     </div>
   </div>
 
+  <!-- БЫСТРЫЙ ВВОД -->
+  <div class="section" style="border:2px solid #4A8C6E">
+    <div class="section-header" style="background:#EDF7F1">
+      <span class="section-title" style="color:#276749">⚡ Быстрый ввод — скинь список, я заполню всё</span>
+      <span class="section-hint">слова через запятую или с новой строки — тему, грамматику, всё вперемешку</span>
+    </div>
+    <div class="section-body">
+      <textarea id="quickInput" rows="5" placeholder="Например:
+auf etw. warten, laut Bescheid sagen, die Verabredung, absagen, verschieben, ausfallen lassen
+Тема: Termine und Verabredungen
+Грамматика: Konjunktiv II для вежливых просьб
+Уровень: B1→B2"></textarea>
+      <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+        <button class="btn btn-primary" id="quickFillBtn" onclick="quickFill()" style="flex:1">
+          🤖 Заполнить всё
+        </button>
+        <span style="font-size:12px;color:var(--muted)">AI раскидает слова по уровням, придумает задания, заполнит все поля</span>
+      </div>
+    </div>
+  </div>
+
   <!-- WEEK -->
   <div class="section">
     <div class="section-header">
@@ -1901,6 +1922,104 @@ function clearData() {
 // ── HELPERS ──────────────────────────────
 function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
 function s(id, val) { const el = document.getElementById(id); if (el && val != null) el.value = val; }
+
+// ── БЫСТРЫЙ ВВОД — заполнить всё из списка ───────────────────────────
+async function quickFill() {
+  const raw = document.getElementById('quickInput')?.value?.trim();
+  if (!raw) { toast('Вставьте список слов', 'error'); return; }
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) {
+    toast('Введите OpenRouter API ключ', 'error'); return;
+  }
+
+  const btn = document.getElementById('quickFillBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Разбираю...';
+
+  const studentName = document.querySelector('.student-btn--active')?.textContent?.trim() || 'студент B1→B2';
+
+  const prompt = `Ты ассистент преподавателя немецкого. Задача: взять сырой список материалов и распределить по структуре Speaking Sprint.
+
+СТРУКТУРА SPEAKING SPRINT:
+- words (Niveau 1, 6 штук): базовые слова дня — самые важные, без которых не обойтись. Подсказка — перевод или одно слово контекста. Плюс 3 чанка-примера на каждое слово в контексте, ключевое слово в [квадратных скобках].
+- words2 (Niveau 2, до 6 штук): синонимы, идиомы, коллокации, углублённая лексика. Подсказка — пример или пояснение.
+- Три задания говорения:
+  * task (Aufwärmen/Niveau 1): лёгкая знакомая ситуация — любой ответ правильный, цель снять страх. 5 предложений.
+  * deepen (Situation/Niveau 2): реальная рабочая/бытовая ситуация, нужны все слова. 7–8 предложений.
+  * immerse (Ihre Geschichte/Niveau 3): открытый вопрос про реальный момент из жизни студента. Свободный рассказ.
+- Подсказка (hint): начало предложения на немецком
+- postSubmit: что закрыли + почему важно (зрелый наставнический тон, без "Молодец!")
+
+МАТЕРИАЛ ОТ ПЕДАГОГА:
+${raw}
+
+Студент: ${studentName}
+
+Верни ТОЛЬКО JSON без пояснений и без markdown-блоков:
+{
+  "weekTheme": "тема дня одной строкой",
+  "grammarQueen": "главная грамматическая тема если есть",
+  "grammarContext": "зачем эта грамматика сейчас",
+  "words": [
+    {"word": "слово", "hint": "перевод или подсказка", "grammarTag": "", "chunks": ["Пример с [слово] 1.", "Пример 2.", "Пример 3."]}
+  ],
+  "words2": [
+    {"word": "слово/идиома", "hint": "пример или пояснение"}
+  ],
+  "task":    {"topic": "Aufwärmen — заголовок", "prompt": "Вопрос от собеседника", "instruction": "5 Sätze.", "hint": "Einstieg: ..."},
+  "deepen":  {"topic": "Situation — заголовок", "prompt": "Ситуация", "instruction": "7–8 Sätze. Alle Wörter.", "hint": "..."},
+  "immerse": {"topic": "Ihre Geschichte — заголовок", "prompt": "Открытый вопрос из жизни", "instruction": "Erzählen Sie frei.", "hint": "..."},
+  "postSubmit": {"done": "Что закрыли — 1 предложение", "why": "Почему важно"}
+}
+
+Правила: words ровно 6 штук. words2 от 3 до 6. Все тексты на немецком кроме hint (там можно по-русски).`;
+
+  try {
+    const text = await callAI(prompt, 4000);
+    let json;
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      if (m) json = JSON.parse(m[0]);
+    } catch(e) { toast('AI вернул нечитаемый ответ — попробуйте ещё раз', 'error'); return; }
+    if (!json) { toast('Нет данных в ответе', 'error'); return; }
+
+    // Заполняем тему и грамматику
+    if (json.weekTheme)    s('weekTheme', json.weekTheme);
+    if (json.grammarQueen) s('grammarQueen', json.grammarQueen);
+    if (json.grammarContext) s('grammarContext', json.grammarContext);
+
+    // Слова Niveau 1
+    (json.words || []).slice(0, WORD_COUNT).forEach((w, i) => {
+      s(`word${i}`, w.word || '');
+      s(`hint${i}`, w.hint || '');
+      s(`grammarTag${i}`, w.grammarTag || '');
+      if (w.chunks?.length) {
+        s(`chunksText${i}`, w.chunks.join('\n'));
+        document.getElementById(`chunks${i}`)?.classList.add('visible');
+      }
+    });
+
+    // Слова Niveau 2
+    (json.words2 || []).slice(0, WORD2_COUNT).forEach((w, i) => {
+      s(`word2_${i}`, w.word || '');
+      s(`hint2_${i}`, w.hint || '');
+    });
+
+    // Задания
+    parseAndFill(JSON.stringify(json));
+
+    isDirty = true; updateStatus();
+    document.getElementById('quickInput').value = '';
+    toast('Всё заполнено! Проверьте и нажмите «Сохранить»', 'success');
+    // Скроллим к словам
+    document.getElementById('weekTheme')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch(e) {
+    console.error(e);
+    toast('Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🤖 Заполнить всё';
+  }
+}
 
 // ── AI ГЕНЕРАЦИЯ ─────────────────────────
 async function generateWithGemini() {
