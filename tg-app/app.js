@@ -183,6 +183,10 @@ function render() {
   _studentLevel = student.level || 'B1';
   applyProgress(student, id);
 
+  const _diaryKey = `pgc_diary_${id}`;
+  const _diaryData = (() => { try { return JSON.parse(localStorage.getItem(_diaryKey) || '{}'); } catch(e) { return {}; } })();
+  const _streak = _diaryData.streak || 0;
+
   const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const feedbackHTML = buildFeedbackHTML(student, id);
@@ -197,6 +201,7 @@ function render() {
     <div class="greeting">
       <div class="greeting-name">Guten Tag, ${student.name} 👋</div>
       <div class="greeting-date">${today}</div>
+      ${_streak > 0 ? `<div class="greeting-streak">🔥 ${_streak} Tage in Folge</div>` : ''}
     </div>
 
     ${_teacherSubmissionFeedback ? (() => {
@@ -246,12 +251,19 @@ function render() {
       const s = student.sprint.today;
       const todayISO = new Date().toISOString().split('T')[0];
 
-      // Проверяем: сдавал ли уже сегодня Niveau 1
+      // Проверяем: сдавал ли уже сегодня Niveau 1 и 2
       let taskDoneToday = false;
+      let deepenDoneToday = false;
       try {
         const sub = JSON.parse(localStorage.getItem('pgc_sub_' + id) || '{}');
         taskDoneToday = !!(sub.task && sub.task.date && sub.task.date.startsWith(todayISO));
+        deepenDoneToday = !!(sub.deepen && sub.deepen.date && sub.deepen.date.startsWith(todayISO));
       } catch(e) {}
+
+      const lbtn2Class = taskDoneToday ? 'level-btn' : 'level-btn level-btn--locked';
+      const lbtn3Class = (taskDoneToday && deepenDoneToday) ? 'level-btn' : 'level-btn level-btn--locked';
+      const lbtn2Click = taskDoneToday ? 'switchSpeakLevel(2)' : 'lockedLevelClick(2)';
+      const lbtn3Click = (taskDoneToday && deepenDoneToday) ? 'switchSpeakLevel(3)' : 'lockedLevelClick(3)';
 
       // Проверяем: фидбек новый (не просмотренный)
       let fbSeen = false;
@@ -299,6 +311,7 @@ function render() {
       </div>
       `}
     </div>
+    <div class="mood-encourage" id="mood-encourage" style="display:none"></div>
 
     ${weekNarrMsg ? `
     <div class="week-narrative-banner week-narrative-${weekNarrType}">
@@ -326,13 +339,13 @@ function render() {
         <div class="level-btn-num">1</div>
         <div class="level-btn-name">Aufwärmen</div>
       </button>
-      <button class="level-btn" id="lbtn-2" onclick="switchSpeakLevel(2)">
+      <button class="${lbtn2Class}" id="lbtn-2" onclick="${lbtn2Click}">
         <div class="level-btn-num">2</div>
-        <div class="level-btn-name">Situation</div>
+        <div class="level-btn-name">Situation${!taskDoneToday ? ' 🔒' : ''}</div>
       </button>
-      <button class="level-btn" id="lbtn-3" onclick="switchSpeakLevel(3)">
+      <button class="${lbtn3Class}" id="lbtn-3" onclick="${lbtn3Click}">
         <div class="level-btn-num">3</div>
-        <div class="level-btn-name">Geschichte</div>
+        <div class="level-btn-name">Geschichte${!(taskDoneToday && deepenDoneToday) ? ' 🔒' : ''}</div>
       </button>
     </div>
 
@@ -903,6 +916,14 @@ function render() {
           ${m.sub ? `<div class="milestone-sub">${m.sub}</div>` : ''}
         </div>
       `).join('')}
+    </div>
+
+    <div class="audio-journey-section" id="audio-journey-section">
+      <div class="audio-journey-header">
+        <div class="audio-journey-title">🎙 Meine Stimme — Reise</div>
+        <div class="audio-journey-subtitle">Hören Sie, wie Sie sich verbessert haben</div>
+      </div>
+      <div id="audio-journey-list"><div class="audio-journey-loading">Lädt…</div></div>
     </div>
 
     <div id="feedback-archive-section"></div>
@@ -1655,6 +1676,10 @@ function showTab(tab) {
   document.getElementById('tab-' + tab)?.classList.add('active');
   window.scrollTo(0, 0);
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+  if (tab === 'progress') {
+    const list = document.getElementById('audio-journey-list');
+    if (list && list.querySelector('.audio-journey-loading')) loadAudioJourney();
+  }
 }
 
 function toggleGrammar(id) {
@@ -2213,6 +2238,9 @@ function submitHomework(level) {
         ${ps.why ? `<div class="post-submit-why">${ps.why}</div>` : ''}
       `;
     }
+    unlockNextLevel('task');
+  } else if (level === 'deepen') {
+    unlockNextLevel('deepen');
   }
   if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 }
@@ -2599,17 +2627,24 @@ function setMood(mood) {
   const sel = document.getElementById('mood-selector');
   if (sel) sel.innerHTML = `<div class="mood-selected">${labels[mood]}</div>`;
 
+  const encourageEl = document.getElementById('mood-encourage');
   if (mood === 'tired') {
     ['lbtn-2','lbtn-3','level-content-2','level-content-3'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
     });
     switchSpeakLevel(1);
+    if (encourageEl) {
+      encourageEl.style.display = 'block';
+      const teacherEncourage = _student?.sprint?.today?.encourageTired;
+      encourageEl.textContent = teacherEncourage || 'Heute reicht Niveau 1 — das ist schon viel. Jeder Tag zählt. 💙';
+    }
   } else {
     ['lbtn-2','lbtn-3'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = '';
     });
+    if (encourageEl) encourageEl.style.display = 'none';
   }
 
   if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
@@ -3162,5 +3197,119 @@ function startLiveTranscript(level) {
     _recRecognition.onerror = () => {};
     _recRecognition.start();
   } catch {}
+}
+
+// ── Прогрессивная разблокировка уровней ──────────────────────────────────────
+function unlockNextLevel(completedLevel) {
+  let targetBtn = null;
+  let targetContent = null;
+  if (completedLevel === 'task') {
+    targetBtn = document.getElementById('lbtn-2');
+    targetContent = document.getElementById('level-content-2');
+  } else if (completedLevel === 'deepen') {
+    targetBtn = document.getElementById('lbtn-3');
+    targetContent = document.getElementById('level-content-3');
+  }
+  if (!targetBtn) return;
+
+  targetBtn.classList.remove('level-btn--locked');
+  targetBtn.classList.add('level-btn--just-unlocked');
+  targetBtn.onclick = () => switchSpeakLevel(completedLevel === 'task' ? 2 : 3);
+
+  // Убрать 🔒 из названия
+  const nameEl = targetBtn.querySelector('.level-btn-name');
+  if (nameEl) nameEl.textContent = nameEl.textContent.replace(' 🔒', '');
+
+  // Анимация — убрать класс через секунду
+  setTimeout(() => targetBtn.classList.remove('level-btn--just-unlocked'), 1200);
+
+  // Показать контент если не скрыт из-за режима "tired"
+  const encourageVisible = document.getElementById('mood-encourage')?.style.display === 'block';
+  if (!encourageVisible && targetContent) {
+    // Контент пока не показываем — студент сам нажмёт кнопку
+  }
+}
+
+function lockedLevelClick(level) {
+  const btn = document.getElementById('lbtn-' + level);
+  if (!btn) return;
+  btn.classList.add('level-btn--shake');
+  setTimeout(() => btn.classList.remove('level-btn--shake'), 500);
+
+  // Краткое сообщение
+  const switcher = document.getElementById('level-switcher');
+  if (switcher) {
+    let hint = switcher.querySelector('.level-lock-hint');
+    if (!hint) {
+      hint = document.createElement('div');
+      hint.className = 'level-lock-hint';
+      switcher.appendChild(hint);
+    }
+    hint.textContent = level === 2 ? 'Erst Niveau 1 abschicken ↑' : 'Erst Niveau 1 und 2 abschicken ↑';
+    hint.style.display = 'block';
+    clearTimeout(hint._timeout);
+    hint._timeout = setTimeout(() => { hint.style.display = 'none'; }, 2500);
+  }
+}
+
+// ── Аудио-архив "Meine Stimme — Reise" ───────────────────────────────────────
+async function loadAudioJourney() {
+  const container = document.getElementById('audio-journey-list');
+  if (!container || !_studentId) return;
+
+  const db = typeof firebase !== 'undefined' ? firebase.database() : null;
+  if (!db) { container.innerHTML = '<div class="audio-journey-empty">Keine Aufnahmen verfügbar.</div>'; return; }
+
+  try {
+    const snap = await db.ref('submissions/' + _studentId).once('value');
+    const allSubs = snap.val() || {};
+
+    // Собираем все записи с аудио
+    const entries = [];
+    for (const [date, dayData] of Object.entries(allSubs)) {
+      if (typeof dayData !== 'object') continue;
+      for (const [level, levelData] of Object.entries(dayData)) {
+        if (level === 'teacherFeedback') continue;
+        const url = levelData?.audioUrl || (levelData?.audioData ? 'data:audio/webm;base64,' + levelData.audioData : null);
+        if (url) {
+          const levelLabel = level === 'task' ? 'Niveau 1' : level === 'deepen' ? 'Niveau 2' : level === 'immerse' ? 'Niveau 3' : level;
+          entries.push({ date, level, levelLabel, url });
+        }
+      }
+    }
+
+    if (entries.length === 0) {
+      container.innerHTML = '<div class="audio-journey-empty">Noch keine Aufnahmen. Nach der ersten Einreichung erscheinen sie hier.</div>';
+      return;
+    }
+
+    // Группируем по месяцу
+    entries.sort((a, b) => b.date.localeCompare(a.date));
+    const byMonth = {};
+    for (const e of entries) {
+      const [year, month] = e.date.split('-');
+      const monthKey = `${year}-${month}`;
+      const monthLabel = new Date(year, month - 1, 1).toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+      if (!byMonth[monthKey]) byMonth[monthKey] = { label: monthLabel, items: [] };
+      byMonth[monthKey].items.push(e);
+    }
+
+    let html = '';
+    for (const [, { label, items }] of Object.entries(byMonth)) {
+      html += `<div class="audio-month-group">
+        <div class="audio-month-label">${label} · ${items.length} Aufnahme${items.length !== 1 ? 'n' : ''}</div>`;
+      for (const item of items) {
+        const dateFormatted = new Date(item.date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+        html += `<div class="audio-journey-item">
+          <div class="audio-journey-meta">${dateFormatted} · ${item.levelLabel}</div>
+          <audio controls preload="none" class="audio-journey-player" src="${item.url}"></audio>
+        </div>`;
+      }
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<div class="audio-journey-empty">Fehler beim Laden der Aufnahmen.</div>';
+  }
 }
 

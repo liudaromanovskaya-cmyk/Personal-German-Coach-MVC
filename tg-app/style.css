@@ -317,6 +317,13 @@ a.optional-send-btn:active {
   background: var(--surface-soft);
 }
 .grammar-body.visible { display: block; }
+.grammar-body table,
+.grammar-body .grammar-table {
+  overflow-x: auto;
+  display: block;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
 .grammar-summary {
   font-size: 14px;
   color: var(--text-secondary);
@@ -564,6 +571,13 @@ a.optional-send-btn:active {
   line-height: 1.4;
   letter-spacing: 0.01em;
 }
+.greeting-streak {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-copper, #c07850);
+  letter-spacing: 0.01em;
+}
 
 /* TASK CARD */
 .task-card {
@@ -806,6 +820,34 @@ a.optional-send-btn:active {
 }
 .level-btn--active .level-btn-name {
   color: rgba(255,255,255,0.85);
+}
+.level-btn--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+.level-btn--locked .level-btn-num { color: var(--text-muted); }
+@keyframes unlockPulse {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(74,140,110,.5); }
+  50%  { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(74,140,110,0); }
+  100% { transform: scale(1); box-shadow: none; }
+}
+.level-btn--just-unlocked {
+  animation: unlockPulse .6s ease forwards;
+  border-color: var(--primary);
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+.level-btn--shake { animation: shake .35s ease; }
+.level-lock-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 4px 0 0;
+  width: 100%;
+  display: none;
 }
 .level-content {
   margin: 12px 16px 0;
@@ -2240,6 +2282,7 @@ a.optional-send-btn:active {
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
+  min-height: 48px;
   background: transparent;
   border: 1.5px solid var(--accent);
   border-radius: 24px;
@@ -2740,6 +2783,69 @@ a.optional-send-btn:active {
   font-size: 14px;
   font-weight: 600;
   color: var(--text);
+}
+.mood-encourage {
+  margin: 0 16px 12px;
+  background: #EDF7FF;
+  border: 1px solid #B3D9F5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #2563A0;
+  line-height: 1.5;
+}
+
+/* ── Аудио-архив "Meine Stimme — Reise" ────────────────────────────── */
+.audio-journey-section {
+  margin: 20px 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-card);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+.audio-journey-header { margin-bottom: 14px; }
+.audio-journey-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.audio-journey-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.audio-journey-loading, .audio-journey-empty {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 8px 0;
+}
+.audio-month-group { margin-bottom: 16px; }
+.audio-month-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.audio-journey-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.audio-journey-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.audio-journey-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.audio-journey-player {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
 }
 
 /* ── Sprint P0: Structured feedback blocks ──────────────────────────────── */
