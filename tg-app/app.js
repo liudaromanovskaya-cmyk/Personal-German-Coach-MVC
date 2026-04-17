@@ -1007,6 +1007,8 @@ function render() {
       `).join('')}
     </div>
 
+    <div id="drill-progress-section"></div>
+
     <div class="audio-journey-section" id="audio-journey-section">
       <div class="audio-journey-header">
         <div class="audio-journey-title">🎙 Meine Stimme — Reise</div>
@@ -1769,6 +1771,7 @@ function showTab(tab) {
   if (tab === 'progress') {
     const list = document.getElementById('audio-journey-list');
     if (list && list.querySelector('.audio-journey-loading')) loadAudioJourney();
+    loadDrillProgress();
   }
 }
 
@@ -2458,10 +2461,10 @@ function showDrillModal(tag) {
   overlay.innerHTML = `
     <div class="drill-card">
       <div class="drill-header">
-        <span class="drill-badge">⚡ Kurze Übung</span>
-        <span class="drill-skip" onclick="closeDrill()">Überspringen</span>
+        <span class="drill-badge">⚡ Übung des Tages</span>
+        <span class="drill-skip" onclick="closeDrill()">Später</span>
       </div>
-      <div class="drill-topic">${q.label}</div>
+      <div class="drill-topic">2 Minuten · ${q.label}</div>
       <div class="drill-question">${q.q}</div>
       <div class="drill-options" id="drillOptions">
         ${shuffled.map((opt, i) => `
@@ -2520,6 +2523,33 @@ function answerDrill(correct, tag, btn, hint) {
 function closeDrill() {
   const overlay = document.getElementById('drillOverlay');
   if (overlay) overlay.remove();
+}
+
+async function loadDrillProgress() {
+  const section = document.getElementById('drill-progress-section');
+  if (!section || !_studentId) return;
+  const [errors, drills] = await Promise.all([
+    fbGetPublic(`progress/${_studentId}/errors`).catch(() => null),
+    fbGetPublic(`progress/${_studentId}/drills`).catch(() => null)
+  ]);
+  if (!errors && !drills) return;
+
+  const green = Object.entries(errors || {}).filter(([,v]) => v.status === 'green');
+  const total = Object.keys(errors || {}).length;
+  const totalAttempts = Object.values(drills || {}).reduce((sum, d) => sum + (d.attempts?.length || 0), 0);
+  if (!total && !totalAttempts) return;
+
+  const greenItems = green.map(([tag]) => {
+    const label = (DRILL_QUESTIONS[tag]?.label || tag).split(' ')[0];
+    return `<span style="background:#EDF7F1;color:#276749;border:1px solid #B7E0CB;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600">✓ ${label}</span>`;
+  }).join('');
+
+  section.innerHTML = `
+    <div style="background:var(--surface);border-radius:14px;padding:16px 18px;margin:16px 0">
+      <div style="font-weight:700;font-size:14px;color:var(--text-primary);margin-bottom:10px">⚡ Übungen des Tages</div>
+      ${totalAttempts ? `<div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px">${totalAttempts} Übungen gemacht</div>` : ''}
+      ${green.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px">${greenItems}</div>` : `<div style="font-size:13px;color:var(--text-muted)">Noch keine abgeschlossen — weiter so!</div>`}
+    </div>`;
 }
 
 // ── Черновики — автосохранение и восстановление ──────────────────────────────
