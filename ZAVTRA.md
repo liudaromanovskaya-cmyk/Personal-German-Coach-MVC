@@ -67,7 +67,15 @@ progress/{studentId}/drills/{topic}: { attempts:[{date,timeMs,correct}], streak,
 Рядом с именем студента: `Verbzweit 🔴 Dativ 🟡 Artikel 🟢 Nebensatz 🔴`
 Читается за 5 секунд — сразу ясно на что обратить внимание.
 
-### 10. Drill-контент (методическая работа)
+### 10. Zusatzaufgaben — ссылки и Roter Faden
+**Файл:** `tg-app/teacher.html` + `tg-app/app.js`
+В teacher.html добавить два опциональных поля к заданию дня:
+- `roterfaden`: строка — "Mittelpunkt B2 · Lektion 5B" (просто текст, показывается в шапке спринта)
+- `extras`: массив [{type, title, url, note}] — ссылки на подкаст/YouTube/статью
+Оба поля опциональные — не заполнила → не показывается.
+Firebase: `teacher/{sid}/today/roterfaden` и `teacher/{sid}/today/extras`
+
+### 11. Drill-контент (методическая работа)
 ~20 тем × 8 предложений = 160 предложений с вариантами ответов.
 AI пишет черновик → педагог проверяет.
 Уровень адаптируется: A1 простые / B2 сложные.
