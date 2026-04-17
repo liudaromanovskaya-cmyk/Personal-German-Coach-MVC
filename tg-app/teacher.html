@@ -1990,10 +1990,12 @@ ${raw}
   "grammarQueen": "главная грамматическая тема если есть",
   "grammarContext": "зачем эта грамматика сейчас",
   "words": [
-    {"word": "слово", "hint": "перевод или подсказка", "grammarTag": "", "chunks": ["Пример с [слово] 1.", "Пример 2.", "Пример 3."]}
+    {"word": "warten auf + Akk", "hint": "ждать кого-то/чего-то", "grammarTag": "Präpositionalverb", "chunks": ["Ich [warte auf] die Antwort.", "Пример 2.", "Пример 3."]},
+    {"word": "die Verabredung, -en", "hint": "договорённость, встреча", "grammarTag": "", "chunks": ["[Die Verabredung] war um 18 Uhr.", "Пример 2.", "Пример 3."]}
   ],
   "words2": [
-    {"word": "слово/идиома", "hint": "пример или пояснение"}
+    {"word": "etw. absagen", "hint": "отменить встречу/договорённость"},
+    {"word": "auf etw. bestehen + Dat", "hint": "настаивать на чём-то"}
   ],
   "task":    {"topic": "Aufwärmen — заголовок", "prompt": "Вопрос от собеседника", "instruction": "5 Sätze.", "hint": "Einstieg: ..."},
   "deepen":  {"topic": "Situation — заголовок", "prompt": "Ситуация", "instruction": "7–8 Sätze. Alle Wörter.", "hint": "..."},
@@ -2883,7 +2885,8 @@ ${repeatBlock}
   "grammarSentence": "Пример с этой грамматикой",
   "grammarNote": "Подсказка под примером",
   "words": [
-    { "word": "слово", "hint": "значение по-русски", "grammarTag": "тип (reflexiv/Dativ...)", "chunks": ["Пример с [подсветкой].", "Пример 2.", "Пример 3."] }
+    { "word": "warten auf + Akk", "hint": "ждать (кого-то/чего-то)", "grammarTag": "Präpositionalverb", "chunks": ["Пример с [warten auf].", "Пример 2.", "Пример 3."] },
+    { "word": "die Verabredung, -en", "hint": "договорённость, встреча", "grammarTag": "", "chunks": ["Пример.", "Пример 2.", "Пример 3."] }
   ],
   "task":   { "topic": "Aufwärmen — заголовок", "prompt": "промпт на немецком", "instruction": "5 Sätze. Kein Perfekt nötig.", "hint": "Einstieg: ..." },
   "deepen": { "topic": "Situation — заголовок", "prompt": "ситуация на немецком", "instruction": "7–8 Sätze. Nutzen Sie alle Wörter.", "hint": "..." },
@@ -2893,11 +2896,13 @@ ${repeatBlock}
   "analysisNote": "Для педагога: главный паттерн ошибок из архива + почему выбрала именно эти слова и грамматику. По-русски, 2-3 предложения."
 }
 
-ФОРМАТ СЛОВ ОБЯЗАТЕЛЬНО:
-- Глагол → с управлением: "warten auf + Akk", "helfen + Dat", "sich freuen auf + Akk"
-- Существительное → с родом и множественным: "die Verbindung, -en", "der Bescheid, -e", "das Gespräch, ¨e"
-- Правило мн.ч.: - (без изменений), -e, ¨e, -er, ¨er, -en, -n, -s
-- hint — перевод по-русски + управление если глагол
+КРИТИЧЕСКИ ВАЖНО — поле "word" должно содержать ПОЛНЫЙ формат:
+- Глагол: "warten auf + Akk" (НЕ просто "warten")
+- Глагол с sich: "sich freuen auf + Akk" (НЕ просто "freuen")
+- Существительное: "die Verabredung, -en" (НЕ просто "Verabredung")
+- Существительное с умлаутом: "der Arzt, ¨e"
+- Без изменений в мн.ч.: "das Gespräch, -e"
+- hint — только перевод по-русски, кратко
 
 Чанки: ключевое слово в [квадратных скобках]. 3 чанка на слово. Бытовые, B1-B2.`;
 
