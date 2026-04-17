@@ -232,8 +232,13 @@ function render() {
 
   <div class="screen active" id="screen-task">
     <div class="greeting">
-      <div class="greeting-name">Guten Tag, ${student.name} 👋</div>
-      <div class="greeting-date">${today}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="greeting-name">Guten Tag, ${student.name} 👋</div>
+          <div class="greeting-date">${today}</div>
+        </div>
+        <button id="refresh-btn" onclick="refreshData()" title="Aktualisieren" style="background:none;border:none;font-size:18px;cursor:pointer;padding:4px 8px;opacity:0.45;line-height:1;margin-top:2px">🔄</button>
+      </div>
       ${_streak > 0 ? `<div class="greeting-streak">🔥 ${_streak} Tage in Folge</div>` : ''}
     </div>
 
@@ -2642,7 +2647,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   render();
+
+  // ── Авто-обновление данных педагога каждые 60 сек ────────────────────────
+  const id2 = getStudentId();
+  if (id2 && typeof fbGet === 'function') {
+    setInterval(async () => {
+      try {
+        const [newTeacher, newProgress, newFeedback] = await Promise.all([
+          fbGet(`teacher/${id2}`),
+          fbGet(`progress/${id2}`),
+          fbGet(`feedback/${id2}`)
+        ]);
+        // Перерендерим только если данные изменились
+        const teacherChanged = JSON.stringify(newTeacher) !== JSON.stringify(_firebaseTeacherData);
+        const feedbackChanged = JSON.stringify(newFeedback) !== JSON.stringify(_feedbackArchive);
+        const fbChanged = newProgress?.lastTeacherFeedback?.sentAt !== _teacherSubmissionFeedback?.sentAt;
+        if (teacherChanged || feedbackChanged || fbChanged) {
+          _firebaseTeacherData = newTeacher;
+          _feedbackArchive = newFeedback || null;
+          if (newProgress?.lastTeacherFeedback) _teacherSubmissionFeedback = newProgress.lastTeacherFeedback;
+          if (newProgress?.wordSchedule) _wordSchedule = newProgress.wordSchedule;
+          render();
+        }
+      } catch(e) {}
+    }, 60000); // каждые 60 секунд
+  }
 });
+
+// ── Ручное обновление данных (кнопка у студента) ─────────────────────────
+async function refreshData() {
+  const id = getStudentId();
+  if (!id || typeof fbGet !== 'function') return;
+  const btn = document.getElementById('refresh-btn');
+  if (btn) { btn.style.opacity = '0.4'; btn.style.pointerEvents = 'none'; }
+  try {
+    const [newTeacher, newProgress, newFeedback] = await Promise.all([
+      fbGet(`teacher/${id}`),
+      fbGet(`progress/${id}`),
+      fbGet(`feedback/${id}`)
+    ]);
+    _firebaseTeacherData = newTeacher;
+    _feedbackArchive = newFeedback || null;
+    if (newProgress?.lastTeacherFeedback) _teacherSubmissionFeedback = newProgress.lastTeacherFeedback;
+    if (newProgress?.wordSchedule) _wordSchedule = newProgress.wordSchedule;
+    render();
+  } catch(e) {}
+  setTimeout(() => {
+    if (btn) { btn.style.opacity = ''; btn.style.pointerEvents = ''; }
+  }, 2000);
+}
 
 // ── Sprint P0: Фидбек + Настроение + Баннеры ────────────────────────────────
 
