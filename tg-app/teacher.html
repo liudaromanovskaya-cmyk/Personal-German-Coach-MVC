@@ -1970,10 +1970,10 @@ function s(id, val) { const el = document.getElementById(id); if (el && val != n
 // ── БЫСТРЫЙ ВВОД — заполнить всё из списка ───────────────────────────
 async function quickFill() {
   const raw = document.getElementById('quickInput')?.value?.trim();
-  if (!raw) { toast('Вставьте список слов', 'error'); return; }
-  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) {
-    toast('Введите OpenRouter API ключ', 'error'); return;
-  }
+  const hasKey = !!(localStorage.getItem('pgc_openrouter_key') || document.getElementById('apiKey').value.trim());
+  if (!raw) { alert('❌ Поле "Быстрый ввод" пустое — вставьте список слов'); return; }
+  if (!hasKey) { alert('❌ Не найден OpenRouter API ключ — введите ключ и нажмите "Сохранить" рядом с полем'); return; }
+  alert(`✅ Запускаю AI. Слова (первые 50 символов): "${raw.substring(0,50)}..."\nКлюч API: есть`);
 
   const btn = document.getElementById('quickFillBtn');
   btn.disabled = true;
