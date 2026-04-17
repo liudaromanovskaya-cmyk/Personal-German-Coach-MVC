@@ -2251,8 +2251,19 @@ function handleFileSelect(level, input) {
   }
 }
 
-function submitHomework(level) {
+async function submitHomework(level) {
   if (!_student) return;
+
+  // Защита от двойного нажатия
+  const btn = document.querySelector(
+    `#submit-form-${level} .level-send-btn, ` +
+    `#submit-form-${level} .action-btn, ` +
+    `#submit-form-${level} .optional-send-btn`
+  );
+  if (btn?.disabled) return;
+  const btnOrigText = btn?.textContent || '✉️ Abschicken';
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Sende…'; }
+
   const textarea = document.getElementById('submit-text-' + level);
   const fileInput = document.getElementById('submit-file-' + level);
   const text = textarea ? textarea.value.trim() : '';
@@ -2268,20 +2279,17 @@ function submitHomework(level) {
   if (text) msg += `\n${text}`;
   if (hasFile) msg += `\n\n[Screenshot/Datei folgt]`;
 
-  // Сохраняем в localStorage
+  // Сохраняем в localStorage — сразу, не ждём сеть
   let subData = {};
   try {
     subData = JSON.parse(localStorage.getItem('pgc_sub_' + _studentId) || '{}');
     subData[level] = { date: new Date().toISOString(), text, hasFile, topic };
     localStorage.setItem('pgc_sub_' + _studentId, JSON.stringify(subData));
   } catch(e) {}
-  // Синхронизируем статус сданных заданий в Firebase
-  if (typeof fbSetPublic === 'function') {
-    fbSetPublic(`progress/${_studentId}/submissions`, subData).catch(() => {});
-  }
 
-  // Сохраняем в Firebase — для Eingänge в teacher.html (публично, без токена)
+  // Отправляем в Firebase — ждём результата
   const today = new Date().toISOString().split('T')[0];
+  let firebaseOk = true;
   if (typeof fbSetPublic === 'function') {
     const submission = {
       text, topic, level,
@@ -2291,12 +2299,28 @@ function submitHomework(level) {
       transcript: _liveTranscripts[level] || null,
       hasFile: false
     };
-    // Если Cloudinary не сработал — сохраняем base64 прямо в Firebase
     if (!submission.audioUrl && _audioData[level]) {
       submission.audioData = _audioData[level].data;
       submission.audioType = _audioData[level].type;
     }
-    fbSetPublic(`submissions/${_studentId}/${today}/${level}`, submission);
+    try {
+      const [r1] = await Promise.all([
+        fbSetPublic(`submissions/${_studentId}/${today}/${level}`, submission),
+        fbSetPublic(`progress/${_studentId}/submissions`, subData)
+      ]);
+      firebaseOk = r1 !== false;
+    } catch(e) { firebaseOk = false; }
+  }
+
+  if (!firebaseOk) {
+    // Сеть недоступна — показываем ошибку, возвращаем кнопку
+    if (btn) { btn.disabled = false; btn.textContent = btnOrigText; }
+    const errEl = document.getElementById('submit-confirm-' + level);
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.innerHTML = `<span style="color:#b91c1c">⚠️ Не отправлено — нет связи. Попробуйте ещё раз.</span>`;
+    }
+    return;
   }
 
   // Короткий пинг преподавателю (полный текст — в Eingänge)
@@ -2309,10 +2333,11 @@ function submitHomework(level) {
   // Помечаем как отправлено, показываем подтверждение с кнопкой редактирования
   setDraftStatus(level, 'sent');
   if (textarea) textarea.readOnly = true;
-  const confirm = document.getElementById('submit-confirm-' + level);
-  if (confirm) {
-    confirm.style.display = 'block';
-    confirm.innerHTML = hasFile
+  if (btn) { btn.disabled = true; btn.textContent = '✅ Gesendet'; }
+  const confirmEl = document.getElementById('submit-confirm-' + level);
+  if (confirmEl) {
+    confirmEl.style.display = 'block';
+    confirmEl.innerHTML = hasFile
       ? `✅ Текст отправлен! Прикрепите скриншот в Telegram. <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`
       : `✅ Gesendet! <button class="edit-sent-btn" onclick="editSubmission('${level}')">Bearbeiten</button>`;
   }

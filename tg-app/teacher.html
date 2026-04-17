@@ -1620,6 +1620,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input[type=text], textarea').forEach(el => {
     el.addEventListener('input', () => { isDirty = true; updateStatus(); });
   });
+
+  // Автосохранение в localStorage каждые 30 сек при наличии изменений
+  setInterval(() => {
+    if (!isDirty || !currentStudent || currentStudent === '__new__') return;
+    const data = collectData();
+    localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
+    const txt = document.getElementById('statusText');
+    if (txt) txt.textContent = `Автосохранено · ${new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'})}`;
+  }, 30000);
+
+  // Предупреждение при закрытии с несохранёнными изменениями
+  window.addEventListener('beforeunload', e => {
+    if (isDirty) { e.preventDefault(); e.returnValue = ''; }
+  });
 });
 
 function buildWordRows() {
