@@ -2715,7 +2715,7 @@ function setWordStatus(word, status, studentId) {
   const row = document.getElementById(rowId);
   if (row) {
     row.querySelectorAll('.wb-btn').forEach(btn => btn.classList.remove('active'));
-    const statuses = ['green','yellow','red'];
+    const statuses = ['forgotten','red','yellow','green'];
     const idx = statuses.indexOf(status);
     if (idx >= 0) row.querySelectorAll('.wb-btn')[idx]?.classList.add('active');
   }
