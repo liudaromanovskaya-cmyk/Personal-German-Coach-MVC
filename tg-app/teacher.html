@@ -391,6 +391,28 @@
   .dash-spark-label { font-size: 10px; color: var(--muted); }
   .dash-no-data { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0; }
 
+  /* ── Roter Faden ──── */
+  .rf-item {
+    border: 1px solid #B7E0CB;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #F0FAF5;
+  }
+  .rf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 10px;
+    margin-top: 6px;
+  }
+  .rf-item input[type=text] {
+    display: block; width: 100%; box-sizing: border-box;
+  }
+  .rf-header {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; font-weight: 600; color: #276749;
+  }
+
   /* ── Extras (дополнительные материалы) ──── */
   .extra-item {
     border: 1px solid var(--border);
@@ -751,6 +773,17 @@
       <input type="text" id="postDone" placeholder="Präpositionalverben в живых ситуациях — закрыли.">
       <label>Почему это важно</label>
       <input type="text" id="postWhy" placeholder="Без этого блока говорение с предлогами не работает.">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">📖 Roter Faden — учебник недели</span>
+      <span class="section-hint">студент видит в гармошке над заданиями — опционально</span>
+    </div>
+    <div class="section-body">
+      <div id="rf-list"></div>
+      <button type="button" class="btn btn-outline btn-sm" onclick="addRf()">+ Добавить учебник</button>
     </div>
   </div>
 
@@ -1602,6 +1635,52 @@ function updateStatus() {
 }
 function nameOf(id) { return { olga: 'Ольги', artem: 'Артёма', julia: 'Юлии' }[id] || id; }
 
+// ── ROTER FADEN ───────────────────────────
+function addRf(data) {
+  const list = document.getElementById('rf-list');
+  const div = document.createElement('div');
+  div.className = 'rf-item';
+  div.innerHTML = `
+    <div class="rf-header">
+      <span>📖 Учебник</span>
+      <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.rf-item').remove()">✕</button>
+    </div>
+    <input type="text" class="rf-book" placeholder="Mittelpunkt B2" value="${data?.book || ''}">
+    <div class="rf-row">
+      <input type="text" class="rf-lektion" placeholder="Lektion / Kapitel (напр. 5B)">
+      <input type="text" class="rf-seiten"  placeholder="Seiten (напр. 47–52)">
+    </div>
+    <div class="rf-row">
+      <input type="text" class="rf-uebungen" placeholder="Übungen (напр. 3, 4, 7)">
+      <input type="text" class="rf-note"     placeholder="Комментарий (опционально)">
+    </div>
+  `;
+  list.appendChild(div);
+  if (data) {
+    div.querySelector('.rf-lektion').value  = data.lektion  || '';
+    div.querySelector('.rf-seiten').value   = data.seiten   || '';
+    div.querySelector('.rf-uebungen').value = data.uebungen || '';
+    div.querySelector('.rf-note').value     = data.note     || '';
+  }
+}
+
+function getRf() {
+  return Array.from(document.querySelectorAll('.rf-item')).map(item => ({
+    book:     item.querySelector('.rf-book')?.value?.trim()     || '',
+    lektion:  item.querySelector('.rf-lektion')?.value?.trim()  || '',
+    seiten:   item.querySelector('.rf-seiten')?.value?.trim()   || '',
+    uebungen: item.querySelector('.rf-uebungen')?.value?.trim() || '',
+    note:     item.querySelector('.rf-note')?.value?.trim()     || '',
+  })).filter(e => e.book || e.lektion);
+}
+
+function fillRf(list) {
+  const el = document.getElementById('rf-list');
+  if (!el) return;
+  el.innerHTML = '';
+  (list || []).forEach(d => addRf(d));
+}
+
 // ── EXTRAS (дополнительные материалы) ─────
 function addExtra() {
   const list = document.getElementById('extras-list');
@@ -1687,6 +1766,7 @@ function collectData() {
       deepen:  { topic: v('task2Topic'), prompt: v('task2Prompt'), instruction: v('task2Instruction'), hint: v('task2Hint') },
       immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
       postSubmit: { done: v('postDone'), why: v('postWhy') },
+      roterfaden: getRf(),
       extras: getExtras(),
     },
     weekNarrative: { monday: v('weekMonday'), saturday: v('weekSaturday') },
@@ -1725,6 +1805,7 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
+  fillRf(t.roterfaden);
   fillExtras(t.extras);
   s('weekMonday', d.weekNarrative?.monday); s('weekSaturday', d.weekNarrative?.saturday);
   if (d.languageMarkers?.active) {

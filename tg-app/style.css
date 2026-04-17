@@ -2795,6 +2795,44 @@ a.optional-send-btn:active {
   line-height: 1.5;
 }
 
+/* ── Roter Faden — гармошка в кабинете студента ─────────────────────── */
+.rf-student-card {
+  margin: 12px 16px 4px;
+  border: 1px solid #B7E0CB;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.rf-student-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #F0FAF5;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #276749;
+  text-align: left;
+}
+.rf-arrow { font-size: 16px; transition: transform .2s; }
+.rf-student-body { display: none; padding: 0 14px 12px; }
+.rf-student-body.open { display: block; }
+.rf-student-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.rf-student-row:last-child { border-bottom: none; }
+.rf-student-book { font-size: 13px; font-weight: 600; color: var(--text); }
+.rf-student-parts { font-size: 13px; color: var(--muted); }
+.rf-student-note { font-size: 12px; color: var(--muted); font-style: italic; width: 100%; }
+
 /* ── Дополнительные материалы (extras) ─────────────────────────────── */
 .extras-section {
   margin: 12px 16px 4px;

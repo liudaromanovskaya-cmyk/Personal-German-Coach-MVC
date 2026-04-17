@@ -146,7 +146,8 @@ function render() {
         if (td.today.words2?.length) student.sprint.today.words2 = td.today.words2;
         // Пост-сабмишн
         if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
-        // Дополнительные материалы
+        // Roter Faden + дополнительные материалы
+        if (td.today.roterfaden?.length) student.sprint.today.roterfaden = td.today.roterfaden;
         if (td.today.extras?.length) student.sprint.today.extras = td.today.extras;
       }
       // Недельный план: берём задание сегодняшнего дня
@@ -418,6 +419,26 @@ function render() {
     </div>
       `;
     })() : ''}
+
+    ${(() => {
+      const rf = student.sprint?.today?.roterfaden;
+      if (!rf?.length) return '';
+      const rows = rf.map(r => {
+        const parts = [r.lektion && `Lektion ${r.lektion}`, r.seiten && `S. ${r.seiten}`, r.uebungen && `Üb. ${r.uebungen}`].filter(Boolean).join(' · ');
+        return `<div class="rf-student-row">
+          <span class="rf-student-book">📖 ${r.book || 'Учебник'}</span>
+          ${parts ? `<span class="rf-student-parts">${parts}</span>` : ''}
+          ${r.note ? `<span class="rf-student-note">${r.note}</span>` : ''}
+        </div>`;
+      }).join('');
+      return `<div class="rf-student-card" id="rf-card">
+        <button class="rf-student-toggle" onclick="document.getElementById('rf-body').classList.toggle('open')">
+          <span>📖 Lernpfad diese Woche</span>
+          <span class="rf-arrow">⌄</span>
+        </button>
+        <div class="rf-student-body" id="rf-body">${rows}</div>
+      </div>`;
+    })()}
 
     ${(() => {
       const extras = student.sprint?.today?.extras;
