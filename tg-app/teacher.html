@@ -391,6 +391,29 @@
   .dash-spark-label { font-size: 10px; color: var(--muted); }
   .dash-no-data { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0; }
 
+  /* ── Extras (дополнительные материалы) ──── */
+  .extra-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #FAFAFA;
+  }
+  .extra-type-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .extra-type-row label {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 13px; color: var(--text); margin: 0; cursor: pointer;
+  }
+  .extra-item input[type=text] {
+    display: block; width: 100%; box-sizing: border-box;
+  }
+
   /* ── Sprint archive note ──── */
   .sprint-archive-note {
     display: none;
@@ -728,6 +751,17 @@
       <input type="text" id="postDone" placeholder="Präpositionalverben в живых ситуациях — закрыли.">
       <label>Почему это важно</label>
       <input type="text" id="postWhy" placeholder="Без этого блока говорение с предлогами не работает.">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Дополнительные материалы</span>
+      <span class="section-hint">подкаст, YouTube, ссылка — только если нужно</span>
+    </div>
+    <div class="section-body">
+      <div id="extras-list"></div>
+      <button type="button" class="btn btn-outline btn-sm" onclick="addExtra()">+ Добавить ресурс</button>
     </div>
   </div>
 
@@ -1568,6 +1602,51 @@ function updateStatus() {
 }
 function nameOf(id) { return { olga: 'Ольги', artem: 'Артёма', julia: 'Юлии' }[id] || id; }
 
+// ── EXTRAS (дополнительные материалы) ─────
+function addExtra() {
+  const list = document.getElementById('extras-list');
+  const idx = Date.now(); // unique key per item
+  const div = document.createElement('div');
+  div.className = 'extra-item';
+  div.innerHTML = `
+    <div class="extra-type-row">
+      <label><input type="radio" name="etype_${idx}" value="📚"> 📚 Учебник</label>
+      <label><input type="radio" name="etype_${idx}" value="🎧"> 🎧 Подкаст</label>
+      <label><input type="radio" name="etype_${idx}" value="▶️"> ▶️ YouTube</label>
+      <label><input type="radio" name="etype_${idx}" value="🔗" checked> 🔗 Ссылка</label>
+      <button type="button" class="btn btn-danger btn-sm" style="margin-left:auto" onclick="this.closest('.extra-item').remove()">✕</button>
+    </div>
+    <input type="text" class="extra-title" placeholder="Название">
+    <input type="text" class="extra-url"   placeholder="https://...">
+    <input type="text" class="extra-note"  placeholder="Комментарий педагога (опционально)">
+  `;
+  list.appendChild(div);
+}
+
+function getExtras() {
+  return Array.from(document.querySelectorAll('.extra-item')).map(item => ({
+    type:  item.querySelector('input[type=radio]:checked')?.value || '🔗',
+    title: item.querySelector('.extra-title')?.value?.trim() || '',
+    url:   item.querySelector('.extra-url')?.value?.trim()   || '',
+    note:  item.querySelector('.extra-note')?.value?.trim()  || '',
+  })).filter(e => e.title || e.url);
+}
+
+function fillExtras(extras) {
+  const list = document.getElementById('extras-list');
+  if (!list) return;
+  list.innerHTML = '';
+  (extras || []).forEach(e => {
+    addExtra();
+    const item = list.lastElementChild;
+    const radio = item.querySelector(`input[value="${e.type}"]`);
+    if (radio) radio.checked = true;
+    item.querySelector('.extra-title').value = e.title || '';
+    item.querySelector('.extra-url').value   = e.url   || '';
+    item.querySelector('.extra-note').value  = e.note  || '';
+  });
+}
+
 // ── COLLECT ──────────────────────────────
 function collectData() {
   const words = [];
@@ -1608,6 +1687,7 @@ function collectData() {
       deepen:  { topic: v('task2Topic'), prompt: v('task2Prompt'), instruction: v('task2Instruction'), hint: v('task2Hint') },
       immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
       postSubmit: { done: v('postDone'), why: v('postWhy') },
+      extras: getExtras(),
     },
     weekNarrative: { monday: v('weekMonday'), saturday: v('weekSaturday') },
     languageMarkers: {
@@ -1645,6 +1725,7 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
+  fillExtras(t.extras);
   s('weekMonday', d.weekNarrative?.monday); s('weekSaturday', d.weekNarrative?.saturday);
   if (d.languageMarkers?.active) {
     ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].forEach(k => {

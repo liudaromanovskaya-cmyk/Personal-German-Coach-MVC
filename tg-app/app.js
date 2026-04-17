@@ -146,6 +146,8 @@ function render() {
         if (td.today.words2?.length) student.sprint.today.words2 = td.today.words2;
         // Пост-сабмишн
         if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
+        // Дополнительные материалы
+        if (td.today.extras?.length) student.sprint.today.extras = td.today.extras;
       }
       // Недельный план: берём задание сегодняшнего дня
       if (td.weekPlan) {
@@ -416,6 +418,22 @@ function render() {
     </div>
       `;
     })() : ''}
+
+    ${(() => {
+      const extras = student.sprint?.today?.extras;
+      if (!extras?.length) return '';
+      return `<div class="extras-section">
+        <div class="extras-title">📎 Weitere Materialien</div>
+        ${extras.map(e => `
+          <a class="extras-item${e.url ? '' : ' extras-item--nolink'}" ${e.url ? `href="${e.url}" target="_blank" rel="noopener"` : ''}>
+            <span class="extras-type">${e.type}</span>
+            <div class="extras-item-body">
+              <span class="extras-item-title">${e.title || e.url}</span>
+              ${e.note ? `<span class="extras-note">${e.note}</span>` : ''}
+            </div>
+          </a>`).join('')}
+      </div>`;
+    })()}
 
     ${student.sprint?.today ? '' : `
     <div class="task-card">
