@@ -437,6 +437,42 @@
   }
 
   /* ── Sprint archive note ──── */
+  /* ── REVIEW PANEL (SM-2) ── */
+  .review-section {
+    max-width: 780px; margin: 0 auto 16px; padding: 0 16px;
+  }
+  .review-card {
+    background: #FFFBEB; border: 2px solid #F59E0B; border-radius: 12px; overflow: hidden;
+  }
+  .review-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; cursor: pointer; user-select: none;
+  }
+  .review-card-title { font-weight: 700; color: #B45309; font-size: 14px; }
+  .review-card-body { padding: 0 16px 14px; }
+  .review-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid #FDE68A;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .review-dot--red { background: #EF4444; }
+  .review-dot--yellow { background: #F59E0B; }
+  .review-word-text { font-weight: 600; font-size: 13px; flex: 1; }
+  .review-meta { font-size: 11px; color: #92400E; white-space: nowrap; }
+  .review-add-btn {
+    background: #F59E0B; color: white; border: none; border-radius: 6px;
+    padding: 4px 10px; font-size: 12px; cursor: pointer; white-space: nowrap;
+  }
+  .review-add-btn:hover { background: #D97706; }
+  .new-known-badge {
+    display: inline-flex; gap: 10px; margin-top: 8px;
+    background: #F0FAF5; border: 1px solid #B7E0CB;
+    border-radius: 8px; padding: 6px 12px; font-size: 13px;
+  }
+  .badge-new { color: #276749; font-weight: 700; }
+  .badge-known { color: #718096; }
+
   .sprint-archive-note {
     display: none;
     background: #FFFBEB;
@@ -644,6 +680,22 @@ auf etw. warten, laut Bescheid sagen, die Verabredung, absagen, verschieben, aus
       <div id="lesetext-preview" style="display:none;margin-top:12px">
         <label style="color:#276749;font-weight:600;font-size:12px">📖 Мини-история (AI сгенерировал — можно редактировать)</label>
         <textarea id="lesetext" rows="5" style="margin-top:4px;border-color:#B7E0CB;background:#F0FAF5" placeholder="Короткий текст с целевыми словами — появится после «Заполнить всё»"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- НА ПОВТОРЕНИЕ СЕГОДНЯ -->
+  <div class="review-section" id="reviewSection" style="display:none">
+    <div class="review-card">
+      <div class="review-card-header" onclick="toggleReviewPanel()">
+        <span class="review-card-title">📅 На повторение сегодня — <span id="reviewCount">0</span> слов</span>
+        <span id="reviewArrow" style="color:#B45309">▼</span>
+      </div>
+      <div class="review-card-body" id="reviewBody" style="display:none">
+        <div id="reviewList"></div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-sm" style="background:#F59E0B;color:white;border:none" onclick="addAllReviewWords()">+ Добавить все в Niveau 2</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1520,6 +1572,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadApiKey();
   loadWhisperKey();
   loadData();
+  loadReviewWords();
   loadInbox();
 
   document.querySelectorAll('.student-tab').forEach(btn => {
@@ -1534,6 +1587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('newStudentSection').style.display = 'none';
         document.getElementById('mainStudentSection').style.display = 'block';
         loadData();
+        loadReviewWords();
       }
     });
   });
@@ -1875,14 +1929,30 @@ async function saveData() {
     words.forEach(w => {
       const wk = w.word.replace(/[.#$\/\[\] ]/g, '_');
       if (!existingSchedule[wk]) {
+        // Новое слово: первое повторение через 3 дня
+        const next = new Date(); next.setDate(next.getDate() + 3);
         existingSchedule[wk] = {
           word: w.word,
           chunk: w.chunks?.[0] || null,
           introduced: todayKey2,
           lastDate: todayKey2,
-          lastStatus: 'none',
-          nextReview: todayKey2,
-          timesUsed: 0
+          lastStatus: 'new',
+          nextReview: next.toISOString().split('T')[0],
+          interval: 3,
+          timesUsed: 1
+        };
+      } else {
+        // Слово повторяется — увеличиваем интервал (SM-2 упрощённый)
+        const prev = existingSchedule[wk];
+        const newInterval = Math.min(Math.round((prev.interval || 3) * 2), 30);
+        const next = new Date(); next.setDate(next.getDate() + newInterval);
+        existingSchedule[wk] = {
+          ...prev,
+          lastDate: todayKey2,
+          lastStatus: 'seen',
+          nextReview: next.toISOString().split('T')[0],
+          interval: newInterval,
+          timesUsed: (prev.timesUsed || 0) + 1
         };
       }
     });
@@ -2070,6 +2140,9 @@ ${raw}
     isDirty = true; updateStatus();
     document.getElementById('quickInput').value = '';
     toast('Всё заполнено! Проверьте и нажмите «Сохранить»', 'success');
+    // Показываем счётчик новых vs знакомых слов
+    const filledWordsList = (json.words || []).map(w => w.word).filter(Boolean);
+    if (filledWordsList.length) showNewKnownBadge(filledWordsList);
     // Скроллим к словам
     document.getElementById('weekTheme')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch(e) {
@@ -2761,6 +2834,114 @@ ${langInstruction}
     if (btn) { btn.textContent = '🤖 Анализировать'; btn.disabled = false; }
     toast('Ошибка анализа: ' + e.message, 'error');
   }
+}
+
+// ── ПОВТОРЕНИЕ SM-2 ───────────────────────────────────────────────────────
+
+let reviewWords = []; // глобальный кеш слов на повторение
+
+async function loadReviewWords() {
+  const schedule = await fbGet(`progress/${currentStudent}/wordSchedule`);
+  if (!schedule) { document.getElementById('reviewSection').style.display = 'none'; return; }
+  const todayStr = new Date().toISOString().split('T')[0];
+  reviewWords = Object.values(schedule).filter(w => w.nextReview && w.nextReview <= todayStr);
+  renderReviewPanel();
+}
+
+function renderReviewPanel() {
+  const section = document.getElementById('reviewSection');
+  const countEl = document.getElementById('reviewCount');
+  const listEl = document.getElementById('reviewList');
+  if (!reviewWords.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = reviewWords.length;
+  const today = new Date().toISOString().split('T')[0];
+  listEl.innerHTML = reviewWords.map((w, idx) => {
+    const intro = w.introduced || w.lastDate || today;
+    const days = Math.round((new Date(today) - new Date(intro)) / 86400000);
+    const timesUsed = w.timesUsed || 0;
+    const dotClass = timesUsed === 0 ? 'review-dot--red' : 'review-dot--yellow';
+    const label = timesUsed === 0 ? 'новое' : `${timesUsed}× · ${days} дн. назад`;
+    return `<div class="review-item">
+      <span class="review-dot ${dotClass}"></span>
+      <span class="review-word-text">${w.word}</span>
+      <span class="review-meta">${label}</span>
+      <button class="review-add-btn" onclick="addReviewWord(${idx})">+ В спринт</button>
+    </div>`;
+  }).join('');
+}
+
+function toggleReviewPanel() {
+  const body = document.getElementById('reviewBody');
+  const arrow = document.getElementById('reviewArrow');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '▼' : '▲';
+}
+
+function addReviewWord(idx) {
+  const w = reviewWords[idx];
+  if (!w) return;
+  // Ищем первый свободный слот в words2
+  for (let i = 0; i < WORD2_COUNT; i++) {
+    const el = document.getElementById(`word2_${i}`);
+    if (el && !el.value.trim()) {
+      el.value = w.word;
+      const hintEl = document.getElementById(`hint2_${i}`);
+      if (hintEl && w.chunk) hintEl.value = w.chunk;
+      isDirty = true; updateStatus();
+      toast(`"${w.word}" добавлено в Niveau 2`, 'success');
+      // Убираем из панели после добавления
+      reviewWords.splice(idx, 1);
+      renderReviewPanel();
+      return;
+    }
+  }
+  toast('Niveau 2 заполнен — освободите слот', 'error');
+}
+
+function addAllReviewWords() {
+  const toAdd = [...reviewWords];
+  let added = 0;
+  for (const w of toAdd) {
+    for (let i = 0; i < WORD2_COUNT; i++) {
+      const el = document.getElementById(`word2_${i}`);
+      if (el && !el.value.trim()) {
+        el.value = w.word;
+        const hintEl = document.getElementById(`hint2_${i}`);
+        if (hintEl && w.chunk) hintEl.value = w.chunk;
+        added++;
+        break;
+      }
+    }
+  }
+  reviewWords = [];
+  renderReviewPanel();
+  isDirty = true; updateStatus();
+  toast(`Добавлено ${added} слов в Niveau 2`, 'success');
+  document.getElementById(`word2_0`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Показать счётчик новых vs знакомых после quickFill
+async function showNewKnownBadge(filledWords) {
+  const schedule = await fbGet(`progress/${currentStudent}/wordSchedule`) || {};
+  const knownKeys = Object.keys(schedule);
+  let newCount = 0, knownCount = 0;
+  filledWords.forEach(w => {
+    const wk = w.replace(/[.#$\/\[\] ]/g, '_').toLowerCase();
+    const isKnown = knownKeys.some(k => k.toLowerCase() === wk || schedule[k]?.word?.toLowerCase() === w.toLowerCase());
+    isKnown ? knownCount++ : newCount++;
+  });
+  const existing = document.getElementById('newKnownBadge');
+  if (existing) existing.remove();
+  if (!newCount && !knownCount) return;
+  const badge = document.createElement('div');
+  badge.id = 'newKnownBadge';
+  badge.className = 'new-known-badge';
+  badge.innerHTML = `<span class="badge-new">🆕 ${newCount} новых</span><span class="badge-known">🔄 ${knownCount} уже видела</span>`;
+  document.getElementById('lesetext-preview')?.after(badge);
+  // Убрать через 10 сек
+  setTimeout(() => badge.remove(), 10000);
 }
 
 // ── DASHBOARD — статистика студентов ──────────────────────────────────────
