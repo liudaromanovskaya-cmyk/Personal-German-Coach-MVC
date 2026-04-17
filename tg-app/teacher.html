@@ -2108,8 +2108,14 @@ ${words.map((w,i) => `${i+1}. ${w.word}${w.hint ? ' — ' + w.hint : ''}`).join(
   "task": { "topic": "Aufwärmen — заголовок", "prompt": "Лёгкая знакомая ситуация на немецком — в кавычках от собеседника", "instruction": "5 Sätze. Kein Perfekt nötig — einfach erzählen.", "hint": "Einstieg: ..." },
   "deepen": { "topic": "Situation — заголовок", "prompt": "Реальная рабочая или бытовая ситуация где нужны все слова", "instruction": "7–8 Sätze. Nutzen Sie alle Wörter des Tages.", "hint": "..." },
   "immerse": { "topic": "Ihre Geschichte — заголовок", "prompt": "Открытый вопрос про реальный момент из жизни студента", "instruction": "Erzählen Sie frei — kein perfekter Text nötig.", "hint": "..." },
-  "postSubmit": { "done": "Что именно закрыли сегодня — 1 предложение, конкретно", "why": "Почему этот шаг важен в маршруте — связь с грамматикой или следующей встречей" }
+  "postSubmit": { "done": "Что именно закрыли сегодня — 1 предложение, конкретно", "why": "Почему этот шаг важен в маршруте — связь с грамматикой или следующей встречей" },
+  "lesetext": "Текст 6–8 предложений на немецком где все целевые слова живут в контексте. Слова в [квадратных скобках]."
 }
+
+ФОРМАТ СЛОВ ОБЯЗАТЕЛЬНО:
+- Глагол → с управлением: "warten auf + Akk", "helfen + Dat"
+- Существительное → с родом и множественным: "die Verbindung, -en", "das Gespräch, ¨e"
+- Правило мн.ч.: - (без изм.), -e, ¨e, -er, ¨er, -en, -n, -s
 
 Правила для чанков:
 - Ключевое слово оборачивать в [квадратные скобки]
@@ -2148,6 +2154,10 @@ function parseAndFill(text) {
   if (json.deepen)  { s('task2Topic',json.deepen.topic);  s('task2Prompt',json.deepen.prompt);  s('task2Instruction',json.deepen.instruction);  s('task2Hint',json.deepen.hint); }
   if (json.immerse) { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
   if (json.postSubmit) { s('postDone',json.postSubmit.done); s('postWhy',json.postSubmit.why); }
+  if (json.lesetext) {
+    s('lesetext', json.lesetext);
+    document.getElementById('lesetext-preview').style.display = 'block';
+  }
   if (json.weekNarrative) { s('weekMonday',json.weekNarrative.monday); s('weekSaturday',json.weekNarrative.saturday); }
   if (json.languageMarkers?.active) {
     ['verb_place','thinks_german','calm_speech','b2_words','all_levels','topic_closed'].forEach(k => {
@@ -2879,8 +2889,15 @@ ${repeatBlock}
   "deepen": { "topic": "Situation — заголовок", "prompt": "ситуация на немецком", "instruction": "7–8 Sätze. Nutzen Sie alle Wörter.", "hint": "..." },
   "immerse":{ "topic": "Ihre Geschichte — заголовок", "prompt": "открытый вопрос про реальный момент", "instruction": "Erzählen Sie frei.", "hint": "..." },
   "postSubmit": { "done": "Что закрыли сегодня — 1 предложение конкретно", "why": "Почему этот шаг важен в маршруте" },
+  "lesetext": "Короткий текст 6–8 предложений на немецком где живут ВСЕ целевые слова. Реалистичная сцена из жизни взрослого. Слова в [квадратных скобках].",
   "analysisNote": "Для педагога: главный паттерн ошибок из архива + почему выбрала именно эти слова и грамматику. По-русски, 2-3 предложения."
 }
+
+ФОРМАТ СЛОВ ОБЯЗАТЕЛЬНО:
+- Глагол → с управлением: "warten auf + Akk", "helfen + Dat", "sich freuen auf + Akk"
+- Существительное → с родом и множественным: "die Verbindung, -en", "der Bescheid, -e", "das Gespräch, ¨e"
+- Правило мн.ч.: - (без изменений), -e, ¨e, -er, ¨er, -en, -n, -s
+- hint — перевод по-русски + управление если глагол
 
 Чанки: ключевое слово в [квадратных скобках]. 3 чанка на слово. Бытовые, B1-B2.`;
 
@@ -2912,6 +2929,11 @@ ${repeatBlock}
     if (json.deepen)     { s('task2Topic',json.deepen.topic);  s('task2Prompt',json.deepen.prompt);  s('task2Instruction',json.deepen.instruction);  s('task2Hint',json.deepen.hint); }
     if (json.immerse)    { s('task3Topic',json.immerse.topic); s('task3Prompt',json.immerse.prompt); s('task3Instruction',json.immerse.instruction); s('task3Hint',json.immerse.hint); }
     if (json.postSubmit) { s('postDone',  json.postSubmit.done); s('postWhy', json.postSubmit.why); }
+    if (json.lesetext) {
+      s('lesetext', json.lesetext);
+      document.getElementById('lesetext-preview').style.display = 'block';
+    }
+    autoFillToday();
 
     if (json.analysisNote && noteEl) {
       noteEl.textContent = '🧠 AI-анализ: ' + json.analysisNote;
