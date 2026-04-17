@@ -290,6 +290,57 @@
   }
   .inbox-feedback-btn:hover { background: #3d7a5e; }
 
+  /* ── Шаблоны фидбека ──────────────────────────────────────────────────── */
+  .tpl-modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 1000; align-items: center; justify-content: center;
+  }
+  .tpl-modal-overlay.open { display: flex; }
+  .tpl-modal {
+    background: white; border-radius: 14px; width: min(680px, 96vw);
+    max-height: 85vh; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .tpl-modal-header {
+    padding: 16px 20px 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tpl-modal-title { font-size: 16px; font-weight: 700; }
+  .tpl-modal-close {
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    color: var(--muted); line-height: 1; padding: 4px;
+  }
+  .tpl-cats {
+    display: flex; gap: 6px; padding: 12px 20px;
+    flex-wrap: wrap; border-bottom: 1px solid var(--border);
+  }
+  .tpl-cat-btn {
+    padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid var(--border); background: white; cursor: pointer;
+    transition: all .15s;
+  }
+  .tpl-cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .tpl-list {
+    flex: 1; overflow-y: auto; padding: 12px 20px 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .tpl-item {
+    border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
+    cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .tpl-item:hover { border-color: var(--accent); background: var(--accent-light); }
+  .tpl-item-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .tpl-item-preview {
+    font-size: 12px; color: var(--muted); line-height: 1.5;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .tpl-btn-tmpl {
+    height: 44px; padding: 0 16px; border-radius: 8px; font-size: 13px;
+    font-weight: 600; cursor: pointer; border: 1.5px solid #7B68EE;
+    color: #7B68EE; background: white; transition: all .15s;
+  }
+  .tpl-btn-tmpl:hover { background: #F3F0FF; }
+
   /* ── Dashboard ─────────────────────────────────────────────────────────── */
   .dashboard-grid {
     display: grid;
@@ -2060,6 +2111,9 @@ async function loadInbox() {
           <button class="inbox-feedback-btn" onclick="sendFeedback('${sid}','${date}','${fbId}')">
             ${existing ? '✏️ Обновить' : '✉️ Отправить фидбек'}
           </button>
+          <button class="tpl-btn-tmpl" onclick="openTemplates('${fbId}')">
+            📋 Шаблоны
+          </button>
           <button class="btn btn-outline btn-sm" id="analyze-btn-${firstSubId}" onclick="analyzeWithGemini('${firstSubId}','${sid}','${date}','task')" style="height:44px;padding:0 16px">
             🤖 Черновик фидбека (AI)
           </button>
@@ -2545,6 +2599,368 @@ function toast(msg, type = '') {
   el.textContent = msg; el.className = `toast ${type} show`;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+// ── Шаблоны фидбека ────────────────────────────────────────────────────────
+
+const FEEDBACK_TEMPLATES = [
+  // ── WORTSTELLUNG ──────────────────────────────────────────────────────────
+  {
+    cat: 'Wortstellung',
+    title: 'Verbzweit — глагол на 2-м месте',
+    text: `Вы сказали: „[FEHLER]"
+
+Глагол в немецком — как якорь: он всегда стоит на втором месте. Всегда, что бы ни стояло впереди.
+
+Говорит немец: „[KORREKTUR]"
+
+Маленький тест: посчитайте слова до глагола. Если их больше одного — что-то не так. Попробуйте: „Gestern bin ich nach Hause gegangen." Слово 2 — „bin". Всегда.`
+  },
+  {
+    cat: 'Wortstellung',
+    title: 'Nebensatz — глагол в конец придаточного',
+    text: `Вы сказали: „[FEHLER]"
+
+В придаточном предложении (после weil, dass, wenn, obwohl) — глагол уходит в самый конец. Это правило без исключений.
+
+Говорит немец: „[KORREKTUR]"
+
+Образ: представьте, что в придаточном предложении глагол — это замок на двери. Он всегда закрывает предложение.`
+  },
+  {
+    cat: 'Wortstellung',
+    title: 'Rahmen — рамочная конструкция',
+    text: `Вы сказали: „[FEHLER]"
+
+В немецком предложение — как рамка: первый глагол стоит на 2-м месте, второй (инфинитив, Partizip) — в самом конце. Всё остальное внутри рамки.
+
+Говорит немец: „[KORREKTUR]"
+
+Образ: два глагола — это два края рамки картины. Всё что описываете — внутри.`
+  },
+  // ── KASUS ─────────────────────────────────────────────────────────────────
+  {
+    cat: 'Kasus',
+    title: 'Akkusativ vs Dativ — путаница',
+    text: `Вы сказали: „[FEHLER]"
+
+Здесь нужен [AKKUSATIV / DATIV]. Простой вопрос-помощник:
+→ „Wen? Was?" — Akkusativ (кого? что?)
+→ „Wem?" — Dativ (кому?)
+
+Говорит немец: „[KORREKTUR]"
+
+После предлога [PRÄP] всегда [KASUS]. Выучите это сочетание как единый chunk.`
+  },
+  {
+    cat: 'Kasus',
+    title: 'mit / bei / von / zu → всегда Dativ',
+    text: `Вы сказали: „[FEHLER]"
+
+Предлоги mit, bei, von, zu, nach, seit, gegenüber — всегда требуют Dativ. Без исключений.
+
+Говорит немец: „[KORREKTUR]"
+
+Запомните как стихотворение: „mit, bei, von, zu, nach, seit, gegenüber — Dativ immer." Если учили музыку — пропойте это один раз.`
+  },
+  {
+    cat: 'Kasus',
+    title: 'Wechselpräpositionen — in/auf/an/unter/über',
+    text: `Вы сказали: „[FEHLER]"
+
+Предлоги in, auf, an, unter, über, vor, hinter, neben, zwischen — хамелеоны. Движение → Akkusativ. Место → Dativ.
+
+→ Wohin? Ich gehe in die Küche. (Akkusativ — движение)
+→ Wo? Ich bin in der Küche. (Dativ — место)
+
+Говорит немец: „[KORREKTUR]"
+
+Вопрос-помощник: если можно спросить „куда?" — Akkusativ. Если „где?" — Dativ.`
+  },
+  {
+    cat: 'Kasus',
+    title: 'helfen / danken / gefallen → Dativ',
+    text: `Вы сказали: „[FEHLER]"
+
+Глагол [VERB] управляет Dativ, а не Akkusativ. Это исключение, которое нужно выучить как факт.
+
+Говорит немец: „[KORREKTUR]"
+
+Список: helfen, danken, gefallen, gehören, glauben, folgen, antworten — все хотят Dativ. Не „wen", а „wem".`
+  },
+  // ── ARTIKEL ───────────────────────────────────────────────────────────────
+  {
+    cat: 'Artikel',
+    title: 'Пропущен артикль',
+    text: `Вы сказали: „[FEHLER]"
+
+В немецком каждое существительное идёт с артиклем — почти без исключений. Без артикля — как человек без имени.
+
+Говорит немец: „[KORREKTUR]"
+
+Правило для вас: если вы видите существительное — сразу думайте der/die/das/ein/eine. Учите слова не отдельно, а парой: „die Arbeit", „der Beruf", „das Gespräch".`
+  },
+  {
+    cat: 'Artikel',
+    title: 'Неверный род',
+    text: `Вы сказали: „[FEHLER]"
+
+Это [das/der/die] [WORT]. Род в немецком не совпадает с русским — нужно учить вместе со словом.
+
+Говорит немец: „[KORREKTUR]"
+
+Подсказка: слова на -ung, -heit, -keit, -schaft → всегда die. Слова на -chen, -lein → всегда das. Для остальных — учить как имена собственные.`
+  },
+  // ── VERBEN ────────────────────────────────────────────────────────────────
+  {
+    cat: 'Verben',
+    title: 'sein / haben в Perfekt',
+    text: `Вы сказали: „[FEHLER]"
+
+Perfekt строится с haben или sein — выбор зависит от глагола.
+
+→ sein: глаголы движения и перемены состояния: gehen, fahren, kommen, laufen, werden, bleiben, sein
+→ haben: всё остальное
+
+Говорит немец: „[KORREKTUR]"
+
+Образ: если глагол означает „переехать из точки А в точку Б" или „изменить состояние" — sein. Я пошёл (из дома в магазин) → bin gegangen.`
+  },
+  {
+    cat: 'Verben',
+    title: 'Trennbare Verben — приставка в конец',
+    text: `Вы сказали: „[FEHLER]"
+
+Глагол [VERB] — отделяемый. Приставка уходит в конец предложения.
+
+Говорит немец: „[KORREKTUR]"
+
+Список часто встречающихся отделяемых: anrufen, aufstehen, einkaufen, mitkommen, aufmachen, zumachen, vorhaben. Образ: глагол — это поезд, приставка — это последний вагон. Он всегда сзади.`
+  },
+  {
+    cat: 'Verben',
+    title: 'Глагольное управление — [VERB] + предлог',
+    text: `Вы сказали: „[FEHLER]"
+
+Глагол [VERB] управляет предлогом [PRÄP] + [KASUS]. В русском предлог другой — это классическая ловушка.
+
+Говорит немец: „[KORREKTUR]"
+
+Учите не слово, а конструкцию целиком:
+warten auf + Akk • denken an + Akk • sich freuen auf + Akk • sich erinnern an + Akk • helfen + Dat`
+  },
+  // ── KALKIERUNGEN ──────────────────────────────────────────────────────────
+  {
+    cat: 'Кальки',
+    title: 'Ich habe X Jahre → Ich bin X Jahre alt',
+    text: `Вы сказали: „Ich habe [ZAHL] Jahre."
+
+По-русски мы „имеем" возраст — по-немецки мы „есть" столько лет. Совсем другая логика.
+
+Говорит немец: „Ich bin [ZAHL] Jahre alt."
+
+Запомните как устойчивую фразу: „Ich bin ___ Jahre alt." Возраст — это часть вас, а не то, чем вы владеете.`
+  },
+  {
+    cat: 'Кальки',
+    title: 'Zur Arbeit gehen — не auf die Arbeit',
+    text: `Вы сказали: „Ich gehe auf die Arbeit."
+
+Это дословный перевод с русского. По-немецки направление к работе/месту передаётся через zu.
+
+Говорит немец: „Ich gehe zur Arbeit." (zu + der = zur)
+
+Аналогично: zur Schule, zum Arzt, zum Bahnhof. Правило: zur/zum для людей и учреждений.`
+  },
+  {
+    cat: 'Кальки',
+    title: 'sich interessieren für — не von / на',
+    text: `Вы сказали: „Ich interessiere mich [FEHLER] Musik."
+
+В русском мы „интересуемся чем-то" — в немецком интерес направлен „для" (für).
+
+Говорит немец: „Ich interessiere mich für Musik."
+
+Chunk целиком: sich interessieren für + Akkusativ. Так же: sich begeistern für, Interesse haben an + Dat.`
+  },
+  {
+    cat: 'Кальки',
+    title: 'Ich bin kalt → Mir ist kalt',
+    text: `Вы сказали: „Ich bin kalt."
+
+„Ich bin kalt" по-немецки значит „я холодный человек / бесчувственный". Ощущение холода передаётся через безличную конструкцию.
+
+Говорит немец: „Mir ist kalt." (мне холодно)
+
+Аналогично: Mir ist warm / heiß / schlecht / gut / langweilig. Ощущения тела — всегда Dativ + ist.`
+  },
+  {
+    cat: 'Кальки',
+    title: 'Ich will → Ich möchte (вежливость)',
+    text: `Вы сказали: „Ich will [WUNSCH]."
+
+Грамматически правильно — но звучит резко, почти требовательно. В немецком вежливой речи используют Konjunktiv II.
+
+Говорит немец: „Ich möchte [WUNSCH]." или „Ich hätte gern..."
+
+Правило: в магазине, ресторане, с незнакомыми — всегда möchte. С друзьями и семьёй — можно will, но мягче звучит möchte.`
+  },
+  {
+    cat: 'Кальки',
+    title: 'warten auf — не warten + лицо',
+    text: `Вы сказали: „Ich warte [FEHLER]."
+
+В русском „жду кого-то" — просто Akkusativ. В немецком глагол warten требует предлога auf.
+
+Говорит немец: „Ich warte auf [PERSON/SACHE] + Akkusativ."
+
+Похожие: sich kümmern um + Akk • sich ärgern über + Akk • sich freuen über + Akk.`
+  },
+  // ── ADJEKTIVE ─────────────────────────────────────────────────────────────
+  {
+    cat: 'Adjektive',
+    title: 'Склонение прилагательного — слабое (после der/die/das)',
+    text: `Вы сказали: „[FEHLER]"
+
+После определённого артикля (der/die/das/dem/den) прилагательное заканчивается почти всегда на -e или -en. Система простая: -e в именительном, -en везде остальном.
+
+Говорит немец: „[KORREKTUR]"
+
+Дерево решений: есть артикль → смотрю падеж → Nom/Akk Sg → -e → всё остальное → -en.`
+  },
+  {
+    cat: 'Adjektive',
+    title: 'Склонение прилагательного — после ein/eine',
+    text: `Вы сказали: „[FEHLER]"
+
+После неопределённого артикля (ein, eine, kein) прилагательное должно „показать" род само — потому что артикль его не показывает.
+
+Говорит немец: „[KORREKTUR]"
+
+Правило: ein [маскулин] → guter Mann (-er несёт род). Eine [феминин] → gute Frau. Ein [нейтрум] → gutes Kind.`
+  },
+  // ── AUSSPRACHE ────────────────────────────────────────────────────────────
+  {
+    cat: 'Произношение',
+    title: 'Модальные частицы — doch / mal / ja / eben',
+    text: `В вашей речи пока мало модальных частиц — doch, mal, ja, eben, eigentlich. Именно они делают речь „немецкой", живой, не учебной.
+
+Несколько готовых фраз:
+• „Komm mal rein!" — заходите (дружески)
+• „Das ist doch gut!" — ведь это хорошо (удивление/убеждение)
+• „Das geht eben nicht." — так просто не получится (факт)
+• „Eigentlich habe ich keine Zeit, aber..." — по сути / в принципе
+
+Попробуйте на этой неделе добавить хотя бы одну в каждое предложение.`
+  },
+  {
+    cat: 'Произношение',
+    title: 'Долгие и краткие гласные',
+    text: `Вы произносите [WORT] — гласная звучит одинаково в обоих случаях. В немецком длина гласной меняет смысл.
+
+Пары:
+• bitten (просить) — bieten (предлагать)
+• Stadt (город) — Staat (государство)
+• Weg (дорога) — weg (прочь)
+
+Говорит немец: гласная перед одиночной согласной — длинная. Перед двойной — короткая.
+
+Потренируйте: скажите [WORT] с очень длинной гласной — потом с очень короткой. Разница должна быть слышна.`
+  },
+  // ── STILVOLL ──────────────────────────────────────────────────────────────
+  {
+    cat: 'Стиль',
+    title: 'Redewendung недели',
+    text: `Хочу подарить вам выражение, которое носители используют каждый день:
+
+„[REDEWENDUNG]"
+
+Значение: [BEDEUTUNG]
+
+Пример в контексте: „[BEISPIEL]"
+
+Попробуйте использовать его на этой неделе хотя бы один раз — вслух или в переписке.`
+  },
+  {
+    cat: 'Стиль',
+    title: 'Положительное: что получилось хорошо',
+    text: `Хочу отметить отдельно: [ЧТО ИМЕННО ХОРОШО].
+
+Это не случайность — это результат вашей работы. [ЧТО ЭТО ЗНАЧИТ ДЛЯ УРОВНЯ].
+
+Продолжайте в том же духе.`
+  },
+];
+
+let _tplTargetId = null;
+let _activeCat = null;
+
+function openTemplates(fbId) {
+  _tplTargetId = fbId;
+  const cats = [...new Set(FEEDBACK_TEMPLATES.map(t => t.cat))];
+  _activeCat = cats[0];
+
+  let overlay = document.getElementById('tpl-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'tpl-modal-overlay';
+    overlay.id = 'tpl-modal-overlay';
+    overlay.innerHTML = `
+      <div class="tpl-modal">
+        <div class="tpl-modal-header">
+          <div class="tpl-modal-title">📋 Шаблоны фидбека</div>
+          <button class="tpl-modal-close" onclick="closeTemplates()">✕</button>
+        </div>
+        <div class="tpl-cats" id="tpl-cats"></div>
+        <div class="tpl-list" id="tpl-list"></div>
+      </div>`;
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeTemplates(); });
+    document.body.appendChild(overlay);
+  }
+
+  renderTplCats();
+  renderTplList();
+  overlay.classList.add('open');
+}
+
+function closeTemplates() {
+  document.getElementById('tpl-modal-overlay')?.classList.remove('open');
+}
+
+function renderTplCats() {
+  const cats = [...new Set(FEEDBACK_TEMPLATES.map(t => t.cat))];
+  document.getElementById('tpl-cats').innerHTML = cats.map(c =>
+    `<button class="tpl-cat-btn ${c === _activeCat ? 'active' : ''}" onclick="selectTplCat('${c}')">${c}</button>`
+  ).join('');
+}
+
+function selectTplCat(cat) {
+  _activeCat = cat;
+  renderTplCats();
+  renderTplList();
+}
+
+function renderTplList() {
+  const items = FEEDBACK_TEMPLATES.filter(t => t.cat === _activeCat);
+  document.getElementById('tpl-list').innerHTML = items.map((t, i) => {
+    const globalIdx = FEEDBACK_TEMPLATES.indexOf(t);
+    return `<div class="tpl-item" onclick="insertTemplate(${globalIdx})">
+      <div class="tpl-item-title">${t.title}</div>
+      <div class="tpl-item-preview">${t.text.replace(/\n/g,' ').slice(0, 90)}…</div>
+    </div>`;
+  }).join('');
+}
+
+function insertTemplate(idx) {
+  const tpl = FEEDBACK_TEMPLATES[idx];
+  if (!tpl || !_tplTargetId) return;
+  const ta = document.getElementById(_tplTargetId);
+  if (!ta) return;
+  const existing = ta.value.trim();
+  ta.value = existing ? existing + '\n\n' + tpl.text : tpl.text;
+  ta.focus();
+  closeTemplates();
+  toast('Шаблон вставлен — отредактируйте [FEHLER] и [KORREKTUR]');
 }
 </script>
 </body>
