@@ -873,6 +873,16 @@ auf etw. warten, laut Bescheid sagen, die Verabredung, absagen, verschieben, aus
 
   <div class="section">
     <div class="section-header">
+      <span class="section-title">🌍 Миссия дня — real-life</span>
+      <span class="section-hint">одно конкретное задание для реальной жизни — опционально</span>
+    </div>
+    <div class="section-body">
+      <input type="text" id="missionText" placeholder="Сегодня: закажите кофе по-немецки, используя слово &quot;häufig&quot; в разговоре.">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
       <span class="section-title">📖 Roter Faden — учебник недели</span>
       <span class="section-hint">студент видит в гармошке над заданиями — опционально</span>
     </div>
@@ -1882,6 +1892,7 @@ function collectData() {
       deepen:  { topic: v('task2Topic'), prompt: v('task2Prompt'), instruction: v('task2Instruction'), hint: v('task2Hint') },
       immerse: { topic: v('task3Topic'), prompt: v('task3Prompt'), instruction: v('task3Instruction'), hint: v('task3Hint') },
       postSubmit: { done: v('postDone'), why: v('postWhy') },
+      mission: v('missionText') || null,
       lesetext: v('lesetext'),
       roterfaden: getRf(),
       extras: getExtras(),
@@ -1922,6 +1933,7 @@ function fillForm(d) {
   s('task3Topic', t.immerse?.topic); s('task3Prompt', t.immerse?.prompt);
   s('task3Instruction', t.immerse?.instruction); s('task3Hint', t.immerse?.hint);
   s('postDone', t.postSubmit?.done); s('postWhy', t.postSubmit?.why);
+  s('missionText', t.mission);
   if (t.lesetext) {
     s('lesetext', t.lesetext);
     document.getElementById('lesetext-preview').style.display = 'block';
@@ -2119,6 +2131,7 @@ ${raw}
   "deepen":  {"topic": "Situation — заголовок", "prompt": "Ситуация", "instruction": "7–8 Sätze. Alle Wörter.", "hint": "..."},
   "immerse": {"topic": "Ihre Geschichte — заголовок", "prompt": "Открытый вопрос из жизни", "instruction": "Erzählen Sie frei.", "hint": "..."},
   "postSubmit": {"done": "Что закрыли — 1 предложение", "why": "Почему важно"},
+  "mission": "Одно конкретное задание для реального использования языка сегодня. Конкретная ситуация + конкретное слово из words. Например: 'Heute: Fragen Sie jemanden auf der Arbeit: Haben Sie häufig Überstunden?' Не абстрактно — прямое действие.",
   "lesetext": "Короткий текст 6–8 предложений на немецком где живут ВСЕ слова из words и words2. Реалистичная сцена из жизни взрослого человека — не учебная. Все целевые слова выделены в формате [слово]."
 }
 
@@ -2164,12 +2177,13 @@ ${raw}
       s(`hint2_${i}`, w.hint || '');
     });
 
-    // Задания + lesetext
+    // Задания + lesetext + mission
     parseAndFill(JSON.stringify(json));
     if (json.lesetext) {
       s('lesetext', json.lesetext);
       document.getElementById('lesetext-preview').style.display = 'block';
     }
+    if (json.mission) s('missionText', json.mission);
 
     isDirty = true; updateStatus();
     document.getElementById('quickInput').value = '';

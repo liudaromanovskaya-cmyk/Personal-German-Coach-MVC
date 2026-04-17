@@ -175,6 +175,8 @@ function render() {
         if (td.today.words2?.length) student.sprint.today.words2 = td.today.words2;
         // Пост-сабмишн
         if (td.today.postSubmit?.done) student.sprint.today.postSubmit = td.today.postSubmit;
+        // Миссия дня
+        if (td.today.mission) student.sprint.today.mission = td.today.mission;
         // Мини-история + Roter Faden + дополнительные материалы
         if (td.today.lesetext) student.sprint.today.lesetext = td.today.lesetext;
         if (td.today.roterfaden?.length) student.sprint.today.roterfaden = td.today.roterfaden;
@@ -218,7 +220,29 @@ function render() {
 
   const _diaryKey = `pgc_diary_${id}`;
   const _diaryData = (() => { try { return JSON.parse(localStorage.getItem(_diaryKey) || '{}'); } catch(e) { return {}; } })();
-  const _streak = _diaryData.streak || 0;
+  let _streak = _diaryData.streak || 0;
+  let _streakFrozen = false;
+
+  // Streak freeze: если пропустила 1 день и есть токены — авто-заморозка
+  if (_streak > 0 && _diaryData.lastDate) {
+    const _todayISO = new Date().toISOString().split('T')[0];
+    const _daysDiff = Math.round((new Date(_todayISO) - new Date(_diaryData.lastDate)) / 86400000);
+    if (_daysDiff === 2) {
+      const _freezeKey = `pgc_freeze_${id}`;
+      const _curMonth = _todayISO.slice(0, 7);
+      let _fz = (() => { try { return JSON.parse(localStorage.getItem(_freezeKey) || '{}'); } catch(e) { return {}; } })();
+      if (_fz.month !== _curMonth) _fz = { used: 0, month: _curMonth };
+      if (_fz.used < 2) {
+        _fz.used++;
+        _fz.frozenDate = _diaryData.lastDate;
+        localStorage.setItem(_freezeKey, JSON.stringify(_fz));
+        _streakFrozen = true;
+        // Обновляем lastDate чтобы завтра freeze снова не применился
+        _diaryData.lastDate = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        localStorage.setItem(_diaryKey, JSON.stringify(_diaryData));
+      }
+    }
+  }
 
   const today = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -239,7 +263,7 @@ function render() {
         </div>
         <button id="refresh-btn" onclick="refreshData()" title="Aktualisieren" style="background:none;border:none;font-size:18px;cursor:pointer;padding:4px 8px;opacity:0.45;line-height:1;margin-top:2px">🔄</button>
       </div>
-      ${_streak > 0 ? `<div class="greeting-streak">🔥 ${_streak} Tage in Folge</div>` : ''}
+      ${_streak > 0 ? `<div class="greeting-streak">${_streakFrozen ? '❄️' : '🔥'} ${_streak} Tage in Folge${_streakFrozen ? ' · eingefroren' : ''}</div>` : ''}
     </div>
 
     ${_teacherSubmissionFeedback ? (() => {
@@ -503,6 +527,15 @@ function render() {
               ${e.note ? `<span class="extras-note">${e.note}</span>` : ''}
             </div>
           </a>`).join('')}
+      </div>`;
+    })()}
+
+    ${(() => {
+      const mission = student.sprint?.today?.mission;
+      if (!mission) return '';
+      return `<div class="mission-card">
+        <div class="mission-label">🌍 Heute im echten Leben</div>
+        <div class="mission-text">${mission}</div>
       </div>`;
     })()}
 
@@ -2459,17 +2492,20 @@ let _drillStartTime = 0;
 async function loadAndShowDrill() {
   if (!_studentId || typeof fbGetPublic !== 'function') return;
   const errors = await fbGetPublic(`progress/${_studentId}/errors`).catch(() => null);
-  if (!errors) return;
 
-  // Берём самую красную ошибку
-  const order = { red: 0, yellow: 1, green: 2 };
-  const sorted = Object.entries(errors)
-    .filter(([tag]) => DRILL_QUESTIONS[tag])
-    .sort((a, b) => (order[a[1].status] || 1) - (order[b[1].status] || 1));
-  if (!sorted.length) return;
+  // Если есть тегированные ошибки — показываем по приоритету (красные первые, зелёные пропускаем)
+  if (errors) {
+    const order = { red: 0, yellow: 1, green: 99 };
+    const sorted = Object.entries(errors)
+      .filter(([tag, v]) => DRILL_QUESTIONS[tag] && v.status !== 'green')
+      .sort((a, b) => (order[a[1].status] ?? 1) - (order[b[1].status] ?? 1));
+    if (sorted.length) { showDrillModal(sorted[0][0]); return; }
+  }
 
-  const [topTag] = sorted[0];
-  showDrillModal(topTag);
+  // Fallback: нет ошибок или все закрыты → случайная тема из типичных ошибок русскоязычных
+  const fallbackTags = ['VERBZWEIT', 'KALKIERUNG_ARBEIT', 'MIT_BEI_VON_ZU', 'NEBENSATZ', 'KALKIERUNG_KALT'];
+  const tag = fallbackTags[Math.floor(Math.random() * fallbackTags.length)];
+  showDrillModal(tag);
 }
 
 function showDrillModal(tag) {
@@ -2512,12 +2548,22 @@ function answerDrill(correct, tag, btn, hint) {
   resultEl.className = 'drill-result ' + (correct ? 'drill-result--correct' : 'drill-result--wrong');
   resultEl.innerHTML = hint;
 
-  // Кнопка закрыть
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'drill-next-btn';
-  nextBtn.textContent = 'Weiter →';
-  nextBtn.onclick = () => closeDrill();
-  resultEl.after(nextBtn);
+  // Кнопки после ответа
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px';
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'drill-next-btn drill-next-btn--secondary';
+  closeBtn.textContent = 'Fertig';
+  closeBtn.onclick = () => closeDrill();
+  btnRow.appendChild(closeBtn);
+  if (correct) {
+    const moreBtn = document.createElement('button');
+    moreBtn.className = 'drill-next-btn';
+    moreBtn.textContent = 'Noch eine →';
+    moreBtn.onclick = () => { closeDrill(); setTimeout(() => loadAndShowDrill(), 200); };
+    btnRow.appendChild(moreBtn);
+  }
+  resultEl.after(btnRow);
 
   // Сохраняем в Firebase
   const today = new Date().toISOString().split('T')[0];
