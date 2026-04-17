@@ -59,6 +59,35 @@ function addDays(dateStr, n) {
   return d.toISOString().split('T')[0];
 }
 
+// ── Простой markdown-рендерер для фидбека педагога ───────────────────────
+function renderMd(text) {
+  if (!text) return '';
+  // Экранируем HTML
+  let t = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Заголовки ### и **
+  t = t.replace(/^###\s+(.+)$/gm, '<strong style="font-size:13px;display:block;margin-top:10px;color:var(--accent)">$1</strong>');
+  // Жирный **text**
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Курсив *text* (только если не список)
+  t = t.replace(/(?<!\*)\*(?!\*)([^*\n]+?)\*(?!\*)/g, '<em>$1</em>');
+  // Строки-списки: * item или - item → li
+  const lines = t.split('\n');
+  const out = [];
+  let inList = false;
+  for (const line of lines) {
+    const listMatch = line.match(/^[\*\-]\s+(.+)/);
+    if (listMatch) {
+      if (!inList) { out.push('<ul style="margin:4px 0 4px 16px;padding:0">'); inList = true; }
+      out.push(`<li style="margin-bottom:3px">${listMatch[1]}</li>`);
+    } else {
+      if (inList) { out.push('</ul>'); inList = false; }
+      out.push(line ? `<p style="margin:4px 0">${line}</p>` : '<div style="height:4px"></div>');
+    }
+  }
+  if (inList) out.push('</ul>');
+  return out.join('');
+}
+
 // ── Telegram-уведомление преподавателю ───────────────────────────────────
 async function notifyTeacher(text) {
   if (typeof NOTIFY_CONFIG === 'undefined') return;
@@ -209,8 +238,9 @@ function render() {
 
     ${_teacherSubmissionFeedback ? (() => {
       const fbText = _teacherSubmissionFeedback.text || '';
-      const preview = fbText.length > 55 ? fbText.slice(0, 55).replace(/</g,'&lt;') + '…' : fbText.replace(/</g,'&lt;');
-      const fullText = fbText.replace(/</g,'&lt;').replace(/\n/g,'<br>');
+      const plainPreview = fbText.replace(/\*\*/g,'').replace(/\*/g,'').replace(/###/g,'');
+      const preview = plainPreview.length > 55 ? plainPreview.slice(0, 55) + '…' : plainPreview;
+      const fullText = renderMd(fbText);
       const sentDate = _teacherSubmissionFeedback.sentAt
         ? new Date(_teacherSubmissionFeedback.sentAt).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})
         : '';
@@ -1487,8 +1517,9 @@ function renderFeedbackArchiveSection() {
   const items = entries.map(([date, fb], i) => {
     const d = new Date(fb.sentAt || date);
     const dateLabel = isNaN(d) ? date : d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
-    const preview = (fb.text || '').slice(0, 70).replace(/\n/g,' ') + ((fb.text||'').length > 70 ? '…' : '');
-    const fullText = (fb.text || '').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    const plainFb = (fb.text || '').replace(/\*\*/g,'').replace(/\*/g,'').replace(/###/g,'');
+    const preview = plainFb.slice(0, 70).replace(/\n/g,' ') + (plainFb.length > 70 ? '…' : '');
+    const fullText = renderMd(fb.text || '');
     return `
       <div class="fb-archive-item">
         <button class="fb-archive-toggle" onclick="toggleFortschrittArchive(${i})">
