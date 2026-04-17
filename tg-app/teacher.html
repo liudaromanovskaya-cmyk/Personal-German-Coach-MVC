@@ -437,6 +437,22 @@
   }
 
   /* ── Sprint archive note ──── */
+  /* ── TRAFFIC LIGHT ── */
+  .traffic-light-bar {
+    max-width: 780px; margin: 0 auto 12px; padding: 4px 16px;
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+  }
+  .tl-label { font-size: 12px; color: var(--muted); margin-right: 2px; }
+  .tl-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: white; border: 1px solid var(--border); border-radius: 20px;
+    padding: 3px 10px; font-size: 12px; font-weight: 500; cursor: default;
+  }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tl-dot--red { background: #EF4444; }
+  .tl-dot--yellow { background: #F59E0B; }
+  .tl-dot--green { background: #10B981; }
+
   /* ── REVIEW PANEL (SM-2) ── */
   .review-section {
     max-width: 780px; margin: 0 auto 16px; padding: 0 16px;
@@ -562,6 +578,8 @@
     <button class="student-tab" data-student="__new__" style="background:#EDF7F1;color:#4A8C6E;border-color:#7CC8A0">➕ Новый</button>
   </div>
 </div>
+
+<div class="traffic-light-bar" id="trafficLightBar" style="display:none"></div>
 
 <div class="main">
 
@@ -1573,6 +1591,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadWhisperKey();
   loadData();
   loadReviewWords();
+  loadErrorTrafficLight();
   loadInbox();
 
   document.querySelectorAll('.student-tab').forEach(btn => {
@@ -1588,6 +1607,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('mainStudentSection').style.display = 'block';
         loadData();
         loadReviewWords();
+        loadErrorTrafficLight();
       }
     });
   });
@@ -2812,9 +2832,20 @@ ${langInstruction}
 НАЧАЛО: Неожиданное первое предложение — наблюдение, вопрос, факт о языке. Не "Привет" и не "Отличная работа".
 ЕСЛИ много ошибок — одна лёгкая фраза с добрым юмором про язык, не про студента.
 КОНЕЦ: Одна тёплая конкретная фраза с энергией. Не "удачи".
-Помни: студент уже сделал задание — это уже смелость.`;
+Помни: студент уже сделал задание — это уже смелость.
 
-    const analysis = await callAI(prompt, 3000);
+═══ ТЕГИ ОШИБОК (только для системы — студент не видит) ═══
+ПОСЛЕ всего текста фидбека добавь отдельной строкой:
+ERRORS: КОД1, КОД2
+Коды — ТОЛЬКО из библиотеки выше (VERBZWEIT, NEBENSATZ, RAHMEN, WECHSELPRÄP, MIT_BEI_VON_ZU, HELFEN_DATIV, SEIN_HABEN_PERFEKT, TRENNBAR, ARTIKEL_FEHLT, KALKIERUNG_ALTER, KALKIERUNG_ARBEIT, KALKIERUNG_KALT, KALKIERUNG_INTERESSIEREN, KALKIERUNG_WARTEN, HOEFLICHKEIT, MODALPARTIKELN).
+Максимум 3 кода. Только реальные ошибки из этого ответа. Если ошибок нет — ERRORS: (пусто).`;
+
+    const rawAnalysis = await callAI(prompt, 3000);
+
+    // Извлечь теги ошибок из ответа
+    const errMatch = rawAnalysis.match(/ERRORS:\s*([A-Z_,\s]*)(?:\n|$)/);
+    const errorTags = errMatch ? errMatch[1].split(',').map(s => s.trim()).filter(Boolean) : [];
+    const analysis = rawAnalysis.replace(/\n?ERRORS:[^\n]*/g, '').trim();
 
     // Показать анализ (для педагога)
     const el = document.getElementById('analysis-' + subId);
@@ -2828,12 +2859,59 @@ ${langInstruction}
       fbTextarea.focus();
     }
 
+    // Сохранить теги ошибок в Firebase
+    if (errorTags.length) {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const existingErrors = await fbGet(`progress/${sid}/errors`) || {};
+      errorTags.forEach(tag => {
+        const prev = existingErrors[tag] || { count: 0 };
+        const newCount = (prev.count || 0) + 1;
+        existingErrors[tag] = {
+          count: newCount,
+          lastDate: todayStr,
+          status: newCount >= 2 ? 'red' : 'yellow'
+        };
+      });
+      await fbSet(`progress/${sid}/errors`, existingErrors);
+      if (sid === currentStudent) loadErrorTrafficLight();
+    }
+
     if (btn) { btn.textContent = '✅ Анализ готов'; btn.disabled = false; }
     toast('Черновик готов — отредактируйте и отправьте студенту');
   } catch(e) {
     if (btn) { btn.textContent = '🤖 Анализировать'; btn.disabled = false; }
     toast('Ошибка анализа: ' + e.message, 'error');
   }
+}
+
+// ── СВЕТОФОР ОШИБОК ───────────────────────────────────────────────────────
+
+const ERROR_LABELS = {
+  VERBZWEIT: 'Verbzweit', NEBENSATZ: 'Nebensatz', RAHMEN: 'Rahmen',
+  WECHSELPRÄP: 'Wechselpräp', MIT_BEI_VON_ZU: 'mit/bei/von/zu',
+  HELFEN_DATIV: 'helfen+Dat', SEIN_HABEN_PERFEKT: 'sein/haben',
+  TRENNBAR: 'Trennbar', ARTIKEL_FEHLT: 'Artikel',
+  KALKIERUNG_ALTER: 'Alter-Fehler', KALKIERUNG_ARBEIT: 'zur Arbeit',
+  KALKIERUNG_KALT: 'mir ist kalt', KALKIERUNG_INTERESSIEREN: 'interessieren',
+  KALKIERUNG_WARTEN: 'warten auf', HOEFLICHKEIT: 'Höflichkeit',
+  MODALPARTIKELN: 'Modalpartikeln'
+};
+
+async function loadErrorTrafficLight() {
+  const bar = document.getElementById('trafficLightBar');
+  if (!bar) return;
+  const errors = await fbGet(`progress/${currentStudent}/errors`);
+  if (!errors || !Object.keys(errors).length) { bar.style.display = 'none'; return; }
+  // Сортировка: red → yellow → green
+  const order = { red: 0, yellow: 1, green: 2 };
+  const sorted = Object.entries(errors).sort((a, b) => (order[a[1].status] || 1) - (order[b[1].status] || 1));
+  bar.style.display = 'flex';
+  bar.innerHTML = `<span class="tl-label">Ошибки:</span>` + sorted.map(([tag, data]) => {
+    const dotClass = data.status === 'red' ? 'tl-dot--red' : data.status === 'green' ? 'tl-dot--green' : 'tl-dot--yellow';
+    const label = ERROR_LABELS[tag] || tag;
+    const title = `${data.count}× · последний раз ${data.lastDate}`;
+    return `<span class="tl-chip" title="${title}"><span class="tl-dot ${dotClass}"></span>${label}</span>`;
+  }).join('');
 }
 
 // ── ПОВТОРЕНИЕ SM-2 ───────────────────────────────────────────────────────
