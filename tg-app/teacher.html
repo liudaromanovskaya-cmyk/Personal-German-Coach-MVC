@@ -841,6 +841,9 @@ auf etw. warten, laut Bescheid sagen, die Verabredung, absagen, verschieben, aus
     <button class="btn btn-secondary" id="generateBtn" onclick="generateWithGemini()">
       ✨ Сгенерировать день
     </button>
+    <button class="btn btn-outline" id="formatWordsBtn" onclick="formatWordsGrammar()" title="Добавить к словам управление глаголов и род+мн.ч. существительных">
+      📐 Форматировать слова
+    </button>
     <button class="btn btn-accent" id="sprintArchiveBtn" onclick="generateSprintFromArchive()">
       🧠 Спринт из архива
     </button>
@@ -2068,6 +2071,78 @@ ${raw}
 }
 
 // ── AI ГЕНЕРАЦИЯ ─────────────────────────
+async function formatWordsGrammar() {
+  if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) { toast('Введите OpenRouter API ключ', 'error'); return; }
+
+  // Collect all word fields (words + words2)
+  const wordFields = [];
+  for (let i = 0; i < WORD_COUNT; i++) {
+    const w = (document.getElementById(`word${i}`)?.value || '').trim();
+    if (w) wordFields.push({ field: `word${i}`, word: w });
+  }
+  for (let i = 0; i < WORD2_COUNT; i++) {
+    const w = (document.getElementById(`word2_${i}`)?.value || '').trim();
+    if (w) wordFields.push({ field: `word2_${i}`, word: w });
+  }
+  if (!wordFields.length) { toast('Нет слов для форматирования', 'error'); return; }
+
+  const btn = document.getElementById('formatWordsBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Форматирую...';
+
+  const prompt = `Ты ассистент преподавателя немецкого языка. Перепиши каждое слово в правильном формате.
+
+ПРАВИЛА ФОРМАТИРОВАНИЯ (обязательно):
+- Глагол → добавить управление: "warten" → "warten auf + Akk", "helfen" → "helfen + Dat", "sich freuen" → "sich freuen auf + Akk"
+- Существительное → добавить артикль и форму мн.ч.: "Verbindung" → "die Verbindung, -en", "Gespräch" → "das Gespräch, ¨e"
+- Форма мн.ч.: -, -e, ¨e, -er, ¨er, -en, -n, -s, ¨ (выбери правильную)
+- Прилагательное → оставить без изменений (только само слово)
+- Выражение / фраза → оставить без изменений
+- Если управление/артикль уже указаны — проверь и уточни если нужно
+
+Слова для переформатирования:
+${wordFields.map((f, idx) => `${idx + 1}. ${f.word}`).join('\n')}
+
+Верни ТОЛЬКО JSON (без объяснений, без markdown блоков):
+{
+  "words": [
+    "die Verbindung, -en",
+    "warten auf + Akk",
+    "sich freuen auf + Akk"
+  ]
+}
+
+Количество элементов в массиве СТРОГО = ${wordFields.length} (по порядку как в списке выше).`;
+
+  try {
+    const text = await callAI(prompt, 1000);
+    let json;
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      if (m) json = JSON.parse(m[0]);
+    } catch(e) { toast('Не удалось разобрать ответ AI', 'error'); return; }
+    if (!json || !Array.isArray(json.words)) { toast('AI вернул неверный формат', 'error'); return; }
+
+    json.words.forEach((formatted, idx) => {
+      if (!formatted) return;
+      const field = wordFields[idx]?.field;
+      if (field) {
+        const el = document.getElementById(field);
+        if (el) el.value = formatted;
+      }
+    });
+
+    isDirty = true; updateStatus();
+    toast(`📐 Отформатировано ${json.words.length} слов`, 'success');
+  } catch(e) {
+    console.error(e);
+    toast('Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📐 Форматировать слова';
+  }
+}
+
 async function generateWithGemini() {
   if (!localStorage.getItem('pgc_openrouter_key') && !document.getElementById('apiKey').value.trim()) { toast('Введите OpenRouter API ключ', 'error'); return; }
 
