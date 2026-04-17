@@ -1925,17 +1925,28 @@ function autoFillToday() {
 
 async function loadData() {
   clearForm();
+  toast('Загружаю...', 'info');
+  let source = '';
   // Читаем из Firebase (основной источник)
-  let data = await fbGet(`teacher/${currentStudent}`);
+  let data = null;
+  try {
+    data = await fbGet(`teacher/${currentStudent}`);
+    if (data) source = 'Firebase';
+  } catch(e) {
+    console.warn('Firebase load error:', e);
+  }
   // Если нет — берём из localStorage (резерв)
   if (!data) {
     const raw = localStorage.getItem(`pgc_teacher_${currentStudent}`);
-    if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
+    if (raw) { try { data = JSON.parse(raw); source = 'кеш'; } catch(e) {} }
   }
   if (data) {
     fillForm(data);
     // Кешируем локально
     localStorage.setItem(`pgc_teacher_${currentStudent}`, JSON.stringify(data));
+    toast(`✅ Загружено (${source}) — ${nameOf(currentStudent)}`, 'success');
+  } else {
+    toast(`Нет сохранённых данных для ${nameOf(currentStudent)}`, 'error');
   }
   // Дата: если не заполнена — подставляем сегодня автоматически
   autoFillToday();
