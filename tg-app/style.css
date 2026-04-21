@@ -3810,14 +3810,17 @@ a.optional-send-btn:active {
   flex-direction: column;
 }
 
-#speaking-tasks > .level-switcher        { order: 1; }
-#speaking-tasks > .level-content         { order: 2; }
-#speaking-tasks > .not-done-banner       { order: 3; }
-#speaking-tasks > .sprint-notif-banner   { order: 4; }
-#speaking-tasks > .mood-selector         { order: 5; }
-#speaking-tasks > .week-narrative-banner { order: 6; }
-#speaking-tasks > .sprint-day-card       { order: 7; }
-#speaking-tasks > .review-card           { order: 8; }
+#speaking-tasks > .sprint-notif-banner   { order: 1; }
+#speaking-tasks > .mood-selector         { order: 2; }
+#speaking-tasks > .week-narrative-banner { order: 3; }
+#speaking-tasks > .sprint-day-card       { order: 4; }
+#speaking-tasks > .lesetext-card         { order: 5; }
+#speaking-tasks > .rf-student-card       { order: 6; }
+#speaking-tasks > .extras-section        { order: 7; }
+#speaking-tasks > .mission-card          { order: 8; }
+#speaking-tasks > .not-done-banner       { order: 9; }
+#speaking-tasks > .level-switcher        { order: 10; }
+#speaking-tasks > .level-content         { order: 11; }
 
 /* ── Mode switcher → отдельные кнопки ────────────── */
 .mode-switcher {
