@@ -727,10 +727,10 @@ a.optional-send-btn:active {
 /* REVIEW CARD (level 0) */
 .review-card {
   margin: 12px 16px 0;
-  border: 1px dashed var(--border-soft);
+  border: none;
   border-radius: var(--r-card-sm);
   overflow: hidden;
-  background: var(--surface-soft);
+  background: transparent;
 }
 .review-toggle {
   width: 100%;
@@ -2846,7 +2846,7 @@ a.optional-send-btn:active {
 /* ── Roter Faden — гармошка в кабинете студента ─────────────────────── */
 .rf-student-card {
   margin: 12px 16px 4px;
-  border: 1px solid #B7E0CB;
+  border: 1px solid #C9A870;
   border-radius: 10px;
   overflow: hidden;
   background: var(--surface);
@@ -2857,12 +2857,12 @@ a.optional-send-btn:active {
   justify-content: space-between;
   align-items: center;
   padding: 10px 14px;
-  background: #F0FAF5;
+  background: #FBF5E6;
   border: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  color: #276749;
+  color: #7A5C20;
   text-align: left;
 }
 .rf-arrow { font-size: 16px; transition: transform .2s; }
