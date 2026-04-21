@@ -2659,7 +2659,11 @@ a.optional-send-btn:active {
 .chunk-word {
   font-size: 16px;
   font-weight: 700;
-  color: #8A6A2A;
+  color: #1A1A1A;
+  text-decoration: underline;
+  text-decoration-color: #C9A870;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 .chunk-grammar-tag {
   font-size: 10px;
