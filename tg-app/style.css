@@ -913,18 +913,10 @@ a.optional-send-btn:active {
 }
 .optional-card:hover { border-color: var(--primary-subtle); background: var(--surface); }
 
-/* Niveau 2 — шампанский акцент (отличает от Niveau 3) */
+/* Niveau 2 — тонкая золотая полоска слева */
 #deepen-toggle,
 #writing2-toggle {
-  background: #FBF5E6;
-}
-#deepen-toggle .optional-toggle-title,
-#writing2-toggle .optional-toggle-title {
-  color: #7A5C20;
-}
-#deepen-toggle .optional-toggle-arrow,
-#writing2-toggle .optional-toggle-arrow {
-  color: #C9A870;
+  border-left: 3px solid #C9A870;
 }
 .optional-toggle {
   width: 100%;
@@ -2537,13 +2529,9 @@ a.optional-send-btn:active {
 .sprint-day-label {
   font-size: 11px;
   font-weight: 700;
-  color: #7A5C20;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: .06em;
-  background: #FBF5E6;
-  border: 1px solid #C9A870;
-  border-radius: 6px;
-  padding: 2px 8px;
 }
 .sprint-day-theme {
   font-size: 15px;
@@ -2595,24 +2583,23 @@ a.optional-send-btn:active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #D4BC78, #B09040);
+  background: transparent;
   border: none;
-  border-radius: 10px;
-  padding: 12px 16px;
+  border-left: 3px solid #C9A870;
+  border-radius: 0;
+  padding: 8px 14px;
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   cursor: pointer;
-  margin-bottom: 0;
+  margin-bottom: 4px;
   text-align: left;
-  transition: opacity .2s;
-  letter-spacing: .01em;
+  transition: color .2s;
 }
-.words-toggle:hover { opacity: .9; }
-.words-toggle.open { opacity: .95; }
+.words-toggle:hover { color: var(--primary); }
 .words-toggle-arrow {
-  font-size: 16px;
-  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  color: #C9A870;
   transition: transform .2s;
 }
 .words-toggle.open .words-toggle-arrow {
@@ -2815,23 +2802,24 @@ a.optional-send-btn:active {
 /* ── Мини-история Lesetext ──────────────────────────────────────────── */
 .lesetext-card {
   margin: 12px 16px 4px;
-  border: 1px solid #C9A870;
-  border-radius: 10px;
+  border: none;
+  border-left: 3px solid #C9A870;
+  border-radius: 0;
   overflow: hidden;
-  background: var(--surface);
+  background: transparent;
 }
 .lesetext-toggle {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 11px 14px;
-  background: #FBF5E6;
+  padding: 8px 14px;
+  background: transparent;
   border: none;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 600;
-  color: #7A5C20;
+  font-weight: 700;
+  color: var(--text);
   text-align: left;
 }
 .lt-arrow { font-size: 16px; transition: transform .2s; }
@@ -2843,23 +2831,24 @@ a.optional-send-btn:active {
 /* ── Roter Faden — гармошка в кабинете студента ─────────────────────── */
 .rf-student-card {
   margin: 12px 16px 4px;
-  border: 1px solid #C9A870;
-  border-radius: 10px;
+  border: none;
+  border-left: 3px solid #C9A870;
+  border-radius: 0;
   overflow: hidden;
-  background: var(--surface);
+  background: transparent;
 }
 .rf-student-toggle {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
-  background: #FBF5E6;
+  padding: 8px 14px;
+  background: transparent;
   border: none;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 600;
-  color: #7A5C20;
+  font-weight: 700;
+  color: var(--text);
   text-align: left;
 }
 .rf-arrow { font-size: 16px; transition: transform .2s; }
@@ -3819,7 +3808,7 @@ a.optional-send-btn:active {
 #speaking-tasks > .level-switcher        { order: 10; }
 #speaking-tasks > .level-content         { order: 11; }
 
-/* ── Mode switcher → отдельные кнопки ────────────── */
+/* ── Mode switcher → минималистичные кнопки ────────────── */
 .mode-switcher {
   background: transparent;
   border: none;
@@ -3832,26 +3821,25 @@ a.optional-send-btn:active {
 .mode-btn {
   flex: 0 0 auto;
   padding: 9px 20px;
-  border: 1.5px solid rgba(60, 90, 180, 0.25);
-  border-radius: 10px;
-  background: #F0E6C8;
-  color: #8A6A2A;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: background .18s, border-color .18s;
+  transition: background .18s, border-color .18s, color .18s;
   min-height: 44px;
 }
 .mode-btn:hover:not(.mode-btn--active) {
-  background: #E8D9B0;
-  border-color: rgba(60, 90, 180, 0.4);
+  border-color: var(--primary-subtle);
+  color: var(--text-secondary);
 }
-/* Активная кнопка — насыщенное золото + синяя рамка */
 .mode-btn--active,
 .mode-btn--speaking.mode-btn--active,
 .mode-btn--writing.mode-btn--active {
-  background: linear-gradient(135deg, #C8A858, #A07830);
-  border: 2px solid rgba(60, 90, 180, 0.7);
+  background: var(--primary);
+  border-color: var(--primary);
   color: #fff;
   font-weight: 700;
 }
