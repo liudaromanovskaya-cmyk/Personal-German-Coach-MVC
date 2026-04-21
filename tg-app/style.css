@@ -798,8 +798,8 @@ a.optional-send-btn:active {
 }
 .level-btn--active {
   background: linear-gradient(135deg, #D4BC78, #B09040);
-  border: 2px solid rgba(80, 120, 210, 0.85);
-  box-shadow: 0 0 12px rgba(70, 110, 210, 0.45);
+  border: 2px solid rgba(60, 90, 180, 0.7);
+  box-shadow: none;
   color: #fff;
 }
 .level-btn:not(.level-btn--active):hover {
