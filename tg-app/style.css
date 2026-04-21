@@ -3819,47 +3819,40 @@ a.optional-send-btn:active {
 #speaking-tasks > .sprint-day-card       { order: 7; }
 #speaking-tasks > .review-card           { order: 8; }
 
-/* ── Mode switcher → сегментный контрол ────────────── */
-/* Контейнер: pill-shaped track */
+/* ── Mode switcher → отдельные кнопки ────────────── */
 .mode-switcher {
-  background: var(--surface-soft);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r-pill);
-  padding: 4px;
-  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 8px;
   margin: 0 16px 16px;
+  display: flex;
 }
-/* Неактивная кнопка: прозрачная, текст приглушён */
 .mode-btn {
   flex: 1;
-  padding: 9px 10px;
-  border: none;
-  border-radius: var(--r-pill);
-  background: transparent;
-  color: var(--text-muted);
+  padding: 10px 14px;
+  border: 2px solid rgba(60, 90, 180, 0.35);
+  border-radius: 10px;
+  background: #FBF5E6;
+  color: #7A5C20;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background .18s, color .18s, box-shadow .18s;
-  min-height: 40px;
+  transition: background .18s, color .18s, border-color .18s;
+  min-height: 44px;
 }
 .mode-btn:hover:not(.mode-btn--active) {
-  background: var(--surface);
-  color: var(--text-secondary);
+  background: #F5EDD5;
+  border-color: rgba(60, 90, 180, 0.55);
 }
-/* Активная кнопка: белый pill с тенью */
-.mode-btn--active {
-  background: var(--surface);
-  color: var(--primary);
-  font-weight: 700;
-  box-shadow: 0 1px 4px rgba(31,42,48,0.10), 0 0 0 1px var(--border-soft);
-}
-/* Оба варианта active — одинаковый стиль */
+/* Активная кнопка — золото + синяя рамка */
+.mode-btn--active,
 .mode-btn--speaking.mode-btn--active,
 .mode-btn--writing.mode-btn--active {
-  background: var(--surface);
-  border-color: transparent;
-  color: var(--primary);
+  background: linear-gradient(135deg, #D4BC78, #B09040);
+  border: 2px solid rgba(60, 90, 180, 0.7);
+  color: #fff;
+  font-weight: 700;
 }
 
 /* ── TAP-DRILL ─────────────────────────────────────────────────────── */
