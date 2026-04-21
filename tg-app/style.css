@@ -910,6 +910,20 @@ a.optional-send-btn:active {
   transition: border-color .2s, background .2s;
 }
 .optional-card:hover { border-color: var(--primary-subtle); background: var(--surface); }
+
+/* Niveau 2 — шампанский акцент (отличает от Niveau 3) */
+#deepen-toggle,
+#writing2-toggle {
+  background: #FBF5E6;
+}
+#deepen-toggle .optional-toggle-title,
+#writing2-toggle .optional-toggle-title {
+  color: #7A5C20;
+}
+#deepen-toggle .optional-toggle-arrow,
+#writing2-toggle .optional-toggle-arrow {
+  color: #C9A870;
+}
 .optional-toggle {
   width: 100%;
   padding: 13px 16px;
@@ -2519,11 +2533,15 @@ a.optional-send-btn:active {
   margin-bottom: 12px;
 }
 .sprint-day-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: #7A5C20;
   text-transform: uppercase;
-  letter-spacing: .04em;
+  letter-spacing: .06em;
+  background: #FBF5E6;
+  border: 1px solid #C9A870;
+  border-radius: 6px;
+  padding: 2px 8px;
 }
 .sprint-day-theme {
   font-size: 15px;
@@ -2798,7 +2816,7 @@ a.optional-send-btn:active {
 /* ── Мини-история Lesetext ──────────────────────────────────────────── */
 .lesetext-card {
   margin: 12px 16px 4px;
-  border: 1px solid #B7E0CB;
+  border: 1px solid #C9A870;
   border-radius: 10px;
   overflow: hidden;
   background: var(--surface);
@@ -2809,12 +2827,12 @@ a.optional-send-btn:active {
   justify-content: space-between;
   align-items: center;
   padding: 11px 14px;
-  background: #F0FAF5;
+  background: #FBF5E6;
   border: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  color: #276749;
+  color: #7A5C20;
   text-align: left;
 }
 .lt-arrow { font-size: 16px; transition: transform .2s; }
@@ -2865,16 +2883,16 @@ a.optional-send-btn:active {
 .mission-card {
   margin: 4px 16px 12px;
   padding: 12px 16px;
-  background: #FFF8EB;
-  border: 1.5px solid #F6C96B;
+  background: #FBF5E6;
+  border: 1.5px solid #C9A870;
   border-radius: 12px;
 }
 .mission-label {
   font-size: 11px; font-weight: 700; letter-spacing: .05em;
-  text-transform: uppercase; color: #92400E; margin-bottom: 4px;
+  text-transform: uppercase; color: #8A6A2A; margin-bottom: 4px;
 }
 .mission-text {
-  font-size: 14px; color: #78350F; line-height: 1.5;
+  font-size: 14px; color: #5C4317; line-height: 1.5;
 }
 
 /* ── Дополнительные материалы (extras) ─────────────────────────────── */
