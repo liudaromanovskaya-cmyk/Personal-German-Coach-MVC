@@ -3832,10 +3832,10 @@ a.optional-send-btn:active {
 .mode-btn {
   flex: 0 0 auto;
   padding: 9px 20px;
-  border: 2px solid rgba(60, 90, 180, 0.35);
+  border: 1.5px solid rgba(60, 90, 180, 0.25);
   border-radius: 10px;
-  background: #C8A45A;
-  color: #fff;
+  background: #F0E6C8;
+  color: #8A6A2A;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -3843,14 +3843,14 @@ a.optional-send-btn:active {
   min-height: 44px;
 }
 .mode-btn:hover:not(.mode-btn--active) {
-  background: #BC9A50;
-  border-color: rgba(60, 90, 180, 0.55);
+  background: #E8D9B0;
+  border-color: rgba(60, 90, 180, 0.4);
 }
-/* Активная кнопка — темнее + синяя рамка */
+/* Активная кнопка — насыщенное золото + синяя рамка */
 .mode-btn--active,
 .mode-btn--speaking.mode-btn--active,
 .mode-btn--writing.mode-btn--active {
-  background: linear-gradient(135deg, #C0A458, #9A7E30);
+  background: linear-gradient(135deg, #C8A858, #A07830);
   border: 2px solid rgba(60, 90, 180, 0.7);
   color: #fff;
   font-weight: 700;
