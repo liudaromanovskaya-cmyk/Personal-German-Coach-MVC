@@ -290,18 +290,6 @@ function render() {
     </div>`;
     })() : ''}
 
-    ${student.review ? `
-    <div class="review-card">
-      <button class="review-toggle" id="review-toggle" onclick="toggleReview()">
-        <div class="review-toggle-left">🔄 Zuerst wiederholen?</div>
-        <div class="review-toggle-arrow">⌄</div>
-      </button>
-      <div class="review-body" id="review-body">
-        <div class="review-topic">${student.review.topic}</div>
-        <div class="review-text">${student.review.text}</div>
-      </div>
-    </div>
-    ` : ''}
 
     <div class="mode-switcher">
       <button class="mode-btn mode-btn--speaking mode-btn--active" id="mode-speaking" onclick="switchMode('speaking')">🎤 Sprechen</button>
