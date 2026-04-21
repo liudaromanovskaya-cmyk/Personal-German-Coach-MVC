@@ -2657,38 +2657,38 @@ a.optional-send-btn:active {
   margin-bottom: 1px;
 }
 .chunk-word {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--accent);
+  color: #8A6A2A;
 }
 .chunk-grammar-tag {
   font-size: 10px;
   font-weight: 600;
-  color: var(--muted);
+  color: #A07830;
   letter-spacing: .02em;
 }
 .chunk-hint {
   font-size: 11px;
-  color: var(--muted);
+  color: #7A6040;
   margin-bottom: 5px;
 }
 .chunk-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 .chunk-item {
   font-size: 13px;
-  color: var(--text);
+  color: #2A2218;
   line-height: 1.6;
-  padding-left: 10px;
+  padding-left: 12px;
   position: relative;
 }
 .chunk-item::before {
   content: '–';
   position: absolute;
   left: 0;
-  color: var(--muted);
+  color: #C9A870;
 }
 .chunk-verb {
   font-weight: 700;
