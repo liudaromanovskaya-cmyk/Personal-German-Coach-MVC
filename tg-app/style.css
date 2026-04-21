@@ -2845,7 +2845,7 @@ a.optional-send-btn:active {
 .lt-arrow.open { transform: rotate(180deg); }
 .lesetext-body { display: none; padding: 12px 16px; font-size: 14px; line-height: 1.7; color: var(--text); }
 .lesetext-body.open { display: block; }
-.lt-word { background: #D1FAE5; color: #065F46; border-radius: 3px; padding: 0 2px; font-style: normal; }
+.lt-word { background: transparent; color: #276749; font-style: normal; font-weight: 600; text-decoration: underline; text-decoration-color: #C9A870; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
 /* ── Roter Faden — гармошка в кабинете студента ─────────────────────── */
 .rf-student-card {
