@@ -797,8 +797,8 @@ a.optional-send-btn:active {
   transition: border-color .15s, background .15s;
 }
 .level-btn--active {
-  background: var(--accent-copper);
-  border-color: var(--accent-copper-hover);
+  background: var(--primary);
+  border-color: var(--primary-hover);
 }
 .level-btn:not(.level-btn--active):hover {
   border-color: var(--primary-subtle);
