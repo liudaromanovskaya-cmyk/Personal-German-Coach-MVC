@@ -2595,31 +2595,24 @@ a.optional-send-btn:active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--r-card-sm);
-  padding: 10px 14px;
-  font-size: var(--font-small);
-  font-weight: 500;
-  color: var(--text-muted);
+  background: linear-gradient(135deg, #D4BC78, #B09040);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
   cursor: pointer;
   margin-bottom: 0;
   text-align: left;
-  transition: color .2s, border-color .2s, background .2s;
+  transition: opacity .2s;
+  letter-spacing: .01em;
 }
-.words-toggle:hover {
-  background: var(--surface-soft);
-  border-color: var(--border-soft);
-  color: var(--text-secondary);
-}
-.words-toggle.open {
-  background: var(--surface-soft);
-  border-color: var(--border-soft);
-  color: var(--text-secondary);
-}
+.words-toggle:hover { opacity: .9; }
+.words-toggle.open { opacity: .95; }
 .words-toggle-arrow {
-  font-size: 14px;
-  color: var(--text-muted);
+  font-size: 16px;
+  color: rgba(255,255,255,0.85);
   transition: transform .2s;
 }
 .words-toggle.open .words-toggle-arrow {
