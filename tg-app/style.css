@@ -922,8 +922,10 @@ a.optional-send-btn:active {
 .optional-toggle {
   width: 100%;
   padding: 13px 16px;
-  background: none;
+  background: #FDFAF4;
   border: none;
+  border-top: 1px solid var(--border-soft);
+  border-left: 3px solid #C9A870;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -936,15 +938,15 @@ a.optional-send-btn:active {
 .optional-toggle-title {
   font-size: var(--font-small);
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text);
 }
 .optional-toggle-sub {
   font-size: var(--font-micro);
-  color: var(--text-muted);
+  color: #8B6914;
 }
 .optional-toggle-arrow {
   font-size: 16px;
-  color: var(--text-muted);
+  color: #C9A870;
   flex-shrink: 0;
   transition: transform .2s;
 }
