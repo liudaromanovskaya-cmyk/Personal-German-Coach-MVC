@@ -2734,7 +2734,7 @@ function initDrafts() {
     // Добавить кнопку "Später senden" рядом с "Abschicken"
     const form = textarea.closest('.submit-form');
     if (form && !form.querySelector('.send-later-btn')) {
-      const sendBtn = form.querySelector('.action-btn, .optional-send-btn');
+      const sendBtn = form.querySelector('.action-btn, .optional-send-btn, .level-send-btn');
       if (sendBtn) {
         const laterBtn = document.createElement('button');
         laterBtn.className = 'send-later-btn';
