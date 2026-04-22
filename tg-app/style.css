@@ -888,9 +888,9 @@ a.optional-send-btn:active {
 .level-send-btn {
   width: 100%;
   padding: 14px;
-  background: var(--primary);
-  color: #fff;
-  border: none;
+  background: #243947 !important;
+  color: #fff !important;
+  border: none !important;
   border-radius: var(--r-btn);
   font-size: var(--font-body);
   font-weight: 700;
