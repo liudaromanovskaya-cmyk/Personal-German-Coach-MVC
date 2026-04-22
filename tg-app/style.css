@@ -809,17 +809,17 @@ a.optional-send-btn:active {
 .level-btn-num {
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text);
   line-height: 1;
 }
 .level-btn--active .level-btn-num {
   color: #fff;
 }
 .level-btn-name {
-  font-size: 10px;
-  color: var(--text-muted);
+  font-size: 11px;
+  color: var(--text-secondary);
   letter-spacing: 0.3px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .level-btn--active .level-btn-name {
   color: rgba(255,255,255,0.85);
