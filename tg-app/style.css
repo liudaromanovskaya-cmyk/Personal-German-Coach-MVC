@@ -921,7 +921,7 @@ a.optional-send-btn:active {
 }
 .optional-toggle {
   width: 100%;
-  padding: 13px 16px;
+  padding: 16px 18px;
   background: #FDFAF4;
   border: none;
   border-top: 1px solid var(--border-soft);
@@ -931,17 +931,17 @@ a.optional-send-btn:active {
   justify-content: space-between;
   cursor: pointer;
   font-family: inherit;
-  min-height: 48px;
+  min-height: 56px;
   text-align: left;
 }
-.optional-toggle-left { display: flex; flex-direction: column; gap: 2px; }
+.optional-toggle-left { display: flex; flex-direction: column; gap: 4px; }
 .optional-toggle-title {
-  font-size: var(--font-small);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text);
 }
 .optional-toggle-sub {
-  font-size: var(--font-micro);
+  font-size: 13px;
   color: #8B6914;
 }
 .optional-toggle-arrow {
