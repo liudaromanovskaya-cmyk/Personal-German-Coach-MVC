@@ -502,14 +502,15 @@ const STUDENTS = {
     },
     diary: {
       active: true,
-      title: 'Tagebuch — April-Sprint',
+      title: 'Tagebuch — 6-Wochen-Sprint',
       instruction: 'Schreiben Sie jeden Tag 5 Sätze auf Deutsch — oder schicken Sie eine Sprachnachricht. Thema: was auch immer heute passiert ist.',
       sentenceTarget: 5,
       prompt: 'Was ist heute passiert? Wo waren Sie? Mit wem? Was haben Sie gefühlt? Was denken Sie darüber?',
       streak: 0,
       totalDone: 0,
-      goalDays: 19,
-      note: 'April-Sprint: Sprechen aktivieren. Fehler sind erlaubt — der Mut zählt.',
+      startDate: '2026-04-23',
+      goalDays: 40,
+      note: '6-Wochen-Sprint: Sprechen aktivieren. Fehler sind erlaubt — der Mut zählt.',
     },
     grammar: [
       {
