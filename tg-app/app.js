@@ -653,7 +653,7 @@ function render() {
       ${ww1.length ? `<div class="wlist">${ww1.map(w => wordRow(w, 1)).join('')}</div>` : ''}
       <div class="submit-form" id="submit-form-writing1">
         <textarea class="submit-textarea" id="submit-text-writing1" placeholder="Schreiben Sie hier..."></textarea>
-        <button class="action-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
+        <button class="level-send-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
         <div class="submit-confirm" id="submit-confirm-writing1" style="display:none">✅ Gesendet!</div>
       </div>
     </div>
@@ -707,7 +707,7 @@ function render() {
       <div class="task-card-body">${student.writing.task.text}</div>
       <div class="submit-form" id="submit-form-writing1">
         <textarea class="submit-textarea" id="submit-text-writing1" placeholder="Schreiben Sie hier..."></textarea>
-        <button class="action-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
+        <button class="level-send-btn" onclick="submitHomework('writing1')">✉️ Abschicken</button>
         <div class="submit-confirm" id="submit-confirm-writing1" style="display:none">✅ Gesendet!</div>
       </div>
     </div>
