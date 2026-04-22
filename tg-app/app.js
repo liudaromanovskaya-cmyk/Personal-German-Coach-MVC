@@ -112,6 +112,11 @@ function getStudentId() {
   return params.get('student')?.toLowerCase() || '';
 }
 
+function highlightWords(text) {
+  if (!text) return '';
+  return text.replace(/\[([^\]]+)\]/g, '<span class="prompt-word">$1</span>');
+}
+
 // ── Sprint: разбор [слово]-разметки в чанках ──────────────────────────────
 function parseChunk(text, wordData) {
   const verbSet = new Set((wordData.verbForms || []).map(f => f.toLowerCase()));
@@ -402,7 +407,7 @@ function render() {
 
     <div class="level-content" id="level-content-1">
       <div class="level-topic">${s.task.topic}</div>
-      <div class="level-prompt">${s.task.prompt}</div>
+      <div class="level-prompt">${highlightWords(s.task.prompt)}</div>
       <div class="level-instruction">${s.task.instruction}</div>
       ${s.task.hint ? `<button class="hint-toggle" id="hint-toggle" onclick="toggleHint()">💡 Tipp — wenn es gar nicht klappt</button><div class="hint-body" id="hint-body">${s.task.hint}</div>` : ''}
       <div class="level-submit" id="submit-form-task">
@@ -422,7 +427,7 @@ function render() {
 
     <div class="level-content" id="level-content-2" style="display:none">
       <div class="level-topic">${s.deepen.topic}</div>
-      <div class="level-prompt">${s.deepen.prompt}</div>
+      <div class="level-prompt">${highlightWords(s.deepen.prompt)}</div>
       <div class="level-instruction">${s.deepen.instruction}</div>
       <div class="sprint-word-chips" style="margin-top:10px">
         ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
@@ -445,7 +450,7 @@ function render() {
 
     <div class="level-content" id="level-content-3" style="display:none">
       <div class="level-topic">${s.immerse.topic}</div>
-      <div class="level-prompt">${s.immerse.prompt}</div>
+      <div class="level-prompt">${highlightWords(s.immerse.prompt)}</div>
       <div class="level-instruction">${s.immerse.instruction}</div>
       <div class="sprint-word-chips" style="margin-top:10px">
         ${s.words.map(w => `<span class="sprint-word-chip">${w.word}</span>`).join('')}
