@@ -1,6 +1,6 @@
 {
-  "name": "Mein Bereich — Deutsch",
-  "short_name": "Deutsch",
+  "name": "MeinPfad",
+  "short_name": "MeinPfad",
   "description": "Личный кабинет студента — Personal German Coach",
   "start_url": "./index.html",
   "display": "standalone",
