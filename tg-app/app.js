@@ -104,12 +104,21 @@ async function notifyTeacher(text) {
 
 // ── Student ermitteln ─────────────────────────────────────────────────────
 function getStudentId() {
-  // Вариант 1: открыто через Telegram Mini App — t.me/PersonalGermanCoachBot/cabinet?startapp=artem
+  // Вариант 1: открыто через Telegram Mini App
   const startParam = tg?.initDataUnsafe?.start_param;
-  if (startParam) return startParam.toLowerCase();
+  if (startParam) {
+    localStorage.setItem('pgc_last_student', startParam.toLowerCase());
+    return startParam.toLowerCase();
+  }
   // Вариант 2: открыто по прямой ссылке — ?student=artem
   const params = new URLSearchParams(window.location.search);
-  return params.get('student')?.toLowerCase() || '';
+  const fromUrl = params.get('student')?.toLowerCase();
+  if (fromUrl) {
+    localStorage.setItem('pgc_last_student', fromUrl);
+    return fromUrl;
+  }
+  // Вариант 3: ярлык без параметра — берём последнего студента из памяти
+  return localStorage.getItem('pgc_last_student') || '';
 }
 
 function highlightWords(text) {
