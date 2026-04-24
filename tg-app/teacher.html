@@ -2692,6 +2692,9 @@ function saveWhisperKey() {
   if (k) { localStorage.setItem('pgc_whisper_key', k); toast('Groq ключ сохранён', 'success'); }
 }
 function loadWhisperKey() {
+  if (!localStorage.getItem('pgc_whisper_key') && typeof NOTIFY_CONFIG !== 'undefined' && NOTIFY_CONFIG.groqApiKey) {
+    localStorage.setItem('pgc_whisper_key', NOTIFY_CONFIG.groqApiKey);
+  }
   const k = localStorage.getItem('pgc_whisper_key') || '';
   if (k) document.getElementById('whisperKey').value = k;
 }
