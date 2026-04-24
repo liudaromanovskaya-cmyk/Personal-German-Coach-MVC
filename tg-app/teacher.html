@@ -2796,22 +2796,47 @@ async function analyzeWithGemini(subId, sid, date, level) {
 
     // Компактная библиотека объяснений — AI использует эти образы вместо придумывания своих
     const EXPLANATION_LIBRARY = `
-VERBZWEIT: Глагол — как якорь, всегда на 2-м месте. Образ: посчитай слова до глагола — если больше одного, якорь сорвало.
-NEBENSATZ (dass/weil/wenn/obwohl): Глагол уходит в конец придаточного. Образ: глагол — замок на двери придаточного, всегда закрывает.
-RAHMEN (рамочная конструкция): Два глагола = две стойки рамки. Первый на месте 2, второй в конце. Всё описание — внутри рамки.
-WECHSELPRÄP (in/auf/an/unter/über/vor/hinter/neben/zwischen): Wohin? → Akkusativ (движение). Wo? → Dativ (место). Образ: стрела летит → Akk; точка стоит → Dat.
-MIT_BEI_VON_ZU (и nach/seit): Всегда Dativ. Без исключений. Учить как стихотворение.
-HELFEN_DATIV (helfen/danken/gefallen/gehören/folgen/antworten): Эти глаголы хотят Dativ, не Akkusativ. Nicht "wen?" а "wem?".
-SEIN_HABEN_PERFEKT: sein — глаголы движения и перемены состояния (gehen/kommen/fahren/werden/bleiben). Образ: если переехал из А в Б или изменился → sein.
-TRENNBAR (anrufen/aufstehen/einkaufen/mitkommen): Приставка — последний вагон поезда, всегда сзади.
-ARTIKEL_FEHLT: Каждое существительное идёт с артиклем — как человек с именем.
-KALKIERUNG_ALTER (Ich habe X Jahre): В немецком возраст — это то, чем ты являешься. "Ich bin X Jahre alt."
-KALKIERUNG_ARBEIT (Ich gehe auf die Arbeit): К учреждениям и людям → zu: "Ich gehe zur Arbeit / zur Schule / zum Arzt."
-KALKIERUNG_KALT (Ich bin kalt): Ощущения тела → Dativ: "Mir ist kalt/warm/schlecht/gut."
-KALKIERUNG_INTERESSIEREN (interessieren von/auf): Интерес направлен "для" → "Ich interessiere mich für + Akk."
-KALKIERUNG_WARTEN (warten + Akk): "Ich warte auf + Akk." Аналогично: sich freuen auf, sich ärgern über, sich erinnern an.
-HOEFLICHKEIT (Ich will → Ich möchte): "Ich will" звучит резко. В магазине/ресторане/с незнакомыми → "Ich möchte" или "Ich hätte gern".
-MODALPARTIKELN: doch (убеждение), mal (дружеская просьба), eben (факт), ja (очевидность), eigentlich (оговорка). Без них речь звучит как учебник.`;
+ПРАВИЛО ЧЕСТНОСТИ: Если ошибка НЕ из этой библиотеки — пиши ТОЛЬКО исправление (как правильно), без объяснения. Никогда не придумывай правило. Молчание лучше неверного объяснения.
+
+ПОРЯДОК СЛОВ:
+VERBZWEIT: Глагол — как якорь, всегда на 2-м месте. Посчитай слова до глагола — если больше одного, якорь сорвало.
+NEBENSATZ (dass/weil/wenn/obwohl/da/damit/als/sobald): Глагол уходит в конец придаточного. Глагол — замок на двери придаточного, всегда закрывает.
+RAHMEN: Два глагола = две стойки рамки. Первый на месте 2, второй в конце. Всё описание — внутри рамки.
+KONNEKTOR_VERBZWEIT (deshalb/trotzdem/dann/danach/außerdem/dennoch/jedoch): Это наречия, не союзы. После них глагол на 2-м месте: "Er war müde, deshalb ging er schlafen." Nicht: "deshalb er ging".
+ALS_WENN: als = один момент в прошлом ("Als ich Kind war..."). wenn = повторяющееся или настоящее/будущее ("Wenn ich Zeit habe..."). Als — фотография, wenn — видео.
+
+ПАДЕЖИ:
+WECHSELPRÄP (in/auf/an/unter/über/vor/hinter/neben/zwischen): Wohin? Akkusativ (движение). Wo? Dativ (место). Стрела летит — Akk; точка стоит — Dat.
+MIT_BEI_VON_ZU (и nach/seit/ab/gegenüber): Всегда Dativ. Без исключений.
+HELFEN_DATIV (helfen/danken/gefallen/gehören/folgen/antworten/schaden/vertrauen): Эти глаголы хотят Dativ. Nicht wen? а wem?
+DAT_AKK_PRONOMEN: Два местоимения рядом — Akkusativ идёт первым: "Ich gebe es ihr" (es=Akk, ihr=Dat). Два существительных — наоборот, Dat первый.
+ADJEKTIV_ENDUNG: После der/die/das — окончание -e или -en. После ein/eine — -er/-e/-es в именительном. Прилагательное одевается по роду и падежу существительного.
+ARTIKEL_FEHLT: Каждое существительное идёт с артиклем — как человек с именем и фамилией.
+GENITIV_PRAEP (wegen/trotz/während/aufgrund/statt): Требуют Genitiv. "Wegen des Wetters", "trotz der Müdigkeit".
+
+ГЛАГОЛЫ:
+SEIN_HABEN_PERFEKT: sein — глаголы движения и перемены состояния (gehen/kommen/fahren/werden/bleiben). Если переехал из А в Б или изменился — sein.
+TRENNBAR (anrufen/aufstehen/einkaufen/mitkommen/anfangen): Приставка — последний вагон поезда, всегда сзади в главном предложении.
+REFLEXIV (sich beschäftigen/sich erinnern/sich freuen/sich ärgern/sich vorstellen/sich befinden/sich fühlen): Возвратные глаголы требуют местоимение (mich/dich/sich/uns/euch). Убрать sich — значит убрать часть глагола.
+MODALVERB_VERGANGENHEIT: Модальный в прошлом — Präteritum: musste, durfte, konnte, wollte, sollte. В разговоре не Perfekt. "Ich musste arbeiten" — не "Ich habe müssen arbeiten".
+KONJUNKTIV_II (würde/hätte/wäre/könnte/müsste): Вежливость, мечты, условия. "Ich würde gern..." / "Das wäre schön." Без Konjunktiv II просьба звучит требовательно.
+PLUSQUAMPERFEKT: Действие раньше другого прошлого — hatte/war + Partizip II. "Als ich ankam, hatte er schon gegessen."
+SEIT_PRAESENS: Действие началось и ещё продолжается — Präsens + seit. "Ich lerne seit drei Jahren Deutsch." Nicht Perfekt!
+UM_ZU: Цель действия — "um...zu + Infinitiv". "Ich lerne Deutsch, um in Deutschland zu arbeiten." Если подлежащие разные — damit вместо um...zu.
+ZWEITEILIGE_KONJ (sowohl...als auch/entweder...oder/weder...noch/nicht nur...sondern auch): Двойные союзы — запоминать как пары. После них обычный порядок слов.
+
+СТИЛЬ:
+HOEFLICHKEIT: "Ich will" звучит резко. В магазине/ресторане/с незнакомыми — "Ich möchte" или "Ich hätte gern".
+MODALPARTIKELN: doch (убеждение), mal (дружеская просьба), eben (факт), ja (очевидность), eigentlich (оговорка). Без них речь звучит как учебник.
+UMLAUT_SCHREIBUNG: Умлауты ä/ö/ü меняют смысл. früh — früher (не fruer), müde, möchte. Если слово кажется знакомым — проверь умлаут.
+
+КАЛЬКИ С РУССКОГО:
+KALKIERUNG_ALTER (Ich habe X Jahre): В немецком возраст — это то, чем являешься. "Ich bin X Jahre alt."
+KALKIERUNG_BEI_DER_ARBEIT (in der Arbeit): "Ich bin bei der Arbeit / auf der Arbeit / im Büro." "In der Arbeit" звучит как внутри работы.
+KALKIERUNG_KALT (Ich bin kalt): Ощущения тела — Dativ: "Mir ist kalt/warm/schlecht/gut."
+KALKIERUNG_INTERESSIEREN: "Ich interessiere mich für + Akk."
+KALKIERUNG_WARTEN: "Ich warte auf + Akk." Аналогично: sich freuen auf, sich ärgern über, sich erinnern an.
+KALKIERUNG_SICH_BEFINDEN: "Sich befinden" звучит официально. В Tagebuch и разговоре лучше: "Ich war / Ich bin / Ich war gerade in..." Оставляй для деловых текстов.`;
 
     const prompt = `Ты — опытный преподаватель немецкого языка. ${genderHint}
 
@@ -2869,7 +2894,7 @@ ${langInstruction}
 ПОСЛЕДНЯЯ строка ответа ДОЛЖНА быть точно в таком формате:
 ERRORS: КОД1, КОД2
 
-Допустимые коды (только из этого списка, ЗАГЛАВНЫМИ): VERBZWEIT, NEBENSATZ, RAHMEN, WECHSELPRÄP, MIT_BEI_VON_ZU, HELFEN_DATIV, SEIN_HABEN_PERFEKT, TRENNBAR, ARTIKEL_FEHLT, KALKIERUNG_ALTER, KALKIERUNG_ARBEIT, KALKIERUNG_KALT, KALKIERUNG_INTERESSIEREN, KALKIERUNG_WARTEN, HOEFLICHKEIT, MODALPARTIKELN
+Допустимые коды (только из этого списка, ЗАГЛАВНЫМИ): VERBZWEIT, NEBENSATZ, RAHMEN, KONNEKTOR_VERBZWEIT, ALS_WENN, WECHSELPRÄP, MIT_BEI_VON_ZU, HELFEN_DATIV, DAT_AKK_PRONOMEN, ADJEKTIV_ENDUNG, ARTIKEL_FEHLT, GENITIV_PRAEP, SEIN_HABEN_PERFEKT, TRENNBAR, REFLEXIV, MODALVERB_VERGANGENHEIT, KONJUNKTIV_II, PLUSQUAMPERFEKT, SEIT_PRAESENS, UM_ZU, ZWEITEILIGE_KONJ, HOEFLICHKEIT, MODALPARTIKELN, UMLAUT_SCHREIBUNG, KALKIERUNG_ALTER, KALKIERUNG_BEI_DER_ARBEIT, KALKIERUNG_KALT, KALKIERUNG_INTERESSIEREN, KALKIERUNG_WARTEN, KALKIERUNG_SICH_BEFINDEN
 Максимум 3 кода. Только ошибки из этого конкретного ответа.
 Если ошибок нет: ERRORS:
 Эта строка системная — студент её не увидит.`;
