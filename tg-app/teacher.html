@@ -670,10 +670,10 @@
       </div>
       <div class="api-status" id="apiStatus">Получить бесплатно: openrouter.ai → Keys → Create Key</div>
       <div class="api-row" style="margin-top:10px">
-        <input type="password" id="whisperKey" placeholder="sk-... (OpenAI Whisper)">
+        <input type="password" id="whisperKey" placeholder="gsk_... (Groq Whisper — бесплатно)">
         <button class="btn btn-outline btn-sm" onclick="saveWhisperKey()">Сохранить</button>
       </div>
-      <div style="font-size:11px;color:#718096;margin-top:4px">OpenAI ключ для транскрипции аудио. platform.openai.com → API keys</div>
+      <div style="font-size:11px;color:#718096;margin-top:4px">Groq ключ для транскрипции аудио (бесплатно). console.groq.com → API Keys</div>
     </div>
   </div>
 
@@ -2689,7 +2689,7 @@ function fmtDate(iso) {
 // ── WHISPER KEY ──────────────────────────
 function saveWhisperKey() {
   const k = document.getElementById('whisperKey').value.trim();
-  if (k) { localStorage.setItem('pgc_whisper_key', k); toast('Whisper ключ сохранён', 'success'); }
+  if (k) { localStorage.setItem('pgc_whisper_key', k); toast('Groq ключ сохранён', 'success'); }
 }
 function loadWhisperKey() {
   const k = localStorage.getItem('pgc_whisper_key') || '';
@@ -2699,40 +2699,37 @@ function loadWhisperKey() {
 // ── ТРАНСКРИПЦИЯ ЧЕРЕЗ WHISPER ────────────────────────
 async function transcribeWhisper(subId, audioUrl, sid, date, level) {
   const apiKey = localStorage.getItem('pgc_whisper_key');
-  if (!apiKey) { toast('Введите OpenAI ключ (Whisper) в настройках', 'error'); return; }
+  if (!apiKey) { toast('Введите Groq ключ в настройках', 'error'); return; }
 
   const btn = document.querySelector(`button[onclick*="transcribeWhisper('${subId}"]`);
   if (btn) { btn.textContent = '⏳ Транскрибирую...'; btn.disabled = true; }
 
   try {
-    // Скачать аудио как blob через proxy (Firebase Storage поддерживает CORS)
     const audioRes = await fetch(audioUrl);
     const blob = await audioRes.blob();
     const ext = blob.type.includes('mp4') || blob.type.includes('m4a') ? 'm4a' : 'webm';
 
     const form = new FormData();
     form.append('file', blob, `audio.${ext}`);
-    form.append('model', 'whisper-1');
+    form.append('model', 'whisper-large-v3');
     form.append('language', 'de');
+    form.append('response_format', 'json');
 
-    const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}` },
       body: form
     });
 
-    if (!res.ok) throw new Error(`Whisper error: ${res.status}`);
+    if (!res.ok) throw new Error(`Groq error: ${res.status}`);
     const data = await res.json();
     const transcript = data.text || '';
 
-    // Показать транскрипцию
     const el = document.getElementById('whisper-' + subId);
-    if (el) { el.style.display = ''; el.textContent = '✅ Whisper: ' + transcript; }
+    if (el) { el.style.display = ''; el.textContent = '✅ Groq: ' + transcript; }
 
-    // Сохранить в Firebase
     await fbSet(`submissions/${sid}/${date}/${level}/whisperTranscript`, transcript);
 
-    // Показать кнопку анализа
     const analyzeBtn = document.getElementById('analyze-btn-' + subId);
     if (analyzeBtn) analyzeBtn.style.display = '';
 
@@ -2740,7 +2737,7 @@ async function transcribeWhisper(subId, audioUrl, sid, date, level) {
     toast('Транскрипция готова');
   } catch(e) {
     if (btn) { btn.textContent = '🎙 Транскрибировать (Whisper)'; btn.disabled = false; }
-    toast('Ошибка Whisper: ' + e.message, 'error');
+    toast('Ошибка Groq: ' + e.message, 'error');
   }
 }
 
